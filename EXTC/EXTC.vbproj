@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A9CDA212-241B-496B-A25E-77C910B02194}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>EXTC.My.MyApplication</StartupObject>
+    <RootNamespace>EXTC</RootNamespace>
+    <AssemblyName>EXTC</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>EXTC.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>EXTC.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\ロゴ.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common">
+      <HintPath>..\lib\Common.dll</HintPath>
+    </Reference>
+    <Reference Include="FarPoint.CalcEngine, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.Excel, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.PDF, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.PluginCalendar.WinForms, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.Win, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.Win.Chart, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.Win.SpreadJ, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.Win.PluginInputMan, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\lib\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\lib\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\DataEXTC0101.vb" />
+    <Compile Include="Data\DataEXTC0102.vb" />
+    <Compile Include="Data\DataEXTC0103.vb" />
+    <Compile Include="Data\DataEXTC0104.vb" />
+    <Compile Include="Declare\CommonDeclareEXTC.vb" />
+    <Compile Include="Interface\EXTC0104.Designer.vb">
+      <DependentUpon>EXTC0104.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTC0104.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTC0103.Designer.vb">
+      <DependentUpon>EXTC0103.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTC0103.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTC0102.Designer.vb">
+      <DependentUpon>EXTC0102.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTC0102.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTC0101.Designer.vb">
+      <DependentUpon>EXTC0101.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTC0101.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\CommonLogicEXTC.vb" />
+    <Compile Include="Logic\LogicEXTC0101.vb" />
+    <Compile Include="Logic\LogicEXTC0102.vb" />
+    <Compile Include="Logic\LogicEXTC0103.vb" />
+    <Compile Include="Logic\LogicEXTC0104.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Sql\SqlEXTC0101.vb" />
+    <Compile Include="Sql\SqlEXTC0102.vb" />
+    <Compile Include="Sql\SqlEXTC0103.vb" />
+    <Compile Include="Sql\SqlEXTC0104.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Interface\EXTC0101.resx">
+      <DependentUpon>EXTC0101.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTC0104.resx">
+      <DependentUpon>EXTC0104.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTC0103.resx">
+      <DependentUpon>EXTC0103.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTC0102.resx">
+      <DependentUpon>EXTC0102.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Format\付帯設備利用明細書_スタジオ.xlsx" />
+    <None Include="Format\利用確認書_スタジオ.xlsx" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\calendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\マスタ検索.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\背景.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ロゴ.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ロゴ.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\背景_検証用.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonEXT\CommonEXT.vbproj">
+      <Project>{ea73c8e3-e8e0-4457-8e79-4be3bafe03dc}</Project>
+      <Name>CommonEXT</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EXTM\EXTM.vbproj">
+      <Project>{2e8d60f4-9a23-4377-810e-327cfb7f3f99}</Project>
+      <Name>EXTM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EXTZ\EXTZ.vbproj">
+      <Project>{dc40d1ee-8aef-47c2-bbbf-94f704f332fa}</Project>
+      <Name>EXTZ</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

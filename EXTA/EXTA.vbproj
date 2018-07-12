@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D009F710-5D2C-48C0-AA2D-326C14E35B28}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>EXTA.My.MyApplication</StartupObject>
+    <RootNamespace>EXTA</RootNamespace>
+    <AssemblyName>EXTA</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>EXTA.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>EXTA.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\ロゴ.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common">
+      <HintPath>..\lib\Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=2.2.3.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\DataEXTA0101.vb" />
+    <Compile Include="Declare\CommonDeclareEXTA.vb" />
+    <Compile Include="Interface\EXTA0101.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTA0101.Designer.vb">
+      <DependentUpon>EXTA0101.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTA0102.Designer.vb">
+      <DependentUpon>EXTA0102.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTA0102.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\LogicEXTA0101.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Sql\SqlEXTA0101.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Interface\EXTA0101.resx">
+      <DependentUpon>EXTA0101.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTA0102.resx">
+      <DependentUpon>EXTA0102.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DBRep.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CommonEXT\CommonEXT.vbproj">
+      <Project>{ea73c8e3-e8e0-4457-8e79-4be3bafe03dc}</Project>
+      <Name>CommonEXT</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EXTB\EXTB.vbproj">
+      <Project>{6505bae5-ae3a-4fac-816a-6d0c68790848}</Project>
+      <Name>EXTB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EXTC\EXTC.vbproj">
+      <Project>{a9cda212-241b-496b-a25e-77c910b02194}</Project>
+      <Name>EXTC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EXTM\EXTM.vbproj">
+      <Project>{2e8d60f4-9a23-4377-810e-327cfb7f3f99}</Project>
+      <Name>EXTM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EXTY\EXTY.vbproj">
+      <Project>{f4ba0499-efc3-4d6a-b7f3-ffc408297b4d}</Project>
+      <Name>EXTY</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EXTZ\EXTZ.vbproj">
+      <Project>{dc40d1ee-8aef-47c2-bbbf-94f704f332fa}</Project>
+      <Name>EXTZ</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\title.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\背景.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ロゴ.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ロゴ.PNG" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

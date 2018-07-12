@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2E8D60F4-9A23-4377-810E-327CFB7F3F99}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>EXTM.My.MyApplication</StartupObject>
+    <RootNamespace>EXTM</RootNamespace>
+    <AssemblyName>EXTM</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>EXTM.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>EXTM.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\ロゴ.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Common.dll</HintPath>
+    </Reference>
+    <Reference Include="FarPoint.CalcEngine, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.Excel, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.PDF, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.PluginCalendar.WinForms, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.Win, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.Win.Chart, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.Win.SpreadJ, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.Win.PluginInputMan, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=2.2.3.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\DataEXTM0101.vb" />
+    <Compile Include="Data\DataEXTM0102.vb" />
+    <Compile Include="Data\DataEXTM0103.vb" />
+    <Compile Include="Data\DataEXTM0104.vb" />
+    <Compile Include="Data\DataEXTM0201.vb" />
+    <Compile Include="Data\DataEXTM0202.vb" />
+    <Compile Include="Data\DataEXTM0203.vb" />
+    <Compile Include="Declare\CommonDeclareEXTM.vb" />
+    <Compile Include="Interface\EXTM0101.Designer.vb">
+      <DependentUpon>EXTM0101.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTM0101.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTM0102.Designer.vb">
+      <DependentUpon>EXTM0102.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTM0102.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTM0103.Designer.vb">
+      <DependentUpon>EXTM0103.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTM0103.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTM0104.Designer.vb">
+      <DependentUpon>EXTM0104.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTM0104.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTM0201.Designer.vb">
+      <DependentUpon>EXTM0201.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTM0201.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTM0202.Designer.vb">
+      <DependentUpon>EXTM0202.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTM0202.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\EXTM0203.Designer.vb">
+      <DependentUpon>EXTM0203.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\EXTM0203.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\LogicEXTM0101.vb" />
+    <Compile Include="Logic\LogicEXTM0102.vb" />
+    <Compile Include="Logic\LogicEXTM0103.vb" />
+    <Compile Include="Logic\LogicEXTM0104.vb" />
+    <Compile Include="Logic\LogicEXTM0201.vb" />
+    <Compile Include="Logic\LogicEXTM0202.vb" />
+    <Compile Include="Logic\LogicEXTM0203.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Sql\SqlEXTM0101.vb" />
+    <Compile Include="Sql\SqlEXTM0102.vb" />
+    <Compile Include="Sql\SqlEXTM0103.vb" />
+    <Compile Include="Sql\SqlEXTM0104.vb" />
+    <Compile Include="Sql\SqlEXTM0201.vb" />
+    <Compile Include="Sql\SqlEXTM0202.vb" />
+    <Compile Include="Sql\SqlEXTM0203.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Interface\EXTM0101.resx">
+      <DependentUpon>EXTM0101.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTM0102.resx">
+      <DependentUpon>EXTM0102.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTM0103.resx">
+      <DependentUpon>EXTM0103.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTM0104.resx">
+      <DependentUpon>EXTM0104.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTM0201.resx">
+      <DependentUpon>EXTM0201.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTM0202.resx">
+      <DependentUpon>EXTM0202.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTM0203.resx">
+      <DependentUpon>EXTM0203.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonEXT\CommonEXT.vbproj">
+      <Project>{ea73c8e3-e8e0-4457-8e79-4be3bafe03dc}</Project>
+      <Name>CommonEXT</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\マスタ検索.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\背景.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ロゴ.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ロゴ.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\背景_検証用.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
