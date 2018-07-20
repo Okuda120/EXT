@@ -13,6 +13,7 @@
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,28 +55,28 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Common.dll</HintPath>
     </Reference>
-    <Reference Include="FarPoint.CalcEngine, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.CalcEngine, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Excel, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Excel, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.PDF, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.PDF, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.PluginCalendar.WinForms, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.PluginCalendar.WinForms, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Win, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Win, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Win.Chart, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Win.Chart, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Win.SpreadJ, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Win.SpreadJ, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="GrapeCity.Win.PluginInputMan, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="GrapeCity.Win.PluginInputMan, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
     <Reference Include="Npgsql, Version=2.2.3.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
@@ -260,9 +261,9 @@
     <EmbeddedResource Include="Interface\EXTZ0202.resx">
       <DependentUpon>EXTZ0202.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interface\EXTZ0210.resx">
+    <None Include="Interface\EXTZ0210.resx">
       <DependentUpon>EXTZ0210.vb</DependentUpon>
-    </EmbeddedResource>
+    </None>
     <EmbeddedResource Include="Interface\EXTZ0209.resx">
       <DependentUpon>EXTZ0209.vb</DependentUpon>
     </EmbeddedResource>
@@ -287,9 +288,9 @@
     <EmbeddedResource Include="Interface\EXTZ0212.resx">
       <DependentUpon>EXTZ0212.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interface\EXTZ0211.resx">
+    <None Include="Interface\EXTZ0211.resx">
       <DependentUpon>EXTZ0211.vb</DependentUpon>
-    </EmbeddedResource>
+    </None>
     <EmbeddedResource Include="Interface\EXTZ0104.resx">
       <DependentUpon>EXTZ0104.vb</DependentUpon>
     </EmbeddedResource>

@@ -17,6 +17,7 @@
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
     <SccProvider>SubversionScc</SccProvider>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,28 +58,28 @@
     <Reference Include="Common">
       <HintPath>..\lib\Common.dll</HintPath>
     </Reference>
-    <Reference Include="FarPoint.CalcEngine, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.CalcEngine, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Excel, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Excel, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.PDF, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.PDF, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.PluginCalendar.WinForms, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.PluginCalendar.WinForms, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Win, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Win, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Win.Chart, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Win.Chart, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Win.SpreadJ, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Win.SpreadJ, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="GrapeCity.Win.PluginInputMan, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="GrapeCity.Win.PluginInputMan, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
     <Reference Include="Npgsql">
@@ -163,18 +164,18 @@
     <Compile Include="Sql\SqlEXTZ0102.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Interface\EXTY0101.resx">
+    <None Include="Interface\EXTY0101.resx">
       <DependentUpon>EXTY0101.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interface\EXTY0102.resx">
+    </None>
+    <None Include="Interface\EXTY0102.resx">
       <DependentUpon>EXTY0102.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interface\EXTZ0101.resx">
+    </None>
+    <None Include="Interface\EXTZ0101.resx">
       <DependentUpon>EXTZ0101.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interface\EXTZ0102.resx">
+    </None>
+    <None Include="Interface\EXTZ0102.resx">
       <DependentUpon>EXTZ0102.vb</DependentUpon>
-    </EmbeddedResource>
+    </None>
     <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

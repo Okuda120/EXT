@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -52,17 +53,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Common.dll</HintPath>
     </Reference>
-    <Reference Include="FarPoint.CalcEngine, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.CalcEngine, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Excel, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Excel, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.PluginCalendar.WinForms, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.PluginCalendar.WinForms, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Win.SpreadJ, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Win.SpreadJ, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
+    </Reference>
+    <Reference Include="FarPoint.PDF, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
+    </Reference>
+    <Reference Include="FarPoint.Win.Chart, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
     </Reference>
     <Reference Include="Npgsql">
       <HintPath>..\lib\Npgsql.dll</HintPath>

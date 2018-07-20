@@ -17,6 +17,7 @@
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
     <SccProvider>SubversionScc</SccProvider>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -58,28 +59,28 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Common.dll</HintPath>
     </Reference>
-    <Reference Include="FarPoint.CalcEngine, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.CalcEngine, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Excel, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Excel, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.PDF, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.PDF, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.PluginCalendar.WinForms, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.PluginCalendar.WinForms, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Win, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Win, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Win.Chart, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Win.Chart, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="FarPoint.Win.SpreadJ, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="FarPoint.Win.SpreadJ, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
-    <Reference Include="GrapeCity.Win.PluginInputMan, Version=8.0.3502.2008, Culture=neutral, PublicKeyToken=a5fa960294d899e7, processorArchitecture=MSIL">
+    <Reference Include="GrapeCity.Win.PluginInputMan, Version=10.0.4003.2012, Culture=neutral, PublicKeyToken=a5fa960294d899e7">
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
@@ -205,12 +206,12 @@
     <EmbeddedResource Include="Interface\EXTM0103.resx">
       <DependentUpon>EXTM0103.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interface\EXTM0104.resx">
+    <None Include="Interface\EXTM0104.resx">
       <DependentUpon>EXTM0104.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interface\EXTM0201.resx">
+    </None>
+    <None Include="Interface\EXTM0201.resx">
       <DependentUpon>EXTM0201.vb</DependentUpon>
-    </EmbeddedResource>
+    </None>
     <EmbeddedResource Include="Interface\EXTM0202.resx">
       <DependentUpon>EXTM0202.vb</DependentUpon>
     </EmbeddedResource>
