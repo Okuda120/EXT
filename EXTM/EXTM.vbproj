@@ -209,9 +209,9 @@
     <None Include="Interface\EXTM0104.resx">
       <DependentUpon>EXTM0104.vb</DependentUpon>
     </None>
-    <None Include="Interface\EXTM0201.resx">
+    <EmbeddedResource Include="Interface\EXTM0201.resx">
       <DependentUpon>EXTM0201.vb</DependentUpon>
-    </None>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\EXTM0202.resx">
       <DependentUpon>EXTM0202.vb</DependentUpon>
     </EmbeddedResource>
@@ -253,7 +253,7 @@
     <None Include="Resources\背景.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ロゴ.ico" />
+    <EmbeddedResource Include="Resources\ロゴ.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ロゴ.PNG" />

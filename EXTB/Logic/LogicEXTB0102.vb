@@ -456,7 +456,7 @@ Public Class LogicEXTB0102
         Try
             Cn.Open()
 
-            '予約日程表削除処理
+            '予約情報表削除処理
             Tsx = Cn.BeginTransaction
             sqlEXTB0102.deleteYoyaku(Cmd, Cn, YoyakuNo)
             Cmd.ExecuteNonQuery()

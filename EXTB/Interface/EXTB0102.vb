@@ -1321,12 +1321,12 @@ Public Class EXTB0102
                 MsgBox(CommonEXT.E0000, MsgBoxStyle.Exclamation, "エラー")
                 Return
             End If
-            '予約制御削除
+            '予約日程表削除
             If logicEXTB0102.DeleteYoyakuList(dataEXTB0102.PropStrYoyakuNo) = False Then
                 MsgBox(CommonEXT.E0000, MsgBoxStyle.Exclamation, "エラー")
                 Return
             End If
-            '予約制御削除
+            '予約情報削除
             If logicEXTB0102.DeleteYoyaku(dataEXTB0102.PropStrYoyakuNo) = False Then
                 MsgBox(CommonEXT.E0000, MsgBoxStyle.Exclamation, "エラー")
                 Return

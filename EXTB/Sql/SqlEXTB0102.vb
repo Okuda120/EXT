@@ -518,7 +518,7 @@ Public Class SqlEXTB0102
                                    "YOYAKU_NO = :YoyakuNo "
     '2016.11.4 m.hayabuchi MOD End 課題No.59
 
-    'SQL文(予約データ削除)
+    'SQL文(予約情報データ削除)
     Private strEX04D001 As String = _
                            "DELETE " & vbCrLf & _
                            "FROM " & vbCrLf & _
