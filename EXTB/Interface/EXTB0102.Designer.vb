@@ -281,7 +281,7 @@ Partial Class EXTB0102
         Me.chkOneDrink.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkOneDrink.Location = New System.Drawing.Point(104, 135)
         Me.chkOneDrink.Name = "chkOneDrink"
-        Me.chkOneDrink.Size = New System.Drawing.Size(52, 17)
+        Me.chkOneDrink.Size = New System.Drawing.Size(64, 21)
         Me.chkOneDrink.TabIndex = 29
         Me.chkOneDrink.Text = "未定"
         Me.chkOneDrink.UseVisualStyleBackColor = True
@@ -293,7 +293,7 @@ Partial Class EXTB0102
         Me.chkSaijiBunrui.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkSaijiBunrui.Location = New System.Drawing.Point(104, 161)
         Me.chkSaijiBunrui.Name = "chkSaijiBunrui"
-        Me.chkSaijiBunrui.Size = New System.Drawing.Size(52, 17)
+        Me.chkSaijiBunrui.Size = New System.Drawing.Size(64, 21)
         Me.chkSaijiBunrui.TabIndex = 35
         Me.chkSaijiBunrui.Text = "未定"
         Me.chkSaijiBunrui.UseVisualStyleBackColor = True
@@ -305,7 +305,7 @@ Partial Class EXTB0102
         Me.chkRiyoType.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkRiyoType.Location = New System.Drawing.Point(104, 108)
         Me.chkRiyoType.Name = "chkRiyoType"
-        Me.chkRiyoType.Size = New System.Drawing.Size(52, 17)
+        Me.chkRiyoType.Size = New System.Drawing.Size(64, 21)
         Me.chkRiyoType.TabIndex = 17
         Me.chkRiyoType.Text = "未定"
         Me.chkRiyoType.UseVisualStyleBackColor = True
@@ -317,7 +317,7 @@ Partial Class EXTB0102
         Me.chkKashi.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkKashi.Location = New System.Drawing.Point(104, 79)
         Me.chkKashi.Name = "chkKashi"
-        Me.chkKashi.Size = New System.Drawing.Size(52, 17)
+        Me.chkKashi.Size = New System.Drawing.Size(64, 21)
         Me.chkKashi.TabIndex = 11
         Me.chkKashi.Text = "未定"
         Me.chkKashi.UseVisualStyleBackColor = True
@@ -340,7 +340,7 @@ Partial Class EXTB0102
         Me.rdoSaijiBunrui6.AutoSize = True
         Me.rdoSaijiBunrui6.Location = New System.Drawing.Point(364, 4)
         Me.rdoSaijiBunrui6.Name = "rdoSaijiBunrui6"
-        Me.rdoSaijiBunrui6.Size = New System.Drawing.Size(59, 17)
+        Me.rdoSaijiBunrui6.Size = New System.Drawing.Size(73, 21)
         Me.rdoSaijiBunrui6.TabIndex = 45
         Me.rdoSaijiBunrui6.TabStop = True
         Me.rdoSaijiBunrui6.Text = "その他"
@@ -351,7 +351,7 @@ Partial Class EXTB0102
         Me.rdoSaijiBunrui5.AutoSize = True
         Me.rdoSaijiBunrui5.Location = New System.Drawing.Point(261, 4)
         Me.rdoSaijiBunrui5.Name = "rdoSaijiBunrui5"
-        Me.rdoSaijiBunrui5.Size = New System.Drawing.Size(97, 17)
+        Me.rdoSaijiBunrui5.Size = New System.Drawing.Size(123, 21)
         Me.rdoSaijiBunrui5.TabIndex = 44
         Me.rdoSaijiBunrui5.TabStop = True
         Me.rdoSaijiBunrui5.Text = "試写会・映画"
@@ -362,7 +362,7 @@ Partial Class EXTB0102
         Me.rdoSaijiBunrui4.AutoSize = True
         Me.rdoSaijiBunrui4.Location = New System.Drawing.Point(189, 4)
         Me.rdoSaijiBunrui4.Name = "rdoSaijiBunrui4"
-        Me.rdoSaijiBunrui4.Size = New System.Drawing.Size(66, 17)
+        Me.rdoSaijiBunrui4.Size = New System.Drawing.Size(82, 21)
         Me.rdoSaijiBunrui4.TabIndex = 43
         Me.rdoSaijiBunrui4.TabStop = True
         Me.rdoSaijiBunrui4.Text = "ビジネス"
@@ -373,7 +373,7 @@ Partial Class EXTB0102
         Me.rdoSaijiBunrui3.AutoSize = True
         Me.rdoSaijiBunrui3.Location = New System.Drawing.Point(132, 4)
         Me.rdoSaijiBunrui3.Name = "rdoSaijiBunrui3"
-        Me.rdoSaijiBunrui3.Size = New System.Drawing.Size(51, 17)
+        Me.rdoSaijiBunrui3.Size = New System.Drawing.Size(63, 21)
         Me.rdoSaijiBunrui3.TabIndex = 41
         Me.rdoSaijiBunrui3.TabStop = True
         Me.rdoSaijiBunrui3.Text = "演芸"
@@ -384,7 +384,7 @@ Partial Class EXTB0102
         Me.rdoSaijiBunrui2.AutoSize = True
         Me.rdoSaijiBunrui2.Location = New System.Drawing.Point(66, 4)
         Me.rdoSaijiBunrui2.Name = "rdoSaijiBunrui2"
-        Me.rdoSaijiBunrui2.Size = New System.Drawing.Size(51, 17)
+        Me.rdoSaijiBunrui2.Size = New System.Drawing.Size(63, 21)
         Me.rdoSaijiBunrui2.TabIndex = 39
         Me.rdoSaijiBunrui2.TabStop = True
         Me.rdoSaijiBunrui2.Text = "演劇"
@@ -395,7 +395,7 @@ Partial Class EXTB0102
         Me.rdoSaijiBunrui1.AutoSize = True
         Me.rdoSaijiBunrui1.Location = New System.Drawing.Point(3, 4)
         Me.rdoSaijiBunrui1.Name = "rdoSaijiBunrui1"
-        Me.rdoSaijiBunrui1.Size = New System.Drawing.Size(51, 17)
+        Me.rdoSaijiBunrui1.Size = New System.Drawing.Size(63, 21)
         Me.rdoSaijiBunrui1.TabIndex = 37
         Me.rdoSaijiBunrui1.TabStop = True
         Me.rdoSaijiBunrui1.Text = "音楽"
@@ -415,7 +415,7 @@ Partial Class EXTB0102
         Me.rdoOneDrink2.AutoSize = True
         Me.rdoOneDrink2.Location = New System.Drawing.Point(62, 3)
         Me.rdoOneDrink2.Name = "rdoOneDrink2"
-        Me.rdoOneDrink2.Size = New System.Drawing.Size(45, 17)
+        Me.rdoOneDrink2.Size = New System.Drawing.Size(56, 21)
         Me.rdoOneDrink2.TabIndex = 33
         Me.rdoOneDrink2.TabStop = True
         Me.rdoOneDrink2.Text = "なし"
@@ -426,7 +426,7 @@ Partial Class EXTB0102
         Me.rdoOneDrink1.AutoSize = True
         Me.rdoOneDrink1.Location = New System.Drawing.Point(3, 4)
         Me.rdoOneDrink1.Name = "rdoOneDrink1"
-        Me.rdoOneDrink1.Size = New System.Drawing.Size(44, 17)
+        Me.rdoOneDrink1.Size = New System.Drawing.Size(54, 21)
         Me.rdoOneDrink1.TabIndex = 31
         Me.rdoOneDrink1.TabStop = True
         Me.rdoOneDrink1.Text = "あり"
@@ -452,7 +452,7 @@ Partial Class EXTB0102
         Me.Label21.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label21.Location = New System.Drawing.Point(549, 5)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(17, 12)
+        Me.Label21.Size = New System.Drawing.Size(22, 15)
         Me.Label21.TabIndex = 35
         Me.Label21.Text = "名"
         '
@@ -462,7 +462,7 @@ Partial Class EXTB0102
         Me.txtTeiin.Location = New System.Drawing.Point(492, 2)
         Me.txtTeiin.MaxLength = 6
         Me.txtTeiin.Name = "txtTeiin"
-        Me.txtTeiin.Size = New System.Drawing.Size(51, 19)
+        Me.txtTeiin.Size = New System.Drawing.Size(51, 22)
         Me.txtTeiin.TabIndex = 27
         '
         'Label20
@@ -471,7 +471,7 @@ Partial Class EXTB0102
         Me.Label20.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label20.Location = New System.Drawing.Point(457, 5)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(29, 12)
+        Me.Label20.Size = New System.Drawing.Size(37, 15)
         Me.Label20.TabIndex = 33
         Me.Label20.Text = "定員"
         '
@@ -480,7 +480,7 @@ Partial Class EXTB0102
         Me.rdoRiyoType4.AutoSize = True
         Me.rdoRiyoType4.Location = New System.Drawing.Point(389, 3)
         Me.rdoRiyoType4.Name = "rdoRiyoType4"
-        Me.rdoRiyoType4.Size = New System.Drawing.Size(63, 17)
+        Me.rdoRiyoType4.Size = New System.Drawing.Size(77, 21)
         Me.rdoRiyoType4.TabIndex = 25
         Me.rdoRiyoType4.TabStop = True
         Me.rdoRiyoType4.Text = "C.催事"
@@ -491,7 +491,7 @@ Partial Class EXTB0102
         Me.rdoRiyoType3.AutoSize = True
         Me.rdoRiyoType3.Location = New System.Drawing.Point(258, 3)
         Me.rdoRiyoType3.Name = "rdoRiyoType3"
-        Me.rdoRiyoType3.Size = New System.Drawing.Size(124, 17)
+        Me.rdoRiyoType3.Size = New System.Drawing.Size(158, 21)
         Me.rdoRiyoType3.TabIndex = 23
         Me.rdoRiyoType3.TabStop = True
         Me.rdoRiyoType3.Text = "A+B.イベント(変則)"
@@ -502,7 +502,7 @@ Partial Class EXTB0102
         Me.rdoRiyoType2.AutoSize = True
         Me.rdoRiyoType2.Location = New System.Drawing.Point(123, 3)
         Me.rdoRiyoType2.Name = "rdoRiyoType2"
-        Me.rdoRiyoType2.Size = New System.Drawing.Size(139, 17)
+        Me.rdoRiyoType2.Size = New System.Drawing.Size(179, 21)
         Me.rdoRiyoType2.TabIndex = 21
         Me.rdoRiyoType2.TabStop = True
         Me.rdoRiyoType2.Text = "B.イベント(ｽﾀﾝﾃﾞｨﾝｸﾞ)"
@@ -513,7 +513,7 @@ Partial Class EXTB0102
         Me.rdoRiyoType1.AutoSize = True
         Me.rdoRiyoType1.Location = New System.Drawing.Point(3, 4)
         Me.rdoRiyoType1.Name = "rdoRiyoType1"
-        Me.rdoRiyoType1.Size = New System.Drawing.Size(109, 17)
+        Me.rdoRiyoType1.Size = New System.Drawing.Size(138, 21)
         Me.rdoRiyoType1.TabIndex = 19
         Me.rdoRiyoType1.TabStop = True
         Me.rdoRiyoType1.Text = "A.イベント(着席)"
@@ -534,7 +534,7 @@ Partial Class EXTB0102
         Me.rdoKashi3.AutoSize = True
         Me.rdoKashi3.Location = New System.Drawing.Point(200, 4)
         Me.rdoKashi3.Name = "rdoKashi3"
-        Me.rdoKashi3.Size = New System.Drawing.Size(51, 17)
+        Me.rdoKashi3.Size = New System.Drawing.Size(63, 21)
         Me.rdoKashi3.TabIndex = 14
         Me.rdoKashi3.TabStop = True
         Me.rdoKashi3.Text = "特例"
@@ -545,7 +545,7 @@ Partial Class EXTB0102
         Me.rdoKashi2.AutoSize = True
         Me.rdoKashi2.Location = New System.Drawing.Point(100, 4)
         Me.rdoKashi2.Name = "rdoKashi2"
-        Me.rdoKashi2.Size = New System.Drawing.Size(77, 17)
+        Me.rdoKashi2.Size = New System.Drawing.Size(97, 21)
         Me.rdoKashi2.TabIndex = 13
         Me.rdoKashi2.TabStop = True
         Me.rdoKashi2.Text = "社内利用"
@@ -556,7 +556,7 @@ Partial Class EXTB0102
         Me.rdoKashi1.AutoSize = True
         Me.rdoKashi1.Location = New System.Drawing.Point(3, 3)
         Me.rdoKashi1.Name = "rdoKashi1"
-        Me.rdoKashi1.Size = New System.Drawing.Size(77, 17)
+        Me.rdoKashi1.Size = New System.Drawing.Size(97, 21)
         Me.rdoKashi1.TabIndex = 12
         Me.rdoKashi1.TabStop = True
         Me.rdoKashi1.Text = "一般貸出"
@@ -568,7 +568,7 @@ Partial Class EXTB0102
         Me.Label19.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label19.Location = New System.Drawing.Point(21, 163)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(53, 12)
+        Me.Label19.Size = New System.Drawing.Size(67, 15)
         Me.Label19.TabIndex = 27
         Me.Label19.Text = "催事分類"
         '
@@ -578,7 +578,7 @@ Partial Class EXTB0102
         Me.Label18.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label18.Location = New System.Drawing.Point(21, 136)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(56, 12)
+        Me.Label18.Size = New System.Drawing.Size(70, 15)
         Me.Label18.TabIndex = 26
         Me.Label18.Text = "ワンドリンク"
         '
@@ -588,7 +588,7 @@ Partial Class EXTB0102
         Me.Label17.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label17.Location = New System.Drawing.Point(21, 110)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(53, 12)
+        Me.Label17.Size = New System.Drawing.Size(67, 15)
         Me.Label17.TabIndex = 25
         Me.Label17.Text = "利用形状"
         '
@@ -598,7 +598,7 @@ Partial Class EXTB0102
         Me.Label16.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label16.Location = New System.Drawing.Point(21, 82)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(53, 12)
+        Me.Label16.Size = New System.Drawing.Size(67, 15)
         Me.Label16.TabIndex = 24
         Me.Label16.Text = "貸出種別"
         '
@@ -608,7 +608,7 @@ Partial Class EXTB0102
         Me.txtShutuen.Location = New System.Drawing.Point(105, 47)
         Me.txtShutuen.MaxLength = 50
         Me.txtShutuen.Name = "txtShutuen"
-        Me.txtShutuen.Size = New System.Drawing.Size(377, 19)
+        Me.txtShutuen.Size = New System.Drawing.Size(377, 22)
         Me.txtShutuen.TabIndex = 9
         '
         'txtSaiji
@@ -617,7 +617,7 @@ Partial Class EXTB0102
         Me.txtSaiji.Location = New System.Drawing.Point(105, 22)
         Me.txtSaiji.MaxLength = 50
         Me.txtSaiji.Name = "txtSaiji"
-        Me.txtSaiji.Size = New System.Drawing.Size(377, 19)
+        Me.txtSaiji.Size = New System.Drawing.Size(377, 22)
         Me.txtSaiji.TabIndex = 8
         '
         'Label15
@@ -626,7 +626,7 @@ Partial Class EXTB0102
         Me.Label15.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label15.Location = New System.Drawing.Point(22, 50)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(53, 12)
+        Me.Label15.Size = New System.Drawing.Size(67, 15)
         Me.Label15.TabIndex = 21
         Me.Label15.Text = "出演者名"
         '
@@ -636,7 +636,7 @@ Partial Class EXTB0102
         Me.Label14.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label14.Location = New System.Drawing.Point(22, 25)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(61, 12)
+        Me.Label14.Size = New System.Drawing.Size(77, 15)
         Me.Label14.TabIndex = 20
         Me.Label14.Text = "催事名　＊"
         '
@@ -647,7 +647,7 @@ Partial Class EXTB0102
         Me.Label9.Font = New System.Drawing.Font("MS UI Gothic", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label9.Location = New System.Drawing.Point(14, 32)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(89, 19)
+        Me.Label9.Size = New System.Drawing.Size(110, 24)
         Me.Label9.TabIndex = 11
         Me.Label9.Text = "予約番号"
         '
@@ -670,7 +670,7 @@ Partial Class EXTB0102
         Me.Label11.Font = New System.Drawing.Font("MS UI Gothic", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label11.Location = New System.Drawing.Point(327, 27)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(69, 19)
+        Me.Label11.Size = New System.Drawing.Size(85, 24)
         Me.Label11.TabIndex = 13
         Me.Label11.Text = "受付日"
         '
@@ -681,7 +681,7 @@ Partial Class EXTB0102
         Me.Label12.Font = New System.Drawing.Font("MS UI Gothic", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label12.Location = New System.Drawing.Point(698, 27)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(88, 19)
+        Me.Label12.Size = New System.Drawing.Size(106, 24)
         Me.Label12.TabIndex = 17
         Me.Label12.Text = "ステータス"
         '
@@ -842,7 +842,7 @@ Partial Class EXTB0102
         Me.cmbSekininNm.Location = New System.Drawing.Point(153, 176)
         Me.cmbSekininNm.MaxLength = 20
         Me.cmbSekininNm.Name = "cmbSekininNm"
-        Me.cmbSekininNm.Size = New System.Drawing.Size(377, 21)
+        Me.cmbSekininNm.Size = New System.Drawing.Size(377, 24)
         Me.cmbSekininNm.TabIndex = 109
         '
         'cmbRiyoTodo
@@ -851,7 +851,7 @@ Partial Class EXTB0102
         Me.cmbRiyoTodo.Location = New System.Drawing.Point(751, 54)
         Me.cmbRiyoTodo.MaxLength = 5
         Me.cmbRiyoTodo.Name = "cmbRiyoTodo"
-        Me.cmbRiyoTodo.Size = New System.Drawing.Size(121, 21)
+        Me.cmbRiyoTodo.Size = New System.Drawing.Size(121, 24)
         Me.cmbRiyoTodo.TabIndex = 84
         '
         'btnRiyoshaAdd
@@ -870,7 +870,7 @@ Partial Class EXTB0102
         Me.txtRiyoNaisen.Location = New System.Drawing.Point(1069, 157)
         Me.txtRiyoNaisen.MaxLength = 6
         Me.txtRiyoNaisen.Name = "txtRiyoNaisen"
-        Me.txtRiyoNaisen.Size = New System.Drawing.Size(66, 20)
+        Me.txtRiyoNaisen.Size = New System.Drawing.Size(66, 24)
         Me.txtRiyoNaisen.TabIndex = 96
         '
         'Label42
@@ -879,7 +879,7 @@ Partial Class EXTB0102
         Me.Label42.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label42.Location = New System.Drawing.Point(1034, 160)
         Me.Label42.Name = "Label42"
-        Me.Label42.Size = New System.Drawing.Size(33, 13)
+        Me.Label42.Size = New System.Drawing.Size(42, 17)
         Me.Label42.TabIndex = 66
         Me.Label42.Text = "内線"
         '
@@ -890,7 +890,7 @@ Partial Class EXTB0102
         Me.txtRiyoFax3.Location = New System.Drawing.Point(921, 205)
         Me.txtRiyoFax3.MaxLength = 6
         Me.txtRiyoFax3.Name = "txtRiyoFax3"
-        Me.txtRiyoFax3.Size = New System.Drawing.Size(66, 20)
+        Me.txtRiyoFax3.Size = New System.Drawing.Size(66, 24)
         Me.txtRiyoFax3.TabIndex = 108
         '
         'txtRiyoFax2
@@ -900,7 +900,7 @@ Partial Class EXTB0102
         Me.txtRiyoFax2.Location = New System.Drawing.Point(836, 205)
         Me.txtRiyoFax2.MaxLength = 6
         Me.txtRiyoFax2.Name = "txtRiyoFax2"
-        Me.txtRiyoFax2.Size = New System.Drawing.Size(66, 20)
+        Me.txtRiyoFax2.Size = New System.Drawing.Size(66, 24)
         Me.txtRiyoFax2.TabIndex = 106
         '
         'txtRiyoFax1
@@ -910,7 +910,7 @@ Partial Class EXTB0102
         Me.txtRiyoFax1.Location = New System.Drawing.Point(751, 206)
         Me.txtRiyoFax1.MaxLength = 6
         Me.txtRiyoFax1.Name = "txtRiyoFax1"
-        Me.txtRiyoFax1.Size = New System.Drawing.Size(66, 20)
+        Me.txtRiyoFax1.Size = New System.Drawing.Size(66, 24)
         Me.txtRiyoFax1.TabIndex = 104
         '
         'Label41
@@ -919,7 +919,7 @@ Partial Class EXTB0102
         Me.Label41.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label41.Location = New System.Drawing.Point(652, 209)
         Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(30, 13)
+        Me.Label41.Size = New System.Drawing.Size(38, 17)
         Me.Label41.TabIndex = 62
         Me.Label41.Text = "FAX"
         '
@@ -930,7 +930,7 @@ Partial Class EXTB0102
         Me.txtRiyoMobileTel1.Location = New System.Drawing.Point(751, 181)
         Me.txtRiyoMobileTel1.MaxLength = 11
         Me.txtRiyoMobileTel1.Name = "txtRiyoMobileTel1"
-        Me.txtRiyoMobileTel1.Size = New System.Drawing.Size(236, 20)
+        Me.txtRiyoMobileTel1.Size = New System.Drawing.Size(236, 24)
         Me.txtRiyoMobileTel1.TabIndex = 98
         '
         'Label40
@@ -939,7 +939,7 @@ Partial Class EXTB0102
         Me.Label40.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label40.Location = New System.Drawing.Point(652, 184)
         Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(59, 13)
+        Me.Label40.Size = New System.Drawing.Size(76, 17)
         Me.Label40.TabIndex = 58
         Me.Label40.Text = "携帯電話"
         '
@@ -950,7 +950,7 @@ Partial Class EXTB0102
         Me.txtRiyoTel3.Location = New System.Drawing.Point(921, 156)
         Me.txtRiyoTel3.MaxLength = 6
         Me.txtRiyoTel3.Name = "txtRiyoTel3"
-        Me.txtRiyoTel3.Size = New System.Drawing.Size(66, 20)
+        Me.txtRiyoTel3.Size = New System.Drawing.Size(66, 24)
         Me.txtRiyoTel3.TabIndex = 94
         '
         'txtRiyoTel2
@@ -960,7 +960,7 @@ Partial Class EXTB0102
         Me.txtRiyoTel2.Location = New System.Drawing.Point(836, 156)
         Me.txtRiyoTel2.MaxLength = 6
         Me.txtRiyoTel2.Name = "txtRiyoTel2"
-        Me.txtRiyoTel2.Size = New System.Drawing.Size(66, 20)
+        Me.txtRiyoTel2.Size = New System.Drawing.Size(66, 24)
         Me.txtRiyoTel2.TabIndex = 92
         '
         'txtRiyoTel1
@@ -970,7 +970,7 @@ Partial Class EXTB0102
         Me.txtRiyoTel1.Location = New System.Drawing.Point(751, 157)
         Me.txtRiyoTel1.MaxLength = 6
         Me.txtRiyoTel1.Name = "txtRiyoTel1"
-        Me.txtRiyoTel1.Size = New System.Drawing.Size(66, 20)
+        Me.txtRiyoTel1.Size = New System.Drawing.Size(66, 24)
         Me.txtRiyoTel1.TabIndex = 90
         '
         'Label39
@@ -979,7 +979,7 @@ Partial Class EXTB0102
         Me.Label39.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label39.Location = New System.Drawing.Point(652, 160)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(59, 13)
+        Me.Label39.Size = New System.Drawing.Size(76, 17)
         Me.Label39.TabIndex = 54
         Me.Label39.Text = "電話番号"
         '
@@ -989,7 +989,7 @@ Partial Class EXTB0102
         Me.txtRiyoBuild.Location = New System.Drawing.Point(751, 131)
         Me.txtRiyoBuild.MaxLength = 20
         Me.txtRiyoBuild.Name = "txtRiyoBuild"
-        Me.txtRiyoBuild.Size = New System.Drawing.Size(377, 20)
+        Me.txtRiyoBuild.Size = New System.Drawing.Size(377, 24)
         Me.txtRiyoBuild.TabIndex = 88
         '
         'Label38
@@ -998,7 +998,7 @@ Partial Class EXTB0102
         Me.Label38.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label38.Location = New System.Drawing.Point(652, 134)
         Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(40, 13)
+        Me.Label38.Size = New System.Drawing.Size(51, 17)
         Me.Label38.TabIndex = 52
         Me.Label38.Text = "ビル名"
         '
@@ -1008,7 +1008,7 @@ Partial Class EXTB0102
         Me.txtRiyoBan.Location = New System.Drawing.Point(751, 106)
         Me.txtRiyoBan.MaxLength = 20
         Me.txtRiyoBan.Name = "txtRiyoBan"
-        Me.txtRiyoBan.Size = New System.Drawing.Size(377, 20)
+        Me.txtRiyoBan.Size = New System.Drawing.Size(377, 24)
         Me.txtRiyoBan.TabIndex = 87
         '
         'Label37
@@ -1017,7 +1017,7 @@ Partial Class EXTB0102
         Me.Label37.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label37.Location = New System.Drawing.Point(652, 109)
         Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(33, 13)
+        Me.Label37.Size = New System.Drawing.Size(42, 17)
         Me.Label37.TabIndex = 50
         Me.Label37.Text = "番地"
         '
@@ -1027,7 +1027,7 @@ Partial Class EXTB0102
         Me.txtRiyoShiku.Location = New System.Drawing.Point(751, 81)
         Me.txtRiyoShiku.MaxLength = 20
         Me.txtRiyoShiku.Name = "txtRiyoShiku"
-        Me.txtRiyoShiku.Size = New System.Drawing.Size(377, 20)
+        Me.txtRiyoShiku.Size = New System.Drawing.Size(377, 24)
         Me.txtRiyoShiku.TabIndex = 86
         '
         'Label36
@@ -1036,7 +1036,7 @@ Partial Class EXTB0102
         Me.Label36.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label36.Location = New System.Drawing.Point(652, 84)
         Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(59, 13)
+        Me.Label36.Size = New System.Drawing.Size(76, 17)
         Me.Label36.TabIndex = 48
         Me.Label36.Text = "市区町村"
         '
@@ -1046,7 +1046,7 @@ Partial Class EXTB0102
         Me.Label35.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label35.Location = New System.Drawing.Point(652, 59)
         Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(59, 13)
+        Me.Label35.Size = New System.Drawing.Size(76, 17)
         Me.Label35.TabIndex = 46
         Me.Label35.Text = "都道府県"
         '
@@ -1057,7 +1057,7 @@ Partial Class EXTB0102
         Me.txtRiyoPost2.Location = New System.Drawing.Point(836, 30)
         Me.txtRiyoPost2.MaxLength = 4
         Me.txtRiyoPost2.Name = "txtRiyoPost2"
-        Me.txtRiyoPost2.Size = New System.Drawing.Size(66, 20)
+        Me.txtRiyoPost2.Size = New System.Drawing.Size(66, 24)
         Me.txtRiyoPost2.TabIndex = 82
         '
         'txtRiyoPost1
@@ -1067,7 +1067,7 @@ Partial Class EXTB0102
         Me.txtRiyoPost1.Location = New System.Drawing.Point(751, 31)
         Me.txtRiyoPost1.MaxLength = 3
         Me.txtRiyoPost1.Name = "txtRiyoPost1"
-        Me.txtRiyoPost1.Size = New System.Drawing.Size(66, 20)
+        Me.txtRiyoPost1.Size = New System.Drawing.Size(66, 24)
         Me.txtRiyoPost1.TabIndex = 80
         '
         'Label34
@@ -1076,7 +1076,7 @@ Partial Class EXTB0102
         Me.Label34.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label34.Location = New System.Drawing.Point(652, 34)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(59, 13)
+        Me.Label34.Size = New System.Drawing.Size(76, 17)
         Me.Label34.TabIndex = 43
         Me.Label34.Text = "郵便番号"
         '
@@ -1121,7 +1121,7 @@ Partial Class EXTB0102
         Me.Label32.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label32.Location = New System.Drawing.Point(20, 232)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(77, 13)
+        Me.Label32.Size = New System.Drawing.Size(100, 17)
         Me.Label32.TabIndex = 39
         Me.Label32.Text = "EXAS相手先"
         '
@@ -1157,7 +1157,7 @@ Partial Class EXTB0102
         Me.txtSekininMail.Location = New System.Drawing.Point(153, 202)
         Me.txtSekininMail.MaxLength = 256
         Me.txtSekininMail.Name = "txtSekininMail"
-        Me.txtSekininMail.Size = New System.Drawing.Size(377, 20)
+        Me.txtSekininMail.Size = New System.Drawing.Size(377, 24)
         Me.txtSekininMail.TabIndex = 74
         '
         'Label28
@@ -1166,7 +1166,7 @@ Partial Class EXTB0102
         Me.Label28.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label28.Location = New System.Drawing.Point(21, 205)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(102, 13)
+        Me.Label28.Size = New System.Drawing.Size(133, 17)
         Me.Label28.TabIndex = 35
         Me.Label28.Text = "責任者ﾒｰﾙｱﾄﾞﾚｽ"
         '
@@ -1176,7 +1176,7 @@ Partial Class EXTB0102
         Me.Label27.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label27.Location = New System.Drawing.Point(21, 179)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(59, 13)
+        Me.Label27.Size = New System.Drawing.Size(76, 17)
         Me.Label27.TabIndex = 33
         Me.Label27.Text = "責任者名"
         '
@@ -1186,7 +1186,7 @@ Partial Class EXTB0102
         Me.txtSekininBushoNm.Location = New System.Drawing.Point(153, 150)
         Me.txtSekininBushoNm.MaxLength = 20
         Me.txtSekininBushoNm.Name = "txtSekininBushoNm"
-        Me.txtSekininBushoNm.Size = New System.Drawing.Size(377, 20)
+        Me.txtSekininBushoNm.Size = New System.Drawing.Size(377, 24)
         Me.txtSekininBushoNm.TabIndex = 70
         '
         'Label26
@@ -1195,7 +1195,7 @@ Partial Class EXTB0102
         Me.Label26.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label26.Location = New System.Drawing.Point(20, 153)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(85, 13)
+        Me.Label26.Size = New System.Drawing.Size(110, 17)
         Me.Label26.TabIndex = 31
         Me.Label26.Text = "責任者部署名"
         '
@@ -1205,7 +1205,7 @@ Partial Class EXTB0102
         Me.txtDaihyoNm.Location = New System.Drawing.Point(153, 124)
         Me.txtDaihyoNm.MaxLength = 20
         Me.txtDaihyoNm.Name = "txtDaihyoNm"
-        Me.txtDaihyoNm.Size = New System.Drawing.Size(377, 20)
+        Me.txtDaihyoNm.Size = New System.Drawing.Size(377, 24)
         Me.txtDaihyoNm.TabIndex = 68
         '
         'Label25
@@ -1214,7 +1214,7 @@ Partial Class EXTB0102
         Me.Label25.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label25.Location = New System.Drawing.Point(21, 127)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(59, 13)
+        Me.Label25.Size = New System.Drawing.Size(76, 17)
         Me.Label25.TabIndex = 29
         Me.Label25.Text = "代表者名"
         '
@@ -1224,7 +1224,7 @@ Partial Class EXTB0102
         Me.txtRiyoshaNm.Location = New System.Drawing.Point(153, 90)
         Me.txtRiyoshaNm.MaxLength = 30
         Me.txtRiyoshaNm.Name = "txtRiyoshaNm"
-        Me.txtRiyoshaNm.Size = New System.Drawing.Size(377, 20)
+        Me.txtRiyoshaNm.Size = New System.Drawing.Size(377, 24)
         Me.txtRiyoshaNm.TabIndex = 66
         '
         'Label24
@@ -1233,7 +1233,7 @@ Partial Class EXTB0102
         Me.Label24.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label24.Location = New System.Drawing.Point(21, 90)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(102, 26)
+        Me.Label24.Size = New System.Drawing.Size(131, 34)
         Me.Label24.TabIndex = 27
         Me.Label24.Text = "利用者名" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(会社名、団体名)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
@@ -1243,7 +1243,7 @@ Partial Class EXTB0102
         Me.txtRiyoshaNmKana.Location = New System.Drawing.Point(153, 56)
         Me.txtRiyoshaNmKana.MaxLength = 30
         Me.txtRiyoshaNmKana.Name = "txtRiyoshaNmKana"
-        Me.txtRiyoshaNmKana.Size = New System.Drawing.Size(377, 20)
+        Me.txtRiyoshaNmKana.Size = New System.Drawing.Size(377, 24)
         Me.txtRiyoshaNmKana.TabIndex = 63
         '
         'Label23
@@ -1252,7 +1252,7 @@ Partial Class EXTB0102
         Me.Label23.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label23.Location = New System.Drawing.Point(21, 59)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(89, 26)
+        Me.Label23.Size = New System.Drawing.Size(114, 34)
         Me.Label23.TabIndex = 25
         Me.Label23.Text = "利用者名(ｶﾅ)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(会社名、団体)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
@@ -1262,7 +1262,7 @@ Partial Class EXTB0102
         Me.Label22.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label22.Location = New System.Drawing.Point(21, 34)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(72, 13)
+        Me.Label22.Size = New System.Drawing.Size(93, 17)
         Me.Label22.TabIndex = 23
         Me.Label22.Text = "利用者番号"
         '
@@ -1326,7 +1326,7 @@ Partial Class EXTB0102
         Me.rdoStatus2.AutoSize = True
         Me.rdoStatus2.Location = New System.Drawing.Point(73, 3)
         Me.rdoStatus2.Name = "rdoStatus2"
-        Me.rdoStatus2.Size = New System.Drawing.Size(76, 17)
+        Me.rdoStatus2.Size = New System.Drawing.Size(95, 21)
         Me.rdoStatus2.TabIndex = 4
         Me.rdoStatus2.TabStop = True
         Me.rdoStatus2.Text = "確認済み"
@@ -1338,7 +1338,7 @@ Partial Class EXTB0102
         Me.rdoStatus1.Checked = True
         Me.rdoStatus1.Location = New System.Drawing.Point(3, 2)
         Me.rdoStatus1.Name = "rdoStatus1"
-        Me.rdoStatus1.Size = New System.Drawing.Size(64, 17)
+        Me.rdoStatus1.Size = New System.Drawing.Size(80, 21)
         Me.rdoStatus1.TabIndex = 3
         Me.rdoStatus1.TabStop = True
         Me.rdoStatus1.Text = "未確認"
@@ -1367,6 +1367,7 @@ Partial Class EXTB0102
         'dtpHensoDate
         '
         Me.dtpHensoDate.Location = New System.Drawing.Point(728, 47)
+        Me.dtpHensoDate.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtpHensoDate.Name = "dtpHensoDate"
         Me.dtpHensoDate.Size = New System.Drawing.Size(205, 30)
         Me.dtpHensoDate.TabIndex = 149
@@ -1374,6 +1375,7 @@ Partial Class EXTB0102
         'dtpSendDate
         '
         Me.dtpSendDate.Location = New System.Drawing.Point(469, 47)
+        Me.dtpSendDate.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtpSendDate.Name = "dtpSendDate"
         Me.dtpSendDate.Size = New System.Drawing.Size(176, 28)
         Me.dtpSendDate.TabIndex = 148
@@ -1384,7 +1386,7 @@ Partial Class EXTB0102
         Me.Label46.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label46.Location = New System.Drawing.Point(658, 53)
         Me.Label46.Name = "Label46"
-        Me.Label46.Size = New System.Drawing.Size(59, 13)
+        Me.Label46.Size = New System.Drawing.Size(76, 17)
         Me.Label46.TabIndex = 66
         Me.Label46.Text = "返送期日"
         '
@@ -1394,7 +1396,7 @@ Partial Class EXTB0102
         Me.Label45.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label45.Location = New System.Drawing.Point(412, 53)
         Me.Label45.Name = "Label45"
-        Me.Label45.Size = New System.Drawing.Size(46, 13)
+        Me.Label45.Size = New System.Drawing.Size(59, 17)
         Me.Label45.TabIndex = 34
         Me.Label45.Text = "送付日"
         '
@@ -1413,7 +1415,7 @@ Partial Class EXTB0102
         Me.rdoSendSts2.AutoSize = True
         Me.rdoSendSts2.Location = New System.Drawing.Point(82, 3)
         Me.rdoSendSts2.Name = "rdoSendSts2"
-        Me.rdoSendSts2.Size = New System.Drawing.Size(76, 17)
+        Me.rdoSendSts2.Size = New System.Drawing.Size(95, 21)
         Me.rdoSendSts2.TabIndex = 120
         Me.rdoSendSts2.Text = "送付済み"
         Me.rdoSendSts2.UseVisualStyleBackColor = True
@@ -1424,7 +1426,7 @@ Partial Class EXTB0102
         Me.rdoSendSts1.Checked = True
         Me.rdoSendSts1.Location = New System.Drawing.Point(3, 4)
         Me.rdoSendSts1.Name = "rdoSendSts1"
-        Me.rdoSendSts1.Size = New System.Drawing.Size(64, 17)
+        Me.rdoSendSts1.Size = New System.Drawing.Size(80, 21)
         Me.rdoSendSts1.TabIndex = 118
         Me.rdoSendSts1.TabStop = True
         Me.rdoSendSts1.Text = "未送付"
@@ -1445,7 +1447,7 @@ Partial Class EXTB0102
         Me.rdoSendKbn2.AutoSize = True
         Me.rdoSendKbn2.Location = New System.Drawing.Point(92, 4)
         Me.rdoSendKbn2.Name = "rdoSendKbn2"
-        Me.rdoSendKbn2.Size = New System.Drawing.Size(77, 17)
+        Me.rdoSendKbn2.Size = New System.Drawing.Size(97, 21)
         Me.rdoSendKbn2.TabIndex = 114
         Me.rdoSendKbn2.Text = "送付希望"
         Me.rdoSendKbn2.UseVisualStyleBackColor = True
@@ -1456,7 +1458,7 @@ Partial Class EXTB0102
         Me.rdoSendKbn1.Checked = True
         Me.rdoSendKbn1.Location = New System.Drawing.Point(3, 4)
         Me.rdoSendKbn1.Name = "rdoSendKbn1"
-        Me.rdoSendKbn1.Size = New System.Drawing.Size(83, 17)
+        Me.rdoSendKbn1.Size = New System.Drawing.Size(105, 21)
         Me.rdoSendKbn1.TabIndex = 112
         Me.rdoSendKbn1.TabStop = True
         Me.rdoSendKbn1.Text = "ダウンロード"
@@ -1469,7 +1471,7 @@ Partial Class EXTB0102
         Me.chkSendSts.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkSendSts.Location = New System.Drawing.Point(104, 50)
         Me.chkSendSts.Name = "chkSendSts"
-        Me.chkSendSts.Size = New System.Drawing.Size(52, 17)
+        Me.chkSendSts.Size = New System.Drawing.Size(64, 21)
         Me.chkSendSts.TabIndex = 116
         Me.chkSendSts.Text = "未定"
         Me.chkSendSts.UseVisualStyleBackColor = True
@@ -1481,7 +1483,7 @@ Partial Class EXTB0102
         Me.chkSendKbn.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkSendKbn.Location = New System.Drawing.Point(104, 26)
         Me.chkSendKbn.Name = "chkSendKbn"
-        Me.chkSendKbn.Size = New System.Drawing.Size(52, 17)
+        Me.chkSendKbn.Size = New System.Drawing.Size(64, 21)
         Me.chkSendKbn.TabIndex = 110
         Me.chkSendKbn.Text = "未定"
         Me.chkSendKbn.UseVisualStyleBackColor = True
@@ -1492,7 +1494,7 @@ Partial Class EXTB0102
         Me.Label43.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label43.Location = New System.Drawing.Point(21, 50)
         Me.Label43.Name = "Label43"
-        Me.Label43.Size = New System.Drawing.Size(70, 13)
+        Me.Label43.Size = New System.Drawing.Size(90, 17)
         Me.Label43.TabIndex = 33
         Me.Label43.Text = "送付の場合"
         '
@@ -1502,7 +1504,7 @@ Partial Class EXTB0102
         Me.Label44.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label44.Location = New System.Drawing.Point(21, 26)
         Me.Label44.Name = "Label44"
-        Me.Label44.Size = New System.Drawing.Size(46, 13)
+        Me.Label44.Size = New System.Drawing.Size(59, 17)
         Me.Label44.TabIndex = 34
         Me.Label44.Text = "申込書"
         '
@@ -1539,6 +1541,7 @@ Partial Class EXTB0102
         'dtpKariuke
         '
         Me.dtpKariuke.Location = New System.Drawing.Point(432, 25)
+        Me.dtpKariuke.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtpKariuke.Name = "dtpKariuke"
         Me.dtpKariuke.Size = New System.Drawing.Size(151, 26)
         Me.dtpKariuke.TabIndex = 1
@@ -1550,13 +1553,13 @@ Partial Class EXTB0102
         Me.Label3.Font = New System.Drawing.Font("ＭＳ Ｐゴシック", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label3.Location = New System.Drawing.Point(387, 27)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(32, 22)
+        Me.Label3.Size = New System.Drawing.Size(39, 27)
         Me.Label3.TabIndex = 210
         Me.Label3.Text = "＊"
         '
         'EXTB0102
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.Color.White

@@ -524,7 +524,7 @@ Public Class SqlEXTC0102
                            "WHERE" & vbCrLf & _
                                 "YOYAKU_NO = :YoyakuNo "
 
-    'SQL文(予約受付制御データ削除)
+    'SQL文(予約日程表データ削除)
     Private strEX04D002 As String = _
                            "DELETE " & vbCrLf & _
                            "FROM " & vbCrLf & _

@@ -111,7 +111,7 @@ Partial Class EXTA0101
         Me.lblVersion.Name = "lblVersion"
         Me.lblVersion.Size = New System.Drawing.Size(77, 12)
         Me.lblVersion.TabIndex = 79
-        Me.lblVersion.Text = "ver 1.0.15"
+        Me.lblVersion.Text = "ver 1.0.16"
         '
         'EXTA0101
         '

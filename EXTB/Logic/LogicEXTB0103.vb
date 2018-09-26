@@ -53,6 +53,13 @@ Public Class LogicEXTB0103
 
     '帳票フォーマット名
     Private Const FORMAT_CERTIFICATES As String = "利用承認書_シアター.xlsx"                 ' 利用承認書
+
+    ' 2018/09/19 E.Okuda@Compass 税率変更第一弾　START
+    Private Const FORMAT_CERTIFICATES2 As String = "利用承認書_シアター２.xlsx"              ' 利用承認書（税率変更追記）
+
+    Private Const TAX_CHANGE_DATE_10PER As String = "2019/10/1"
+    ' 2018/09/19 E.Okuda@Compass 税率変更第一弾　END
+
     Private Const FORMAT_DETAILS As String = "付帯設備利用明細書_シアター.xlsx"              ' 利用明細書
 
     Private Property vwAppSheetNote As Object
@@ -1605,7 +1612,18 @@ Public Class LogicEXTB0103
 
         Try
             With dataEXTB0103
-                downloadPath = ConfigurationManager.AppSettings("formatPath") & FORMAT_CERTIFICATES
+
+                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾　START
+                If DateDiff("d", dataEXTB0103.PropStrCalculateDay_Output, TAX_CHANGE_DATE_10PER) > 0 Then
+                    downloadPath = ConfigurationManager.AppSettings("formatPath") & FORMAT_CERTIFICATES
+                Else
+                    downloadPath = ConfigurationManager.AppSettings("formatPath") & FORMAT_CERTIFICATES2
+                End If
+
+
+                '                downloadPath = ConfigurationManager.AppSettings("formatPath") & FORMAT_CERTIFICATES
+                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾　END
+
                 'Excel読み込み
                 .PropVwPrintSheet = New FarPoint.Win.Spread.FpSpread
                 '本番環境でフォーマットをどこに置くか要確認
@@ -1621,10 +1639,22 @@ Public Class LogicEXTB0103
                 ' シート設定
                 Dim vwAppSheet As FarPoint.Win.Spread.SheetView = .PropVwPrintSheet.Sheets(0)      '利用承認書
                 vwAppSheet.ColumnCount = 11 '列数
-                vwAppSheet.RowCount = 31    '行数
+
+                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾 START
+                vwAppSheet.RowCount = 32    '行数
+                '                vwAppSheet.RowCount = 31    '行数
+
+                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾 END
                 Dim vwAppSheetNote As FarPoint.Win.Spread.SheetView = .PropVwPrintSheet.Sheets(1)  '利用承認書（シアター控え）
                 vwAppSheetNote.ColumnCount = 11 '列数
-                vwAppSheetNote.RowCount = 31    '行数
+
+                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾 START
+                vwAppSheetNote.RowCount = 32    '行数
+                '                vwAppSheetNote.RowCount = 31    '行数    
+                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾 END
+
+
+
 
                 '付帯設備利用料
                 If .PropDtUseApproval_Output IsNot Nothing Then
