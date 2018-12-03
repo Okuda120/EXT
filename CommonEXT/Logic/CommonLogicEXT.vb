@@ -258,7 +258,7 @@ Public Class CommonLogicEXT
             'メールアドレスに一致する対象があるか検索
             Dim m As System.Text.RegularExpressions.Match = r.Match(strChkValue)
 
-            If m.Success = True Then
+            If m.Success = True And m.Index = 0 Then
                 m = m.NextMatch()
                 If m.Success = False Then
                     strReturn = True
@@ -943,6 +943,10 @@ Public Class CommonLogicEXT
                         Adapter.SelectCommand = New NpgsqlCommand(strSql, Cn)
                         Adapter.Fill(Table)
                         If Table.Rows.Count < 1 Then
+                            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "DB接続チェック", Nothing, Nothing)
+                            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, DbString, Nothing, Nothing)
+                            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, Table.Rows.Count, Nothing, Nothing)
+
                             bolConErr = True
                         End If
 #If DEBUG Then

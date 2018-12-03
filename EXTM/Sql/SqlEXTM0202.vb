@@ -304,8 +304,13 @@ Public Class SqlEXTM0202
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
         '変数宣言
         Dim strSQL As String
+        ' 2018/10/23 登録、更新ユーザーコード仮置き修正対応 START　E.Okuda@Compass 
+
         'セッション.登録ユーザーCD（単体テスト用）
-        Dim UpUserCd As String = "1122"
+        'Dim UpUserCd As String = "1122"CommonEXT.PropComStrUserId
+        Dim UpUserCd As String = CommonEXT.PropComStrUserId
+
+        ' 2018/10/23 登録、更新ユーザーコード仮置き修正対応 END　E.Okuda@Compass 
 
         Try
             'SQL文(UPDATE)
@@ -484,8 +489,14 @@ Public Class SqlEXTM0202
                                        ByVal dataEXTM0202 As DataEXTM0202) As Boolean
         '変数宣言
         Dim strSQL As String = ""
+
+        ' 2018/10/23 登録、更新ユーザーコード仮置き修正対応 START　E.Okuda@Compass 
+
         'セッション.登録ユーザーCD（単体テスト用）
-        Dim UpUserCd As String = "1122"
+        'Dim UpUserCd As String = "1122"
+        Dim UpUserCd As String = CommonEXT.PropComStrUserId
+
+        ' 2018/10/23 登録、更新ユーザーコード仮置き修正対応 END　E.Okuda@Compass 
 
         Try
             'SQL文(INSERT)

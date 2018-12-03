@@ -330,8 +330,13 @@ Public Class SqlEXTM0101
 
         '変数の宣言
         Dim strSQL As String = ""                '実行SQL
-        Dim setAdd_User_CD As String = "1234"    'セッション情報（仮）
-        Dim setUp_User_CD As String = "1234"     'セッション情報（仮）
+
+        ' 2018/10/23 登録、更新ユーザーコード仮置き修正対応 START　E.Okuda@Compass 
+        ' Dim setAdd_User_CD As String = "1234"    'セッション情報（仮）
+        ' Dim setUp_User_CD As String = "1234"     'セッション情報（仮）
+        Dim setAdd_User_CD As String = CommonEXT.PropComStrUserId
+        Dim setUp_User_CD As String = CommonEXT.PropComStrUserId
+        ' 2018/10/23 登録、更新ユーザーコード仮置き対修正応 END　E.Okuda@Compass 
 
         Try
             'SQL文(INSERT)
@@ -418,7 +423,11 @@ Public Class SqlEXTM0101
 
         '変数の宣言
         Dim strSQL As String = ""
-        Dim setUp_User_CD As String = "1234"    'セッション情報（仮）
+
+        ' 2018/10/23 登録、更新ユーザーコード仮置き修正対応 START　E.Okuda@Compass 
+        'Dim setUp_User_CD As String = "1234"    'セッション情報（仮）
+        Dim setUp_User_CD As String = CommonEXT.PropComStrUserId
+        ' 2018/10/23 登録、更新ユーザーコード仮置き修正対応 END　E.Okuda@Compass 
 
         Try
             'SQL文(UPDATE)
