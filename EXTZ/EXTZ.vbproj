@@ -261,9 +261,9 @@
     <EmbeddedResource Include="Interface\EXTZ0202.resx">
       <DependentUpon>EXTZ0202.vb</DependentUpon>
     </EmbeddedResource>
-    <None Include="Interface\EXTZ0210.resx">
+    <EmbeddedResource Include="Interface\EXTZ0210.resx">
       <DependentUpon>EXTZ0210.vb</DependentUpon>
-    </None>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\EXTZ0209.resx">
       <DependentUpon>EXTZ0209.vb</DependentUpon>
     </EmbeddedResource>
@@ -288,9 +288,9 @@
     <EmbeddedResource Include="Interface\EXTZ0212.resx">
       <DependentUpon>EXTZ0212.vb</DependentUpon>
     </EmbeddedResource>
-    <None Include="Interface\EXTZ0211.resx">
+    <EmbeddedResource Include="Interface\EXTZ0211.resx">
       <DependentUpon>EXTZ0211.vb</DependentUpon>
-    </None>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\EXTZ0104.resx">
       <DependentUpon>EXTZ0104.vb</DependentUpon>
     </EmbeddedResource>

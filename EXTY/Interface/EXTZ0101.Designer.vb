@@ -77,7 +77,7 @@ Partial Class EXTZ0101
         Me.Label66.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label66.Location = New System.Drawing.Point(21, 34)
         Me.Label66.Name = "Label66"
-        Me.Label66.Size = New System.Drawing.Size(59, 13)
+        Me.Label66.Size = New System.Drawing.Size(76, 17)
         Me.Label66.TabIndex = 0
         Me.Label66.Text = "検索対象"
         '
@@ -96,7 +96,7 @@ Partial Class EXTZ0101
         Me.Label64.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label64.Location = New System.Drawing.Point(21, 99)
         Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(82, 13)
+        Me.Label64.Size = New System.Drawing.Size(107, 17)
         Me.Label64.TabIndex = 8
         Me.Label64.Text = "利用者名(ｶﾅ)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
@@ -105,7 +105,7 @@ Partial Class EXTZ0101
         Me.txtRiyoNm_Kana.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.txtRiyoNm_Kana.Location = New System.Drawing.Point(224, 96)
         Me.txtRiyoNm_Kana.Name = "txtRiyoNm_Kana"
-        Me.txtRiyoNm_Kana.Size = New System.Drawing.Size(306, 20)
+        Me.txtRiyoNm_Kana.Size = New System.Drawing.Size(306, 24)
         Me.txtRiyoNm_Kana.TabIndex = 9
         '
         'Label63
@@ -114,7 +114,7 @@ Partial Class EXTZ0101
         Me.Label63.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label63.Location = New System.Drawing.Point(21, 137)
         Me.Label63.Name = "Label63"
-        Me.Label63.Size = New System.Drawing.Size(129, 13)
+        Me.Label63.Size = New System.Drawing.Size(168, 17)
         Me.Label63.TabIndex = 11
         Me.Label63.Text = "催事名／アーティスト名"
         '
@@ -123,7 +123,7 @@ Partial Class EXTZ0101
         Me.txtSaijiShutsuenNm.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.txtSaijiShutsuenNm.Location = New System.Drawing.Point(224, 134)
         Me.txtSaijiShutsuenNm.Name = "txtSaijiShutsuenNm"
-        Me.txtSaijiShutsuenNm.Size = New System.Drawing.Size(306, 20)
+        Me.txtSaijiShutsuenNm.Size = New System.Drawing.Size(306, 24)
         Me.txtSaijiShutsuenNm.TabIndex = 12
         '
         'Label62
@@ -132,7 +132,7 @@ Partial Class EXTZ0101
         Me.Label62.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label62.Location = New System.Drawing.Point(21, 171)
         Me.Label62.Name = "Label62"
-        Me.Label62.Size = New System.Drawing.Size(59, 13)
+        Me.Label62.Size = New System.Drawing.Size(76, 17)
         Me.Label62.TabIndex = 13
         Me.Label62.Text = "予約番号"
         '
@@ -141,7 +141,7 @@ Partial Class EXTZ0101
         Me.txtYoyakuNo.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.txtYoyakuNo.Location = New System.Drawing.Point(224, 168)
         Me.txtYoyakuNo.Name = "txtYoyakuNo"
-        Me.txtYoyakuNo.Size = New System.Drawing.Size(112, 20)
+        Me.txtYoyakuNo.Size = New System.Drawing.Size(112, 24)
         Me.txtYoyakuNo.TabIndex = 14
         '
         'Label54
@@ -150,7 +150,7 @@ Partial Class EXTZ0101
         Me.Label54.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label54.Location = New System.Drawing.Point(652, 65)
         Me.Label54.Name = "Label54"
-        Me.Label54.Size = New System.Drawing.Size(59, 13)
+        Me.Label54.Size = New System.Drawing.Size(76, 17)
         Me.Label54.TabIndex = 6
         Me.Label54.Text = "利用者名"
         '
@@ -160,7 +160,7 @@ Partial Class EXTZ0101
         Me.Label53.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label53.Location = New System.Drawing.Point(320, 66)
         Me.Label53.Name = "Label53"
-        Me.Label53.Size = New System.Drawing.Size(20, 13)
+        Me.Label53.Size = New System.Drawing.Size(25, 17)
         Me.Label53.TabIndex = 4
         Me.Label53.Text = "～"
         '
@@ -169,7 +169,7 @@ Partial Class EXTZ0101
         Me.txtRiyoNm.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.txtRiyoNm.Location = New System.Drawing.Point(751, 63)
         Me.txtRiyoNm.Name = "txtRiyoNm"
-        Me.txtRiyoNm.Size = New System.Drawing.Size(364, 20)
+        Me.txtRiyoNm.Size = New System.Drawing.Size(364, 24)
         Me.txtRiyoNm.TabIndex = 7
         '
         'Panel1
@@ -186,7 +186,7 @@ Partial Class EXTZ0101
         Me.rdoStudio.AutoSize = True
         Me.rdoStudio.Location = New System.Drawing.Point(99, 3)
         Me.rdoStudio.Name = "rdoStudio"
-        Me.rdoStudio.Size = New System.Drawing.Size(65, 17)
+        Me.rdoStudio.Size = New System.Drawing.Size(81, 21)
         Me.rdoStudio.TabIndex = 1
         Me.rdoStudio.Text = "スタジオ"
         Me.rdoStudio.UseVisualStyleBackColor = True
@@ -197,7 +197,7 @@ Partial Class EXTZ0101
         Me.rdoTheatre.Checked = True
         Me.rdoTheatre.Location = New System.Drawing.Point(3, 3)
         Me.rdoTheatre.Name = "rdoTheatre"
-        Me.rdoTheatre.Size = New System.Drawing.Size(66, 17)
+        Me.rdoTheatre.Size = New System.Drawing.Size(82, 21)
         Me.rdoTheatre.TabIndex = 0
         Me.rdoTheatre.TabStop = True
         Me.rdoTheatre.Text = "シアター"
@@ -210,7 +210,7 @@ Partial Class EXTZ0101
         Me.chkMikanryoOnly.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkMikanryoOnly.Location = New System.Drawing.Point(24, 204)
         Me.chkMikanryoOnly.Name = "chkMikanryoOnly"
-        Me.chkMikanryoOnly.Size = New System.Drawing.Size(161, 17)
+        Me.chkMikanryoOnly.Size = New System.Drawing.Size(205, 21)
         Me.chkMikanryoOnly.TabIndex = 15
         Me.chkMikanryoOnly.Text = "未完了の予約のみを表示"
         Me.chkMikanryoOnly.UseVisualStyleBackColor = True
@@ -258,6 +258,7 @@ Partial Class EXTZ0101
         '
         Me.dtpRiyoDt_From.CausesValidation = False
         Me.dtpRiyoDt_From.Location = New System.Drawing.Point(170, 63)
+        Me.dtpRiyoDt_From.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtpRiyoDt_From.Name = "dtpRiyoDt_From"
         Me.dtpRiyoDt_From.Size = New System.Drawing.Size(147, 30)
         Me.dtpRiyoDt_From.TabIndex = 3
@@ -265,6 +266,7 @@ Partial Class EXTZ0101
         'dtpRiyoDt_To
         '
         Me.dtpRiyoDt_To.Location = New System.Drawing.Point(352, 62)
+        Me.dtpRiyoDt_To.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtpRiyoDt_To.Name = "dtpRiyoDt_To"
         Me.dtpRiyoDt_To.Size = New System.Drawing.Size(149, 28)
         Me.dtpRiyoDt_To.TabIndex = 5
@@ -527,13 +529,13 @@ Partial Class EXTZ0101
         Me.Label1.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label1.Location = New System.Drawing.Point(21, 884)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(494, 13)
+        Me.Label1.Size = New System.Drawing.Size(636, 17)
         Me.Label1.TabIndex = 14
         Me.Label1.Text = "※表のデータは、コピーしたい部分を選択し、キーボードの「Ctrl」＋「C」を押すとコピーできます。"
         '
         'EXTZ0101
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.Color.White

@@ -206,9 +206,9 @@
     <EmbeddedResource Include="Interface\EXTM0103.resx">
       <DependentUpon>EXTM0103.vb</DependentUpon>
     </EmbeddedResource>
-    <None Include="Interface\EXTM0104.resx">
+    <EmbeddedResource Include="Interface\EXTM0104.resx">
       <DependentUpon>EXTM0104.vb</DependentUpon>
-    </None>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\EXTM0201.resx">
       <DependentUpon>EXTM0201.vb</DependentUpon>
     </EmbeddedResource>

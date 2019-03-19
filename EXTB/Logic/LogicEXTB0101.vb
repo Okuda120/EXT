@@ -1045,8 +1045,15 @@ Public Class LogicEXTB0101
         Dim intYoyakuRow As Integer = 0                     '予約行
         Dim intCancelRow As Integer = 0                     'キャンセル行
 
+        '---2018.12.04 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+        Dim tcell As New FarPoint.Win.Spread.CellType.TextCellType()
+
+        ' セル複数行表示対応
+        tcell.Multiline = True
+        '---2018.12.04 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
         'ログ出力
-        commonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
 
         Try
 
@@ -1125,15 +1132,26 @@ Public Class LogicEXTB0101
                     End If
                     ' 2015.12.03 UPD END↑ h.hagiwara 仮予約のみ赤文字で表示する
 
+
                     '---セルへ予約文字列・背景色・文字色を設定
                     If intDay <= 15 Then
                         If .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).Value = String.Empty Then
                             .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).Value = strTheaterInfo
+
+                            '---2018.12.04 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).CellType = tcell
+                            '---2018.12.04 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
                             .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).BackColor = bcCalendar
                             .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).ForeColor = fcCalendar
                             intYoyakuRow = 1
                         Else
                             .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).Value = strTheaterInfo
+
+                            '---2018.12.04 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).CellType = tcell
+                            '---2018.12.04 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
                             .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).BackColor = bcCalendar
                             .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).ForeColor = fcCalendar
                             intYoyakuRow = 2
@@ -1141,11 +1159,21 @@ Public Class LogicEXTB0101
                     Else
                         If .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).Value = String.Empty Then
                             .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).Value = strTheaterInfo
+
+                            '---2018.12.04 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).CellType = tcell
+                            '---2018.12.04 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
                             .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).BackColor = bcCalendar
                             .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).ForeColor = fcCalendar
                             intYoyakuRow = 1
                         Else
                             .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).Value = strTheaterInfo
+
+                            '---2018.12.04 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).CellType = tcell
+                            '---2018.12.04 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
                             .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).BackColor = bcCalendar
                             .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).ForeColor = fcCalendar
                             intYoyakuRow = 2
@@ -1176,8 +1204,18 @@ Public Class LogicEXTB0101
                         intCancelRow = Integer.Parse(.PropDtDateKakuOnlyCancelWaitList.Rows(intDataRow)("WAKU_NO"))
                         If intDay <= 15 Then
                             .PropvwCalandarFirst.ActiveSheet.Cells(intCancelRow + 2, intDay - 1).Value = strCancelInfo
+
+                            '---2018.12.04 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarFirst.ActiveSheet.Cells(intCancelRow + 2, intDay - 1).CellType = tcell
+                            '---2018.12.04 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
                         Else
                             .PropvwCalandarSecond.ActiveSheet.Cells(intCancelRow + 2, intDay - 16).Value = strCancelInfo
+
+                            '---2018.12.04 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarSecond.ActiveSheet.Cells(intCancelRow + 2, intDay - 16).CellType = tcell
+                            '---2018.12.04 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
                         End If
 
                         '---日・行・予約番号をArrayListに保持
@@ -1198,8 +1236,17 @@ Public Class LogicEXTB0101
                                      .PropDtEtcUseYoyakuList.Rows(intDataRow)("RIYOSHA").ToString
                     If intDay <= 15 Then
                         .PropvwCalandarFirst.ActiveSheet.Cells(6, intDay - 1).Value = strEtcInfo
+
+                        '---2018.12.04 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                        .PropvwCalandarFirst.ActiveSheet.Cells(6, intDay - 1).CellType = tcell
+                        '---2018.12.04 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
                     Else
                         .PropvwCalandarSecond.ActiveSheet.Cells(6, intDay - 16).Value = strEtcInfo
+
+                        '---2018.12.04 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                        .PropvwCalandarSecond.ActiveSheet.Cells(6, intDay - 16).CellType = tcell
+                        '---2018.12.04 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                     End If
                 Next
 

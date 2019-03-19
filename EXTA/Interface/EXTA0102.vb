@@ -86,6 +86,13 @@ Public Class EXTA0102
         Dim frm As New EXTB0101
         Me.Hide()
 
+        '---2018.12.05 フォーム初期サイズ設定 START ↓↓↓ E.Okuda@Compass
+        frm.Width = 1940
+        frm.StartPosition = FormStartPosition.CenterScreen
+        '---2018.12.05 フォーム初期サイズ設定 ENDT ↑↑↑  E.Okuda@Compass
+
+
+
         '「予約カレンダー（シアター）」画面を表示
         frm.ShowDialog()
         Me.Show()

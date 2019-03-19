@@ -1266,8 +1266,16 @@ Public Class LogicEXTC0101
         Dim intCancelRow As Integer = 0                     'キャンセル行
         Dim strLockout As String = String.Empty             'Lock out
 
+        '---2018.12.04 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+        Dim tcell As New FarPoint.Win.Spread.CellType.TextCellType()
+
+        ' セル複数行表示対応
+        tcell.Multiline = True
+        '---2018.12.04 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
+
         'ログ出力
-        commonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
 
         Try
 
@@ -1334,20 +1342,36 @@ Public Class LogicEXTC0101
                                 .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).BackColor = bcCalendar
                                 .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).BackColor = bcCalendar
                                 .PropvwCalandarFirst.ActiveSheet.Cells(3, intDay - 1).BackColor = bcCalendar
+
+                                '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).CellType = tcell
+                                '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                             Else
                                 'Lock out以外の場合は1マスで表示
                                 If .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).Value = String.Empty Then
                                     .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).BackColor = bcCalendar
                                     intYoyakuRow = 1
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 ElseIf .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).Value = String.Empty Then
                                     .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).BackColor = bcCalendar
                                     intYoyakuRow = 2
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 Else
                                     .PropvwCalandarFirst.ActiveSheet.Cells(3, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(3, intDay - 1).BackColor = bcCalendar
                                     intYoyakuRow = 3
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(3, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 End If
                             End If
                         ElseIf .PropDtYoyakuList.Rows(intDataRow)("STUDIO_KBN").ToString = STUDIO_202 Then
@@ -1358,20 +1382,36 @@ Public Class LogicEXTC0101
                                 .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).BackColor = bcCalendar
                                 .PropvwCalandarFirst.ActiveSheet.Cells(8, intDay - 1).BackColor = bcCalendar
                                 .PropvwCalandarFirst.ActiveSheet.Cells(9, intDay - 1).BackColor = bcCalendar
+
+                                '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).CellType = tcell
+                                '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                             Else
                                 'Lock out以外の場合は1マスで表示
                                 If .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).Value = String.Empty Then
                                     .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).BackColor = bcCalendar
                                     intYoyakuRow = 1
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 ElseIf .PropvwCalandarFirst.ActiveSheet.Cells(8, intDay - 1).Value = String.Empty Then
                                     .PropvwCalandarFirst.ActiveSheet.Cells(8, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(8, intDay - 1).BackColor = bcCalendar
                                     intYoyakuRow = 2
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(8, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 Else
                                     .PropvwCalandarFirst.ActiveSheet.Cells(9, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(9, intDay - 1).BackColor = bcCalendar
                                     intYoyakuRow = 3
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(9, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 End If
                             End If
                         Else
@@ -1386,6 +1426,12 @@ Public Class LogicEXTC0101
                                 .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).BackColor = bcCalendar
                                 .PropvwCalandarFirst.ActiveSheet.Cells(8, intDay - 1).BackColor = bcCalendar
                                 .PropvwCalandarFirst.ActiveSheet.Cells(9, intDay - 1).BackColor = bcCalendar
+
+                                '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).CellType = tcell
+                                .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).CellType = tcell
+                                '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
                             Else
                                 'Lock out以外の場合は201・201両方に１マスを使って表示
                                 '---201側
@@ -1393,25 +1439,50 @@ Public Class LogicEXTC0101
                                     .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).BackColor = bcCalendar
                                     intYoyakuRow = 1
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(1, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
                                 ElseIf .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).Value = String.Empty Then
                                     .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).BackColor = bcCalendar
                                     intYoyakuRow = 2
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(2, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 Else
                                     .PropvwCalandarFirst.ActiveSheet.Cells(3, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(3, intDay - 1).BackColor = bcCalendar
                                     intYoyakuRow = 3
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(3, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 End If
                                 '---202側
                                 If .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).Value = String.Empty Then
                                     .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).BackColor = bcCalendar
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(7, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 ElseIf .PropvwCalandarFirst.ActiveSheet.Cells(8, intDay - 1).Value = String.Empty Then
                                     .PropvwCalandarFirst.ActiveSheet.Cells(8, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(8, intDay - 1).BackColor = bcCalendar
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(8, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 Else
                                     .PropvwCalandarFirst.ActiveSheet.Cells(9, intDay - 1).Value = strTheaterInfo
                                     .PropvwCalandarFirst.ActiveSheet.Cells(9, intDay - 1).BackColor = bcCalendar
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarFirst.ActiveSheet.Cells(9, intDay - 1).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 End If
                             End If
                         End If
@@ -1425,20 +1496,36 @@ Public Class LogicEXTC0101
                                 .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).BackColor = bcCalendar
                                 .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).BackColor = bcCalendar
                                 .PropvwCalandarSecond.ActiveSheet.Cells(3, intDay - 16).BackColor = bcCalendar
+
+                                '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).CellType = tcell
+                                '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                             Else
                                 'Lock out以外の場合は1マスを使って表示
                                 If .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).Value = String.Empty Then
                                     .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).BackColor = bcCalendar
                                     intYoyakuRow = 1
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 ElseIf .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).Value = String.Empty Then
                                     .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).BackColor = bcCalendar
                                     intYoyakuRow = 2
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 Else
                                     .PropvwCalandarSecond.ActiveSheet.Cells(3, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(3, intDay - 16).BackColor = bcCalendar
                                     intYoyakuRow = 3
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(3, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 End If
                             End If
                         ElseIf .PropDtYoyakuList.Rows(intDataRow)("STUDIO_KBN").ToString = STUDIO_202 Then
@@ -1449,20 +1536,36 @@ Public Class LogicEXTC0101
                                 .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).BackColor = bcCalendar
                                 .PropvwCalandarSecond.ActiveSheet.Cells(8, intDay - 16).BackColor = bcCalendar
                                 .PropvwCalandarSecond.ActiveSheet.Cells(9, intDay - 16).BackColor = bcCalendar
+
+                                '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).CellType = tcell
+                                '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                             Else
                                 'Lock out以外の場合は1マスを使って表示
                                 If .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).Value = String.Empty Then
                                     .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).BackColor = bcCalendar
                                     intYoyakuRow = 1
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 ElseIf .PropvwCalandarSecond.ActiveSheet.Cells(8, intDay - 16).Value = String.Empty Then
                                     .PropvwCalandarSecond.ActiveSheet.Cells(8, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(8, intDay - 16).BackColor = bcCalendar
                                     intYoyakuRow = 2
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(8, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 Else
                                     .PropvwCalandarSecond.ActiveSheet.Cells(9, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(9, intDay - 16).BackColor = bcCalendar
                                     intYoyakuRow = 3
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(9, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 End If
                             End If
                         Else
@@ -1477,6 +1580,11 @@ Public Class LogicEXTC0101
                                 .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).BackColor = bcCalendar
                                 .PropvwCalandarSecond.ActiveSheet.Cells(8, intDay - 16).BackColor = bcCalendar
                                 .PropvwCalandarSecond.ActiveSheet.Cells(9, intDay - 16).BackColor = bcCalendar
+
+                                '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).CellType = tcell
+                                .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).CellType = tcell
+                                '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                             Else
                                 'Lock out以外の場合は201・202両方に１マスを使って表示
                                 '---201側
@@ -1484,25 +1592,49 @@ Public Class LogicEXTC0101
                                     .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).BackColor = bcCalendar
                                     intYoyakuRow = 1
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(1, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 ElseIf .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).Value = String.Empty Then
                                     .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).BackColor = bcCalendar
                                     intYoyakuRow = 2
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(2, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 Else
                                     .PropvwCalandarSecond.ActiveSheet.Cells(3, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(3, intDay - 16).BackColor = bcCalendar
                                     intYoyakuRow = 3
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(3, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 End If
                                 '---202側
                                 If .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).Value = String.Empty Then
                                     .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).BackColor = bcCalendar
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(7, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 ElseIf .PropvwCalandarSecond.ActiveSheet.Cells(8, intDay - 16).Value = String.Empty Then
                                     .PropvwCalandarSecond.ActiveSheet.Cells(8, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(8, intDay - 16).BackColor = bcCalendar
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(8, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 Else
                                     .PropvwCalandarSecond.ActiveSheet.Cells(9, intDay - 16).Value = strTheaterInfo
                                     .PropvwCalandarSecond.ActiveSheet.Cells(9, intDay - 16).BackColor = bcCalendar
+
+                                    '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                                    .PropvwCalandarSecond.ActiveSheet.Cells(9, intDay - 16).CellType = tcell
+                                    '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                                 End If
                             End If
                         End If
@@ -1615,6 +1747,11 @@ Public Class LogicEXTC0101
                             'End If
                             .PropvwCalandarFirst.ActiveSheet.Cells(intCancelRow + 3, intDay - 1).Value = strCancelInfo
                             ' 2016.02.15 UPD END↑ h.hagiwara キャンセル待ちのハウスロック・ロックアウトも１枠で判定する様に修正
+
+                            '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarFirst.ActiveSheet.Cells(intCancelRow + 3, intDay - 1).CellType = tcell
+                            '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
+
                         ElseIf .PropDtDateKakuOnlyCancelWaitList.Rows(intDataRow)("STUDIO_KBN") = STUDIO_202 Then
                             '202stの場合
                             ' 2016.02.15 UPD START↓ h.hagiwara キャンセル待ちのハウスロック・ロックアウトも１枠で判定する様に修正
@@ -1627,6 +1764,10 @@ Public Class LogicEXTC0101
                             'End If
                             .PropvwCalandarFirst.ActiveSheet.Cells(intCancelRow + 9, intDay - 1).Value = strCancelInfo
                             ' 2016.02.15 UPD END↑ h.hagiwara キャンセル待ちのハウスロック・ロックアウトも１枠で判定する様に修正
+
+                            '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarFirst.ActiveSheet.Cells(intCancelRow + 9, intDay - 1).CellType = tcell
+                            '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                         Else
                             'house lockの場合
                             ' 2016.02.15 UPD START↓ h.hagiwara キャンセル待ちのハウスロック・ロックアウトも１枠で判定する様に修正
@@ -1642,6 +1783,11 @@ Public Class LogicEXTC0101
                             .PropvwCalandarFirst.ActiveSheet.Cells(intCancelRow + 3, intDay - 1).Value = strCancelInfo
                             .PropvwCalandarFirst.ActiveSheet.Cells(intCancelRow + 9, intDay - 1).Value = strCancelInfo
                             ' 2016.02.15 UPD END↑ h.hagiwara キャンセル待ちのハウスロック・ロックアウトも１枠で判定する様に修正
+
+                            '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarFirst.ActiveSheet.Cells(intCancelRow + 3, intDay - 1).CellType = tcell
+                            .PropvwCalandarFirst.ActiveSheet.Cells(intCancelRow + 9, intDay - 1).CellType = tcell
+                            '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                         End If
                     Else
                         If .PropDtDateKakuOnlyCancelWaitList.Rows(intDataRow)("STUDIO_KBN") = STUDIO_201 Then
@@ -1656,6 +1802,10 @@ Public Class LogicEXTC0101
                             'End If
                             .PropvwCalandarSecond.ActiveSheet.Cells(intCancelRow + 3, intDay - 16).Value = strCancelInfo
                             ' 2016.02.15 UPD END↑ h.hagiwara キャンセル待ちのハウスロック・ロックアウトも１枠で判定する様に修正
+
+                            '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarSecond.ActiveSheet.Cells(intCancelRow + 3, intDay - 16).CellType = tcell
+                            '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                         ElseIf .PropDtDateKakuOnlyCancelWaitList.Rows(intDataRow)("STUDIO_KBN") = STUDIO_202 Then
                             '202stの場合
                             ' 2016.02.15 UPD START↓ h.hagiwara キャンセル待ちのハウスロック・ロックアウトも１枠で判定する様に修正
@@ -1668,6 +1818,10 @@ Public Class LogicEXTC0101
                             'End If
                             .PropvwCalandarSecond.ActiveSheet.Cells(intCancelRow + 9, intDay - 16).Value = strCancelInfo
                             ' 2016.02.15 UPD END↑ h.hagiwara キャンセル待ちのハウスロック・ロックアウトも１枠で判定する様に修正
+
+                            '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarSecond.ActiveSheet.Cells(intCancelRow + 9, intDay - 16).CellType = tcell
+                            '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                         Else
                             ' 2016.02.15 UPD START↓ h.hagiwara キャンセル待ちのハウスロック・ロックアウトも１枠で判定する様に修正
                             'house lockの場合
@@ -1683,6 +1837,11 @@ Public Class LogicEXTC0101
                             .PropvwCalandarSecond.ActiveSheet.Cells(intCancelRow + 3, intDay - 16).Value = strCancelInfo
                             .PropvwCalandarSecond.ActiveSheet.Cells(intCancelRow + 9, intDay - 16).Value = strCancelInfo
                             ' 2016.02.15 UPD END↑ h.hagiwara キャンセル待ちのハウスロック・ロックアウトも１枠で判定する様に修正
+
+                            '---2018.12.05 Spread10変更対応 START ↓↓↓ E.Okuda@Compass
+                            .PropvwCalandarSecond.ActiveSheet.Cells(intCancelRow + 3, intDay - 16).CellType = tcell
+                            .PropvwCalandarSecond.ActiveSheet.Cells(intCancelRow + 9, intDay - 16).CellType = tcell
+                            '---2018.12.05 Spread10変更対応 END ↑↑↑ E.Okuda@Compass
                         End If
                     End If
 

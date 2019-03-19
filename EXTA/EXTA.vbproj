@@ -124,6 +124,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="My Project\Settings.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -143,8 +144,8 @@
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -204,7 +205,7 @@
     <None Include="Resources\title.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\背景.png" />
+    <EmbeddedResource Include="Resources\背景.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ロゴ.ico" />

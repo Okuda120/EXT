@@ -164,18 +164,18 @@
     <Compile Include="Sql\SqlEXTZ0102.vb" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Interface\EXTY0101.resx">
+    <EmbeddedResource Include="Interface\EXTY0101.resx">
       <DependentUpon>EXTY0101.vb</DependentUpon>
-    </None>
-    <None Include="Interface\EXTY0102.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTY0102.resx">
       <DependentUpon>EXTY0102.vb</DependentUpon>
-    </None>
-    <None Include="Interface\EXTZ0101.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTZ0101.resx">
       <DependentUpon>EXTZ0101.vb</DependentUpon>
-    </None>
-    <None Include="Interface\EXTZ0102.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\EXTZ0102.resx">
       <DependentUpon>EXTZ0102.vb</DependentUpon>
-    </None>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -234,6 +234,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\背景_検証用.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\%24this.Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
