@@ -171,26 +171,45 @@ Public Class EXTZ0204
             'SPREAD 付帯
             Dim TblFutai As DataTable = dataEXTZ0204.PropDtExasFutai
             Dim shtFutai As FarPoint.Win.Spread.SheetView = Me.fbFutai.ActiveSheet
-            ' 2019.03.25 消費税率変更対応(「消費税率」列追加)　START ↓ e.okuda@Compass 
-            'shtFutai.ColumnCount = 21                                      ' 2019.03.25 UPD e,okuda@Compass
-            shtFutai.ColumnCount = 22                                       ' 2019.03.25 UPD e,okuda@Compass
-            'shtFutai.Columns(14).Visible = False                           ' 2019.03.25 UPD e,okuda@Compass
-            shtFutai.Columns(15).Visible = False
-            shtFutai.Columns(16).Visible = False
-            shtFutai.Columns(17).Visible = False
-            shtFutai.Columns(18).Visible = False
-            shtFutai.Columns(19).Visible = False
-            shtFutai.Columns(20).Visible = False
-            shtFutai.Columns(21).Visible = False                            ' 2019.03.25 UPD e,okuda@Compass
-            shtFutai.Columns(0).Locked = True
-            shtFutai.Columns(1).Locked = True
-            shtFutai.Columns(2).Locked = True
-            shtFutai.Columns(3).Locked = True
-            shtFutai.Columns(4).Locked = True
-            shtFutai.Columns(5).Locked = True
-            shtFutai.Columns(10).Locked = True
-            shtFutai.Columns(11).Locked = True
-            shtFutai.Columns(12).Locked = True                              ' 2019.03.25 UPD e,okuda@Compass
+            ' --- 2019/06/141 軽減税率対応 Start E.Okuda@Compass ---
+            shtFutai.ColumnCount = 23
+
+            ' 列非表示設定
+            Dim intLoopCnt As Integer
+            For intLoopCnt = COL_FUTAI_KAMOKU_CD To shtFutai.ColumnCount - 1
+                shtFutai.Columns(intLoopCnt).Visible = False
+            Next
+
+            ' ロック列設定
+            shtFutai.Columns(COL_FUTAI_RIYO_YM).Locked = True
+            shtFutai.Columns(COL_FUTAI_SHUKEI_GRP).Locked = True
+            shtFutai.Columns(COL_FUTAI_KAMOKU_NM).Locked = True
+            shtFutai.Columns(COL_FUTAI_SAIMOKU_NM).Locked = True
+            shtFutai.Columns(COL_FUTAI_UCHI_NM).Locked = True
+            shtFutai.Columns(COL_FUTAI_SHOSAI_NM).Locked = True
+            shtFutai.Columns(COL_FUTAI_ZEIRITSU).Locked = True
+            shtFutai.Columns(COL_FUTAI_TAX_KIN).Locked = True
+            shtFutai.Columns(COL_FUTAI_TAX_KBN).Locked = True
+            shtFutai.Columns(COL_FUTAI_EVENT_NM).Locked = True
+            shtFutai.Columns(COL_FUTAI_CONTENT_UCHI_NM).Locked = True
+
+            'shtFutai.ColumnCount = 21                                      
+            'shtFutai.Columns(15).Visible = False
+            'shtFutai.Columns(16).Visible = False
+            'shtFutai.Columns(17).Visible = False
+            'shtFutai.Columns(18).Visible = False
+            'shtFutai.Columns(19).Visible = False
+            'shtFutai.Columns(20).Visible = False
+            'shtFutai.Columns(21).Visible = False                            ' 2019.03.25 UPD e,okuda@Compass
+            'shtFutai.Columns(0).Locked = True
+            'shtFutai.Columns(1).Locked = True
+            'shtFutai.Columns(2).Locked = True
+            'shtFutai.Columns(3).Locked = True
+            'shtFutai.Columns(4).Locked = True
+            'shtFutai.Columns(5).Locked = True
+            'shtFutai.Columns(10).Locked = True
+            'shtFutai.Columns(11).Locked = True
+            'shtFutai.Columns(12).Locked = True                              ' 2019.03.25 UPD e,okuda@Compass
             ' 2015.12.21 ADD START↓ h.hagiwara
             Dim numCellKeijyoFutai As New FarPoint.Win.Spread.CellType.NumberCellType()
             numCellKeijyo.MaximumValue = 99999999
