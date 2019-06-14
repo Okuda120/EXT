@@ -39,6 +39,11 @@
     '期間登録済みチェック
     Public Const EXTM0102_E2032 As String = "入力された期間は設定済みのため登録できません。"
 
+    ' --- 2019/06/03 軽減税率対応 Start E.Okuda@Compass ---
+    ' 消費税マスタの期間チェック
+    Public Const EXTM0102_E2034 As String = "入力された期間が消費税マスタに存在しないか税率が異なる期間を跨っています。"
+    ' --- 2019/06/03 軽減税率対応 Start E.Okuda@Compass ---
+
     '登録確認メッセージ
     Public Const EXTM0102_C0011 As String = "入力した内容で{0}の登録を行います。よろしいですか？"
 

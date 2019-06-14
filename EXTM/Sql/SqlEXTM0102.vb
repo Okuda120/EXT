@@ -3,6 +3,21 @@ Imports Common
 
 
 Public Class SqlEXTM0102
+    ' 2019/05/27 軽減税率対応 変更 Start E.Okuda@Compass
+    ' 列数直書き変更
+    Private Const M0102_BUNRUI_COL_BUNRUICD As Integer = 0
+    Private Const M0102_BUNRUI_COL_BUNRUINM As Integer = 1
+    Private Const M0102_BUNRUI_COL_SYUKEIKY As Integer = 2
+    Private Const M0102_BUNRUI_COL_TAXKBN As Integer = 3
+    Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 4
+    Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
+    Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
+    Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
+    Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 8
+    Private Const M0102_BUNRUI_COL_SORT As Integer = 9
+    Private Const M0102_BUNRUI_COL_DEFFLG As Integer = 10
+    Private Const M0102_BUNRUI_COL_FRIYOFLG As Integer = 11
+    ' 2019/05/27 軽減税率対応 変更 End E.Okuda@Compass
 
     Private dataEXTM0102 As DataEXTM0102
 
@@ -91,7 +106,8 @@ Public Class SqlEXTM0102
          "t1.kari_uchi_cd                                       借方内訳CD," +
          "t1.kari_shosai_cd                                     借方詳細CD," +
          "t1.sts                                                ステータス," +
-         "t1.RIYORYO_FLG                                        付帯利用料フラグ" +
+         "t1.RIYORYO_FLG                                        付帯利用料フラグ," +
+         "t1.zeiritsu                                           税率" +                  ' --- 2019/05/31 軽減税率対応 E.Okuda@Compass ---
      " FROM " +
              "fbunrui_mst t1 "
     ' 2015.11.30 UPD END↑ h.hagiwara 
@@ -141,14 +157,14 @@ Public Class SqlEXTM0102
     '                                            " kamoku_mst"
     ' 2015.10.09 UPDATE END↑ h.hagiwara 勘定科目の重複取得対応
     Private strSelectKanzyoKmk As String =
-                                            "SELECT DISTINCT" & vbCrLf & _
-                                            "    KAMOKU_CD," & vbCrLf & _
-                                            "    KAMOKU_NM" & vbCrLf & _
-                                            " FROM" & vbCrLf & _
-                                            "    kamoku_mst" & vbCrLf & _
-                                            " WHERE " & vbCrLf & _
-                                            "    sts = '0'" & vbCrLf & _
-                                            " ORDER BY " & vbCrLf & _
+                                            "SELECT DISTINCT" & vbCrLf &
+                                            "    KAMOKU_CD," & vbCrLf &
+                                            "    KAMOKU_NM" & vbCrLf &
+                                            " FROM" & vbCrLf &
+                                            "    kamoku_mst" & vbCrLf &
+                                            " WHERE " & vbCrLf &
+                                            "    sts = '0'" & vbCrLf &
+                                            " ORDER BY " & vbCrLf &
                                             "    KAMOKU_CD "
     ' 2016.06.24 UPD END↑ h.hagiwara コンボリスト設定方法変更対応
 
@@ -169,16 +185,16 @@ Public Class SqlEXTM0102
     '                                            " kamoku_mst"
     '' 2015.10.09 UPDATE END↑ h.hagiwara 勘定科目の重複取得対応
     Private strSelectSaimoku As String =
-                                            "SELECT DISTINCT " & vbCrLf & _
-                                            "    KAMOKU_CD," & vbCrLf & _
-                                            "    SAIMOKU_CD," & vbCrLf & _
-                                            "    SAIMOKU_NM" & vbCrLf & _
-                                            " FROM" & vbCrLf & _
-                                            "    kamoku_mst" & vbCrLf & _
-                                            " WHERE " & vbCrLf & _
-                                            "    sts = '0'" & vbCrLf & _
-                                            " ORDER BY " & vbCrLf & _
-                                            "    KAMOKU_CD ," & vbCrLf & _
+                                            "SELECT DISTINCT " & vbCrLf &
+                                            "    KAMOKU_CD," & vbCrLf &
+                                            "    SAIMOKU_CD," & vbCrLf &
+                                            "    SAIMOKU_NM" & vbCrLf &
+                                            " FROM" & vbCrLf &
+                                            "    kamoku_mst" & vbCrLf &
+                                            " WHERE " & vbCrLf &
+                                            "    sts = '0'" & vbCrLf &
+                                            " ORDER BY " & vbCrLf &
+                                            "    KAMOKU_CD ," & vbCrLf &
                                             "    SAIMOKU_CD "
     ' 2016.06.24 UPD END↑ h.hagiwara コンボリスト設定方法変更対応
 
@@ -199,18 +215,18 @@ Public Class SqlEXTM0102
     '                                            " kamoku_mst"
     '' 2015.10.09 UPDATE END↑ h.hagiwara 勘定科目の重複取得対応
     Private strSelectUchiwake As String =
-                                            "SELECT DISTINCT " & vbCrLf & _
-                                            "    KAMOKU_CD," & vbCrLf & _
-                                            "    SAIMOKU_CD," & vbCrLf & _
-                                            "    UCHI_CD," & vbCrLf & _
-                                            "    UCHI_NM" & vbCrLf & _
-                                            " FROM" & vbCrLf & _
-                                            "    kamoku_mst" & vbCrLf & _
-                                            " WHERE " & vbCrLf & _
-                                            "    sts = '0'" & vbCrLf & _
-                                            " ORDER BY " & vbCrLf & _
-                                            "    KAMOKU_CD ," & vbCrLf & _
-                                            "    SAIMOKU_CD ," & vbCrLf & _
+                                            "SELECT DISTINCT " & vbCrLf &
+                                            "    KAMOKU_CD," & vbCrLf &
+                                            "    SAIMOKU_CD," & vbCrLf &
+                                            "    UCHI_CD," & vbCrLf &
+                                            "    UCHI_NM" & vbCrLf &
+                                            " FROM" & vbCrLf &
+                                            "    kamoku_mst" & vbCrLf &
+                                            " WHERE " & vbCrLf &
+                                            "    sts = '0'" & vbCrLf &
+                                            " ORDER BY " & vbCrLf &
+                                            "    KAMOKU_CD ," & vbCrLf &
+                                            "    SAIMOKU_CD ," & vbCrLf &
                                             "    UCHI_CD "
     ' 2016.06.24 UPD END↑ h.hagiwara コンボリスト設定方法変更対応
 
@@ -225,20 +241,20 @@ Public Class SqlEXTM0102
     '                                            " kamoku_mst"
     ' 2016.06.24 DELETE END↑ h.hagiwara コンボリスト設定方法変更対応
     Private strSelectShosai As String =
-                                            "SELECT " & vbCrLf & _
-                                            "    KAMOKU_CD," & vbCrLf & _
-                                            "    SAIMOKU_CD," & vbCrLf & _
-                                            "    UCHI_CD," & vbCrLf & _
-                                            "    SHOSAI_CD," & vbCrLf & _
-                                            "    SHOSAI_NM" & vbCrLf & _
-                                            " FROM" & vbCrLf & _
-                                            "    kamoku_mst" & vbCrLf & _
-                                            " WHERE " & vbCrLf & _
-                                            "    sts = '0'" & vbCrLf & _
-                                            " ORDER BY " & vbCrLf & _
-                                            "    KAMOKU_CD ," & vbCrLf & _
-                                            "    SAIMOKU_CD ," & vbCrLf & _
-                                            "    UCHI_CD ," & vbCrLf & _
+                                            "SELECT " & vbCrLf &
+                                            "    KAMOKU_CD," & vbCrLf &
+                                            "    SAIMOKU_CD," & vbCrLf &
+                                            "    UCHI_CD," & vbCrLf &
+                                            "    SHOSAI_CD," & vbCrLf &
+                                            "    SHOSAI_NM" & vbCrLf &
+                                            " FROM" & vbCrLf &
+                                            "    kamoku_mst" & vbCrLf &
+                                            " WHERE " & vbCrLf &
+                                            "    sts = '0'" & vbCrLf &
+                                            " ORDER BY " & vbCrLf &
+                                            "    KAMOKU_CD ," & vbCrLf &
+                                            "    SAIMOKU_CD ," & vbCrLf &
+                                            "    UCHI_CD ," & vbCrLf &
                                             "    SHOSAI_CD"
     ' 2016.06.24 UPD END↑ h.hagiwara コンボリスト設定方法変更対応
 
@@ -301,6 +317,8 @@ Public Class SqlEXTM0102
     '                                            " kamoku_mst"
     ' 2016.04.28 DEL END↑ h.hagiwara レスポンス改善
 
+    ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
+
     ' 2015.11.30 UPD START↓ h.hagiwara
     '分類登録sql
     'Private strInsertBunrui As String =
@@ -349,6 +367,57 @@ Public Class SqlEXTM0102
     '                                        "  :addUserCd," +
     '                                        "  :upDate," +
     '                                        "  :upUserCd)"
+    'Private strInsertBunrui As String =
+    '                                        "INSERT INTO " +
+    '                                        " fbunrui_mst" +
+    '                                        "( kikan_from," +
+    '                                        "  kikan_to," +
+    '                                        "  shisetu_kbn," +
+    '                                        "  bunrui_cd," +
+    '                                        "  bunrui_nm," +
+    '                                        "  shukei_grp," +
+    '                                        "  notax_flg," +
+    '                                        "  sort," +
+    '                                        "  kamoku_cd," +
+    '                                        "  saimoku_cd," +
+    '                                        "  uchi_cd," +
+    '                                        "  shosai_cd," +
+    '                                        "  karikamoku_cd," +
+    '                                        "  kari_saimoku_cd," +
+    '                                        "  kari_uchi_cd," +
+    '                                        "  kari_shosai_cd," +
+    '                                        "  sts," +
+    '                                        "  RIYORYO_FLG," +
+    '                                        "  add_dt," +
+    '                                        "  add_user_cd," +
+    '                                        "  up_dt," +
+    '                                        "  up_user_cd" +
+    '                                        " )VALUES( " +
+    '                                        "  :kikanFrom," +
+    '                                        "  :kikanTo," +
+    '                                        "  :shisetuKbn," +
+    '                                        "  :bunruiCd," +
+    '                                        "  :bunruiNm," +
+    '                                        "  :shukeiGrp," +
+    '                                        "  :notaxFlg," +
+    '                                        "  :sort," +
+    '                                        "  :kamokuCd," +
+    '                                        "  :saimokuCd," +
+    '                                        "  :uchiCd," +
+    '                                        "  :shosaiCd," +
+    '                                        "  :karikamokuCd," +
+    '                                        "  :karisaimokuCd," +
+    '                                        "  :kariuchiCd," +
+    '                                        "  :karishosaiCd," +
+    '                                        "  :sts," +
+    '                                        "  :RIYORYO_FLG," +
+    '                                        "  :addDate," +
+    '                                        "  :addUserCd," +
+    '                                        "  :upDate," +
+    '                                        "  :upUserCd)"
+    '' 2015.11.30 UPD END↑ h.hagiwara
+
+    ' 「税率」追加
     Private strInsertBunrui As String =
                                             "INSERT INTO " +
                                             " fbunrui_mst" +
@@ -359,6 +428,7 @@ Public Class SqlEXTM0102
                                             "  bunrui_nm," +
                                             "  shukei_grp," +
                                             "  notax_flg," +
+                                            "  zeiritsu," +
                                             "  sort," +
                                             "  kamoku_cd," +
                                             "  saimoku_cd," +
@@ -382,6 +452,7 @@ Public Class SqlEXTM0102
                                             "  :bunruiNm," +
                                             "  :shukeiGrp," +
                                             "  :notaxFlg," +
+                                            "  :zeiritsu," +
                                             "  :sort," +
                                             "  :kamokuCd," +
                                             "  :saimokuCd," +
@@ -397,8 +468,9 @@ Public Class SqlEXTM0102
                                             "  :addUserCd," +
                                             "  :upDate," +
                                             "  :upUserCd)"
-    ' 2015.11.30 UPD END↑ h.hagiwara
+    ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
 
+    ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
     ' 2015.11.30 UPD START↓ h.hagiwara
     '分類更新sql
     'Private strUpdateBunrui As String =
@@ -422,6 +494,31 @@ Public Class SqlEXTM0102
     '                                        "  sts = :sts," +
     '                                        "  up_dt = :upDate," +
     '                                        "  up_user_cd = :upUserCd "
+    'Private strUpdateBunrui As String =
+    '                                       "UPDATE " +
+    '                                       " fbunrui_mst " +
+    '                                       " SET " +
+    '                                       "  kikan_from = :kikanFrom," +
+    '                                       "  kikan_to   = :kikanTo," +
+    '                                       "  bunrui_nm = :bunruiNm," +
+    '                                       "  shukei_grp = :shukeiGrp," +
+    '                                       "  notax_flg = :notaxFlg," +
+    '                                       "  sort = :sort," +
+    '                                       "  kamoku_cd = :kamokuCd," +
+    '                                       "  saimoku_cd = :saimokuCd," +
+    '                                       "  uchi_cd = :uchiCd," +
+    '                                       "  shosai_cd = :shosaiCd," +
+    '                                       "  karikamoku_cd = :karikamokuCd," +
+    '                                       "  kari_saimoku_cd = :karisaimokuCd," +
+    '                                       "  kari_uchi_cd = :kariuchiCd," +
+    '                                       "  kari_shosai_cd = :karishosaiCd," +
+    '                                       "  sts = :sts," +
+    '                                       "  RIYORYO_FLG = :RIYORYO_FLG," +
+    '                                       "  up_dt = :upDate," +
+    '                                       "  up_user_cd = :upUserCd "
+    ' 2015.11.30 UPD END↑ h.hagiwara
+
+    ' 「税率」追加
     Private strUpdateBunrui As String =
                                            "UPDATE " +
                                            " fbunrui_mst " +
@@ -431,6 +528,7 @@ Public Class SqlEXTM0102
                                            "  bunrui_nm = :bunruiNm," +
                                            "  shukei_grp = :shukeiGrp," +
                                            "  notax_flg = :notaxFlg," +
+                                           "  zeiritsu = :zeiritsu," +
                                            "  sort = :sort," +
                                            "  kamoku_cd = :kamokuCd," +
                                            "  saimoku_cd = :saimokuCd," +
@@ -444,7 +542,7 @@ Public Class SqlEXTM0102
                                            "  RIYORYO_FLG = :RIYORYO_FLG," +
                                            "  up_dt = :upDate," +
                                            "  up_user_cd = :upUserCd "
-    ' 2015.11.30 UPD END↑ h.hagiwara
+    ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
 
     '付帯設備登録sql
     Private strInsertFutai As String =
@@ -508,19 +606,32 @@ Public Class SqlEXTM0102
                                             "FROM futai_mst "
     ' 2015.12.25 ADD START↓ h.hagiwara
     ' 利用料用の情報が存在するか科目マスタから取得
-    Private strSelectKamoku = " SELECT RIYO_KAMOKU_FLG " & vbCrLf & _
-                              " FROM KAMOKU_MST " & vbCrLf & _
-                              " WHERE KAMOKU_CD  = :KAMOKU_CD " & vbCrLf & _
-                              "  AND  SAIMOKU_CD = :SAIMOKU_CD " & vbCrLf & _
-                              "  AND  UCHI_CD    = :UCHI_CD " & vbCrLf & _
+    Private strSelectKamoku = " SELECT RIYO_KAMOKU_FLG " & vbCrLf &
+                              " FROM KAMOKU_MST " & vbCrLf &
+                              " WHERE KAMOKU_CD  = :KAMOKU_CD " & vbCrLf &
+                              "  AND  SAIMOKU_CD = :SAIMOKU_CD " & vbCrLf &
+                              "  AND  UCHI_CD    = :UCHI_CD " & vbCrLf &
                               "  AND  SHOSAI_CD  = :SHOSAI_CD "
     ' 登録時の科目コードなどを取得
-    Private strGetKamoku = " SELECT " & vbCrLf & _
-                           "      * " & vbCrLf & _
-                           " FROM KAMOKU_MST " & vbCrLf & _
+    Private strGetKamoku = " SELECT " & vbCrLf &
+                           "      * " & vbCrLf &
+                           " FROM KAMOKU_MST " & vbCrLf &
                            " WHERE RIYO_KAMOKU_FLG  = '1' " & vbCrLf &
                            "  AND  STS = '0' "
     ' 2015.12.25 ADD END↑ h.hagiwara
+
+    ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
+    ' 消費税期間チェック用SQL
+    Private strSelectTaxPeriod = "SELECT " & vbCrLf &
+                                 "  COUNT(*) as cnt " & vbCrLf &
+                                 "FROM " & vbCrLf &
+                                 "  tax_mst " & vbCrLf &
+                                 "WHERE " & vbCrLf &
+                                 "  taxs_dt < :period_end and " & vbCrLf &
+                                 "  taxe_dt > :period_start "
+
+
+    ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
 
     ''' <summary>
     ''' 初期表示用SQL作成
@@ -1190,7 +1301,7 @@ Public Class SqlEXTM0102
     ''' <remarks>画面の値を、付帯設備分類マスタに登録する。
     ''' <para>作成情報：2015/08/14 yu.satoh 
     ''' </para></remarks>
-    Public Function InsertBunrui(ByRef i As Integer, ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction, _
+    Public Function InsertBunrui(ByRef i As Integer, ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction,
                                   ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102)
 
         '開始ログ出力
@@ -1220,6 +1331,10 @@ Public Class SqlEXTM0102
             Adapter.Parameters.Add(New NpgsqlParameter("bunruiNm", NpgsqlTypes.NpgsqlDbType.Varchar))       '分類名
             Adapter.Parameters.Add(New NpgsqlParameter("shukeiGrp", NpgsqlTypes.NpgsqlDbType.Varchar))      '集計グループ
             Adapter.Parameters.Add(New NpgsqlParameter("notaxFlg", NpgsqlTypes.NpgsqlDbType.Varchar))       '税
+            ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+            ' 「税率」追加
+            Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       '税率
+            ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
             Adapter.Parameters.Add(New NpgsqlParameter("sort", NpgsqlTypes.NpgsqlDbType.Integer))           '並び順
             Adapter.Parameters.Add(New NpgsqlParameter("kamokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))       '科目コード
             Adapter.Parameters.Add(New NpgsqlParameter("saimokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))      '細目コード
@@ -1247,22 +1362,48 @@ Public Class SqlEXTM0102
             End If
             'Adapter.Parameters("bunruiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 0).Value '分類コード
             Adapter.Parameters("bunruiCd").Value = Format(Integer.Parse(dataEXTM0102.PropMaxBunruiCd), "00")
-            Adapter.Parameters("bunruiNm").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 1).Value '分類名
-            Adapter.Parameters("shukeiGrp").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 2).Value '集計グループ
+
+            ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+            ' 列数直書き変更及び「税率」追加
+            Adapter.Parameters("bunruiNm").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUINM).Value '分類名
+            Adapter.Parameters("shukeiGrp").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYUKEIKY).Value '集計グループ
             '税フラグがチェックされていれば1、されていなければ0を設定
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 3).Value = True Then
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value = True Then
                 Adapter.Parameters("notaxFlg").Value = "1"
             Else
                 Adapter.Parameters("notaxFlg").Value = "0"
             End If
+
+            Adapter.Parameters("zeiritsu").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value      '税率
+
             ' 2016.04.28 UPD START↓ h.hagiwara レスポンス改善
             'Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 12).Value   '並び順
-            Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value   '並び順
+            Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SORT).Value   '並び順
             ' 2016.04.28 UPD END↑ h.hagiwara レスポンス改善
-            Adapter.Parameters("kamokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 4).Value '科目コード
-            Adapter.Parameters("saimokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Value '細目コード
-            Adapter.Parameters("uchiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Value    '内訳コード
-            Adapter.Parameters("shosaiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 7).Value  '細目コード
+            Adapter.Parameters("kamokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).Value '科目コード
+            Adapter.Parameters("saimokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).Value '細目コード
+            Adapter.Parameters("uchiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).Value    '内訳コード
+            Adapter.Parameters("shosaiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).Value  '詳細コード
+            ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
+
+            'Adapter.Parameters("bunruiNm").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 1).Value '分類名
+            'Adapter.Parameters("shukeiGrp").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 2).Value '集計グループ
+            ''税フラグがチェックされていれば1、されていなければ0を設定
+            'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 3).Value = True Then
+            '    Adapter.Parameters("notaxFlg").Value = "1"
+            'Else
+            '    Adapter.Parameters("notaxFlg").Value = "0"
+            'End If
+            '' 2016.04.28 UPD START↓ h.hagiwara レスポンス改善
+            ''Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 12).Value   '並び順
+            'Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value   '並び順
+            '' 2016.04.28 UPD END↑ h.hagiwara レスポンス改善
+            'Adapter.Parameters("kamokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 4).Value '科目コード
+            'Adapter.Parameters("saimokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Value '細目コード
+            'Adapter.Parameters("uchiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Value    '内訳コード
+            'Adapter.Parameters("shosaiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 7).Value  '細目コード
+
+
             ' 2016.04.28 UPD START↓ h.hagiwara レスポンス改善
             'Adapter.Parameters("karikamokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value '借方科目コード
             'Adapter.Parameters("karisaimokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value '借方細目コード
@@ -1287,13 +1428,21 @@ Public Class SqlEXTM0102
             Adapter.Parameters("kariuchiCd").Value = DBNull.Value      '借方内訳コード
             Adapter.Parameters("karishosaiCd").Value = DBNull.Value    '借方詳細コード
             '無効フラグがチェックされていれば1を、そうでなければ0を設定
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value = True Then
+            ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+            ' 列数直書き変更
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_DEFFLG).Value = True Then
+                'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value = True Then
+                ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
                 Adapter.Parameters("sts").Value = "1"
             Else
                 Adapter.Parameters("sts").Value = "0"
             End If
             ' 付帯利用料フラグがチェックされていれば1を、そうでなければ0を設定
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value = True Then
+            ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+            ' 列数直書き変更
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_FRIYOFLG).Value = True Then
+                'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value = True Then
+                ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
                 Adapter.Parameters("RIYORYO_FLG").Value = "1"
             Else
                 Adapter.Parameters("RIYORYO_FLG").Value = "0"
@@ -1333,7 +1482,7 @@ Public Class SqlEXTM0102
     ''' <remarks>画面の値を、付帯設備分類マスタに登録する。（更新）
     ''' <para>作成情報：2015/08/14 yu.satoh 
     ''' </para></remarks>
-    Public Function UpdateBunrui(ByRef i As Integer, ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction, _
+    Public Function UpdateBunrui(ByRef i As Integer, ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction,
                                   ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102)
 
         '開始ログ出力
@@ -1379,6 +1528,10 @@ Public Class SqlEXTM0102
             Adapter.Parameters.Add(New NpgsqlParameter("bunruiNm", NpgsqlTypes.NpgsqlDbType.Varchar))   '分類名
             Adapter.Parameters.Add(New NpgsqlParameter("shukeiGrp", NpgsqlTypes.NpgsqlDbType.Varchar))  '集計グループ
             Adapter.Parameters.Add(New NpgsqlParameter("notaxFlg", NpgsqlTypes.NpgsqlDbType.Varchar))   '税
+            ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+            ' 「税率」追加
+            Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       '税率
+            ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
             Adapter.Parameters.Add(New NpgsqlParameter("sort", NpgsqlTypes.NpgsqlDbType.Integer))       '並び順
             Adapter.Parameters.Add(New NpgsqlParameter("kamokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))   '科目コード
             Adapter.Parameters.Add(New NpgsqlParameter("saimokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))  '細目コード
@@ -1395,6 +1548,7 @@ Public Class SqlEXTM0102
             Adapter.Parameters.Add(New NpgsqlParameter("kikanFromUp", NpgsqlTypes.NpgsqlDbType.Varchar))    '変更前期間from
             Adapter.Parameters.Add(New NpgsqlParameter("kikanToUp", NpgsqlTypes.NpgsqlDbType.Varchar))      '変更前期間to
 
+
             '値をセット
             '日付
             Adapter.Parameters("kikanFrom").Value = dtFrom
@@ -1405,28 +1559,56 @@ Public Class SqlEXTM0102
             Else
                 Adapter.Parameters("shisetuKbn").Value = "2"
             End If
-            Adapter.Parameters("bunruiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 0).Value '分類コード
-            Adapter.Parameters("bunruiNm").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 1).Value '分類名
-            Adapter.Parameters("shukeiGrp").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 2).Value '集計グループ
+
+            ' --- 2019/05/31 軽減税率対応 Start E.Okuda@Compass ---
+            ' 列数直書き変更及び「税率」追加
+            Adapter.Parameters("bunruiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUICD).Value '分類コード
+            Adapter.Parameters("bunruiNm").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUINM).Value '分類名
+            Adapter.Parameters("shukeiGrp").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYUKEIKY).Value '集計グループ
+
             '税フラグがチェックされていれば1、されていなければ0を設定
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 3).Value = True Then
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value = True Then
                 Adapter.Parameters("notaxFlg").Value = "1"
             Else
                 Adapter.Parameters("notaxFlg").Value = "0"
             End If
+
+            Adapter.Parameters("zeiritsu").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value      '税率
+
             ' 2016.04.28 UPD START↓ h.hagiwara レスポンス改善
             'Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 12).Value      '並び順
-            Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value      '並び順
+            Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SORT).Value      '並び順
             ' 2016.04.28 UPD END↑ h.hagiwara レスポンス改善
-            Adapter.Parameters("kamokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 4).Value   '科目コード
-            Adapter.Parameters("saimokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Value  '細目コード
-            Adapter.Parameters("uchiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Value     '内訳コード
-            Adapter.Parameters("shosaiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 7).Value   '詳細コード
+            Adapter.Parameters("kamokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).Value   '科目コード
+            Adapter.Parameters("saimokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).Value  '細目コード
+            Adapter.Parameters("uchiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).Value     '内訳コード
+            Adapter.Parameters("shosaiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).Value   '詳細コード
+
+            'Adapter.Parameters("bunruiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 0).Value '分類コード
+            'Adapter.Parameters("bunruiNm").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 1).Value '分類名
+            'Adapter.Parameters("shukeiGrp").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 2).Value '集計グループ
+            ''税フラグがチェックされていれば1、されていなければ0を設定
+            'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 3).Value = True Then
+            '    Adapter.Parameters("notaxFlg").Value = "1"
+            'Else
+            '    Adapter.Parameters("notaxFlg").Value = "0"
+            'End If
+            '' 2016.04.28 UPD START↓ h.hagiwara レスポンス改善
+            ''Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 12).Value      '並び順
+            'Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value      '並び順
+            '' 2016.04.28 UPD END↑ h.hagiwara レスポンス改善
+            'Adapter.Parameters("kamokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 4).Value   '科目コード
+            'Adapter.Parameters("saimokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Value  '細目コード
+            'Adapter.Parameters("uchiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Value     '内訳コード
+            'Adapter.Parameters("shosaiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 7).Value   '詳細コード
             ' 2016.04.28 UPD START↓ h.hagiwara レスポンス改善
             'Adapter.Parameters("karikamokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value '借方科目コード
             'Adapter.Parameters("karisaimokuCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value '借方細目コード
             'Adapter.Parameters("kariuchiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value    '借方内訳コード
             'Adapter.Parameters("karishosaiCd").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 11).Value  '借方詳細コード
+
+            ' --- 2019/05/31 軽減税率対応 End E.Okuda@Compass ---
+
             ''無効フラグがチェックされていれば1を、そうでなければ0を設定
             'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 13).Value = True Then
             '    Adapter.Parameters("sts").Value = "1"
@@ -1445,14 +1627,23 @@ Public Class SqlEXTM0102
             Adapter.Parameters("karisaimokuCd").Value = DBNull.Value       '借方細目コード
             Adapter.Parameters("kariuchiCd").Value = DBNull.Value          '借方内訳コード
             Adapter.Parameters("karishosaiCd").Value = DBNull.Value        '借方詳細コード
+
             '無効フラグがチェックされていれば1を、そうでなければ0を設定
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value = True Then
+            ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+            ' 列数直書き変更
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_DEFFLG).Value = True Then
+                'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value = True Then
+                ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
                 Adapter.Parameters("sts").Value = "1"
             Else
                 Adapter.Parameters("sts").Value = "0"
             End If
             ' 付帯利用料フラグがチェックされていれば1を、そうでなければ0を設定
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value = True Then
+            ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+            ' 列数直書き変更
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_FRIYOFLG).Value = True Then
+                'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value = True Then
+                ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
                 Adapter.Parameters("RIYORYO_FLG").Value = "1"
             Else
                 Adapter.Parameters("RIYORYO_FLG").Value = "0"
@@ -1492,7 +1683,7 @@ Public Class SqlEXTM0102
     ''' <remarks>画面の値を、付帯設備マスタに登録する。
     ''' <para>作成情報：2015/08/14 yu.satoh 
     ''' </para></remarks>
-    Public Function InsertFutai(ByRef i As Integer, ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction, _
+    Public Function InsertFutai(ByRef i As Integer, ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction,
                                 ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102)
 
         '開始ログ出力
@@ -1609,7 +1800,7 @@ Public Class SqlEXTM0102
     ''' <remarks>画面の値を、付帯設備マスタに登録する。（更新）
     ''' <para>作成情報：2015/08/14 yu.satoh 
     ''' </para></remarks>
-    Public Function UpdateFutai(ByRef i As Integer, ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction, _
+    Public Function UpdateFutai(ByRef i As Integer, ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction,
                                 ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102)
 
         '開始ログ出力
@@ -1925,10 +2116,20 @@ Public Class SqlEXTM0102
             Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("SAIMOKU_CD", NpgsqlTypes.NpgsqlDbType.Varchar))                ' 細目コード 
             Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("UCHI_CD", NpgsqlTypes.NpgsqlDbType.Varchar))                   ' 内訳コード
             Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("SHOSAI_CD", NpgsqlTypes.NpgsqlDbType.Varchar))                 ' 詳細コード
-            Adapter.SelectCommand.Parameters("KAMOKU_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 4).Value     ' 科目コード
-            Adapter.SelectCommand.Parameters("SAIMOKU_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Value    ' 細目コード
-            Adapter.SelectCommand.Parameters("UCHI_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Value       ' 内訳コード
-            Adapter.SelectCommand.Parameters("SHOSAI_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 7).Value     ' 細目コード
+            ' 2019/05/30 軽減税率対応 変更 Start E.Okuda@Compass
+            ' 列数直書き変更
+            Adapter.SelectCommand.Parameters("KAMOKU_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).Value     ' 科目コード
+            Adapter.SelectCommand.Parameters("SAIMOKU_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).Value    ' 細目コード
+            Adapter.SelectCommand.Parameters("UCHI_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).Value       ' 内訳コード
+            Adapter.SelectCommand.Parameters("SHOSAI_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).Value     ' 詳細コード
+
+            'Adapter.SelectCommand.Parameters("KAMOKU_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 4).Value     ' 科目コード
+            'Adapter.SelectCommand.Parameters("SAIMOKU_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Value    ' 細目コード
+            'Adapter.SelectCommand.Parameters("UCHI_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Value       ' 内訳コード
+            'Adapter.SelectCommand.Parameters("SHOSAI_CD").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 7).Value     ' 細目コード
+            ' 2019/05/30 軽減税率対応 変更 End E.Okuda@Compass
+
+
             '終了ログ出力
             CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
 
@@ -1996,7 +2197,7 @@ Public Class SqlEXTM0102
     ''' <remarks>画面の値を、付帯設備マスタに登録する。
     ''' <para>作成情報：2015.12.25 h.hagiwara  
     ''' </para></remarks>
-    Public Function InsertRiyoryoInf(ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction, _
+    Public Function InsertRiyoryoInf(ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction,
                                 ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102)
 
         '開始ログ出力
@@ -2089,5 +2290,45 @@ Public Class SqlEXTM0102
         End Try
 
     End Function
+
+    Public Function SetSelectTaxMst(ByRef Adapter As NpgsqlDataAdapter, ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102) As Boolean
+        '開始ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+        Dim strSQL As String
+        '日付の設定
+        Dim dtFrom As String = dataEXTM0102.PropYearFrom.Text + "/" + dataEXTM0102.PropMonthFrom.Text + "/01"
+        Dim dtToSub As DateTime = dataEXTM0102.PropYearTo.Text + "/" + dataEXTM0102.PropMonthTo.Text
+        '期間ＴＯは、入力された値の月＋１、日付-1の値で最終日を設定できる
+        Dim dtTo As String = dtToSub.AddMonths(1).AddDays(-1).ToString("yyyy/MM/dd")
+
+        Try
+            ' 消費税マスタ期間取得SQL
+            strSQL = strSelectTaxPeriod
+
+            'データアダプタに、SQLを設定
+            Adapter.SelectCommand = New NpgsqlCommand(strSQL, Cn)
+
+            'バインド変数セット
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("period_end", NpgsqlTypes.NpgsqlDbType.Varchar))  '指定期間終了日
+            Adapter.SelectCommand.Parameters("period_end").Value = dtTo
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("period_start", NpgsqlTypes.NpgsqlDbType.Varchar))  '指定期間開始日
+            Adapter.SelectCommand.Parameters("period_start").Value = dtFrom
+
+            '終了ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+            '正常終了
+            Return True
+        Catch ex As Exception
+            '例外発生
+            CommonLogic.WriteLog(Common.LogLevel.ERROR_Lv, ex.Message, ex, Adapter.SelectCommand)
+            puErrMsg = EXTM0102_E0000 & ex.Message
+            Return False
+
+        End Try
+
+    End Function
+
 
 End Class

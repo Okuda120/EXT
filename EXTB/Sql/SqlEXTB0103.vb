@@ -134,66 +134,129 @@ Public Class SqlEXTB0103
     ' 2015.11.13 UPD END↑ h.hagiwara 
 
     '付帯設備明細
-    Private strEX05S098 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    t1.yoyaku_no, " & vbCrLf & _
-                            "    t1.yoyaku_dt, " & vbCrLf & _
-                            "    t1.futai_bunrui_cd, " & vbCrLf & _
-                            "    t1.futai_cd, " & vbCrLf & _
-                            "    t1.futai_tanka, " & vbCrLf & _
-                            "    t1.futai_su, " & vbCrLf & _
-                            "    t1.futai_shokei, " & vbCrLf & _
-                            "    t1.futai_chosei, " & vbCrLf & _
-                            "    t1.futai_kin, " & vbCrLf & _
-                            "    t1.futai_biko, " & vbCrLf & _
-                            "    m1.futai_nm, " & vbCrLf & _
-                            "    m1.tani as futai_tani, " & vbCrLf & _
-                            "    m2.bunrui_nm as futai_bunrui_nm, " & vbCrLf & _
-                            "    m2.shukei_grp, " & vbCrLf & _
-                            "    m2.kamoku_cd, " & vbCrLf & _
-                            "    m2.saimoku_cd, " & vbCrLf & _
-                            "    m2.uchi_cd, " & vbCrLf & _
-                            "    m2.shosai_cd, " & vbCrLf & _
-                            "    m2.karikamoku_cd, " & vbCrLf & _
-                            "    m2.kari_saimoku_cd, " & vbCrLf & _
-                            "    m2.kari_uchi_cd, " & vbCrLf & _
-                            "    m2.kari_shosai_cd, " & vbCrLf & _
-                            "    m2.notax_flg, " & vbCrLf & _
-                            "    m3.kamoku_nm, " & vbCrLf & _
-                            "    m3.saimoku_nm, " & vbCrLf & _
-                            "    m3.uchi_nm, " & vbCrLf & _
-                            "    m3.shosai_nm " & vbCrLf & _
-                            "   ,COALESCE((CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf & _
-                            "                            ELSE " & vbCrLf & _
-                            "                               CASE WHEN m2.notax_flg = '0' THEN ROUND((t1.futai_kin * m4.tax_ritu) /100 ,0)" & vbCrLf & _
-                            "                                    ELSE 0 " & vbCrLf & _
-                            "                               END " & vbCrLf & _
-                            "     END),0)  as tax_kin " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    friyo_meisai_tbl t1 " & vbCrLf & _
-                            "LEFT JOIN futai_mst m1 " & vbCrLf & _
-                            "    ON t1.futai_bunrui_cd = m1.bunrui_cd " & vbCrLf & _
-                            "    AND t1.futai_cd = m1.futai_cd " & vbCrLf & _
-                            "    AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "    AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf & _
-                            "    AND m1.sts = '0' " & vbCrLf & _
-                            "LEFT JOIN fbunrui_mst m2 " & vbCrLf & _
-                            "    ON t1.futai_bunrui_cd = m2.bunrui_cd " & vbCrLf & _
-                            "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf & _
-                            "    AND m2.sts = '0' " & vbCrLf & _
-                            "LEFT JOIN kamoku_mst m3 " & vbCrLf & _
-                            "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf & _
-                            "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf & _
-                            "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf & _
-                            "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf & _
-                            "    AND m3.sts = '0' " & vbCrLf & _
-                            "LEFT JOIN TAX_MST m4 " & vbCrLf & _
-                            "    ON  :Riyobi BETWEEN m4.TAXS_DT AND m4.TAXE_DT" & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    t1.yoyaku_no = :YoyakuNo " & vbCrLf & _
-                            "    AND t1.yoyaku_dt = :Riyobi " & vbCrLf & _
+    ' --- 2019/06/03 軽減税率対応 Start E.Okuda@Compass ---
+    Private strEX05S098 As String =
+                            "SELECT " & vbCrLf &
+                            "    t1.yoyaku_no, " & vbCrLf &
+                            "    t1.yoyaku_dt, " & vbCrLf &
+                            "    t1.futai_bunrui_cd, " & vbCrLf &
+                            "    t1.futai_cd, " & vbCrLf &
+                            "    t1.futai_tanka, " & vbCrLf &
+                            "    t1.futai_su, " & vbCrLf &
+                            "    t1.futai_shokei, " & vbCrLf &
+                            "    t1.futai_chosei, " & vbCrLf &
+                            "    t1.futai_kin, " & vbCrLf &
+                            "    t1.futai_biko, " & vbCrLf &
+                            "    m1.futai_nm, " & vbCrLf &
+                            "    m1.tani as futai_tani, " & vbCrLf &
+                            "    m2.bunrui_nm as futai_bunrui_nm, " & vbCrLf &
+                            "    m2.shukei_grp, " & vbCrLf &
+                            "    m2.kamoku_cd, " & vbCrLf &
+                            "    m2.saimoku_cd, " & vbCrLf &
+                            "    m2.uchi_cd, " & vbCrLf &
+                            "    m2.shosai_cd, " & vbCrLf &
+                            "    m2.karikamoku_cd, " & vbCrLf &
+                            "    m2.kari_saimoku_cd, " & vbCrLf &
+                            "    m2.kari_uchi_cd, " & vbCrLf &
+                            "    m2.kari_shosai_cd, " & vbCrLf &
+                            "    m2.notax_flg, " & vbCrLf &
+                            "    (CASE WHEN m2.zeiritsu IS NULL THEN m4.tax_ritu ELSE m2.zeiritsu END) as zeiritsu, " & vbCrLf &
+                            "    m3.kamoku_nm, " & vbCrLf &
+                            "    m3.saimoku_nm, " & vbCrLf &
+                            "    m3.uchi_nm, " & vbCrLf &
+                            "    m3.shosai_nm " & vbCrLf &
+                            "   ,COALESCE((CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf &
+                            "                            ELSE " & vbCrLf &
+                            "                               CASE WHEN m2.notax_flg = '0' THEN ROUND((t1.futai_kin * m4.tax_ritu) /100 ,0)" & vbCrLf &
+                            "                                    ELSE 0 " & vbCrLf &
+                            "                               END " & vbCrLf &
+                            "     END),0)  as tax_kin " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    friyo_meisai_tbl t1 " & vbCrLf &
+                            "LEFT JOIN futai_mst m1 " & vbCrLf &
+                            "    ON t1.futai_bunrui_cd = m1.bunrui_cd " & vbCrLf &
+                            "    AND t1.futai_cd = m1.futai_cd " & vbCrLf &
+                            "    AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "    AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+                            "    AND m1.sts = '0' " & vbCrLf &
+                            "LEFT JOIN fbunrui_mst m2 " & vbCrLf &
+                            "    ON t1.futai_bunrui_cd = m2.bunrui_cd " & vbCrLf &
+                            "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf &
+                            "    AND m2.sts = '0' " & vbCrLf &
+                            "LEFT JOIN kamoku_mst m3 " & vbCrLf &
+                            "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf &
+                            "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf &
+                            "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf &
+                            "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf &
+                            "    AND m3.sts = '0' " & vbCrLf &
+                            "LEFT JOIN TAX_MST m4 " & vbCrLf &
+                            "    ON  :Riyobi BETWEEN m4.TAXS_DT AND m4.TAXE_DT" & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    t1.yoyaku_no = :YoyakuNo " & vbCrLf &
+                            "    AND t1.yoyaku_dt = :Riyobi " & vbCrLf &
                             "ORDER BY t1.add_dt "
+    'Private strEX05S098 As String = _
+    '                        "SELECT " & vbCrLf & _
+    '                        "    t1.yoyaku_no, " & vbCrLf & _
+    '                        "    t1.yoyaku_dt, " & vbCrLf & _
+    '                        "    t1.futai_bunrui_cd, " & vbCrLf & _
+    '                        "    t1.futai_cd, " & vbCrLf & _
+    '                        "    t1.futai_tanka, " & vbCrLf & _
+    '                        "    t1.futai_su, " & vbCrLf & _
+    '                        "    t1.futai_shokei, " & vbCrLf & _
+    '                        "    t1.futai_chosei, " & vbCrLf & _
+    '                        "    t1.futai_kin, " & vbCrLf & _
+    '                        "    t1.futai_biko, " & vbCrLf & _
+    '                        "    m1.futai_nm, " & vbCrLf & _
+    '                        "    m1.tani as futai_tani, " & vbCrLf & _
+    '                        "    m2.bunrui_nm as futai_bunrui_nm, " & vbCrLf & _
+    '                        "    m2.shukei_grp, " & vbCrLf & _
+    '                        "    m2.kamoku_cd, " & vbCrLf & _
+    '                        "    m2.saimoku_cd, " & vbCrLf & _
+    '                        "    m2.uchi_cd, " & vbCrLf & _
+    '                        "    m2.shosai_cd, " & vbCrLf & _
+    '                        "    m2.karikamoku_cd, " & vbCrLf & _
+    '                        "    m2.kari_saimoku_cd, " & vbCrLf & _
+    '                        "    m2.kari_uchi_cd, " & vbCrLf & _
+    '                        "    m2.kari_shosai_cd, " & vbCrLf & _
+    '                        "    m2.notax_flg, " & vbCrLf & _
+    '                        "    m3.kamoku_nm, " & vbCrLf & _
+    '                        "    m3.saimoku_nm, " & vbCrLf & _
+    '                        "    m3.uchi_nm, " & vbCrLf & _
+    '                        "    m3.shosai_nm " & vbCrLf & _
+    '                        "   ,COALESCE((CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf & _
+    '                        "                            ELSE " & vbCrLf & _
+    '                        "                               CASE WHEN m2.notax_flg = '0' THEN ROUND((t1.futai_kin * m4.tax_ritu) /100 ,0)" & vbCrLf & _
+    '                        "                                    ELSE 0 " & vbCrLf & _
+    '                        "                               END " & vbCrLf & _
+    '                        "     END),0)  as tax_kin " & vbCrLf & _
+    '                        "FROM " & vbCrLf & _
+    '                        "    friyo_meisai_tbl t1 " & vbCrLf & _
+    '                        "LEFT JOIN futai_mst m1 " & vbCrLf & _
+    '                        "    ON t1.futai_bunrui_cd = m1.bunrui_cd " & vbCrLf & _
+    '                        "    AND t1.futai_cd = m1.futai_cd " & vbCrLf & _
+    '                        "    AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
+    '                        "    AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf & _
+    '                        "    AND m1.sts = '0' " & vbCrLf & _
+    '                        "LEFT JOIN fbunrui_mst m2 " & vbCrLf & _
+    '                        "    ON t1.futai_bunrui_cd = m2.bunrui_cd " & vbCrLf & _
+    '                        "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
+    '                        "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf & _
+    '                        "    AND m2.sts = '0' " & vbCrLf & _
+    '                        "LEFT JOIN kamoku_mst m3 " & vbCrLf & _
+    '                        "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf & _
+    '                        "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf & _
+    '                        "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf & _
+    '                        "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf & _
+    '                        "    AND m3.sts = '0' " & vbCrLf & _
+    '                        "LEFT JOIN TAX_MST m4 " & vbCrLf & _
+    '                        "    ON  :Riyobi BETWEEN m4.TAXS_DT AND m4.TAXE_DT" & vbCrLf & _
+    '                        "WHERE " & vbCrLf & _
+    '                        "    t1.yoyaku_no = :YoyakuNo " & vbCrLf & _
+    '                        "    AND t1.yoyaku_dt = :Riyobi " & vbCrLf & _
+    '                        "ORDER BY t1.add_dt "
+    ' --- 2019/06/03 軽減税率対応 End E.Okuda@Cmpass ---
 
     ' 2015.11.13 UPD START↓ h.hagiwara 
     'Private strEX05S097 As String = _
@@ -212,102 +275,102 @@ Public Class SqlEXTB0103
     '                        "group by " & vbCrLf & _
     '                        "    def_flg, " & vbCrLf & _
     '                        "    sts "
-    Private strEX05S097 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    '' as yoyaku_no, " & vbCrLf & _
-                            "    :Riyobi as yoyaku_dt,  " & vbCrLf & _
-                            "    SUM(m1.tanka) as total_fuzoku_kin,  " & vbCrLf & _
-                            "    ARRAY_TO_STRING(ARRAY_AGG(m1.futai_nm), '／') as fuzoku_nm " & vbCrLf & _
-                            "   ,CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf & _
-                            "                            ELSE  " & vbCrLf & _
-                            "                              SUM( CASE WHEN m2.NOTAX_FLG = '0' THEN ROUND((m1.TANKA * m3.tax_ritu) /100 ,0)" & vbCrLf & _
-                            "                                                                ELSE 0 " & vbCrLf & _
-                            "                                    END ) " & vbCrLf & _
-                            "    END  AS TAX_KIN " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    futai_mst m1" & vbCrLf & _
-                                       "           LEFT OUTER JOIN  FBUNRUI_MST m2 " & vbCrLf & _
-                                       "                       ON   m1.BUNRUI_CD = m2.BUNRUI_CD " & vbCrLf & _
-                                       "                      AND   m1.SHISETU_KBN = m2.SHISETU_KBN " & vbCrLf & _
-                                       "                      AND   :Riyobi BETWEEN m2.KIKAN_FROM AND m2.KIKAN_TO " & vbCrLf & _
-                                       "           LEFT OUTER JOIN  TAX_MST m3 " & vbCrLf & _
-                                       "                       ON   :Riyobi BETWEEN m3.TAXS_DT AND m3.TAXE_DT " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    m1.def_flg = '1' " & vbCrLf & _
-                            "AND m1.sts = '0' " & vbCrLf & _
-                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf & _
-                            "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "group by " & vbCrLf & _
-                            "    m1.def_flg, " & vbCrLf & _
+    Private strEX05S097 As String =
+                            "SELECT " & vbCrLf &
+                            "    '' as yoyaku_no, " & vbCrLf &
+                            "    :Riyobi as yoyaku_dt,  " & vbCrLf &
+                            "    SUM(m1.tanka) as total_fuzoku_kin,  " & vbCrLf &
+                            "    ARRAY_TO_STRING(ARRAY_AGG(m1.futai_nm), '／') as fuzoku_nm " & vbCrLf &
+                            "   ,CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf &
+                            "                            ELSE  " & vbCrLf &
+                            "                              SUM( CASE WHEN m2.NOTAX_FLG = '0' THEN ROUND((m1.TANKA * m3.tax_ritu) /100 ,0)" & vbCrLf &
+                            "                                                                ELSE 0 " & vbCrLf &
+                            "                                    END ) " & vbCrLf &
+                            "    END  AS TAX_KIN " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    futai_mst m1" & vbCrLf &
+                                       "           LEFT OUTER JOIN  FBUNRUI_MST m2 " & vbCrLf &
+                                       "                       ON   m1.BUNRUI_CD = m2.BUNRUI_CD " & vbCrLf &
+                                       "                      AND   m1.SHISETU_KBN = m2.SHISETU_KBN " & vbCrLf &
+                                       "                      AND   :Riyobi BETWEEN m2.KIKAN_FROM AND m2.KIKAN_TO " & vbCrLf &
+                                       "           LEFT OUTER JOIN  TAX_MST m3 " & vbCrLf &
+                                       "                       ON   :Riyobi BETWEEN m3.TAXS_DT AND m3.TAXE_DT " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    m1.def_flg = '1' " & vbCrLf &
+                            "AND m1.sts = '0' " & vbCrLf &
+                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+                            "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "group by " & vbCrLf &
+                            "    m1.def_flg, " & vbCrLf &
                             "    m1.sts "
     ' 2015.11.13 UPD END↑ h.hagiwara 
 
     '付帯設備明細初期値の取得
-    Private strEX05S096 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    '' as yoyaku_no,  " & vbCrLf & _
-                            "    :Riyobi as yoyaku_dt,  " & vbCrLf & _
-                            "    m1.bunrui_cd as futai_bunrui_cd, " & vbCrLf & _
-                            "    m1.futai_cd, " & vbCrLf & _
-                            "    m1.tanka as futai_tanka, " & vbCrLf & _
-                            "    1 as futai_su, " & vbCrLf & _
-                            "    CAST(m1.tanka AS INT8) as futai_shokei, " & vbCrLf & _
-                            "    0 as futai_chosei, " & vbCrLf & _
-                            "    CAST(m1.tanka AS INT8) as futai_kin, " & vbCrLf & _
-                            "    '' as futai_biko, " & vbCrLf & _
-                            "    m1.futai_nm, " & vbCrLf & _
-                            "    m1.tani as futai_tani, " & vbCrLf & _
-                            "    m2.bunrui_nm as futai_bunrui_nm, " & vbCrLf & _
-                            "    m2.shukei_grp, " & vbCrLf & _
-                            "    m2.kamoku_cd, " & vbCrLf & _
-                            "    m2.saimoku_cd, " & vbCrLf & _
-                            "    m2.uchi_cd, " & vbCrLf & _
-                            "    m2.shosai_cd, " & vbCrLf & _
-                            "    m2.karikamoku_cd, " & vbCrLf & _
-                            "    m2.kari_saimoku_cd, " & vbCrLf & _
-                            "    m2.kari_uchi_cd, " & vbCrLf & _
-                            "    m2.kari_shosai_cd, " & vbCrLf & _
-                            "    m2.notax_flg, " & vbCrLf & _
-                            "    m3.kamoku_nm, " & vbCrLf & _
-                            "    m3.saimoku_nm, " & vbCrLf & _
-                            "    m3.uchi_nm, " & vbCrLf & _
-                            "    m3.shosai_nm " & vbCrLf & _
-                            "   ,CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf & _
-                            "                            ELSE " & vbCrLf & _
-                            "                                      CASE WHEN m2.NOTAX_FLG = '0' THEN ROUND((m1.TANKA * m4.tax_ritu) /100 ,0)" & vbCrLf & _
-                            "                                      ELSE 0 " & vbCrLf & _
-                            "                               END " & vbCrLf & _
-                            "    END  AS TAX_KIN " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    futai_mst m1 " & vbCrLf & _
-                            "LEFT JOIN fbunrui_mst m2 " & vbCrLf & _
-                            "    ON m1.bunrui_cd = m2.bunrui_cd " & vbCrLf & _
-                            "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf & _
-                            "    AND m2.sts = '0' " & vbCrLf & _
-                            "LEFT JOIN kamoku_mst m3 " & vbCrLf & _
-                            "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf & _
-                            "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf & _
-                            "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf & _
-                            "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf & _
-                            "    AND m3.sts = '0' " & vbCrLf & _
-                            "LEFT OUTER JOIN  TAX_MST m4 " & vbCrLf & _
-                            "    ON  :Riyobi BETWEEN m4.TAXS_DT AND m4.TAXE_DT " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    m1.def_flg = '1' " & vbCrLf & _
-                            "AND m1.sts = '0' " & vbCrLf & _
-                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf & _
-                            "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "ORDER BY " & vbCrLf & _
+    Private strEX05S096 As String =
+                            "SELECT " & vbCrLf &
+                            "    '' as yoyaku_no,  " & vbCrLf &
+                            "    :Riyobi as yoyaku_dt,  " & vbCrLf &
+                            "    m1.bunrui_cd as futai_bunrui_cd, " & vbCrLf &
+                            "    m1.futai_cd, " & vbCrLf &
+                            "    m1.tanka as futai_tanka, " & vbCrLf &
+                            "    1 as futai_su, " & vbCrLf &
+                            "    CAST(m1.tanka AS INT8) as futai_shokei, " & vbCrLf &
+                            "    0 as futai_chosei, " & vbCrLf &
+                            "    CAST(m1.tanka AS INT8) as futai_kin, " & vbCrLf &
+                            "    '' as futai_biko, " & vbCrLf &
+                            "    m1.futai_nm, " & vbCrLf &
+                            "    m1.tani as futai_tani, " & vbCrLf &
+                            "    m2.bunrui_nm as futai_bunrui_nm, " & vbCrLf &
+                            "    m2.shukei_grp, " & vbCrLf &
+                            "    m2.kamoku_cd, " & vbCrLf &
+                            "    m2.saimoku_cd, " & vbCrLf &
+                            "    m2.uchi_cd, " & vbCrLf &
+                            "    m2.shosai_cd, " & vbCrLf &
+                            "    m2.karikamoku_cd, " & vbCrLf &
+                            "    m2.kari_saimoku_cd, " & vbCrLf &
+                            "    m2.kari_uchi_cd, " & vbCrLf &
+                            "    m2.kari_shosai_cd, " & vbCrLf &
+                            "    m2.notax_flg, " & vbCrLf &
+                            "    m3.kamoku_nm, " & vbCrLf &
+                            "    m3.saimoku_nm, " & vbCrLf &
+                            "    m3.uchi_nm, " & vbCrLf &
+                            "    m3.shosai_nm " & vbCrLf &
+                            "   ,CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf &
+                            "                            ELSE " & vbCrLf &
+                            "                                      CASE WHEN m2.NOTAX_FLG = '0' THEN ROUND((m1.TANKA * m4.tax_ritu) /100 ,0)" & vbCrLf &
+                            "                                      ELSE 0 " & vbCrLf &
+                            "                               END " & vbCrLf &
+                            "    END  AS TAX_KIN " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    futai_mst m1 " & vbCrLf &
+                            "LEFT JOIN fbunrui_mst m2 " & vbCrLf &
+                            "    ON m1.bunrui_cd = m2.bunrui_cd " & vbCrLf &
+                            "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf &
+                            "    AND m2.sts = '0' " & vbCrLf &
+                            "LEFT JOIN kamoku_mst m3 " & vbCrLf &
+                            "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf &
+                            "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf &
+                            "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf &
+                            "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf &
+                            "    AND m3.sts = '0' " & vbCrLf &
+                            "LEFT OUTER JOIN  TAX_MST m4 " & vbCrLf &
+                            "    ON  :Riyobi BETWEEN m4.TAXS_DT AND m4.TAXE_DT " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    m1.def_flg = '1' " & vbCrLf &
+                            "AND m1.sts = '0' " & vbCrLf &
+                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+                            "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "ORDER BY " & vbCrLf &
                             "    m1.sort "
 
     '消費税の取得
-    Private strEX05S095 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    tax_ritu " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    tax_mst " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
+    Private strEX05S095 As String =
+                            "SELECT " & vbCrLf &
+                            "    tax_ritu " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    tax_mst " & vbCrLf &
+                            "WHERE " & vbCrLf &
                             " :Riyobi BETWEEN taxs_dt AND taxe_dt "
 
     ' 2015.12.10 UPD START↓ h.hagiwara 
@@ -373,106 +436,106 @@ Public Class SqlEXTB0103
     '                        "    t1.yoyaku_no = :YoyakuNo " & vbCrLf & _
     '                        "AND t1.deposit_kbn = '1' "
     '電子マネー／現金（入金日・レジ単位の情報）
-    Private strEX05S005 As String = _
-                            "SELECT DISTINCT " & vbCrLf & _
-                            "    t1.deposit_dt, " & vbCrLf & _
-                            "    t2.regi_nm, " & vbCrLf & _
-                            "    t3.tenpo_nm, " & vbCrLf & _
-                            "    t1.deposit_amount " & vbCrLf & _
-                            "FROM  ( SELECT " & vbCrLf & _
-                            "            yoyaku_no, " & vbCrLf & _
-                            "            deposit_dt, " & vbCrLf & _
-                            "            register_cd, " & vbCrLf & _
-                            "            SUM(deposit_amount) deposit_amount " & vbCrLf & _
-                            "        FROM  ALSOK_DEPOSIT_TBL " & vbCrLf & _
-                            "        GROUP BY " & vbCrLf & _
-                            "            yoyaku_no, " & vbCrLf & _
-                            "            deposit_dt, " & vbCrLf & _
-                            "            register_cd " & vbCrLf & _
-                            "      ) t1 " & vbCrLf & _
-                            "  LEFT OUTER  JOIN  ALSOK_DEPOSIT_TBL t0 " & vbCrLf & _
-                            "        ON  t1.yoyaku_no   = t0.yoyaku_no " & vbCrLf & _
-                            "        AND t1.deposit_dt  = t0.deposit_dt " & vbCrLf & _
-                            "        AND t1.register_cd = t0.register_cd " & vbCrLf & _
-                            "  LEFT JOIN  ALSOK_TENPO_MST t2 " & vbCrLf & _
-                            "        ON  t1.register_cd = t2.regi_cd " & vbCrLf & _
-                            "  LEFT JOIN  TENPO_MST t3 " & vbCrLf & _
-                            "        ON  t0.tenpo_cd = t3.tenpo_cd " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    t1.yoyaku_no = :YoyakuNo " & vbCrLf & _
-                            "ORDER BY " & vbCrLf & _
+    Private strEX05S005 As String =
+                            "SELECT DISTINCT " & vbCrLf &
+                            "    t1.deposit_dt, " & vbCrLf &
+                            "    t2.regi_nm, " & vbCrLf &
+                            "    t3.tenpo_nm, " & vbCrLf &
+                            "    t1.deposit_amount " & vbCrLf &
+                            "FROM  ( SELECT " & vbCrLf &
+                            "            yoyaku_no, " & vbCrLf &
+                            "            deposit_dt, " & vbCrLf &
+                            "            register_cd, " & vbCrLf &
+                            "            SUM(deposit_amount) deposit_amount " & vbCrLf &
+                            "        FROM  ALSOK_DEPOSIT_TBL " & vbCrLf &
+                            "        GROUP BY " & vbCrLf &
+                            "            yoyaku_no, " & vbCrLf &
+                            "            deposit_dt, " & vbCrLf &
+                            "            register_cd " & vbCrLf &
+                            "      ) t1 " & vbCrLf &
+                            "  LEFT OUTER  JOIN  ALSOK_DEPOSIT_TBL t0 " & vbCrLf &
+                            "        ON  t1.yoyaku_no   = t0.yoyaku_no " & vbCrLf &
+                            "        AND t1.deposit_dt  = t0.deposit_dt " & vbCrLf &
+                            "        AND t1.register_cd = t0.register_cd " & vbCrLf &
+                            "  LEFT JOIN  ALSOK_TENPO_MST t2 " & vbCrLf &
+                            "        ON  t1.register_cd = t2.regi_cd " & vbCrLf &
+                            "  LEFT JOIN  TENPO_MST t3 " & vbCrLf &
+                            "        ON  t0.tenpo_cd = t3.tenpo_cd " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    t1.yoyaku_no = :YoyakuNo " & vbCrLf &
+                            "ORDER BY " & vbCrLf &
                             "    t1.deposit_dt , t2.regi_nm"
 
     '電子マネー／現金（レジ単位の情報）
-    Private strEX05S010 As String = _
-                            "SELECT  DISTINCT " & vbCrLf & _
-                            "    t2.regi_nm, " & vbCrLf & _
-                            "    t3.tenpo_nm, " & vbCrLf & _
-                            "    t1.deposit_amount " & vbCrLf & _
-                            "FROM  ( SELECT " & vbCrLf & _
-                            "            yoyaku_no, " & vbCrLf & _
-                            "            register_cd, " & vbCrLf & _
-                            "            SUM(deposit_amount) deposit_amount " & vbCrLf & _
-                            "        FROM  ALSOK_DEPOSIT_TBL " & vbCrLf & _
-                            "        GROUP BY " & vbCrLf & _
-                            "            yoyaku_no, " & vbCrLf & _
-                            "            register_cd " & vbCrLf & _
-                            "      ) t1 " & vbCrLf & _
-                            "  LEFT OUTER  JOIN  ALSOK_DEPOSIT_TBL t0 " & vbCrLf & _
-                            "        ON  t1.yoyaku_no   = t0.yoyaku_no " & vbCrLf & _
-                            "        AND t1.register_cd = t0.register_cd " & vbCrLf & _
-                            "  LEFT JOIN  ALSOK_TENPO_MST t2 " & vbCrLf & _
-                            "        ON  t1.register_cd = t2.regi_cd " & vbCrLf & _
-                            "  LEFT JOIN  TENPO_MST t3 " & vbCrLf & _
-                            "        ON  t0.tenpo_cd = t3.tenpo_cd " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    t1.yoyaku_no = :YoyakuNo " & vbCrLf & _
-                             "ORDER BY " & vbCrLf & _
+    Private strEX05S010 As String =
+                            "SELECT  DISTINCT " & vbCrLf &
+                            "    t2.regi_nm, " & vbCrLf &
+                            "    t3.tenpo_nm, " & vbCrLf &
+                            "    t1.deposit_amount " & vbCrLf &
+                            "FROM  ( SELECT " & vbCrLf &
+                            "            yoyaku_no, " & vbCrLf &
+                            "            register_cd, " & vbCrLf &
+                            "            SUM(deposit_amount) deposit_amount " & vbCrLf &
+                            "        FROM  ALSOK_DEPOSIT_TBL " & vbCrLf &
+                            "        GROUP BY " & vbCrLf &
+                            "            yoyaku_no, " & vbCrLf &
+                            "            register_cd " & vbCrLf &
+                            "      ) t1 " & vbCrLf &
+                            "  LEFT OUTER  JOIN  ALSOK_DEPOSIT_TBL t0 " & vbCrLf &
+                            "        ON  t1.yoyaku_no   = t0.yoyaku_no " & vbCrLf &
+                            "        AND t1.register_cd = t0.register_cd " & vbCrLf &
+                            "  LEFT JOIN  ALSOK_TENPO_MST t2 " & vbCrLf &
+                            "        ON  t1.register_cd = t2.regi_cd " & vbCrLf &
+                            "  LEFT JOIN  TENPO_MST t3 " & vbCrLf &
+                            "        ON  t0.tenpo_cd = t3.tenpo_cd " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    t1.yoyaku_no = :YoyakuNo " & vbCrLf &
+                             "ORDER BY " & vbCrLf &
                             "    t2.regi_nm"
     ' 2015.12.10 UPD END↑ h.hagiwara 
 
     '承認依頼
-    Private strEX05S006 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    t1.yoyaku_no, " & vbCrLf & _
-                            "    t1.seq, " & vbCrLf & _
-                            "    to_char(t1.irai_dt, 'yyyy/mm/dd hh24:mi') as irai_dt, " & vbCrLf & _
-                            "    t1.com, " & vbCrLf & _
-                            "    t2.user_nm as user_nm " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    irai_rireki_tbl t1 " & vbCrLf & _
-                            "    LEFT JOIN " & vbCrLf & _
-                            "        user_mst t2 " & vbCrLf & _
-                            "        ON  t1.irai_usercd = t2.user_cd " & vbCrLf & _
+    Private strEX05S006 As String =
+                            "SELECT " & vbCrLf &
+                            "    t1.yoyaku_no, " & vbCrLf &
+                            "    t1.seq, " & vbCrLf &
+                            "    to_char(t1.irai_dt, 'yyyy/mm/dd hh24:mi') as irai_dt, " & vbCrLf &
+                            "    t1.com, " & vbCrLf &
+                            "    t2.user_nm as user_nm " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    irai_rireki_tbl t1 " & vbCrLf &
+                            "    LEFT JOIN " & vbCrLf &
+                            "        user_mst t2 " & vbCrLf &
+                            "        ON  t1.irai_usercd = t2.user_cd " & vbCrLf &
                             "WHERE yoyaku_no = :YoyakuNo ORDER BY t1.seq "
 
     '承認記録
-    Private strEX05S007 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    t1.yoyaku_no, " & vbCrLf & _
-                            "    t1.seq, " & vbCrLf & _
-                            "    to_char(t1.check_dt, 'yyyy/mm/dd hh24:mi') as check_dt, " & vbCrLf & _
-                            "    t1.check_sts, " & vbCrLf & _
-                            "    t1.com, " & vbCrLf & _
-                            "    t2.user_nm as user_nm " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    check_rireki_tbl t1 " & vbCrLf & _
-                            "    LEFT JOIN " & vbCrLf & _
-                            "        user_mst t2 " & vbCrLf & _
-                            "        ON  t1.check_usercd = t2.user_cd " & vbCrLf & _
+    Private strEX05S007 As String =
+                            "SELECT " & vbCrLf &
+                            "    t1.yoyaku_no, " & vbCrLf &
+                            "    t1.seq, " & vbCrLf &
+                            "    to_char(t1.check_dt, 'yyyy/mm/dd hh24:mi') as check_dt, " & vbCrLf &
+                            "    t1.check_sts, " & vbCrLf &
+                            "    t1.com, " & vbCrLf &
+                            "    t2.user_nm as user_nm " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    check_rireki_tbl t1 " & vbCrLf &
+                            "    LEFT JOIN " & vbCrLf &
+                            "        user_mst t2 " & vbCrLf &
+                            "        ON  t1.check_usercd = t2.user_cd " & vbCrLf &
                             "WHERE t1.yoyaku_no = :YoyakuNo ORDER BY t1.seq "
 
     'タイムスケジュール
-    Private strEX05S008 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    yoyaku_no, " & vbCrLf & _
-                            "    seq, " & vbCrLf & _
-                            "    shurui, " & vbCrLf & _
-                            "    time, " & vbCrLf & _
-                            "    biko " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    time_schedule_tbl " & vbCrLf & _
-                            "WHERE yoyaku_no = :YoyakuNo " & vbCrLf & _
+    Private strEX05S008 As String =
+                            "SELECT " & vbCrLf &
+                            "    yoyaku_no, " & vbCrLf &
+                            "    seq, " & vbCrLf &
+                            "    shurui, " & vbCrLf &
+                            "    time, " & vbCrLf &
+                            "    biko " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    time_schedule_tbl " & vbCrLf &
+                            "WHERE yoyaku_no = :YoyakuNo " & vbCrLf &
                             "ORDER BY time "
 
     'メール送付先
@@ -483,458 +546,458 @@ Public Class SqlEXTB0103
     '                        "FROM " & vbCrLf & _
     '                        "    user_mst " & vbCrLf & _
     '                        "WHERE sts = '0' " & vbCrLf & _
-    Private strEX05S099 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    mail " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    user_mst " & vbCrLf & _
-                            "WHERE sts = '0' " & vbCrLf & _
-                            " AND  mail is not null " & vbCrLf & _
+    Private strEX05S099 As String =
+                            "SELECT " & vbCrLf &
+                            "    mail " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    user_mst " & vbCrLf &
+                            "WHERE sts = '0' " & vbCrLf &
+                            " AND  mail is not null " & vbCrLf &
                             " AND  user_cd <> '000000' "
     ' 2015.11.20 UPD END↑ h.hagiwara
     ' 2016.01.27 ADD START↓ h.hagiwara
-    Private strEX05S0991 As String = " UNION " & vbCrLf & _
-                                     "SELECT " & vbCrLf & _
-                                     "     MAIL " & vbCrLf & _
-                                     "FROM " & vbCrLf & _
-                                     "    USER_MST " & vbCrLf & _
-                                     "WHERE " & vbCrLf & _
-                                     "      STS = '0' " & vbCrLf & _
-                                     " AND  mail is not null " & vbCrLf & _
-                                     " AND  user_cd = ( SELECT " & vbCrLf & _
-                                     "                     IRAI_USERCD " & vbCrLf & _
-                                     "                  FROM " & vbCrLf & _
-                                     "                     IRAI_RIREKI_TBL " & vbCrLf & _
-                                     "                  WHERE " & vbCrLf & _
-                                     "                      YOYAKU_NO = :YOYAKU_NO " & vbCrLf & _
-                                     "                  AND SEQ = ( SELECT MAX(SEQ) FROM IRAI_RIREKI_TBL " & vbCrLf & _
-                                     "                                              WHERE YOYAKU_NO = :YOYAKU_NO2 )" & vbCrLf & _
+    Private strEX05S0991 As String = " UNION " & vbCrLf &
+                                     "SELECT " & vbCrLf &
+                                     "     MAIL " & vbCrLf &
+                                     "FROM " & vbCrLf &
+                                     "    USER_MST " & vbCrLf &
+                                     "WHERE " & vbCrLf &
+                                     "      STS = '0' " & vbCrLf &
+                                     " AND  mail is not null " & vbCrLf &
+                                     " AND  user_cd = ( SELECT " & vbCrLf &
+                                     "                     IRAI_USERCD " & vbCrLf &
+                                     "                  FROM " & vbCrLf &
+                                     "                     IRAI_RIREKI_TBL " & vbCrLf &
+                                     "                  WHERE " & vbCrLf &
+                                     "                      YOYAKU_NO = :YOYAKU_NO " & vbCrLf &
+                                     "                  AND SEQ = ( SELECT MAX(SEQ) FROM IRAI_RIREKI_TBL " & vbCrLf &
+                                     "                                              WHERE YOYAKU_NO = :YOYAKU_NO2 )" & vbCrLf &
                                      "                 )"
     ' 2016.01.27 ADD END↑ h.hagiwara
 
     '利用料(初回)取得
-    Private strEX38S001 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    null as yoyaku_no, " & vbCrLf & _
-                            "    null as seq, " & vbCrLf & _
-                            "    null as seikyu_irai_no, " & vbCrLf & _
-                            "    null as seikyu_irai_seq, " & vbCrLf & _
-                            "    '1' as seikyu_naiyo, " & vbCrLf & _
-                            "    '' as riyo_ym, " & vbCrLf & _
-                            "    t1.shukei_grp, " & vbCrLf & _
-                            "    t2.kamoku_nm, " & vbCrLf & _
-                            "    t2.saimoku_nm, " & vbCrLf & _
-                            "    t2.uchi_nm, " & vbCrLf & _
-                            "    t2.shosai_nm, " & vbCrLf & _
-                            "    CAST(0 AS INT8) as keijo_kin, " & vbCrLf & _
-                            "    CAST(0 AS INT8) as tax_kin, " & vbCrLf & _
-                            "    '' as tekiyo1, " & vbCrLf & _
-                            "    '' as tekiyo2, " & vbCrLf & _
-                            "    '' as event_nm, " & vbCrLf & _
-                            "    '' as content_uchi_nm, " & vbCrLf & _
-                            "    t2.kamoku_cd, " & vbCrLf & _
-                            "    COALESCE(t2.saimoku_cd,'') as saimoku_cd , " & vbCrLf & _
-                            "    COALESCE(t2.uchi_cd,'') as uchi_cd , " & vbCrLf & _
-                            "    COALESCE(t2.shosai_cd,'') as shosai_cd , " & vbCrLf & _
-                            "    '' as content_cd, " & vbCrLf & _
-                            "    '' as content_uchi_cd, " & vbCrLf & _
-                            "    t1.shukei_grp, " & vbCrLf & _
-                            "    t2.karikamoku_cd, " & vbCrLf & _
-                            "    t2.kari_saimoku_cd, " & vbCrLf & _
-                            "    t2.kari_uchi_cd, " & vbCrLf & _
-                            "    t2.kari_shosai_cd " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    fbunrui_mst t1 " & vbCrLf & _
-                            "INNER JOIN kamoku_mst t2 " & vbCrLf & _
-                            "ON        t1.kamoku_cd = t2.kamoku_cd" & vbCrLf & _
-                            "     AND  t1.saimoku_cd = t2.saimoku_cd" & vbCrLf & _
-                            "     AND  t1.uchi_cd = t2.uchi_cd" & vbCrLf & _
-                            "     AND  t1.shosai_cd = t2.shosai_cd" & vbCrLf & _
-                            "WHERE " & vbCrLf & _
+    Private strEX38S001 As String =
+                            "SELECT " & vbCrLf &
+                            "    null as yoyaku_no, " & vbCrLf &
+                            "    null as seq, " & vbCrLf &
+                            "    null as seikyu_irai_no, " & vbCrLf &
+                            "    null as seikyu_irai_seq, " & vbCrLf &
+                            "    '1' as seikyu_naiyo, " & vbCrLf &
+                            "    '' as riyo_ym, " & vbCrLf &
+                            "    t1.shukei_grp, " & vbCrLf &
+                            "    t2.kamoku_nm, " & vbCrLf &
+                            "    t2.saimoku_nm, " & vbCrLf &
+                            "    t2.uchi_nm, " & vbCrLf &
+                            "    t2.shosai_nm, " & vbCrLf &
+                            "    CAST(0 AS INT8) as keijo_kin, " & vbCrLf &
+                            "    CAST(0 AS INT8) as tax_kin, " & vbCrLf &
+                            "    '' as tekiyo1, " & vbCrLf &
+                            "    '' as tekiyo2, " & vbCrLf &
+                            "    '' as event_nm, " & vbCrLf &
+                            "    '' as content_uchi_nm, " & vbCrLf &
+                            "    t2.kamoku_cd, " & vbCrLf &
+                            "    COALESCE(t2.saimoku_cd,'') as saimoku_cd , " & vbCrLf &
+                            "    COALESCE(t2.uchi_cd,'') as uchi_cd , " & vbCrLf &
+                            "    COALESCE(t2.shosai_cd,'') as shosai_cd , " & vbCrLf &
+                            "    '' as content_cd, " & vbCrLf &
+                            "    '' as content_uchi_cd, " & vbCrLf &
+                            "    t1.shukei_grp, " & vbCrLf &
+                            "    t2.karikamoku_cd, " & vbCrLf &
+                            "    t2.kari_saimoku_cd, " & vbCrLf &
+                            "    t2.kari_uchi_cd, " & vbCrLf &
+                            "    t2.kari_shosai_cd " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    fbunrui_mst t1 " & vbCrLf &
+                            "INNER JOIN kamoku_mst t2 " & vbCrLf &
+                            "ON        t1.kamoku_cd = t2.kamoku_cd" & vbCrLf &
+                            "     AND  t1.saimoku_cd = t2.saimoku_cd" & vbCrLf &
+                            "     AND  t1.uchi_cd = t2.uchi_cd" & vbCrLf &
+                            "     AND  t1.shosai_cd = t2.shosai_cd" & vbCrLf &
+                            "WHERE " & vbCrLf &
                             "        t2.riyo_kamoku_flg = '1' "
 
     '付帯(初回)取得
-    Private strEX38S002 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    null as yoyaku_no, " & vbCrLf & _
-                            "    null as seq, " & vbCrLf & _
-                            "    null as seikyu_irai_no, " & vbCrLf & _
-                            "    null as seikyu_irai_seq, " & vbCrLf & _
-                            "    '2' as seikyu_naiyo, " & vbCrLf & _
-                            "    '' as riyo_ym, " & vbCrLf & _
-                            "    t1.shukei_grp, " & vbCrLf & _
-                            "    t2.kamoku_nm, " & vbCrLf & _
-                            "    t2.saimoku_nm, " & vbCrLf & _
-                            "    t2.uchi_nm, " & vbCrLf & _
-                            "    t2.shosai_nm, " & vbCrLf & _
-                            "    CAST(0 AS INT8) as keijo_kin, " & vbCrLf & _
-                            "    CAST(0 AS INT8) as tax_kin, " & vbCrLf & _
-                            "    '' as tekiyo1, " & vbCrLf & _
-                            "    '' as tekiyo2, " & vbCrLf & _
-                            "    '' as event_nm, " & vbCrLf & _
-                            "    '' as content_uchi_nm, " & vbCrLf & _
-                            "    t2.kamoku_cd, " & vbCrLf & _
-                            "    COALESCE(t2.saimoku_cd,'') as saimoku_cd , " & vbCrLf & _
-                            "    COALESCE(t2.uchi_cd,'') as uchi_cd , " & vbCrLf & _
-                            "    COALESCE(t2.shosai_cd,'') as shosai_cd, " & vbCrLf & _
-                            "    '' as content_cd, " & vbCrLf & _
-                            "    '' as content_uchi_cd, " & vbCrLf & _
-                            "    t1.shukei_grp, " & vbCrLf & _
-                            "    COALESCE(t2.karikamoku_cd,'') as karikamoku_cd , " & vbCrLf & _
-                            "    COALESCE(t2.kari_saimoku_cd,'') as kari_saimoku_cd , " & vbCrLf & _
-                            "    COALESCE(t2.kari_uchi_cd,'') as kari_uchi_cd , " & vbCrLf & _
-                            "    COALESCE(t2.kari_shosai_cd,'') as kari_shosai_cd " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    fbunrui_mst t1 " & vbCrLf & _
-                            "INNER JOIN kamoku_mst t2 " & vbCrLf & _
-                            "ON        t1.kamoku_cd = t2.kamoku_cd" & vbCrLf & _
-                            "     AND  t1.saimoku_cd = t2.saimoku_cd" & vbCrLf & _
-                            "     AND  t1.uchi_cd = t2.uchi_cd" & vbCrLf & _
-                            "     AND  t1.shosai_cd = t2.shosai_cd" & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "     :Riyobi BETWEEN t1.kikan_from AND t1.kikan_to " & vbCrLf & _
-                            "AND  t1.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "AND  t1.sts = '0' " & vbCrLf & _
-                            " ORDER BY " & vbCrLf & _
+    Private strEX38S002 As String =
+                            "SELECT " & vbCrLf &
+                            "    null as yoyaku_no, " & vbCrLf &
+                            "    null as seq, " & vbCrLf &
+                            "    null as seikyu_irai_no, " & vbCrLf &
+                            "    null as seikyu_irai_seq, " & vbCrLf &
+                            "    '2' as seikyu_naiyo, " & vbCrLf &
+                            "    '' as riyo_ym, " & vbCrLf &
+                            "    t1.shukei_grp, " & vbCrLf &
+                            "    t2.kamoku_nm, " & vbCrLf &
+                            "    t2.saimoku_nm, " & vbCrLf &
+                            "    t2.uchi_nm, " & vbCrLf &
+                            "    t2.shosai_nm, " & vbCrLf &
+                            "    CAST(0 AS INT8) as keijo_kin, " & vbCrLf &
+                            "    CAST(0 AS INT8) as tax_kin, " & vbCrLf &
+                            "    '' as tekiyo1, " & vbCrLf &
+                            "    '' as tekiyo2, " & vbCrLf &
+                            "    '' as event_nm, " & vbCrLf &
+                            "    '' as content_uchi_nm, " & vbCrLf &
+                            "    t2.kamoku_cd, " & vbCrLf &
+                            "    COALESCE(t2.saimoku_cd,'') as saimoku_cd , " & vbCrLf &
+                            "    COALESCE(t2.uchi_cd,'') as uchi_cd , " & vbCrLf &
+                            "    COALESCE(t2.shosai_cd,'') as shosai_cd, " & vbCrLf &
+                            "    '' as content_cd, " & vbCrLf &
+                            "    '' as content_uchi_cd, " & vbCrLf &
+                            "    t1.shukei_grp, " & vbCrLf &
+                            "    COALESCE(t2.karikamoku_cd,'') as karikamoku_cd , " & vbCrLf &
+                            "    COALESCE(t2.kari_saimoku_cd,'') as kari_saimoku_cd , " & vbCrLf &
+                            "    COALESCE(t2.kari_uchi_cd,'') as kari_uchi_cd , " & vbCrLf &
+                            "    COALESCE(t2.kari_shosai_cd,'') as kari_shosai_cd " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    fbunrui_mst t1 " & vbCrLf &
+                            "INNER JOIN kamoku_mst t2 " & vbCrLf &
+                            "ON        t1.kamoku_cd = t2.kamoku_cd" & vbCrLf &
+                            "     AND  t1.saimoku_cd = t2.saimoku_cd" & vbCrLf &
+                            "     AND  t1.uchi_cd = t2.uchi_cd" & vbCrLf &
+                            "     AND  t1.shosai_cd = t2.shosai_cd" & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "     :Riyobi BETWEEN t1.kikan_from AND t1.kikan_to " & vbCrLf &
+                            "AND  t1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "AND  t1.sts = '0' " & vbCrLf &
+                            " ORDER BY " & vbCrLf &
                             "   riyo_ym ASC , t1.shukei_grp ASC "
 
     '利用料(初回以降)取得
-    Private strEX38S004 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    t1.yoyaku_no, " & vbCrLf & _
-                            "    t1.seq, " & vbCrLf & _
-                            "    t1.seikyu_irai_no, " & vbCrLf & _
-                            "    t1.seikyu_irai_seq, " & vbCrLf & _
-                            "    t1.seikyu_naiyo, " & vbCrLf & _
-                            "    t1.riyo_ym, " & vbCrLf & _
-                            "    t2.kamoku_nm, " & vbCrLf & _
-                            "    t2.saimoku_nm, " & vbCrLf & _
-                            "    t2.uchi_nm, " & vbCrLf & _
-                            "    t2.shosai_nm, " & vbCrLf & _
-                            "    t1.keijo_kin, " & vbCrLf & _
-                            "    COALESCE(t1.tax_kin,0) tax_kin ," & vbCrLf & _
-                            "    t1.tekiyo1, " & vbCrLf & _
-                            "    t1.tekiyo2, " & vbCrLf & _
-                            "    t3.event_nm, " & vbCrLf & _
-                            "    t4.content_uchi_nm, " & vbCrLf & _
-                            "    t1.kamoku_cd, " & vbCrLf & _
-                            "    t1.saimoku_cd, " & vbCrLf & _
-                            "    t1.uchi_cd, " & vbCrLf & _
-                            "    t1.shosai_cd, " & vbCrLf & _
-                            "    t1.content_cd, " & vbCrLf & _
-                            "    t1.content_uchi_cd, " & vbCrLf & _
-                            "    t1.shukei_grp, " & vbCrLf & _
-                            "    t2.karikamoku_cd, " & vbCrLf & _
-                            "    t2.kari_saimoku_cd, " & vbCrLf & _
-                            "    t2.kari_uchi_cd, " & vbCrLf & _
-                            "    t2.kari_shosai_cd " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    project_tbl t1 " & vbCrLf & _
-                            "    LEFT JOIN " & vbCrLf & _
-                            "        kamoku_mst t2 " & vbCrLf & _
-                            "    ON  t1.kamoku_cd = t2.kamoku_cd " & vbCrLf & _
-                            "    AND t1.saimoku_cd = t2.saimoku_cd " & vbCrLf & _
-                            "    AND t1.uchi_cd = t2.uchi_cd " & vbCrLf & _
-                            "    AND t1.shosai_cd = t2.shosai_cd " & vbCrLf & _
-                            "    LEFT JOIN " & vbCrLf & _
-                            "        content_mst t3 " & vbCrLf & _
-                            "    ON  t1.content_cd = t3.event_cd " & vbCrLf & _
-                            "    LEFT JOIN " & vbCrLf & _
-                            "        content_uchi_mst t4 " & vbCrLf & _
-                            "    ON  t1.content_cd = t4.content_cd " & vbCrLf & _
-                            "    AND t1.content_uchi_cd = t4.content_uchi_cd " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    ( " & vbCrLf & _
-                            "        t1.seikyu_naiyo = '1' " & vbCrLf & _
-                            "    OR  t1.seikyu_naiyo = '3' " & vbCrLf & _
-                            "    ) " & vbCrLf & _
-                            "AND t1.yoyaku_no = :YoyakuNo " & vbCrLf & _
-                            "AND t1.seikyu_irai_no = :SeikyuIraiNo " & vbCrLf & _
-                            " ORDER BY " & vbCrLf & _
+    Private strEX38S004 As String =
+                            "SELECT " & vbCrLf &
+                            "    t1.yoyaku_no, " & vbCrLf &
+                            "    t1.seq, " & vbCrLf &
+                            "    t1.seikyu_irai_no, " & vbCrLf &
+                            "    t1.seikyu_irai_seq, " & vbCrLf &
+                            "    t1.seikyu_naiyo, " & vbCrLf &
+                            "    t1.riyo_ym, " & vbCrLf &
+                            "    t2.kamoku_nm, " & vbCrLf &
+                            "    t2.saimoku_nm, " & vbCrLf &
+                            "    t2.uchi_nm, " & vbCrLf &
+                            "    t2.shosai_nm, " & vbCrLf &
+                            "    t1.keijo_kin, " & vbCrLf &
+                            "    COALESCE(t1.tax_kin,0) tax_kin ," & vbCrLf &
+                            "    t1.tekiyo1, " & vbCrLf &
+                            "    t1.tekiyo2, " & vbCrLf &
+                            "    t3.event_nm, " & vbCrLf &
+                            "    t4.content_uchi_nm, " & vbCrLf &
+                            "    t1.kamoku_cd, " & vbCrLf &
+                            "    t1.saimoku_cd, " & vbCrLf &
+                            "    t1.uchi_cd, " & vbCrLf &
+                            "    t1.shosai_cd, " & vbCrLf &
+                            "    t1.content_cd, " & vbCrLf &
+                            "    t1.content_uchi_cd, " & vbCrLf &
+                            "    t1.shukei_grp, " & vbCrLf &
+                            "    t2.karikamoku_cd, " & vbCrLf &
+                            "    t2.kari_saimoku_cd, " & vbCrLf &
+                            "    t2.kari_uchi_cd, " & vbCrLf &
+                            "    t2.kari_shosai_cd " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    project_tbl t1 " & vbCrLf &
+                            "    LEFT JOIN " & vbCrLf &
+                            "        kamoku_mst t2 " & vbCrLf &
+                            "    ON  t1.kamoku_cd = t2.kamoku_cd " & vbCrLf &
+                            "    AND t1.saimoku_cd = t2.saimoku_cd " & vbCrLf &
+                            "    AND t1.uchi_cd = t2.uchi_cd " & vbCrLf &
+                            "    AND t1.shosai_cd = t2.shosai_cd " & vbCrLf &
+                            "    LEFT JOIN " & vbCrLf &
+                            "        content_mst t3 " & vbCrLf &
+                            "    ON  t1.content_cd = t3.event_cd " & vbCrLf &
+                            "    LEFT JOIN " & vbCrLf &
+                            "        content_uchi_mst t4 " & vbCrLf &
+                            "    ON  t1.content_cd = t4.content_cd " & vbCrLf &
+                            "    AND t1.content_uchi_cd = t4.content_uchi_cd " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    ( " & vbCrLf &
+                            "        t1.seikyu_naiyo = '1' " & vbCrLf &
+                            "    OR  t1.seikyu_naiyo = '3' " & vbCrLf &
+                            "    ) " & vbCrLf &
+                            "AND t1.yoyaku_no = :YoyakuNo " & vbCrLf &
+                            "AND t1.seikyu_irai_no = :SeikyuIraiNo " & vbCrLf &
+                            " ORDER BY " & vbCrLf &
                             "   t1.riyo_ym ASC , t2.kamoku_nm ASC "
 
     '付帯設備(初回以降)取得
-    Private strEX38S005 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    t1.yoyaku_no, " & vbCrLf & _
-                            "    t1.seq, " & vbCrLf & _
-                            "    t1.seikyu_irai_no, " & vbCrLf & _
-                            "    t1.seikyu_irai_seq, " & vbCrLf & _
-                            "    t1.seikyu_naiyo, " & vbCrLf & _
-                            "    t1.riyo_ym, " & vbCrLf & _
-                            "    t1.shukei_grp, " & vbCrLf & _
-                            "    t2.kamoku_nm, " & vbCrLf & _
-                            "    t2.saimoku_nm, " & vbCrLf & _
-                            "    t2.uchi_nm, " & vbCrLf & _
-                            "    t2.shosai_nm, " & vbCrLf & _
-                            "    t1.keijo_kin, " & vbCrLf & _
-                            "    COALESCE(t1.tax_kin,0) tax_kin ," & vbCrLf & _
-                            "    t1.tekiyo1, " & vbCrLf & _
-                            "    t1.tekiyo2, " & vbCrLf & _
-                            "    t3.event_nm, " & vbCrLf & _
-                            "    t4.content_uchi_nm, " & vbCrLf & _
-                            "    t1.kamoku_cd, " & vbCrLf & _
-                            "    t1.saimoku_cd, " & vbCrLf & _
-                            "    t1.uchi_cd, " & vbCrLf & _
-                            "    t1.shosai_cd, " & vbCrLf & _
-                            "    t1.content_cd, " & vbCrLf & _
-                            "    t1.content_uchi_cd, " & vbCrLf & _
-                            "    t1.shukei_grp, " & vbCrLf & _
-                            "    t2.karikamoku_cd, " & vbCrLf & _
-                            "    t2.kari_saimoku_cd, " & vbCrLf & _
-                            "    t2.kari_uchi_cd, " & vbCrLf & _
-                            "    t2.kari_shosai_cd " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    project_tbl t1 " & vbCrLf & _
-                            "    LEFT JOIN " & vbCrLf & _
-                            "        kamoku_mst t2 " & vbCrLf & _
-                            "    ON  t1.kamoku_cd = t2.kamoku_cd " & vbCrLf & _
-                            "    AND t1.saimoku_cd = t2.saimoku_cd " & vbCrLf & _
-                            "    AND t1.uchi_cd = t2.uchi_cd " & vbCrLf & _
-                            "    AND t1.shosai_cd = t2.shosai_cd " & vbCrLf & _
-                            "    LEFT JOIN " & vbCrLf & _
-                            "        content_mst t3 " & vbCrLf & _
-                            "    ON  t1.content_cd = t3.event_cd " & vbCrLf & _
-                            "    LEFT JOIN " & vbCrLf & _
-                            "        content_uchi_mst t4 " & vbCrLf & _
-                            "    ON  t1.content_cd = t4.content_cd " & vbCrLf & _
-                            "    AND t1.content_uchi_cd = t4.content_uchi_cd " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    ( " & vbCrLf & _
-                            "        t1.seikyu_naiyo = '2' " & vbCrLf & _
-                            "    OR  t1.seikyu_naiyo = '3' " & vbCrLf & _
-                            "    ) " & vbCrLf & _
-                            "AND t1.yoyaku_no = :YoyakuNo " & vbCrLf & _
-                            "AND t1.seikyu_irai_no = :SeikyuIraiNo " & vbCrLf & _
-                            " ORDER BY " & vbCrLf & _
+    Private strEX38S005 As String =
+                            "SELECT " & vbCrLf &
+                            "    t1.yoyaku_no, " & vbCrLf &
+                            "    t1.seq, " & vbCrLf &
+                            "    t1.seikyu_irai_no, " & vbCrLf &
+                            "    t1.seikyu_irai_seq, " & vbCrLf &
+                            "    t1.seikyu_naiyo, " & vbCrLf &
+                            "    t1.riyo_ym, " & vbCrLf &
+                            "    t1.shukei_grp, " & vbCrLf &
+                            "    t2.kamoku_nm, " & vbCrLf &
+                            "    t2.saimoku_nm, " & vbCrLf &
+                            "    t2.uchi_nm, " & vbCrLf &
+                            "    t2.shosai_nm, " & vbCrLf &
+                            "    t1.keijo_kin, " & vbCrLf &
+                            "    COALESCE(t1.tax_kin,0) tax_kin ," & vbCrLf &
+                            "    t1.tekiyo1, " & vbCrLf &
+                            "    t1.tekiyo2, " & vbCrLf &
+                            "    t3.event_nm, " & vbCrLf &
+                            "    t4.content_uchi_nm, " & vbCrLf &
+                            "    t1.kamoku_cd, " & vbCrLf &
+                            "    t1.saimoku_cd, " & vbCrLf &
+                            "    t1.uchi_cd, " & vbCrLf &
+                            "    t1.shosai_cd, " & vbCrLf &
+                            "    t1.content_cd, " & vbCrLf &
+                            "    t1.content_uchi_cd, " & vbCrLf &
+                            "    t1.shukei_grp, " & vbCrLf &
+                            "    t2.karikamoku_cd, " & vbCrLf &
+                            "    t2.kari_saimoku_cd, " & vbCrLf &
+                            "    t2.kari_uchi_cd, " & vbCrLf &
+                            "    t2.kari_shosai_cd " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    project_tbl t1 " & vbCrLf &
+                            "    LEFT JOIN " & vbCrLf &
+                            "        kamoku_mst t2 " & vbCrLf &
+                            "    ON  t1.kamoku_cd = t2.kamoku_cd " & vbCrLf &
+                            "    AND t1.saimoku_cd = t2.saimoku_cd " & vbCrLf &
+                            "    AND t1.uchi_cd = t2.uchi_cd " & vbCrLf &
+                            "    AND t1.shosai_cd = t2.shosai_cd " & vbCrLf &
+                            "    LEFT JOIN " & vbCrLf &
+                            "        content_mst t3 " & vbCrLf &
+                            "    ON  t1.content_cd = t3.event_cd " & vbCrLf &
+                            "    LEFT JOIN " & vbCrLf &
+                            "        content_uchi_mst t4 " & vbCrLf &
+                            "    ON  t1.content_cd = t4.content_cd " & vbCrLf &
+                            "    AND t1.content_uchi_cd = t4.content_uchi_cd " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    ( " & vbCrLf &
+                            "        t1.seikyu_naiyo = '2' " & vbCrLf &
+                            "    OR  t1.seikyu_naiyo = '3' " & vbCrLf &
+                            "    ) " & vbCrLf &
+                            "AND t1.yoyaku_no = :YoyakuNo " & vbCrLf &
+                            "AND t1.seikyu_irai_no = :SeikyuIraiNo " & vbCrLf &
+                            " ORDER BY " & vbCrLf &
                             "   t1.riyo_ym ASC , t1.shukei_grp ASC "
 
     'SQL文(入金情報)
-    Private strEX41S001 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    yoyaku_no, " & vbCrLf & _
-                            "    aite_cd, " & vbCrLf & _
-                            "    aite_nm, " & vbCrLf & _
-                            "    nyukin_yotei_dt, " & vbCrLf & _
-                            "    nyukin_dt, " & vbCrLf & _
-                            "    seikyu_kin, " & vbCrLf & _
-                            "    seikyu_dt, " & vbCrLf & _
-                            "    input_dt, " & vbCrLf & _
-                            "    sekikyu_no, " & vbCrLf & _
-                            "    seikyu_irai_no, " & vbCrLf & _
-                            "    seikyu_kin, " & vbCrLf & _
-                            "    nyukin_link_no, " & vbCrLf & _
-                            "    :LineNo as line_no " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    exas_nyukin_tbl " & vbCrLf & _
+    Private strEX41S001 As String =
+                            "SELECT " & vbCrLf &
+                            "    yoyaku_no, " & vbCrLf &
+                            "    aite_cd, " & vbCrLf &
+                            "    aite_nm, " & vbCrLf &
+                            "    nyukin_yotei_dt, " & vbCrLf &
+                            "    nyukin_dt, " & vbCrLf &
+                            "    seikyu_kin, " & vbCrLf &
+                            "    seikyu_dt, " & vbCrLf &
+                            "    input_dt, " & vbCrLf &
+                            "    sekikyu_no, " & vbCrLf &
+                            "    seikyu_irai_no, " & vbCrLf &
+                            "    seikyu_kin, " & vbCrLf &
+                            "    nyukin_link_no, " & vbCrLf &
+                            "    :LineNo as line_no " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    exas_nyukin_tbl " & vbCrLf &
                             "WHERE 1 = 1 "
 
     'コンテンツ情報
-    Private strEX41S006 As String = _
-                           "SELECT " & vbCrLf & _
-                           "    m1.event_cd, " & vbCrLf & _
-                           "    m1.event_nm, " & vbCrLf & _
-                           "    m2.content_uchi_cd, " & vbCrLf & _
-                           "    m2.content_uchi_nm " & vbCrLf & _
-                           "FROM CONTENT_MST m1 " & vbCrLf & _
-                           "LEFT JOIN CONTENT_UCHI_MST m2 " & vbCrLf & _
-                           "    ON m1.event_cd = m2.content_cd " & vbCrLf & _
-                           "WHERE (m1.del_flg <> '1' OR m1.del_flg is null ) " & vbCrLf & _
-                           "    AND (m2.del_flg <> '1' OR m2.del_flg is null ) " & vbCrLf & _
-                           "    AND :Riyobi BETWEEN m1.strat_dt AND m1.end_dt " & vbCrLf & _
+    Private strEX41S006 As String =
+                           "SELECT " & vbCrLf &
+                           "    m1.event_cd, " & vbCrLf &
+                           "    m1.event_nm, " & vbCrLf &
+                           "    m2.content_uchi_cd, " & vbCrLf &
+                           "    m2.content_uchi_nm " & vbCrLf &
+                           "FROM CONTENT_MST m1 " & vbCrLf &
+                           "LEFT JOIN CONTENT_UCHI_MST m2 " & vbCrLf &
+                           "    ON m1.event_cd = m2.content_cd " & vbCrLf &
+                           "WHERE (m1.del_flg <> '1' OR m1.del_flg is null ) " & vbCrLf &
+                           "    AND (m2.del_flg <> '1' OR m2.del_flg is null ) " & vbCrLf &
+                           "    AND :Riyobi BETWEEN m1.strat_dt AND m1.end_dt " & vbCrLf &
                            "    AND :ContentUchiNm = m2.content_uchi_nm "
 
     '請求情報登録
-    Private strEX05D003 As String = _
+    Private strEX05D003 As String =
                             "DELETE FROM BILLPAY_TBL WHERE  yoyaku_no=:YoyakuNo "
     '請求情報登録
-    Private strEX05I003 As String = _
-                            "INSERT INTO " & vbCrLf & _
-                            "    BILLPAY_TBL(yoyaku_no, seq, seikyu_irai_no, seikyu_dt, nyukin_yotei_dt, kakutei_kin, chosei_kin, shokei, " & vbCrLf & _
-                            "     tax_kin, seikyu_kin, seikyu_naiyo, aite_cd, nyukin_kbn, seikyu_title1, seikyu_title2, nyukin_dt, nyukin_kin, " & vbCrLf & _
-                            "      seikyu_input_flg, seikyu_irai_flg, nyukin_input_flg, nyukin_link_no, add_dt, add_user_cd, up_dt, up_user_cd) " & vbCrLf & _
-                            "VALUES " & vbCrLf & _
-                            "    ( " & vbCrLf & _
-                            "    :YoyakuNo, " & vbCrLf & _
-                            "    nextval('BILLPAY_TBL_S'), " & vbCrLf & _
-                            "    :SeikyuIraiNo, " & vbCrLf & _
-                            "    :SeikyuDt, " & vbCrLf & _
-                            "    :NyukinYoteiDt, " & vbCrLf & _
-                            "    :KakuteiKin, " & vbCrLf & _
-                            "    :ChoseiKin, " & vbCrLf & _
-                            "    :Shokei, " & vbCrLf & _
-                            "    :TaxKin, " & vbCrLf & _
-                            "    :SeikyuKin, " & vbCrLf & _
-                            "    :SeikyuNaiyo, " & vbCrLf & _
-                            "    :AiteCd, " & vbCrLf & _
-                            "    :NyukinKbn, " & vbCrLf & _
-                            "    :SeikyuTitle1, " & vbCrLf & _
-                            "    :SeikyuTitle2, " & vbCrLf & _
-                            "    :NyukinDt, " & vbCrLf & _
-                            "    :NyukinKin, " & vbCrLf & _
-                            "    :SeikyuInputFlg, " & vbCrLf & _
-                            "    :SeikyuIraiFlg, " & vbCrLf & _
-                            "    :NyukinInputFlg, " & vbCrLf & _
-                            "    :NyukinLinkNo, " & vbCrLf & _
-                            "    current_timestamp, " & vbCrLf & _
-                            "    :AddUserCd, " & vbCrLf & _
-                            "    current_timestamp, " & vbCrLf & _
-                            "    :UpUserCd " & vbCrLf & _
+    Private strEX05I003 As String =
+                            "INSERT INTO " & vbCrLf &
+                            "    BILLPAY_TBL(yoyaku_no, seq, seikyu_irai_no, seikyu_dt, nyukin_yotei_dt, kakutei_kin, chosei_kin, shokei, " & vbCrLf &
+                            "     tax_kin, seikyu_kin, seikyu_naiyo, aite_cd, nyukin_kbn, seikyu_title1, seikyu_title2, nyukin_dt, nyukin_kin, " & vbCrLf &
+                            "      seikyu_input_flg, seikyu_irai_flg, nyukin_input_flg, nyukin_link_no, add_dt, add_user_cd, up_dt, up_user_cd) " & vbCrLf &
+                            "VALUES " & vbCrLf &
+                            "    ( " & vbCrLf &
+                            "    :YoyakuNo, " & vbCrLf &
+                            "    nextval('BILLPAY_TBL_S'), " & vbCrLf &
+                            "    :SeikyuIraiNo, " & vbCrLf &
+                            "    :SeikyuDt, " & vbCrLf &
+                            "    :NyukinYoteiDt, " & vbCrLf &
+                            "    :KakuteiKin, " & vbCrLf &
+                            "    :ChoseiKin, " & vbCrLf &
+                            "    :Shokei, " & vbCrLf &
+                            "    :TaxKin, " & vbCrLf &
+                            "    :SeikyuKin, " & vbCrLf &
+                            "    :SeikyuNaiyo, " & vbCrLf &
+                            "    :AiteCd, " & vbCrLf &
+                            "    :NyukinKbn, " & vbCrLf &
+                            "    :SeikyuTitle1, " & vbCrLf &
+                            "    :SeikyuTitle2, " & vbCrLf &
+                            "    :NyukinDt, " & vbCrLf &
+                            "    :NyukinKin, " & vbCrLf &
+                            "    :SeikyuInputFlg, " & vbCrLf &
+                            "    :SeikyuIraiFlg, " & vbCrLf &
+                            "    :NyukinInputFlg, " & vbCrLf &
+                            "    :NyukinLinkNo, " & vbCrLf &
+                            "    current_timestamp, " & vbCrLf &
+                            "    :AddUserCd, " & vbCrLf &
+                            "    current_timestamp, " & vbCrLf &
+                            "    :UpUserCd " & vbCrLf &
                             "    ) RETURNING seq"
 
     '付帯明細
-    Private strEX05D005 As String = _
+    Private strEX05D005 As String =
                             "DELETE FROM FRIYO_TBL WHERE yoyaku_no = :YoyakuNo AND yoyaku_dt not in "
 
     '付帯登録
-    Private strEX05I005 As String = _
-                            "INSERT INTO " & vbCrLf & _
-                            "    FRIYO_TBL(yoyaku_no, yoyaku_dt, fuzoku_nm, total_fuzoku_kin, add_dt, add_user_cd, up_dt, up_user_cd) " & vbCrLf & _
-                            "VALUES " & vbCrLf & _
-                            "    ( " & vbCrLf & _
-                            "    :YoyakuNo, " & vbCrLf & _
-                            "    :Riyobi, " & vbCrLf & _
-                            "    :FuzokuNm, " & vbCrLf & _
-                            "    :TotalFuzokuKin, " & vbCrLf & _
-                            "    current_timestamp, " & vbCrLf & _
-                            "    :AddUserCd, " & vbCrLf & _
-                            "    current_timestamp, " & vbCrLf & _
-                            "    :UpUserCd " & vbCrLf & _
+    Private strEX05I005 As String =
+                            "INSERT INTO " & vbCrLf &
+                            "    FRIYO_TBL(yoyaku_no, yoyaku_dt, fuzoku_nm, total_fuzoku_kin, add_dt, add_user_cd, up_dt, up_user_cd) " & vbCrLf &
+                            "VALUES " & vbCrLf &
+                            "    ( " & vbCrLf &
+                            "    :YoyakuNo, " & vbCrLf &
+                            "    :Riyobi, " & vbCrLf &
+                            "    :FuzokuNm, " & vbCrLf &
+                            "    :TotalFuzokuKin, " & vbCrLf &
+                            "    current_timestamp, " & vbCrLf &
+                            "    :AddUserCd, " & vbCrLf &
+                            "    current_timestamp, " & vbCrLf &
+                            "    :UpUserCd " & vbCrLf &
                             "    ) "
 
     '付帯登録
-    Private strEX05U005 As String = _
-                            "UPDATE FRIYO_TBL SET " & vbCrLf & _
-                            "    fuzoku_nm = :FuzokuNm, " & vbCrLf & _
-                            "    total_fuzoku_kin = :TotalFuzokuKin, " & vbCrLf & _
-                            "    up_dt = current_timestamp, " & vbCrLf & _
-                            "    up_user_cd = :UpUserCd " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    yoyaku_no = :YoyakuNo " & vbCrLf & _
+    Private strEX05U005 As String =
+                            "UPDATE FRIYO_TBL SET " & vbCrLf &
+                            "    fuzoku_nm = :FuzokuNm, " & vbCrLf &
+                            "    total_fuzoku_kin = :TotalFuzokuKin, " & vbCrLf &
+                            "    up_dt = current_timestamp, " & vbCrLf &
+                            "    up_user_cd = :UpUserCd " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    yoyaku_no = :YoyakuNo " & vbCrLf &
                             "AND yoyaku_dt = :Riyobi "
 
     '付帯明細
-    Private strEX05D005D As String = _
+    Private strEX05D005D As String =
                             "DELETE FROM FRIYO_MEISAI_TBL WHERE yoyaku_no=:YoyakuNo "
 
     '付帯明細
-    Private strEX05I005D As String = _
-                            "INSERT INTO " & vbCrLf & _
-                            "    FRIYO_MEISAI_TBL(yoyaku_no, yoyaku_dt, futai_bunrui_cd, futai_cd, futai_tanka, futai_su, futai_shokei, futai_chosei, futai_kin, futai_biko, add_dt, add_user_cd, up_dt, up_user_cd) " & vbCrLf & _
-                            "VALUES " & vbCrLf & _
-                            "    ( " & vbCrLf & _
-                            "    :YoyakuNo, " & vbCrLf & _
-                            "    :Riyobi, " & vbCrLf & _
-                            "    :FutaiBunruiCd, " & vbCrLf & _
-                            "    :FutaiCd, " & vbCrLf & _
-                            "    :FutaiTanka, " & vbCrLf & _
-                            "    :FutaiSu, " & vbCrLf & _
-                            "    :FutaiShokei, " & vbCrLf & _
-                            "    :FutaiChosei, " & vbCrLf & _
-                            "    :FutaiKin, " & vbCrLf & _
-                            "    :FutaiBiko, " & vbCrLf & _
-                            "    current_timestamp, " & vbCrLf & _
-                            "    :AddUserCd, " & vbCrLf & _
-                            "    current_timestamp, " & vbCrLf & _
-                            "    :UpUserCd " & vbCrLf & _
+    Private strEX05I005D As String =
+                            "INSERT INTO " & vbCrLf &
+                            "    FRIYO_MEISAI_TBL(yoyaku_no, yoyaku_dt, futai_bunrui_cd, futai_cd, futai_tanka, futai_su, futai_shokei, futai_chosei, futai_kin, futai_biko, add_dt, add_user_cd, up_dt, up_user_cd) " & vbCrLf &
+                            "VALUES " & vbCrLf &
+                            "    ( " & vbCrLf &
+                            "    :YoyakuNo, " & vbCrLf &
+                            "    :Riyobi, " & vbCrLf &
+                            "    :FutaiBunruiCd, " & vbCrLf &
+                            "    :FutaiCd, " & vbCrLf &
+                            "    :FutaiTanka, " & vbCrLf &
+                            "    :FutaiSu, " & vbCrLf &
+                            "    :FutaiShokei, " & vbCrLf &
+                            "    :FutaiChosei, " & vbCrLf &
+                            "    :FutaiKin, " & vbCrLf &
+                            "    :FutaiBiko, " & vbCrLf &
+                            "    current_timestamp, " & vbCrLf &
+                            "    :AddUserCd, " & vbCrLf &
+                            "    current_timestamp, " & vbCrLf &
+                            "    :UpUserCd " & vbCrLf &
                             "    ) "
 
     'プロジェクト設定削除
     ' 2015.12.25 UPD START↓ h.hagiwara
     'Private strEX05D006 As String = _
     '                        "DELETE FROM PROJECT_TBL WHERE yoyaku_no = :YoyakuNo AND seikyu_irai_no = :SeikyuIraiNo AND seq not in "
-    Private strEX05D006 As String = _
+    Private strEX05D006 As String =
                             "DELETE FROM PROJECT_TBL WHERE yoyaku_no = :YoyakuNo AND seikyu_irai_no = :SeikyuIraiNo"
     ' 2015.12.25 UPD END↑ h.hagiwara
 
     'プロジェクト設定登録
-    Private strEX05I006 As String = _
-                            "INSERT INTO " & vbCrLf & _
-                            "    PROJECT_TBL(yoyaku_no, seq, seikyu_irai_no, seikyu_irai_seq, seikyu_naiyo, riyo_ym, keijo_kin, tax_kin, tekiyo1, tekiyo2," & vbCrLf & _
-                            "    content_cd, content_uchi_cd, shukei_grp, kamoku_cd, saimoku_cd, uchi_cd, shosai_cd, karikamoku_cd, kari_saimoku_cd," & vbCrLf & _
-                            "    kari_uchi_cd, kari_shosai_cd, add_dt, add_user_cd, up_dt, up_user_cd)" & vbCrLf & _
-                            "VALUES " & vbCrLf & _
-                            "    ( " & vbCrLf & _
-                            "    :YoyakuNo, " & vbCrLf & _
-                            "    nextval('PROJECT_TBL_S'), " & vbCrLf & _
-                            "    :SeikyuIraiNo, " & vbCrLf & _
-                            "    :SeikyuIraiSeq, " & vbCrLf & _
-                            "    :SeikyuNaiyo, " & vbCrLf & _
-                            "    :RiyoYm, " & vbCrLf & _
-                            "    :KeijoKin, " & vbCrLf & _
-                            "    :TaxKin, " & vbCrLf & _
-                            "    :Tekiyo1, " & vbCrLf & _
-                            "    :Tekiyo2, " & vbCrLf & _
-                            "    :ContentCd, " & vbCrLf & _
-                            "    :ContentUchiCd, " & vbCrLf & _
-                            "    :ShukeiGrp, " & vbCrLf & _
-                            "    :KamokuCd, " & vbCrLf & _
-                            "    :SaimokuCd, " & vbCrLf & _
-                            "    :UchiCd, " & vbCrLf & _
-                            "    :ShosaiCd, " & vbCrLf & _
-                            "    :KarikamokuCd, " & vbCrLf & _
-                            "    :KariSaimokuCd, " & vbCrLf & _
-                            "    :KariUchiCd, " & vbCrLf & _
-                            "    :KariShosaiCd, " & vbCrLf & _
-                            "    current_timestamp, " & vbCrLf & _
-                            "    :AddUserCd, " & vbCrLf & _
-                            "    current_timestamp, " & vbCrLf & _
-                            "    :UpUserCd " & vbCrLf & _
+    Private strEX05I006 As String =
+                            "INSERT INTO " & vbCrLf &
+                            "    PROJECT_TBL(yoyaku_no, seq, seikyu_irai_no, seikyu_irai_seq, seikyu_naiyo, riyo_ym, keijo_kin, tax_kin, tekiyo1, tekiyo2," & vbCrLf &
+                            "    content_cd, content_uchi_cd, shukei_grp, kamoku_cd, saimoku_cd, uchi_cd, shosai_cd, karikamoku_cd, kari_saimoku_cd," & vbCrLf &
+                            "    kari_uchi_cd, kari_shosai_cd, add_dt, add_user_cd, up_dt, up_user_cd)" & vbCrLf &
+                            "VALUES " & vbCrLf &
+                            "    ( " & vbCrLf &
+                            "    :YoyakuNo, " & vbCrLf &
+                            "    nextval('PROJECT_TBL_S'), " & vbCrLf &
+                            "    :SeikyuIraiNo, " & vbCrLf &
+                            "    :SeikyuIraiSeq, " & vbCrLf &
+                            "    :SeikyuNaiyo, " & vbCrLf &
+                            "    :RiyoYm, " & vbCrLf &
+                            "    :KeijoKin, " & vbCrLf &
+                            "    :TaxKin, " & vbCrLf &
+                            "    :Tekiyo1, " & vbCrLf &
+                            "    :Tekiyo2, " & vbCrLf &
+                            "    :ContentCd, " & vbCrLf &
+                            "    :ContentUchiCd, " & vbCrLf &
+                            "    :ShukeiGrp, " & vbCrLf &
+                            "    :KamokuCd, " & vbCrLf &
+                            "    :SaimokuCd, " & vbCrLf &
+                            "    :UchiCd, " & vbCrLf &
+                            "    :ShosaiCd, " & vbCrLf &
+                            "    :KarikamokuCd, " & vbCrLf &
+                            "    :KariSaimokuCd, " & vbCrLf &
+                            "    :KariUchiCd, " & vbCrLf &
+                            "    :KariShosaiCd, " & vbCrLf &
+                            "    current_timestamp, " & vbCrLf &
+                            "    :AddUserCd, " & vbCrLf &
+                            "    current_timestamp, " & vbCrLf &
+                            "    :UpUserCd " & vbCrLf &
                             "    ) "
 
 
     'プロジェクト設定登録
-    Private strEX05U006 As String = _
-                            "UPDATE PROJECT_TBL SET " & vbCrLf & _
-                            "    seikyu_naiyo = :SeikyuNaiyo, " & vbCrLf & _
-                            "    riyo_ym = :RiyoYm, " & vbCrLf & _
-                            "    keijo_kin = :KeijoKin, " & vbCrLf & _
-                            "    tax_kin = :TaxKin, " & vbCrLf & _
-                            "    tekiyo1 = :Tekiyo1, " & vbCrLf & _
-                            "    tekiyo2 = :Tekiyo2, " & vbCrLf & _
-                            "    content_cd = :ContentCd, " & vbCrLf & _
-                            "    content_uchi_cd =:ContentUchiCd, " & vbCrLf & _
-                            "    shukei_grp = :ShukeiGrp, " & vbCrLf & _
-                            "    kamoku_cd = :KamokuCd, " & vbCrLf & _
-                            "    saimoku_cd = :SaimokuCd, " & vbCrLf & _
-                            "    uchi_cd = :UchiCd, " & vbCrLf & _
-                            "    shosai_cd = :ShosaiCd, " & vbCrLf & _
-                            "    karikamoku_cd = :KarikamokuCd, " & vbCrLf & _
-                            "    kari_saimoku_cd =:KariSaimokuCd, " & vbCrLf & _
-                            "    kari_uchi_cd = :KariUchiCd, " & vbCrLf & _
-                            "    kari_shosai_cd = :KariShosaiCd, " & vbCrLf & _
-                            "    up_dt = current_timestamp, " & vbCrLf & _
-                            "    up_user_cd = :UpUserCd " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    yoyaku_no = :YoyakuNo " & vbCrLf & _
-                            "AND seq = :Seq " & vbCrLf & _
+    Private strEX05U006 As String =
+                            "UPDATE PROJECT_TBL SET " & vbCrLf &
+                            "    seikyu_naiyo = :SeikyuNaiyo, " & vbCrLf &
+                            "    riyo_ym = :RiyoYm, " & vbCrLf &
+                            "    keijo_kin = :KeijoKin, " & vbCrLf &
+                            "    tax_kin = :TaxKin, " & vbCrLf &
+                            "    tekiyo1 = :Tekiyo1, " & vbCrLf &
+                            "    tekiyo2 = :Tekiyo2, " & vbCrLf &
+                            "    content_cd = :ContentCd, " & vbCrLf &
+                            "    content_uchi_cd =:ContentUchiCd, " & vbCrLf &
+                            "    shukei_grp = :ShukeiGrp, " & vbCrLf &
+                            "    kamoku_cd = :KamokuCd, " & vbCrLf &
+                            "    saimoku_cd = :SaimokuCd, " & vbCrLf &
+                            "    uchi_cd = :UchiCd, " & vbCrLf &
+                            "    shosai_cd = :ShosaiCd, " & vbCrLf &
+                            "    karikamoku_cd = :KarikamokuCd, " & vbCrLf &
+                            "    kari_saimoku_cd =:KariSaimokuCd, " & vbCrLf &
+                            "    kari_uchi_cd = :KariUchiCd, " & vbCrLf &
+                            "    kari_shosai_cd = :KariShosaiCd, " & vbCrLf &
+                            "    up_dt = current_timestamp, " & vbCrLf &
+                            "    up_user_cd = :UpUserCd " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    yoyaku_no = :YoyakuNo " & vbCrLf &
+                            "AND seq = :Seq " & vbCrLf &
                             "AND seikyu_irai_no = :SeikyuIraiNo "
 
     '依頼履歴
-    Private strEX05I010 As String = _
-                            "INSERT INTO " & vbCrLf & _
-                            "    IRAI_RIREKI_TBL(yoyaku_no, seq, com, irai_dt, irai_usercd)" & vbCrLf & _
-                            "VALUES " & vbCrLf & _
-                            "    ( " & vbCrLf & _
-                            "    :YoyakuNo, " & vbCrLf & _
-                            "    nextval('IRAI_RIREKI_TBL_S'), " & vbCrLf & _
-                            "    :Com, " & vbCrLf & _
-                            "    to_timestamp(:IraiDt,'YYYY/MM/DD HH24:MI'), " & vbCrLf & _
-                            "    :IraiUserCd " & vbCrLf & _
+    Private strEX05I010 As String =
+                            "INSERT INTO " & vbCrLf &
+                            "    IRAI_RIREKI_TBL(yoyaku_no, seq, com, irai_dt, irai_usercd)" & vbCrLf &
+                            "VALUES " & vbCrLf &
+                            "    ( " & vbCrLf &
+                            "    :YoyakuNo, " & vbCrLf &
+                            "    nextval('IRAI_RIREKI_TBL_S'), " & vbCrLf &
+                            "    :Com, " & vbCrLf &
+                            "    to_timestamp(:IraiDt,'YYYY/MM/DD HH24:MI'), " & vbCrLf &
+                            "    :IraiUserCd " & vbCrLf &
                             "    ) RETURNING seq"
 
     'チェック履歴
-    Private strEX05I011 As String = _
-                            "INSERT INTO " & vbCrLf & _
-                            "    CHECK_RIREKI_TBL(yoyaku_no, seq, check_sts, com, check_dt, check_usercd)" & vbCrLf & _
-                            "VALUES " & vbCrLf & _
-                            "    ( " & vbCrLf & _
-                            "    :YoyakuNo, " & vbCrLf & _
-                            "    nextval('CHECK_RIREKI_TBL_S'), " & vbCrLf & _
-                            "    :CheckSts, " & vbCrLf & _
-                            "    :Com, " & vbCrLf & _
-                            "    to_timestamp(:CheckDt,'YYYY/MM/DD HH24:MI'), " & vbCrLf & _
-                            "    :CheckUserCd " & vbCrLf & _
+    Private strEX05I011 As String =
+                            "INSERT INTO " & vbCrLf &
+                            "    CHECK_RIREKI_TBL(yoyaku_no, seq, check_sts, com, check_dt, check_usercd)" & vbCrLf &
+                            "VALUES " & vbCrLf &
+                            "    ( " & vbCrLf &
+                            "    :YoyakuNo, " & vbCrLf &
+                            "    nextval('CHECK_RIREKI_TBL_S'), " & vbCrLf &
+                            "    :CheckSts, " & vbCrLf &
+                            "    :Com, " & vbCrLf &
+                            "    to_timestamp(:CheckDt,'YYYY/MM/DD HH24:MI'), " & vbCrLf &
+                            "    :CheckUserCd " & vbCrLf &
                             "    ) RETURNING seq"
 
     'チケット
@@ -951,17 +1014,17 @@ Public Class SqlEXTB0103
     '                        "    current_timestamp, " & vbCrLf & _
     '                        "    :AddUserCd " & vbCrLf & _
     '                        "    ) "
-    Private strEX05I004 As String = _
-                           "INSERT INTO " & vbCrLf & _
-                           "    TICKET_TBL(yoyaku_no, seq, ticket_nm, ticket_kin, add_dt, add_user_cd)" & vbCrLf & _
-                           "VALUES " & vbCrLf & _
-                           "    ( " & vbCrLf & _
-                           "    :YoyakuNo, " & vbCrLf & _
-                           "    :seq, " & vbCrLf & _
-                           "    :TicketNm, " & vbCrLf & _
-                           "    :TicketKin, " & vbCrLf & _
-                           "    current_timestamp, " & vbCrLf & _
-                           "    :AddUserCd " & vbCrLf & _
+    Private strEX05I004 As String =
+                           "INSERT INTO " & vbCrLf &
+                           "    TICKET_TBL(yoyaku_no, seq, ticket_nm, ticket_kin, add_dt, add_user_cd)" & vbCrLf &
+                           "VALUES " & vbCrLf &
+                           "    ( " & vbCrLf &
+                           "    :YoyakuNo, " & vbCrLf &
+                           "    :seq, " & vbCrLf &
+                           "    :TicketNm, " & vbCrLf &
+                           "    :TicketKin, " & vbCrLf &
+                           "    current_timestamp, " & vbCrLf &
+                           "    :AddUserCd " & vbCrLf &
                            "    ) "
     ' 2015.12.03 UPD END↑ h.hagiwara
 
@@ -978,9 +1041,9 @@ Public Class SqlEXTB0103
 
     ' 2015.12.03 ADD START↓ h.hagiwara
     'チケット
-    Private strEX05D004 As String = _
-                            "DELETE FROM TICKET_TBL  " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
+    Private strEX05D004 As String =
+                            "DELETE FROM TICKET_TBL  " & vbCrLf &
+                            "WHERE " & vbCrLf &
                             "    yoyaku_no = :YoyakuNo "
     ' 2015.12.03 ADD END↑ h.hagiwara
 
@@ -999,18 +1062,18 @@ Public Class SqlEXTB0103
     '                        "    current_timestamp, " & vbCrLf & _
     '                        "    :AddUserCd " & vbCrLf & _
     '                        "    ) "
-    Private strEX05I007 As String = _
-                            "INSERT INTO " & vbCrLf & _
-                            "    TIME_SCHEDULE_TBL(yoyaku_no, seq, shurui, time, biko, add_dt, add_user_cd)" & vbCrLf & _
-                            "VALUES " & vbCrLf & _
-                            "    ( " & vbCrLf & _
-                            "    :YoyakuNo, " & vbCrLf & _
-                            "    :seq , " & vbCrLf & _
-                            "    :Shurui, " & vbCrLf & _
-                            "    :Time, " & vbCrLf & _
-                            "    :Biko, " & vbCrLf & _
-                            "    current_timestamp, " & vbCrLf & _
-                            "    :AddUserCd " & vbCrLf & _
+    Private strEX05I007 As String =
+                            "INSERT INTO " & vbCrLf &
+                            "    TIME_SCHEDULE_TBL(yoyaku_no, seq, shurui, time, biko, add_dt, add_user_cd)" & vbCrLf &
+                            "VALUES " & vbCrLf &
+                            "    ( " & vbCrLf &
+                            "    :YoyakuNo, " & vbCrLf &
+                            "    :seq , " & vbCrLf &
+                            "    :Shurui, " & vbCrLf &
+                            "    :Time, " & vbCrLf &
+                            "    :Biko, " & vbCrLf &
+                            "    current_timestamp, " & vbCrLf &
+                            "    :AddUserCd " & vbCrLf &
                             "    ) "
     ' 2015.12.03 UPD END↑ h.hagiwara
 
@@ -1028,9 +1091,9 @@ Public Class SqlEXTB0103
 
     ' 2015.12.03 ADD START↓ h.hagiwara
     'スケジュール
-    Private strEX05D007 As String = _
-                            "DELETE FROM TIME_SCHEDULE_TBL " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
+    Private strEX05D007 As String =
+                            "DELETE FROM TIME_SCHEDULE_TBL " & vbCrLf &
+                            "WHERE " & vbCrLf &
                             "    yoyaku_no = :YoyakuNo "
     ' 2015.12.03 ADD END↑ h.hagiwara
 
@@ -1102,69 +1165,69 @@ Public Class SqlEXTB0103
     '                               "UP_USER_CD = :UpUserCd " & vbCrLf & _
     '                           "WHERE " & vbCrLf & _
     '                               "YOYAKU_NO = :YoyakuNo "
-    Private strEX04U001 As String = _
-                       "update YOYAKU_TBL " & vbCrLf & _
-                           "SET " & vbCrLf & _
-                               "KAKUTEI_DT = :KakuteiDt, " & vbCrLf & _
-                               "KAKU_USERCD = :KakuUsercd, " & vbCrLf & _
-                               "YOYAKU_STS = :YoyakuSts, " & vbCrLf & _
-                               "SHISETU_KBN = :ShisetuKbn, " & vbCrLf & _
-                               "STUDIO_KBN = :StudioKbn, " & vbCrLf & _
-                               "SAIJI_NM = :SaijiNm, " & vbCrLf & _
-                               "SHUTSUEN_NM = :ShutsuenNm, " & vbCrLf & _
-                               "KASHI_KIND = :KashiKind, " & vbCrLf & _
-                               "RIYO_TYPE = :RiyoType, " & vbCrLf & _
-                               "DRINK_FLG = :DrinkFlg, " & vbCrLf & _
-                               "SAIJI_BUNRUI = :SaijiBunrui, " & vbCrLf & _
-                               "TEIIN = :Teiin, " & vbCrLf & _
-                               "ONKYO_OPE_FLG = :OnkyoOpeFlg, " & vbCrLf & _
-                               "RIYOSHA_CD = :RiyoshaCd, " & vbCrLf & _
-                               "RIYO_NM = :RiyoNm, " & vbCrLf & _
-                               "RIYO_KANA = :RiyoKana, " & vbCrLf & _
-                               "SEKININ_BUSHO_NM = :SekininBushoNm, " & vbCrLf & _
-                               "SEKININ_NM = :SekininNm, " & vbCrLf & _
-                               "SEKININ_MAIL = :SekininMail, " & vbCrLf & _
-                               "DAIHYO_NM = :DaihyoNm, " & vbCrLf & _
-                               "RIYO_TEL11 = :RiyoTel11, " & vbCrLf & _
-                               "RIYO_TEL12 = :RiyoTel12, " & vbCrLf & _
-                               "RIYO_TEL13 = :RiyoTel13, " & vbCrLf & _
-                               "RIYO_TEL21 = :RiyoTel21, " & vbCrLf & _
-                               "RIYO_NAISEN = :RiyoNaisen, " & vbCrLf & _
-                               "RIYO_FAX11 = :RiyoFax11, " & vbCrLf & _
-                               "RIYO_FAX12 = :RiyoFax12, " & vbCrLf & _
-                               "RIYO_FAX13 = :RiyoFax13, " & vbCrLf & _
-                               "RIYO_YUBIN1 = :RiyoYubin1, " & vbCrLf & _
-                               "RIYO_YUBIN2 = :RiyoYubin2, " & vbCrLf & _
-                               "RIYO_TODO = :RiyoTodo, " & vbCrLf & _
-                               "RIYO_SHIKU = :RiyoShiku, " & vbCrLf & _
-                               "RIYO_BAN = :RiyoBan, " & vbCrLf & _
-                               "RIYO_BUILD = :RiyoBuild, " & vbCrLf & _
-                               "RIYO_LVL = :RiyoLvl, " & vbCrLf & _
-                               "AITE_CD = :AiteCd, " & vbCrLf & _
-                               "ONKYO_NM = :OnkyoNm, " & vbCrLf & _
-                               "ONKYO_TANTO_NM = :OnkyoTantoNm, " & vbCrLf & _
-                               "ONKYO_TEL11 = :OnkyoTel11, " & vbCrLf & _
-                               "ONKYO_TEL12 = :OnkyoTel12, " & vbCrLf & _
-                               "ONKYO_TEL13 = :OnkyoTel13, " & vbCrLf & _
-                               "ONKYO_NAISEN = :OnkyoNaisen, " & vbCrLf & _
-                               "ONKYO_FAX11 = :OnkyoFax11, " & vbCrLf & _
-                               "ONKYO_FAX12 = :OnkyoFax12, " & vbCrLf & _
-                               "ONKYO_FAX13 = :OnkyoFax13, " & vbCrLf & _
-                               "ONKYO_MAIL = :OnkyoMail, " & vbCrLf & _
-                               "TOTAL_RIYO_KIN = :TotalRiyoKin, " & vbCrLf & _
-                               "BIKO = :Biko, " & vbCrLf & _
-                               "RIYO_COM = :RiyoCom, " & vbCrLf & _
-                               "TICKET_ENTER_KBN = :TicketEnterKbn, " & vbCrLf & _
-                               "TICKET_DRINK_KBN = :TicketDrinkKbn, " & vbCrLf & _
-                               "HP_KEISAI = :HpKeisai, " & vbCrLf & _
-                               "JOHO_KOKAI_DT = :JohoKokaiDt, " & vbCrLf & _
-                               "JOHO_KOKAI_TIME = :JohoKokaiTime, " & vbCrLf & _
-                               "KOKAI_DT = :KokaiDt, " & vbCrLf & _
-                               "KOKAI_TIME = :KokaiTime, " & vbCrLf & _
-                               "FINPUT_STS = :FinputSts, " & vbCrLf & _
-                               "UP_DT = current_timestamp, " & vbCrLf & _
-                               "UP_USER_CD = :UpUserCd " & vbCrLf & _
-                           "WHERE " & vbCrLf & _
+    Private strEX04U001 As String =
+                       "update YOYAKU_TBL " & vbCrLf &
+                           "SET " & vbCrLf &
+                               "KAKUTEI_DT = :KakuteiDt, " & vbCrLf &
+                               "KAKU_USERCD = :KakuUsercd, " & vbCrLf &
+                               "YOYAKU_STS = :YoyakuSts, " & vbCrLf &
+                               "SHISETU_KBN = :ShisetuKbn, " & vbCrLf &
+                               "STUDIO_KBN = :StudioKbn, " & vbCrLf &
+                               "SAIJI_NM = :SaijiNm, " & vbCrLf &
+                               "SHUTSUEN_NM = :ShutsuenNm, " & vbCrLf &
+                               "KASHI_KIND = :KashiKind, " & vbCrLf &
+                               "RIYO_TYPE = :RiyoType, " & vbCrLf &
+                               "DRINK_FLG = :DrinkFlg, " & vbCrLf &
+                               "SAIJI_BUNRUI = :SaijiBunrui, " & vbCrLf &
+                               "TEIIN = :Teiin, " & vbCrLf &
+                               "ONKYO_OPE_FLG = :OnkyoOpeFlg, " & vbCrLf &
+                               "RIYOSHA_CD = :RiyoshaCd, " & vbCrLf &
+                               "RIYO_NM = :RiyoNm, " & vbCrLf &
+                               "RIYO_KANA = :RiyoKana, " & vbCrLf &
+                               "SEKININ_BUSHO_NM = :SekininBushoNm, " & vbCrLf &
+                               "SEKININ_NM = :SekininNm, " & vbCrLf &
+                               "SEKININ_MAIL = :SekininMail, " & vbCrLf &
+                               "DAIHYO_NM = :DaihyoNm, " & vbCrLf &
+                               "RIYO_TEL11 = :RiyoTel11, " & vbCrLf &
+                               "RIYO_TEL12 = :RiyoTel12, " & vbCrLf &
+                               "RIYO_TEL13 = :RiyoTel13, " & vbCrLf &
+                               "RIYO_TEL21 = :RiyoTel21, " & vbCrLf &
+                               "RIYO_NAISEN = :RiyoNaisen, " & vbCrLf &
+                               "RIYO_FAX11 = :RiyoFax11, " & vbCrLf &
+                               "RIYO_FAX12 = :RiyoFax12, " & vbCrLf &
+                               "RIYO_FAX13 = :RiyoFax13, " & vbCrLf &
+                               "RIYO_YUBIN1 = :RiyoYubin1, " & vbCrLf &
+                               "RIYO_YUBIN2 = :RiyoYubin2, " & vbCrLf &
+                               "RIYO_TODO = :RiyoTodo, " & vbCrLf &
+                               "RIYO_SHIKU = :RiyoShiku, " & vbCrLf &
+                               "RIYO_BAN = :RiyoBan, " & vbCrLf &
+                               "RIYO_BUILD = :RiyoBuild, " & vbCrLf &
+                               "RIYO_LVL = :RiyoLvl, " & vbCrLf &
+                               "AITE_CD = :AiteCd, " & vbCrLf &
+                               "ONKYO_NM = :OnkyoNm, " & vbCrLf &
+                               "ONKYO_TANTO_NM = :OnkyoTantoNm, " & vbCrLf &
+                               "ONKYO_TEL11 = :OnkyoTel11, " & vbCrLf &
+                               "ONKYO_TEL12 = :OnkyoTel12, " & vbCrLf &
+                               "ONKYO_TEL13 = :OnkyoTel13, " & vbCrLf &
+                               "ONKYO_NAISEN = :OnkyoNaisen, " & vbCrLf &
+                               "ONKYO_FAX11 = :OnkyoFax11, " & vbCrLf &
+                               "ONKYO_FAX12 = :OnkyoFax12, " & vbCrLf &
+                               "ONKYO_FAX13 = :OnkyoFax13, " & vbCrLf &
+                               "ONKYO_MAIL = :OnkyoMail, " & vbCrLf &
+                               "TOTAL_RIYO_KIN = :TotalRiyoKin, " & vbCrLf &
+                               "BIKO = :Biko, " & vbCrLf &
+                               "RIYO_COM = :RiyoCom, " & vbCrLf &
+                               "TICKET_ENTER_KBN = :TicketEnterKbn, " & vbCrLf &
+                               "TICKET_DRINK_KBN = :TicketDrinkKbn, " & vbCrLf &
+                               "HP_KEISAI = :HpKeisai, " & vbCrLf &
+                               "JOHO_KOKAI_DT = :JohoKokaiDt, " & vbCrLf &
+                               "JOHO_KOKAI_TIME = :JohoKokaiTime, " & vbCrLf &
+                               "KOKAI_DT = :KokaiDt, " & vbCrLf &
+                               "KOKAI_TIME = :KokaiTime, " & vbCrLf &
+                               "FINPUT_STS = :FinputSts, " & vbCrLf &
+                               "UP_DT = current_timestamp, " & vbCrLf &
+                               "UP_USER_CD = :UpUserCd " & vbCrLf &
+                           "WHERE " & vbCrLf &
                                "YOYAKU_NO = :YoyakuNo "
     '2016.11.4 m.hayabuchi MOD End 課題No.59
 
@@ -1180,18 +1243,18 @@ Public Class SqlEXTB0103
     '                           "WHERE " & vbCrLf & _
     '                               "YOYAKU_NO = :YoyakuNo " & _
     '                               "AND SEQ = :Seq "
-    Private strEX05U001_S As String = _
-                           "update BILLPAY_TBL " & vbCrLf & _
-                               "SET " & vbCrLf & _
-                                   "SEIKYU_INPUT_FLG = '0', " & vbCrLf & _
-                                   "SEIKYU_IRAI_FLG = '0', " & vbCrLf & _
-                                   "SEIKYU_DT = NULL, " & vbCrLf & _
-                                   "NYUKIN_YOTEI_DT = NULL , " & vbCrLf & _
-                                   "NYUKIN_KBN = NULL , " & vbCrLf & _
-                                   "UP_DT = current_timestamp, " & vbCrLf & _
-                                   "UP_USER_CD = :UpUserCd " & vbCrLf & _
-                               "WHERE " & vbCrLf & _
-                                   "YOYAKU_NO = :YoyakuNo " & _
+    Private strEX05U001_S As String =
+                           "update BILLPAY_TBL " & vbCrLf &
+                               "SET " & vbCrLf &
+                                   "SEIKYU_INPUT_FLG = '0', " & vbCrLf &
+                                   "SEIKYU_IRAI_FLG = '0', " & vbCrLf &
+                                   "SEIKYU_DT = NULL, " & vbCrLf &
+                                   "NYUKIN_YOTEI_DT = NULL , " & vbCrLf &
+                                   "NYUKIN_KBN = NULL , " & vbCrLf &
+                                   "UP_DT = current_timestamp, " & vbCrLf &
+                                   "UP_USER_CD = :UpUserCd " & vbCrLf &
+                               "WHERE " & vbCrLf &
+                                   "YOYAKU_NO = :YoyakuNo " &
                                    "AND SEQ = :Seq "
     ' 2016.03.03 UPD END↑ h.hagiwara
 
@@ -1206,17 +1269,17 @@ Public Class SqlEXTB0103
     '                           "WHERE " & vbCrLf & _
     '                               "YOYAKU_NO = :YoyakuNo " & _
     '                               "AND SEQ = :Seq "
-    Private strEX05U001_N As String = _
-                           "update BILLPAY_TBL " & vbCrLf & _
-                               "SET " & vbCrLf & _
-                                   "NYUKIN_INPUT_FLG = '0', " & vbCrLf & _
-                                   "NYUKIN_DT = NULL, " & vbCrLf & _
-                                   "NYUKIN_KIN = NULL, " & vbCrLf & _
-                                   "NYUKIN_LINK_NO = NULL , " & vbCrLf & _
-                                   "UP_DT = current_timestamp, " & vbCrLf & _
-                                   "UP_USER_CD = :UpUserCd " & vbCrLf & _
-                               "WHERE " & vbCrLf & _
-                                   "YOYAKU_NO = :YoyakuNo " & _
+    Private strEX05U001_N As String =
+                           "update BILLPAY_TBL " & vbCrLf &
+                               "SET " & vbCrLf &
+                                   "NYUKIN_INPUT_FLG = '0', " & vbCrLf &
+                                   "NYUKIN_DT = NULL, " & vbCrLf &
+                                   "NYUKIN_KIN = NULL, " & vbCrLf &
+                                   "NYUKIN_LINK_NO = NULL , " & vbCrLf &
+                                   "UP_DT = current_timestamp, " & vbCrLf &
+                                   "UP_USER_CD = :UpUserCd " & vbCrLf &
+                               "WHERE " & vbCrLf &
+                                   "YOYAKU_NO = :YoyakuNo " &
                                    "AND SEQ = :Seq "
     ' 2016.03.03 UPD END↑ h.hagiwara
 
@@ -1643,33 +1706,33 @@ Public Class SqlEXTB0103
                                          "FROM HOLIDAY_MST " & vbCrLf &
                                          "WHERE HOLIDAY_DT = :HOLIDAY_DT "
     '税抜フラグ取得用
-    Private strNoTaxFlgGetSql As String = "SELECT  COALESCE(MAX(notax_flg),'0') " & vbCrLf & _
-                                          "FROM FBUNRUI_MST " & vbCrLf & _
-                                          "WHERE  SHISETU_KBN = '1' " & vbCrLf & _
-                                          " AND   SHUKEI_GRP  = :SHUKEI_GRP " & vbCrLf & _
+    Private strNoTaxFlgGetSql As String = "SELECT  COALESCE(MAX(notax_flg),'0') " & vbCrLf &
+                                          "FROM FBUNRUI_MST " & vbCrLf &
+                                          "WHERE  SHISETU_KBN = '1' " & vbCrLf &
+                                          " AND   SHUKEI_GRP  = :SHUKEI_GRP " & vbCrLf &
                                           " AND   :KIKAN_DT BETWEEN KIKAN_FROM AND KIKAN_TO "
     '相手先情報取得用 2014.11.13 ADD h.hagiwara
-    Private strAitesakiGetSql As String = "SELECT  POST_BANGO , ADD1 , ADD2 , AITE_NM " & vbCrLf & _
-                                          "FROM AITESAKI_MST " & vbCrLf & _
+    Private strAitesakiGetSql As String = "SELECT  POST_BANGO , ADD1 , ADD2 , AITE_NM " & vbCrLf &
+                                          "FROM AITESAKI_MST " & vbCrLf &
                                           "WHERE  AITE_CD = :AITE_CD "
     ' 2015.12.16 ADD START↓ h.hagiwara 
     ' 料金マスタ情報取得用
-    Private strRyokinGetSql As String = "SELECT COUNT(*) " & vbCrLf & _
-                                          "FROM RIYORYO_MST " & vbCrLf & _
-                                          "WHERE :RIYOUBI BETWEEN KIKAN_FROM AND KIKAN_TO " & vbCrLf & _
-                                          " AND  STS = '0' " & vbCrLf & _
+    Private strRyokinGetSql As String = "SELECT COUNT(*) " & vbCrLf &
+                                          "FROM RIYORYO_MST " & vbCrLf &
+                                          "WHERE :RIYOUBI BETWEEN KIKAN_FROM AND KIKAN_TO " & vbCrLf &
+                                          " AND  STS = '0' " & vbCrLf &
                                           " AND  SHISETU_KBN = '1' "
     ' 倍率マスタ情報取得用
-    Private strBairituGetSql As String = "SELECT COUNT(*) " & vbCrLf & _
-                                          "FROM BAIRITU_MST " & vbCrLf & _
-                                          "WHERE :RIYOUBI BETWEEN KIKAN_FROM AND KIKAN_TO " & vbCrLf & _
-                                          " AND  STS = '0' " & vbCrLf & _
+    Private strBairituGetSql As String = "SELECT COUNT(*) " & vbCrLf &
+                                          "FROM BAIRITU_MST " & vbCrLf &
+                                          "WHERE :RIYOUBI BETWEEN KIKAN_FROM AND KIKAN_TO " & vbCrLf &
+                                          " AND  STS = '0' " & vbCrLf &
                                           " AND  SHISETU_KBN = '1' "
     ' 付帯設備マスタ情報取得用
-    Private strFutaisetubiGetSql As String = "SELECT COUNT(*) " & vbCrLf & _
-                                          "FROM FUTAI_MST " & vbCrLf & _
-                                          "WHERE :RIYOUBI BETWEEN KIKAN_FROM AND KIKAN_TO " & vbCrLf & _
-                                          " AND  STS = '0' " & vbCrLf & _
+    Private strFutaisetubiGetSql As String = "SELECT COUNT(*) " & vbCrLf &
+                                          "FROM FUTAI_MST " & vbCrLf &
+                                          "WHERE :RIYOUBI BETWEEN KIKAN_FROM AND KIKAN_TO " & vbCrLf &
+                                          " AND  STS = '0' " & vbCrLf &
                                           " AND  SHISETU_KBN = '1' "
     ' 2015.12.16 ADD END↑ h.hagiwara
 
@@ -1677,16 +1740,16 @@ Public Class SqlEXTB0103
     ' 2016.08.04 ADD START e.watanabe 課題No.58
     '責任者メールアドレス・携帯電話番号情報取得
     Private strEX04S005 As String =
-                           "SELECT" & vbCrLf & _
-                           "    SEKININ_MAIL, RIYO_TEL21" & vbCrLf & _
-                           "FROM YOYAKU_TBL" & vbCrLf & _
-                           "WHERE COALESCE(KAKUTEI_DT,'Null') = " & vbCrLf & _
-                           "(" & vbCrLf & _
-                           "    SELECT MAX(COALESCE(KAKUTEI_DT,'Null'))" & vbCrLf & _
-                           "    FROM YOYAKU_TBL" & vbCrLf & _
-                           "    WHERE SEKININ_NM = :SekininNm" & vbCrLf & _
-                           "    AND RIYOSHA_CD = :RiyoshaCd" & vbCrLf & _
-                           ")" & vbCrLf & _
+                           "SELECT" & vbCrLf &
+                           "    SEKININ_MAIL, RIYO_TEL21" & vbCrLf &
+                           "FROM YOYAKU_TBL" & vbCrLf &
+                           "WHERE COALESCE(KAKUTEI_DT,'Null') = " & vbCrLf &
+                           "(" & vbCrLf &
+                           "    SELECT MAX(COALESCE(KAKUTEI_DT,'Null'))" & vbCrLf &
+                           "    FROM YOYAKU_TBL" & vbCrLf &
+                           "    WHERE SEKININ_NM = :SekininNm" & vbCrLf &
+                           "    AND RIYOSHA_CD = :RiyoshaCd" & vbCrLf &
+                           ")" & vbCrLf &
                            "AND SEKININ_NM = :SekininNm"
     ' 2016.08.04 ADD END e.watanabe 課題No.58
 
@@ -1701,8 +1764,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/25 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectBillReq(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectBillReq(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -1747,10 +1810,10 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/02 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectNyukin(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
-                                       ByRef dataEXTB0102 As DataEXTB0102, _
-                                       ByVal StrLink As String, _
+    Public Function selectNyukin(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
+                                       ByRef dataEXTB0102 As DataEXTB0102,
+                                       ByVal StrLink As String,
                                        ByVal StrIraiNo As String,
                                        ByVal IntLineNo As Integer) As Boolean
 
@@ -1829,8 +1892,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/25 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectTicket(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectTicket(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -1875,8 +1938,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/25 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectCashElectro(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectCashElectro(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -1935,8 +1998,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/25 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectApprovalReq(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectApprovalReq(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -1981,8 +2044,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/25 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectApprovalRes(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectApprovalRes(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -2027,8 +2090,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/27 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectTimeSch(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectTimeSch(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -2074,8 +2137,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/27 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectFutaiHeadder(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectFutaiHeadder(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -2152,8 +2215,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/27 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectFutaiDetail(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectFutaiDetail(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -2232,8 +2295,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/27 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectFutaiHeadderUp(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectFutaiHeadderUp(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -2304,8 +2367,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/27 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectFutaiDetailUp(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectFutaiDetailUp(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -2316,7 +2379,7 @@ Public Class SqlEXTB0103
             Dim newHt As New Hashtable
             Dim Cmd As New NpgsqlCommand
             oldHt = dataEXTB0102.PropHtFutaiDetail
-            
+
             Cmd.Connection = Cn
             For Each dataRiyobi As CommonDataRiyobi In dataEXTB0102.PropListRiyobi
                 If oldHt.ContainsKey(dataRiyobi.PropStrYoyakuDt) = False Then
@@ -2362,8 +2425,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/27 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selecMailTo(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selecMailTo(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByVal IsShonin As Boolean, ByVal Yoyakuno As String) As Boolean
 
         'ログ出力
@@ -2417,8 +2480,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/28 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectTax(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectTax(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByVal Riyobi As String) As Boolean
 
         'ログ出力
@@ -2457,8 +2520,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/03 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectExasRiyoryo(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectExasRiyoryo(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -2599,8 +2662,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/03 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectExasRiyoryoUp(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectExasRiyoryoUp(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -2748,8 +2811,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/03 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectExasFutai(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectExasFutai(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -2828,12 +2891,12 @@ Public Class SqlEXTB0103
     ''' <param name="lstRiyobi"></param>
     ''' <param name="billPayRow"></param>
     ''' <remarks></remarks>
-    Public Sub calcExasFutai(ByRef Adapter As NpgsqlDataAdapter, _
-                             ByRef Cn As NpgsqlConnection, _
-                             ByRef htFutaiDetail As Hashtable, _
-                             ByRef exasFutaitable As DataTable, _
-                             ByVal dblTax As Double, _
-                             ByVal lstRiyobi As ArrayList, _
+    Public Sub calcExasFutai(ByRef Adapter As NpgsqlDataAdapter,
+                             ByRef Cn As NpgsqlConnection,
+                             ByRef htFutaiDetail As Hashtable,
+                             ByRef exasFutaitable As DataTable,
+                             ByVal dblTax As Double,
+                             ByVal lstRiyobi As ArrayList,
                              ByVal billPayRow As DataRow)
         Try
             Dim dt As Date
@@ -2961,8 +3024,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/03 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selectExasFutaiUp(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function selectExasFutaiUp(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByRef dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -3079,9 +3142,9 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/27 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function selecContents(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
-                                       ByVal StrRiyobi As String, _
+    Public Function selecContents(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
+                                       ByVal StrRiyobi As String,
                                        ByRef exasRow As DataRow) As Boolean
 
         'ログ出力
@@ -3130,9 +3193,9 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/17 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function deleteFutai(ByRef Cmd As NpgsqlCommand, _
-                                   ByRef Cn As NpgsqlConnection, _
-                                   ByVal YoyakuNo As String, _
+    Public Function deleteFutai(ByRef Cmd As NpgsqlCommand,
+                                   ByRef Cn As NpgsqlConnection,
+                                   ByVal YoyakuNo As String,
                                    ByVal LstRiyobi As ArrayList
                                    ) As Boolean
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
@@ -3184,9 +3247,9 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/05 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function registerFutai(ByRef Cmd As NpgsqlCommand, _
-                                   ByRef Cn As NpgsqlConnection, _
-                                   ByRef FutaiRow As DataRow, _
+    Public Function registerFutai(ByRef Cmd As NpgsqlCommand,
+                                   ByRef Cn As NpgsqlConnection,
+                                   ByRef FutaiRow As DataRow,
                                    ByVal YoyakuNo As String) As Boolean
 
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
@@ -3253,8 +3316,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/17 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function deleteFutaiDetail(ByRef Cmd As NpgsqlCommand, _
-                                   ByRef Cn As NpgsqlConnection, _
+    Public Function deleteFutaiDetail(ByRef Cmd As NpgsqlCommand,
+                                   ByRef Cn As NpgsqlConnection,
                                    ByVal YoyakuNo As String
                                    ) As Boolean
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
@@ -3291,9 +3354,9 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/08/05 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function registerFutaiDetail(ByRef Cmd As NpgsqlCommand, _
-                                   ByRef Cn As NpgsqlConnection, _
-                                   ByRef FutaiDetailRow As DataRow, _
+    Public Function registerFutaiDetail(ByRef Cmd As NpgsqlCommand,
+                                   ByRef Cn As NpgsqlConnection,
+                                   ByRef FutaiDetailRow As DataRow,
                                    ByVal YoyakuNo As String) As Boolean
 
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
@@ -3353,7 +3416,7 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/05 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function nextValSeikyuIraiNo(ByRef Cmd As NpgsqlCommand, _
+    Public Function nextValSeikyuIraiNo(ByRef Cmd As NpgsqlCommand,
                                    ByRef Cn As NpgsqlConnection) As String
 
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
@@ -3381,8 +3444,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/17 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function deleteBillPay(ByRef Cmd As NpgsqlCommand, _
-                                   ByRef Cn As NpgsqlConnection, _
+    Public Function deleteBillPay(ByRef Cmd As NpgsqlCommand,
+                                   ByRef Cn As NpgsqlConnection,
                                    ByVal YoyakuNo As String) As Boolean
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
         Dim strSQL As String = String.Empty
@@ -3418,9 +3481,9 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/17 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function registerBillPay(ByRef Cmd As NpgsqlCommand, _
-                                   ByRef Cn As NpgsqlConnection, _
-                                   ByRef BillPayRow As DataRow, _
+    Public Function registerBillPay(ByRef Cmd As NpgsqlCommand,
+                                   ByRef Cn As NpgsqlConnection,
+                                   ByRef BillPayRow As DataRow,
                                    ByVal YoyakuNo As String) As Boolean
 
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
@@ -3511,10 +3574,10 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/17 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function deleteExasProject(ByRef Cmd As NpgsqlCommand, _
-                                   ByRef Cn As NpgsqlConnection, _
-                                   ByVal YoyakuNo As String, _
-                                   ByVal SeikyuIraiNo As String, _
+    Public Function deleteExasProject(ByRef Cmd As NpgsqlCommand,
+                                   ByRef Cn As NpgsqlConnection,
+                                   ByVal YoyakuNo As String,
+                                   ByVal SeikyuIraiNo As String,
                                    ByVal PrjDt As DataTable) As Boolean
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
         Dim strSQL As String = String.Empty
@@ -3575,9 +3638,9 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2015/09/17 k.machida
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function registerExasProject(ByRef Cmd As NpgsqlCommand, _
-                                   ByRef Cn As NpgsqlConnection, _
-                                   ByVal YoyakuNo As String, _
+    Public Function registerExasProject(ByRef Cmd As NpgsqlCommand,
+                                   ByRef Cn As NpgsqlConnection,
+                                   ByVal YoyakuNo As String,
                                    ByRef PrjRow As DataRow) As Boolean
 
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)

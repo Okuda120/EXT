@@ -120,65 +120,65 @@ Public Class SqlEXTC0103
                             "ORDER BY add_dt "
 
     '付帯設備明細
-    Private strEX05S098 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    t1.yoyaku_no, " & vbCrLf & _
-                            "    t1.yoyaku_dt, " & vbCrLf & _
-                            "    t1.futai_bunrui_cd, " & vbCrLf & _
-                            "    t1.futai_cd, " & vbCrLf & _
-                            "    t1.futai_tanka, " & vbCrLf & _
-                            "    t1.futai_su, " & vbCrLf & _
-                            "    t1.futai_shokei, " & vbCrLf & _
-                            "    t1.futai_chosei, " & vbCrLf & _
-                            "    t1.futai_kin, " & vbCrLf & _
-                            "    t1.futai_biko, " & vbCrLf & _
-                            "    m1.futai_nm, " & vbCrLf & _
-                            "    m1.tani as futai_tani, " & vbCrLf & _
-                            "    m2.bunrui_nm as futai_bunrui_nm, " & vbCrLf & _
-                            "    m2.shukei_grp, " & vbCrLf & _
-                            "    m2.kamoku_cd, " & vbCrLf & _
-                            "    m2.saimoku_cd, " & vbCrLf & _
-                            "    m2.uchi_cd, " & vbCrLf & _
-                            "    m2.shosai_cd, " & vbCrLf & _
-                            "    m2.karikamoku_cd, " & vbCrLf & _
-                            "    m2.kari_saimoku_cd, " & vbCrLf & _
-                            "    m2.kari_uchi_cd, " & vbCrLf & _
-                            "    m2.kari_shosai_cd, " & vbCrLf & _
-                            "    m2.notax_flg, " & vbCrLf & _
-                            "    m3.kamoku_nm, " & vbCrLf & _
-                            "    m3.saimoku_nm, " & vbCrLf & _
-                            "    m3.uchi_nm, " & vbCrLf & _
-                            "    m3.shosai_nm " & vbCrLf & _
-                            "   ,COALESCE((CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf & _
-                            "                            ELSE " & vbCrLf & _
-                            "                               CASE WHEN m2.notax_flg = '0' THEN ROUND((t1.futai_kin * m4.tax_ritu) /100 ,0)" & vbCrLf & _
-                            "                                    ELSE 0 " & vbCrLf & _
-                            "                               END " & vbCrLf & _
-                            "     END),0)  as tax_kin " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    friyo_meisai_tbl t1 " & vbCrLf & _
-                            "LEFT JOIN futai_mst m1 " & vbCrLf & _
-                            "    ON t1.futai_bunrui_cd = m1.bunrui_cd " & vbCrLf & _
-                            "    AND t1.futai_cd = m1.futai_cd " & vbCrLf & _
-                            "    AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "    AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf & _
-                            "    AND m1.sts = '0' " & vbCrLf & _
-                            "LEFT JOIN fbunrui_mst m2 " & vbCrLf & _
-                            "    ON t1.futai_bunrui_cd = m2.bunrui_cd " & vbCrLf & _
-                            "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf & _
-                            "    AND m2.sts = '0' " & vbCrLf & _
-                            "LEFT JOIN kamoku_mst m3 " & vbCrLf & _
-                            "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf & _
-                            "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf & _
-                            "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf & _
-                            "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf & _
-                            "    AND m3.sts = '0' " & vbCrLf & _
-                            "LEFT JOIN TAX_MST m4 " & vbCrLf & _
-                            "    ON  :Riyobi BETWEEN m4.TAXS_DT AND m4.TAXE_DT" & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    t1.yoyaku_no = :YoyakuNo " & vbCrLf & _
-                            "    AND t1.yoyaku_dt = :Riyobi " & vbCrLf & _
+    Private strEX05S098 As String =
+                            "SELECT " & vbCrLf &
+                            "    t1.yoyaku_no, " & vbCrLf &
+                            "    t1.yoyaku_dt, " & vbCrLf &
+                            "    t1.futai_bunrui_cd, " & vbCrLf &
+                            "    t1.futai_cd, " & vbCrLf &
+                            "    t1.futai_tanka, " & vbCrLf &
+                            "    t1.futai_su, " & vbCrLf &
+                            "    t1.futai_shokei, " & vbCrLf &
+                            "    t1.futai_chosei, " & vbCrLf &
+                            "    t1.futai_kin, " & vbCrLf &
+                            "    t1.futai_biko, " & vbCrLf &
+                            "    m1.futai_nm, " & vbCrLf &
+                            "    m1.tani as futai_tani, " & vbCrLf &
+                            "    m2.bunrui_nm as futai_bunrui_nm, " & vbCrLf &
+                            "    m2.shukei_grp, " & vbCrLf &
+                            "    m2.kamoku_cd, " & vbCrLf &
+                            "    m2.saimoku_cd, " & vbCrLf &
+                            "    m2.uchi_cd, " & vbCrLf &
+                            "    m2.shosai_cd, " & vbCrLf &
+                            "    m2.karikamoku_cd, " & vbCrLf &
+                            "    m2.kari_saimoku_cd, " & vbCrLf &
+                            "    m2.kari_uchi_cd, " & vbCrLf &
+                            "    m2.kari_shosai_cd, " & vbCrLf &
+                            "    m2.notax_flg, " & vbCrLf &
+                            "    m3.kamoku_nm, " & vbCrLf &
+                            "    m3.saimoku_nm, " & vbCrLf &
+                            "    m3.uchi_nm, " & vbCrLf &
+                            "    m3.shosai_nm " & vbCrLf &
+                            "   ,COALESCE((CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf &
+                            "                            ELSE " & vbCrLf &
+                            "                               CASE WHEN m2.notax_flg = '0' THEN ROUND((t1.futai_kin * m4.tax_ritu) /100 ,0)" & vbCrLf &
+                            "                                    ELSE 0 " & vbCrLf &
+                            "                               END " & vbCrLf &
+                            "     END),0)  as tax_kin " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    friyo_meisai_tbl t1 " & vbCrLf &
+                            "LEFT JOIN futai_mst m1 " & vbCrLf &
+                            "    ON t1.futai_bunrui_cd = m1.bunrui_cd " & vbCrLf &
+                            "    AND t1.futai_cd = m1.futai_cd " & vbCrLf &
+                            "    AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "    AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+                            "    AND m1.sts = '0' " & vbCrLf &
+                            "LEFT JOIN fbunrui_mst m2 " & vbCrLf &
+                            "    ON t1.futai_bunrui_cd = m2.bunrui_cd " & vbCrLf &
+                            "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf &
+                            "    AND m2.sts = '0' " & vbCrLf &
+                            "LEFT JOIN kamoku_mst m3 " & vbCrLf &
+                            "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf &
+                            "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf &
+                            "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf &
+                            "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf &
+                            "    AND m3.sts = '0' " & vbCrLf &
+                            "LEFT JOIN TAX_MST m4 " & vbCrLf &
+                            "    ON  :Riyobi BETWEEN m4.TAXS_DT AND m4.TAXE_DT" & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    t1.yoyaku_no = :YoyakuNo " & vbCrLf &
+                            "    AND t1.yoyaku_dt = :Riyobi " & vbCrLf &
                             "ORDER BY t1.add_dt "
 
     'Private strEX05S097 As String = _
@@ -197,92 +197,92 @@ Public Class SqlEXTC0103
     '                        "group by " & vbCrLf & _
     '                        "    def_flg, " & vbCrLf & _
     '                        "    sts "
-    Private strEX05S097 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    '' as yoyaku_no, " & vbCrLf & _
-                            "    :Riyobi as yoyaku_dt,  " & vbCrLf & _
-                            "    SUM(m1.tanka) as total_fuzoku_kin,  " & vbCrLf & _
-                            "    ARRAY_TO_STRING(ARRAY_AGG(m1.futai_nm), '／') as fuzoku_nm " & vbCrLf & _
-                            "   ,CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf & _
-                            "                            ELSE  " & vbCrLf & _
-                            "                              SUM( CASE WHEN m2.NOTAX_FLG = '0' THEN ROUND((m1.TANKA * m3.tax_ritu) /100 ,0)" & vbCrLf & _
-                            "                                                                ELSE 0 " & vbCrLf & _
-                            "                                    END ) " & vbCrLf & _
-                            "    END  AS TAX_KIN " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    futai_mst m1" & vbCrLf & _
-                                       "           LEFT OUTER JOIN  FBUNRUI_MST m2 " & vbCrLf & _
-                                       "                       ON   m1.BUNRUI_CD = m2.BUNRUI_CD " & vbCrLf & _
-                                       "                      AND   m1.SHISETU_KBN = m2.SHISETU_KBN " & vbCrLf & _
-                                       "                      AND   :Riyobi BETWEEN m2.KIKAN_FROM AND m2.KIKAN_TO " & vbCrLf & _
-                                       "           LEFT OUTER JOIN  TAX_MST m3 " & vbCrLf & _
-                                       "                       ON   :Riyobi BETWEEN m3.TAXS_DT AND m3.TAXE_DT " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    m1.def_flg = '1' " & vbCrLf & _
-                            "AND m1.sts = '0' " & vbCrLf & _
-                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf & _
-                            "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "group by " & vbCrLf & _
-                            "    m1.def_flg, " & vbCrLf & _
+    Private strEX05S097 As String =
+                            "SELECT " & vbCrLf &
+                            "    '' as yoyaku_no, " & vbCrLf &
+                            "    :Riyobi as yoyaku_dt,  " & vbCrLf &
+                            "    SUM(m1.tanka) as total_fuzoku_kin,  " & vbCrLf &
+                            "    ARRAY_TO_STRING(ARRAY_AGG(m1.futai_nm), '／') as fuzoku_nm " & vbCrLf &
+                            "   ,CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf &
+                            "                            ELSE  " & vbCrLf &
+                            "                              SUM( CASE WHEN m2.NOTAX_FLG = '0' THEN ROUND((m1.TANKA * m3.tax_ritu) /100 ,0)" & vbCrLf &
+                            "                                                                ELSE 0 " & vbCrLf &
+                            "                                    END ) " & vbCrLf &
+                            "    END  AS TAX_KIN " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    futai_mst m1" & vbCrLf &
+                                       "           LEFT OUTER JOIN  FBUNRUI_MST m2 " & vbCrLf &
+                                       "                       ON   m1.BUNRUI_CD = m2.BUNRUI_CD " & vbCrLf &
+                                       "                      AND   m1.SHISETU_KBN = m2.SHISETU_KBN " & vbCrLf &
+                                       "                      AND   :Riyobi BETWEEN m2.KIKAN_FROM AND m2.KIKAN_TO " & vbCrLf &
+                                       "           LEFT OUTER JOIN  TAX_MST m3 " & vbCrLf &
+                                       "                       ON   :Riyobi BETWEEN m3.TAXS_DT AND m3.TAXE_DT " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    m1.def_flg = '1' " & vbCrLf &
+                            "AND m1.sts = '0' " & vbCrLf &
+                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+                            "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "group by " & vbCrLf &
+                            "    m1.def_flg, " & vbCrLf &
                             "    m1.sts "
 
     '付帯設備明細初期値の取得
-    Private strEX05S096 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    '' as yoyaku_no,  " & vbCrLf & _
-                            "    :Riyobi as yoyaku_dt,  " & vbCrLf & _
-                            "    m1.bunrui_cd as futai_bunrui_cd, " & vbCrLf & _
-                            "    m1.futai_cd, " & vbCrLf & _
-                            "    m1.tanka as futai_tanka, " & vbCrLf & _
-                            "    1 as futai_su, " & vbCrLf & _
-                            "    CAST(m1.tanka AS INT8) as futai_shokei, " & vbCrLf & _
-                            "    0 as futai_chosei, " & vbCrLf & _
-                            "    CAST(m1.tanka AS INT8) as futai_kin, " & vbCrLf & _
-                            "    '' as futai_biko, " & vbCrLf & _
-                            "    m1.futai_nm, " & vbCrLf & _
-                            "    m1.tani as futai_tani, " & vbCrLf & _
-                            "    m2.bunrui_nm as futai_bunrui_nm, " & vbCrLf & _
-                            "    m2.shukei_grp, " & vbCrLf & _
-                            "    m2.kamoku_cd, " & vbCrLf & _
-                            "    m2.saimoku_cd, " & vbCrLf & _
-                            "    m2.uchi_cd, " & vbCrLf & _
-                            "    m2.shosai_cd, " & vbCrLf & _
-                            "    m2.karikamoku_cd, " & vbCrLf & _
-                            "    m2.kari_saimoku_cd, " & vbCrLf & _
-                            "    m2.kari_uchi_cd, " & vbCrLf & _
-                            "    m2.kari_shosai_cd, " & vbCrLf & _
-                            "    m2.notax_flg, " & vbCrLf & _
-                            "    m3.kamoku_nm, " & vbCrLf & _
-                            "    m3.saimoku_nm, " & vbCrLf & _
-                            "    m3.uchi_nm, " & vbCrLf & _
-                            "    m3.shosai_nm " & vbCrLf & _
-                            "   ,CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf & _
-                            "                            ELSE " & vbCrLf & _
-                            "                                      CASE WHEN m2.NOTAX_FLG = '0' THEN ROUND((m1.TANKA * m4.tax_ritu) /100 ,0)" & vbCrLf & _
-                            "                                      ELSE 0 " & vbCrLf & _
-                            "                               END " & vbCrLf & _
-                            "    END  AS TAX_KIN " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    futai_mst m1 " & vbCrLf & _
-                            "LEFT JOIN fbunrui_mst m2 " & vbCrLf & _
-                            "    ON m1.bunrui_cd = m2.bunrui_cd " & vbCrLf & _
-                            "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf & _
-                            "    AND m2.sts = '0' " & vbCrLf & _
-                            "LEFT JOIN kamoku_mst m3 " & vbCrLf & _
-                            "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf & _
-                            "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf & _
-                            "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf & _
-                            "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf & _
-                            "    AND m3.sts = '0' " & vbCrLf & _
-                            "LEFT OUTER JOIN  TAX_MST m4 " & vbCrLf & _
-                            "    ON  :Riyobi BETWEEN m4.TAXS_DT AND m4.TAXE_DT " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    m1.def_flg = '1' " & vbCrLf & _
-                            "AND m1.sts = '0' " & vbCrLf & _
-                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf & _
-                            "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "ORDER BY " & vbCrLf & _
+    Private strEX05S096 As String =
+                            "SELECT " & vbCrLf &
+                            "    '' as yoyaku_no,  " & vbCrLf &
+                            "    :Riyobi as yoyaku_dt,  " & vbCrLf &
+                            "    m1.bunrui_cd as futai_bunrui_cd, " & vbCrLf &
+                            "    m1.futai_cd, " & vbCrLf &
+                            "    m1.tanka as futai_tanka, " & vbCrLf &
+                            "    1 as futai_su, " & vbCrLf &
+                            "    CAST(m1.tanka AS INT8) as futai_shokei, " & vbCrLf &
+                            "    0 as futai_chosei, " & vbCrLf &
+                            "    CAST(m1.tanka AS INT8) as futai_kin, " & vbCrLf &
+                            "    '' as futai_biko, " & vbCrLf &
+                            "    m1.futai_nm, " & vbCrLf &
+                            "    m1.tani as futai_tani, " & vbCrLf &
+                            "    m2.bunrui_nm as futai_bunrui_nm, " & vbCrLf &
+                            "    m2.shukei_grp, " & vbCrLf &
+                            "    m2.kamoku_cd, " & vbCrLf &
+                            "    m2.saimoku_cd, " & vbCrLf &
+                            "    m2.uchi_cd, " & vbCrLf &
+                            "    m2.shosai_cd, " & vbCrLf &
+                            "    m2.karikamoku_cd, " & vbCrLf &
+                            "    m2.kari_saimoku_cd, " & vbCrLf &
+                            "    m2.kari_uchi_cd, " & vbCrLf &
+                            "    m2.kari_shosai_cd, " & vbCrLf &
+                            "    m2.notax_flg, " & vbCrLf &
+                            "    m3.kamoku_nm, " & vbCrLf &
+                            "    m3.saimoku_nm, " & vbCrLf &
+                            "    m3.uchi_nm, " & vbCrLf &
+                            "    m3.shosai_nm " & vbCrLf &
+                            "   ,CASE WHEN :SYANAI = '2' THEN  0" & vbCrLf &
+                            "                            ELSE " & vbCrLf &
+                            "                                      CASE WHEN m2.NOTAX_FLG = '0' THEN ROUND((m1.TANKA * m4.tax_ritu) /100 ,0)" & vbCrLf &
+                            "                                      ELSE 0 " & vbCrLf &
+                            "                               END " & vbCrLf &
+                            "    END  AS TAX_KIN " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    futai_mst m1 " & vbCrLf &
+                            "LEFT JOIN fbunrui_mst m2 " & vbCrLf &
+                            "    ON m1.bunrui_cd = m2.bunrui_cd " & vbCrLf &
+                            "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf &
+                            "    AND m2.sts = '0' " & vbCrLf &
+                            "LEFT JOIN kamoku_mst m3 " & vbCrLf &
+                            "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf &
+                            "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf &
+                            "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf &
+                            "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf &
+                            "    AND m3.sts = '0' " & vbCrLf &
+                            "LEFT OUTER JOIN  TAX_MST m4 " & vbCrLf &
+                            "    ON  :Riyobi BETWEEN m4.TAXS_DT AND m4.TAXE_DT " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    m1.def_flg = '1' " & vbCrLf &
+                            "AND m1.sts = '0' " & vbCrLf &
+                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+                            "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "ORDER BY " & vbCrLf &
                             "    m1.sort "
 
     '消費税の取得

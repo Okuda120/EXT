@@ -88,7 +88,7 @@ Public Class SqlEXTM0101
     ''' 初期表示用検索のSQLの設定
     ''' <param name="Adapter">[IN/OUT]NpgSqlDataAdapterクラス</param>
     ''' <param name="Cn">[IN]NpgSqlConnectionクラス</param>
-    ''' <param name="dataHBKZ0101">[IN]データクラス</param>
+    ''' <param name="dataEXTM0101">[IN]データクラス</param>
     ''' </summary> 
     ''' <returns>boolean エラーコード  true 正常終了  false	異常終了 </returns>
     ''' <remarks>EXシアターユーザーマスターから、初期表示時検索を行うSQL
@@ -129,7 +129,7 @@ Public Class SqlEXTM0101
     ''' 部署名コンボボックス取得用のSQLの設定
     ''' <param name="Adapter">[IN/OUT]NpgSqlDataAdapterクラス</param>
     ''' <param name="Cn">[IN]NpgSqlConnectionクラス</param>
-    ''' <param name="dataHBKZ0101">[IN]データクラス</param>
+    ''' <param name="dataEXTM0101">[IN]データクラス</param>
     ''' </summary> 
     ''' <returns>boolean エラーコード  true 正常終了  false	異常終了 </returns>
     ''' <remarks>部署名リストにセットするデータの取得を行うSQL
@@ -170,7 +170,7 @@ Public Class SqlEXTM0101
     ''' 検索のSQLの設定
     ''' <param name="Adapter">[IN/OUT]NpgSqlDataAdapterクラス</param>
     ''' <param name="Cn">[IN]NpgSqlConnectionクラス</param>
-    ''' <param name="dataHBKZ0101">[IN]データクラス</param>
+    ''' <param name="dataEXTM0101">[IN]データクラス</param>
     ''' </summary> 
     ''' <returns>boolean エラーコード  true 正常終了  false	異常終了 </returns>
     ''' <remarks>EXシアターユーザーマスタから、フォームから渡される値をもとに検索を行うSQL
@@ -312,9 +312,8 @@ Public Class SqlEXTM0101
     End Function
     ''' <summary>
     ''' 新規登録のSQLの設定
-    ''' <param name="Adapter">[IN/OUT]NpgSqlDataAdapterクラス</param>
     ''' <param name="Cn">[IN]NpgSqlConnectionクラス</param>
-    ''' <param name="dataHBKZ0101">[IN]データクラス</param>
+    ''' <param name="dataEXTM0101">[IN]データクラス</param>
     ''' </summary> 
     ''' <returns>boolean エラーコード  true 正常終了  false	異常終了 </returns>
     ''' <remarks>EXシアターユーザーマスタにスプレッドシート内の値の新規登録を行うSQL
@@ -407,7 +406,7 @@ Public Class SqlEXTM0101
     ''' 更新のSQLの設定
     ''' <param name="Adapter">[IN/OUT]NpgSqlDataAdapterクラス</param>
     ''' <param name="Cn">[IN]NpgSqlConnectionクラス</param>
-    ''' <param name="dataHBKZ0101">[IN]データクラス</param>
+    ''' <param name="dataEXTM0101">[IN]データクラス</param>
     ''' </summary> 
     ''' <returns>boolean エラーコード  true 正常終了  false	異常終了 </returns>
     ''' <remarks>EXシアターユーザーマスタにスプレッドシート内の値の更新を行うSQL

@@ -275,7 +275,7 @@ Public Class LogicEXTM0203
 
     ''' <summary>
     ''' チェックボックス疑似ラジオボタン制御処理
-    ''' <paramref name="dataHEXTM0203">[IN/OUT]データクラス</paramref>
+    ''' <param name="dataEXTM0203">[IN/OUT]データクラス</param>
     ''' </summary>
     ''' <returns>boolean エラーコード    True:正常  False:異常</returns>
     ''' <remarks>既にチェックの入っている行のチェックを外し、選択行のチェックをつける

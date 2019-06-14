@@ -5,74 +5,154 @@ Imports Npgsql
 Public Class sqlEXTZ0209
 
     'SQL文(付帯分類)
-    Private strEX34S001 As String = _
-                           "SELECT " & vbCrLf & _
-                           "    shisetu_kbn, " & vbCrLf & _
-                           "    bunrui_cd, " & vbCrLf & _
-                           "    bunrui_nm, " & vbCrLf & _
-                           "    notax_flg, " & vbCrLf & _
-                           "    kamoku_cd, " & vbCrLf & _
-                           "    saimoku_cd, " & vbCrLf & _
-                           "    uchi_cd, " & vbCrLf & _
-                           "    shosai_cd, " & vbCrLf & _
-                           "    karikamoku_cd, " & vbCrLf & _
-                           "    kari_saimoku_cd, " & vbCrLf & _
-                           "    kari_uchi_cd, " & vbCrLf & _
-                           "    kari_shosai_cd, " & vbCrLf & _
-                           "    sts, " & vbCrLf & _
-                           "    sort " & vbCrLf & _
-                           "FROM " & vbCrLf & _
-                           "    fbunrui_mst " & vbCrLf & _
-                           "WHERE " & vbCrLf & _
-                           "    shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                           "AND :Riyobi BETWEEN kikan_from AND kikan_to " & vbCrLf & _
-                           "AND sts = '0' " & vbCrLf & _
-                           "ORDER BY " & vbCrLf & _
-                           "    sort "
+    ' 2019/06/11 軽減税率対応 変更 Start E.Okuda@Compass
+    ' 税率追加
+    Private strEX34S001 As String =
+                           "SELECT " & vbCrLf &
+                           "    m1.shisetu_kbn, " & vbCrLf &
+                           "    m1.bunrui_cd, " & vbCrLf &
+                           "    m1.bunrui_nm, " & vbCrLf &
+                           "    m1.notax_flg, " & vbCrLf &
+                           "    m1.zeiritsu, " & vbCrLf &
+                           "    m1.kamoku_cd, " & vbCrLf &
+                           "    m1.saimoku_cd, " & vbCrLf &
+                           "    m1.uchi_cd, " & vbCrLf &
+                           "    m1.shosai_cd, " & vbCrLf &
+                           "    m1.karikamoku_cd, " & vbCrLf &
+                           "    m1.kari_saimoku_cd, " & vbCrLf &
+                           "    m1.kari_uchi_cd, " & vbCrLf &
+                           "    m1.kari_shosai_cd, " & vbCrLf &
+                           "    m1.sts, " & vbCrLf &
+                           "    m1.sort " & vbCrLf &
+                           "FROM " & vbCrLf &
+                           "    fbunrui_mst m1" & vbCrLf &
+                            "LEFT JOIN tax_mst m2 " & vbCrLf &
+                            "    ON :Riyobi BETWEEN m2.taxs_dt AND m2.taxe_dt " & vbCrLf &
+                           "WHERE " & vbCrLf &
+                           "    m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                           "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+                           "AND m1.sts = '0' " & vbCrLf &
+                           "ORDER BY " & vbCrLf &
+                           "    m1.sort "
+    'Private strEX34S001 As String =
+    '                       "SELECT " & vbCrLf &
+    '                       "    shisetu_kbn, " & vbCrLf &
+    '                       "    bunrui_cd, " & vbCrLf &
+    '                       "    bunrui_nm, " & vbCrLf &
+    '                       "    notax_flg, " & vbCrLf &
+    '                       "    kamoku_cd, " & vbCrLf &
+    '                       "    saimoku_cd, " & vbCrLf &
+    '                       "    uchi_cd, " & vbCrLf &
+    '                       "    shosai_cd, " & vbCrLf &
+    '                       "    karikamoku_cd, " & vbCrLf &
+    '                       "    kari_saimoku_cd, " & vbCrLf &
+    '                       "    kari_uchi_cd, " & vbCrLf &
+    '                       "    kari_shosai_cd, " & vbCrLf &
+    '                       "    sts, " & vbCrLf &
+    '                       "    sort " & vbCrLf &
+    '                       "FROM " & vbCrLf &
+    '                       "    fbunrui_mst " & vbCrLf &
+    '                       "WHERE " & vbCrLf &
+    '                       "    shisetu_kbn = :ShisetuKbn " & vbCrLf &
+    '                       "AND :Riyobi BETWEEN kikan_from AND kikan_to " & vbCrLf &
+    '                       "AND sts = '0' " & vbCrLf &
+    '                       "ORDER BY " & vbCrLf &
+    '                       "    sort "
+    ' 2019/06/11 軽減税率対応 変更 Start E.Okuda@Compass
 
-    Private strEX34S002 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    m1.bunrui_cd as bunrui_cd, " & vbCrLf & _
-                            "    m1.futai_cd, " & vbCrLf & _
-                            "    m1.futai_nm, " & vbCrLf & _
-                            "    m1.tanka as tanka, " & vbCrLf & _
-                            "    m1.tani as tani, " & vbCrLf & _
-                            "    m1.sort as sort, " & vbCrLf & _
-                            "    m2.bunrui_nm as bunrui_nm, " & vbCrLf & _
-                            "    m2.shukei_grp, " & vbCrLf & _
-                            "    m2.kamoku_cd, " & vbCrLf & _
-                            "    m2.saimoku_cd, " & vbCrLf & _
-                            "    m2.uchi_cd, " & vbCrLf & _
-                            "    m2.shosai_cd, " & vbCrLf & _
-                            "    m2.karikamoku_cd, " & vbCrLf & _
-                            "    m2.kari_saimoku_cd, " & vbCrLf & _
-                            "    m2.kari_uchi_cd, " & vbCrLf & _
-                            "    m2.kari_shosai_cd, " & vbCrLf & _
-                            "    m2.notax_flg, " & vbCrLf & _
-                            "    m3.kamoku_nm, " & vbCrLf & _
-                            "    m3.saimoku_nm, " & vbCrLf & _
-                            "    m3.uchi_nm, " & vbCrLf & _
-                            "    m3.shosai_nm " & vbCrLf & _
-                            "    ,0 " & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    futai_mst m1 " & vbCrLf & _
-                            "LEFT JOIN fbunrui_mst m2 " & vbCrLf & _
-                            "    ON m1.bunrui_cd = m2.bunrui_cd " & vbCrLf & _
-                            "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf & _
-                            "    AND m2.sts = '0' " & vbCrLf & _
-                            "LEFT JOIN kamoku_mst m3 " & vbCrLf & _
-                            "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf & _
-                            "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf & _
-                            "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf & _
-                            "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf & _
-                            "    AND m3.sts = '0' " & vbCrLf & _
-                            "WHERE " & vbCrLf & _
-                            "    m1.sts = '0' " & vbCrLf & _
-                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf & _
-                            "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf & _
-                            "ORDER BY " & vbCrLf & _
+
+    ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
+    Private strEX34S002 As String =
+                            "SELECT " & vbCrLf &
+                            "    m1.bunrui_cd as bunrui_cd, " & vbCrLf &
+                            "    m1.futai_cd, " & vbCrLf &
+                            "    m1.futai_nm, " & vbCrLf &
+                            "    m1.tanka as tanka, " & vbCrLf &
+                            "    m1.tani as tani, " & vbCrLf &
+                            "    m1.sort as sort, " & vbCrLf &
+                            "    m2.bunrui_nm as bunrui_nm, " & vbCrLf &
+                            "    m2.shukei_grp, " & vbCrLf &
+                            "    m2.kamoku_cd, " & vbCrLf &
+                            "    m2.saimoku_cd, " & vbCrLf &
+                            "    m2.uchi_cd, " & vbCrLf &
+                            "    m2.shosai_cd, " & vbCrLf &
+                            "    m2.karikamoku_cd, " & vbCrLf &
+                            "    m2.kari_saimoku_cd, " & vbCrLf &
+                            "    m2.kari_uchi_cd, " & vbCrLf &
+                            "    m2.kari_shosai_cd, " & vbCrLf &
+                            "    m2.notax_flg, " & vbCrLf &
+                            "    (CASE WHEN m2.zeiritsu IS NULL THEN m4.tax_ritu ELSE m2.zeiritsu END) as zeiritsu, " & vbCrLf &
+                            "    m2.zeiritsu, " & vbCrLf &
+                            "    m3.kamoku_nm, " & vbCrLf &
+                            "    m3.saimoku_nm, " & vbCrLf &
+                            "    m3.uchi_nm, " & vbCrLf &
+                            "    m3.shosai_nm " & vbCrLf &
+                            "    ,0 " & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    futai_mst m1 " & vbCrLf &
+                            "LEFT JOIN fbunrui_mst m2 " & vbCrLf &
+                            "    ON m1.bunrui_cd = m2.bunrui_cd " & vbCrLf &
+                            "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf &
+                            "    AND m2.sts = '0' " & vbCrLf &
+                            "LEFT JOIN kamoku_mst m3 " & vbCrLf &
+                            "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf &
+                            "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf &
+                            "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf &
+                            "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf &
+                            "    AND m3.sts = '0' " & vbCrLf &
+                            "LEFT JOIN tax_mst m4 " & vbCrLf &
+                            "    ON :Riyobi BETWEEN m4.taxs_dt AND m4.taxe_dt " & vbCrLf &
+                            "WHERE " & vbCrLf &
+                            "    m1.sts = '0' " & vbCrLf &
+                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+                            "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+                            "ORDER BY " & vbCrLf &
                             "    m1.sort "
+    'Private strEX34S002 As String =
+    '                        "SELECT " & vbCrLf &
+    '                        "    m1.bunrui_cd as bunrui_cd, " & vbCrLf &
+    '                        "    m1.futai_cd, " & vbCrLf &
+    '                        "    m1.futai_nm, " & vbCrLf &
+    '                        "    m1.tanka as tanka, " & vbCrLf &
+    '                        "    m1.tani as tani, " & vbCrLf &
+    '                        "    m1.sort as sort, " & vbCrLf &
+    '                        "    m2.bunrui_nm as bunrui_nm, " & vbCrLf &
+    '                        "    m2.shukei_grp, " & vbCrLf &
+    '                        "    m2.kamoku_cd, " & vbCrLf &
+    '                        "    m2.saimoku_cd, " & vbCrLf &
+    '                        "    m2.uchi_cd, " & vbCrLf &
+    '                        "    m2.shosai_cd, " & vbCrLf &
+    '                        "    m2.karikamoku_cd, " & vbCrLf &
+    '                        "    m2.kari_saimoku_cd, " & vbCrLf &
+    '                        "    m2.kari_uchi_cd, " & vbCrLf &
+    '                        "    m2.kari_shosai_cd, " & vbCrLf &
+    '                        "    m2.notax_flg, " & vbCrLf &
+    '                        "    m3.kamoku_nm, " & vbCrLf &
+    '                        "    m3.saimoku_nm, " & vbCrLf &
+    '                        "    m3.uchi_nm, " & vbCrLf &
+    '                        "    m3.shosai_nm " & vbCrLf &
+    '                        "    ,0 " & vbCrLf &
+    '                        "FROM " & vbCrLf &
+    '                        "    futai_mst m1 " & vbCrLf &
+    '                        "LEFT JOIN fbunrui_mst m2 " & vbCrLf &
+    '                        "    ON m1.bunrui_cd = m2.bunrui_cd " & vbCrLf &
+    '                        "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+    '                        "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf &
+    '                        "    AND m2.sts = '0' " & vbCrLf &
+    '                        "LEFT JOIN kamoku_mst m3 " & vbCrLf &
+    '                        "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf &
+    '                        "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf &
+    '                        "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf &
+    '                        "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf &
+    '                        "    AND m3.sts = '0' " & vbCrLf &
+    '                        "WHERE " & vbCrLf &
+    '                        "    m1.sts = '0' " & vbCrLf &
+    '                        "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+    '                        "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+    '                        "ORDER BY " & vbCrLf &
+    '                        "    m1.sort "
+    ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
 
     '消費税の取得 2015.11.13 ADD h.hagiwara
     Private strEX34S003 As String = _

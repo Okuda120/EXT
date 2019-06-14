@@ -66,7 +66,10 @@ Public Class DataEXTM0102
     Private ppDtCopyKamokuMst As DataTable    ' 利用料用科目マスタ      ' 2015.12.25 ADD h.hagiwara
     Private ppDtSaimoku As DataTable          ' 科目マスタ(細目)        ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応        
     Private ppDtUchiwake As DataTable         ' 科目マスタ(内訳)        ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応        
-    Private ppDtShosai As DataTable           ' 科目マスタ(詳細)        ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応        
+    Private ppDtShosai As DataTable           ' 科目マスタ(詳細)        ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応       
+    ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
+    Private ppDtTaxMst As DataTable             ' 消費税マスタ跨りチェック
+    ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
 
     'シート
     Private ppVwGroupingSheet As FpSpread   '分類表
@@ -847,5 +850,25 @@ Public Class DataEXTM0102
     End Property
 
     ' 2016.06.24 ADD END↑ h.hagiwara コンボリスト設定方法変更対応
+
+    ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
+    ''' <summary>
+    ''' プロパティセット【消費税マスタ跨りチェック】
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>ppDtTaxMst</returns>
+    ''' <remarks><para>作成情報：2019.05.31 e.okuda@Compass
+    ''' <p>改訂情報:</p>
+    ''' </para></remarks>
+    Public Property PropDtTaxMst() As DataTable
+        Get
+            Return ppDtTaxMst
+        End Get
+        Set(ByVal value As DataTable)
+            ppDtTaxMst = value
+        End Set
+    End Property
+    ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
+
 
 End Class

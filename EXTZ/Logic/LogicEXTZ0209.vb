@@ -3,6 +3,15 @@ Imports CommonEXT
 Imports Npgsql
 
 Public Class LogicEXTZ0209
+    ' --- 2019/06/13 軽減税率対応 Start E.Okuda@Compass ---
+    ' 列番号定数化
+    Private Const COL_FUTAI_SELECTED_FUTAI_SU As Integer = 3
+    Private Const COL_FUTAI_SELECTED_FUTAI_CHOSEI As Integer = 6
+    Private Const COL_FUTAI_SELECTED_FUTAI_KIN As Integer = 7
+    Private Const COL_FUTAI_SELECTED_FUTAI_BUNRUI_CD As Integer = 12
+    Private Const COL_FUTAI_SELECTED_FUTAI_CD As Integer = 13
+    ' --- 2019/06/13 軽減税率対応 End E.Okuda@Compass ---
+
     Private sqlEXTZ0209 As New sqlEXTZ0209          'sqlクラス
     Private commonLogicEXT As New CommonLogicEXT
 
@@ -169,7 +178,7 @@ Public Class LogicEXTZ0209
 
     ''' <summary>
     ''' 入力チェック処理
-    ''' <paramref name="dataEXTY0102">[IN/OUT]データクラス</paramref>
+    ''' <paramref name="dataEXTZ0209">[IN/OUT]データクラス</paramref>
     ''' </summary>
     ''' <returns>boolean エラーコード    True:正常  False:異常</returns>
     ''' <remarks>スプレッド上の選択および値入力のチェックを行う
@@ -190,32 +199,61 @@ Public Class LogicEXTZ0209
 
             With dataEXTZ0209.PropVwFutaiSelecSheet
                 For i = 0 To .Sheets(0).RowCount - 1
+                    ' --- 2019/06/13 軽減税率対応 Start E.Okuda@Compass ---
+                    ' 列番号定数化
                     ' 数量チェック
-                    If Not IsNumeric(.Sheets(0).Cells(i, 3).Value) = True Then
+                    If Not IsNumeric(.Sheets(0).Cells(i, COL_FUTAI_SELECTED_FUTAI_SU).Value) = True Then
                         puErrMsg = String.Format(CommonDeclareEXT.E0003, "数量")
                         Return False
                     End If
                     ' 調整額チェック
-                    If Not IsNumeric(.Sheets(0).Cells(i, 6).Value) = True Then
+                    If Not IsNumeric(.Sheets(0).Cells(i, COL_FUTAI_SELECTED_FUTAI_CHOSEI).Value) = True Then
                         puErrMsg = String.Format(CommonDeclareEXT.E0003, "調整額")
                         Return False
                     End If
+
+                    '' 数量チェック
+                    'If Not IsNumeric(.Sheets(0).Cells(i, 3).Value) = True Then
+                    '    puErrMsg = String.Format(CommonDeclareEXT.E0003, "数量")
+                    '    Return False
+                    'End If
+                    '' 調整額チェック
+                    'If Not IsNumeric(.Sheets(0).Cells(i, 6).Value) = True Then
+                    '    puErrMsg = String.Format(CommonDeclareEXT.E0003, "調整額")
+                    '    Return False
+                    'End If
+                    ' --- 2019/06/13 軽減税率対応 End E.Okuda@Compass ---
                 Next
 
                 ' 同一付帯設備情報が選択されている場合エラー
                 For j = 0 To .Sheets(0).RowCount - 1
                     For k = j + 1 To .Sheets(0).RowCount - 1
-                        If .Sheets(0).Cells(j, 9).Value = .Sheets(0).Cells(k, 9).Value And _
-                           .Sheets(0).Cells(j, 10).Value = .Sheets(0).Cells(k, 10).Value Then
+                        ' --- 2019/06/13 軽減税率対応 Start E.Okuda@Compass ---
+                        ' 列番号定数化
+                        If .Sheets(0).Cells(j, COL_FUTAI_SELECTED_FUTAI_BUNRUI_CD).Value = .Sheets(0).Cells(k, COL_FUTAI_SELECTED_FUTAI_BUNRUI_CD).Value And
+                           .Sheets(0).Cells(j, COL_FUTAI_SELECTED_FUTAI_CD).Value = .Sheets(0).Cells(k, COL_FUTAI_SELECTED_FUTAI_CD).Value Then
                             puErrMsg = CommonDeclareEXT.E2042
                             Return False
                         End If
+
+                        '' 列番号定数化
+                        'If .Sheets(0).Cells(j, 9).Value = .Sheets(0).Cells(k, 9).Value And
+                        '   .Sheets(0).Cells(j, 10).Value = .Sheets(0).Cells(k, 10).Value Then
+                        '    puErrMsg = CommonDeclareEXT.E2042
+                        '    Return False
+                        'End If
+                        ' --- 2019/06/13 軽減税率対応 End E.Okuda@Compass ---
                     Next
                 Next
 
                 '2015.12.21 ADD START↓ h.hagiwara
-                .ActiveSheet.ColumnFooter.SetAggregationType(0, 7, FarPoint.Win.Spread.Model.AggregationType.Sum)
-                lngAllkin = commonLogicEXT.convLong(.Sheets(0).ColumnFooter.Cells(0, 7).Value)
+                ' --- 2019/06/13 軽減税率対応 Start E.Okuda@Compass ---
+                ' 列番号定数化
+                .ActiveSheet.ColumnFooter.SetAggregationType(0, COL_FUTAI_SELECTED_FUTAI_KIN, FarPoint.Win.Spread.Model.AggregationType.Sum)
+                lngAllkin = commonLogicEXT.convLong(.Sheets(0).ColumnFooter.Cells(0, COL_FUTAI_SELECTED_FUTAI_KIN).Value)
+                '.ActiveSheet.ColumnFooter.SetAggregationType(0, 7, FarPoint.Win.Spread.Model.AggregationType.Sum)
+                'lngAllkin = commonLogicEXT.convLong(.Sheets(0).ColumnFooter.Cells(0, 7).Value)
+                ' --- 2019/06/13 軽減税率対応 End E.Okuda@Compass ---
                 If lngAllkin.ToString.Length > 11 Then
                     puErrMsg = String.Format(CommonDeclareEXT.E2049, "付帯設備")
                     Return False

@@ -10,6 +10,13 @@ Public Class EXTM0102
     Private logicEXTM0102 As New LogicEXTM0102
     Private commonLogicEXT As New CommonLogicEXT    '共通ロジッククラス
 
+    ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+    Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
+    Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
+    Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
+    ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
+
+
     ''' <summary>
     ''' 付帯設備マスタメンテ、初期表示処理
     ''' </summary>
@@ -150,6 +157,17 @@ Public Class EXTM0102
             MsgBox(puErrMsg)
             Exit Sub
         End If
+
+        ' --- 2019/05/31 軽減税率対応 Start E.Okuda@Compass ---
+        ' 入力期間と消費税マスタの期間跨りチェック
+        If logicEXTM0102.CheckTaxCrossPeriod(dataEXTM0102) = False Then
+            MsgBox(puErrMsg)
+            Exit Sub
+        End If
+
+
+        ' --- 2019/05/31 軽減税率対応 End E.Okuda@Compass ---
+
         '分類表入力チェック
         If logicEXTM0102.CheckErrerBunrui(dataEXTM0102) = False Then
             MsgBox(puErrMsg)
@@ -535,17 +553,30 @@ Public Class EXTM0102
         logicEXTM0102.ChangeGroupingInsartRow(dataEXTM0102)
 
         '科目コードコンボボックスの値が変化した時、細目コードコンボボックスを活性化
-        If e.Column = 4 Then
+        ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+        ' 列数直書き変更
+        If e.Column = M0102_BUNRUI_COL_KANJYO Then
+            'If e.Column = 4 Then
+            ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
+
             logicEXTM0102.ChangeCmbKamokuCd(e.Row, dataEXTM0102)
         End If
 
         '細目コードコンボボックスの値が変化した時、内訳コードコンボボックスを活性化
-        If e.Column = 5 Then
+        ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+        ' 列数直書き変更
+        If e.Column = M0102_BUNRUI_COL_SAIMOKU Then
+            'If e.Column = 5 Then
+            ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
             logicEXTM0102.ChangeCmbSaimokuCd(e.Row, dataEXTM0102)
         End If
 
         '内訳コードコンボボックスの値が変化した時、内訳コードコンボボックスを活性化
-        If e.Column = 6 Then
+        ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+        ' 列数直書き変更
+        If e.Column = M0102_BUNRUI_COL_UCHIWAKE Then
+            'If e.Column = 6 Then
+            ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
             logicEXTM0102.ChangeCmbUchiwakeCd(e.Row, dataEXTM0102)
         End If
 

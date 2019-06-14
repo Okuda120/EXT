@@ -11,6 +11,31 @@ Imports FarPoint.Win.Spread
 ''' </para></remarks>
 Public Class EXTZ0204
 
+    ' --- 2019/06/14 軽減税率対応 Start E.Okuda@Compass ---
+    ' 列番号定数化
+    Private Const COL_FUTAI_RIYO_YM As Integer = 0
+    Private Const COL_FUTAI_SHUKEI_GRP As Integer = 1
+    Private Const COL_FUTAI_KAMOKU_NM As Integer = 2
+    Private Const COL_FUTAI_SAIMOKU_NM As Integer = 3
+    Private Const COL_FUTAI_UCHI_NM As Integer = 4
+    Private Const COL_FUTAI_SHOSAI_NM As Integer = 5
+    Private Const COL_FUTAI_KEIJO_KIN As Integer = 6
+    Private Const COL_FUTAI_ZEIRITSU As Integer = 7
+    Private Const COL_FUTAI_TAX_KIN As Integer = 8
+    Private Const COL_FUTAI_TAX_KBN As Integer = 9
+    Private Const COL_FUTAI_SEIKYU_TITLE1 As Integer = 10
+    Private Const COL_FUTAI_SEIKYU_TITLE2 As Integer = 11
+    Private Const COL_FUTAI_EVENT_NM As Integer = 12
+    Private Const COL_FUTAI_CONTENT_UCHI_NM As Integer = 13
+    Private Const COL_FUTAI_KAMOKU_CD As Integer = 16
+    Private Const COL_FUTAI_SAIMOKU_CD As Integer = 17
+    Private Const COL_FUTAI_UCHI_CD As Integer = 18
+    Private Const COL_FUTAI_SHOSAI_CD As Integer = 19
+    Private Const COL_FUTAI_CONTENT_CD As Integer = 20
+    Private Const COL_FUTAI_CONTENT_UCHI_CD As Integer = 21
+    Private Const COL_FUTAI_RIYO_NM As Integer = 22
+    ' --- 2019/06/14 軽減税率対応 End E.Okuda@Compass ---
+
     Private commonLogic As New CommonLogic              '共通クラス
     Private commonValidate As New CommonValidation      '共通ロジッククラス
     Private commonLogicEXT As New CommonLogicEXT        '共通クラス
@@ -146,14 +171,17 @@ Public Class EXTZ0204
             'SPREAD 付帯
             Dim TblFutai As DataTable = dataEXTZ0204.PropDtExasFutai
             Dim shtFutai As FarPoint.Win.Spread.SheetView = Me.fbFutai.ActiveSheet
-            shtFutai.ColumnCount = 21
-            shtFutai.Columns(14).Visible = False
+            ' 2019.03.25 消費税率変更対応(「消費税率」列追加)　START ↓ e.okuda@Compass 
+            'shtFutai.ColumnCount = 21                                      ' 2019.03.25 UPD e,okuda@Compass
+            shtFutai.ColumnCount = 22                                       ' 2019.03.25 UPD e,okuda@Compass
+            'shtFutai.Columns(14).Visible = False                           ' 2019.03.25 UPD e,okuda@Compass
             shtFutai.Columns(15).Visible = False
             shtFutai.Columns(16).Visible = False
             shtFutai.Columns(17).Visible = False
             shtFutai.Columns(18).Visible = False
             shtFutai.Columns(19).Visible = False
             shtFutai.Columns(20).Visible = False
+            shtFutai.Columns(21).Visible = False                            ' 2019.03.25 UPD e,okuda@Compass
             shtFutai.Columns(0).Locked = True
             shtFutai.Columns(1).Locked = True
             shtFutai.Columns(2).Locked = True
@@ -162,6 +190,7 @@ Public Class EXTZ0204
             shtFutai.Columns(5).Locked = True
             shtFutai.Columns(10).Locked = True
             shtFutai.Columns(11).Locked = True
+            shtFutai.Columns(12).Locked = True                              ' 2019.03.25 UPD e,okuda@Compass
             ' 2015.12.21 ADD START↓ h.hagiwara
             Dim numCellKeijyoFutai As New FarPoint.Win.Spread.CellType.NumberCellType()
             numCellKeijyo.MaximumValue = 99999999
@@ -557,4 +586,7 @@ Public Class EXTZ0204
         Me.Close()
     End Sub
 
+    Private Sub fbFutai_CellClick(sender As Object, e As CellClickEventArgs) Handles fbFutai.CellClick
+
+    End Sub
 End Class

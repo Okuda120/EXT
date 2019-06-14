@@ -3601,7 +3601,7 @@ Public Class EXTB0103
                         Do While table2.Rows.Count > dIndex
                             sbDetail = New StringBuilder
                             dRow = table2.Rows(dIndex)
-                            commonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "EXAS請求依頼 付帯設備使用料[" + dRow("shukei_grp") + "]", Nothing, Nothing)
+                            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "EXAS請求依頼 付帯設備使用料[" + dRow("shukei_grp") + "]", Nothing, Nothing)
 
                             If dRow("keijo_kin") <> 0 Then                                             ' 2015.12.16 ADD h.hagiwara
 
