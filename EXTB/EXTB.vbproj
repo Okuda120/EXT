@@ -199,8 +199,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Format\付帯設備利用明細書.xlsx" />
-    <None Include="Format\付帯設備利用明細書_シアター.xlsx" />
+    <None Include="Format\付帯設備利用明細書.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Format\付帯設備利用明細書_シアター.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Format\利用承認書_シアター.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

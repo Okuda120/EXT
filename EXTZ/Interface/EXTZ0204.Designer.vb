@@ -299,7 +299,6 @@ Partial Class EXTZ0204
         Me.fbFutai.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.fbFutai_Sheet1})
         Me.fbFutai.Size = New System.Drawing.Size(1591, 143)
         Me.fbFutai.TabIndex = 115
-        Me.fbFutai.SetViewportLeftColumn(0, 0, 4)
         '
         'fbFutai_Sheet1
         '
@@ -311,16 +310,16 @@ Partial Class EXTZ0204
         Me.fbFutai_Sheet1.RowCount = 0
         Me.fbFutai_Sheet1.ActiveColumnIndex = -1
         Me.fbFutai_Sheet1.ActiveRowIndex = -1
-        Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 0).Value = "税無フラグ＝１（税無）の場合"
+        Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 0).Value = "利用年月"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 1).Value = "集計キー"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 2).Value = "勘定科目名"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 3).Value = "細目名"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 4).Value = "内訳名"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 5).Value = "詳細名"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 6).Value = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "計上額"
-        Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 7).Value = "消費税率"
-        Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 8).Value = "消費税"
-        Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 9).Value = "消費税区分"
+        Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 7).Value = "消費税区分"
+        Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 8).Value = "消費税率"
+        Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 9).Value = "消費税"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 10).Value = "入力摘要1"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 11).Value = "入力摘要2"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 12).Value = "プロジェクト"
@@ -330,7 +329,7 @@ Partial Class EXTZ0204
         Me.fbFutai_Sheet1.ColumnHeader.Rows.Get(0).Height = 41.0!
         Me.fbFutai_Sheet1.Columns.Get(0).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
-        Me.fbFutai_Sheet1.Columns.Get(0).Label = "税無フラグ＝１（税無）の場合"
+        Me.fbFutai_Sheet1.Columns.Get(0).Label = "利用年月"
         Me.fbFutai_Sheet1.Columns.Get(0).Width = 71.0!
         Me.fbFutai_Sheet1.Columns.Get(1).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(1).Label = "集計キー"
@@ -355,17 +354,20 @@ Partial Class EXTZ0204
         Me.fbFutai_Sheet1.Columns.Get(6).CellType = NumberCellType3
         Me.fbFutai_Sheet1.Columns.Get(6).Label = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "計上額"
         Me.fbFutai_Sheet1.Columns.Get(6).Width = 77.0!
-        Me.fbFutai_Sheet1.Columns.Get(7).CellType = NumberCellType4
-        Me.fbFutai_Sheet1.Columns.Get(7).Label = "消費税率"
-        Me.fbFutai_Sheet1.Columns.Get(7).Width = 59.0!
+        Me.fbFutai_Sheet1.Columns.Get(7).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
+        Me.fbFutai_Sheet1.Columns.Get(7).Label = "消費税区分"
+        Me.fbFutai_Sheet1.Columns.Get(8).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
+        Me.fbFutai_Sheet1.Columns.Get(8).CellType = NumberCellType4
+        Me.fbFutai_Sheet1.Columns.Get(8).Label = "消費税率"
+        Me.fbFutai_Sheet1.Columns.Get(8).Width = 45.0!
         NumberCellType5.DecimalPlaces = 0
         NumberCellType5.FixedPoint = False
         NumberCellType5.MaximumValue = 9999999999.0R
         NumberCellType5.MinimumValue = -9999999999.0R
         NumberCellType5.ShowSeparator = True
-        Me.fbFutai_Sheet1.Columns.Get(8).CellType = NumberCellType5
-        Me.fbFutai_Sheet1.Columns.Get(8).Label = "消費税"
-        Me.fbFutai_Sheet1.Columns.Get(8).Width = 77.0!
+        Me.fbFutai_Sheet1.Columns.Get(9).CellType = NumberCellType5
+        Me.fbFutai_Sheet1.Columns.Get(9).Label = "消費税"
+        Me.fbFutai_Sheet1.Columns.Get(9).Width = 77.0!
         Me.fbFutai_Sheet1.Columns.Get(10).Label = "入力摘要1"
         Me.fbFutai_Sheet1.Columns.Get(10).Width = 215.0!
         Me.fbFutai_Sheet1.Columns.Get(11).Label = "入力摘要2"

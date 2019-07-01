@@ -14,6 +14,11 @@ Public Class EXTZ0203
     Private Const MINUS As String = "－"
     Private Const PLMI As String = "±"
 
+    ' --- 2019/06/25 軽減税率対応 Start E.Okuda@Compass ---
+    Private Const SEIKYU_CD_FUTAI As Integer = 2
+    Private Const SEIKYU_CD_RIYO_FUTAI As Integer = 3
+    ' --- 2019/06/25 軽減税率対応 End E.Okuda@Compass ---
+
     ''' <summary>
     ''' 初期処理
     ''' </summary>
@@ -82,6 +87,14 @@ Public Class EXTZ0203
         If IsDBNull(row("seikyu_irai_no")) = False And dataEXTZ0203.propStrSeikyuInputFlg = "1" Then
             Me.btnComplate.Enabled = False
         End If
+
+        ' --- 2019/06/25 軽減税率対応 Start E.Okuda@Compass ---
+        ' s請求内容に「付帯設備」が含まれる場合、調整額のコントロールを無効化する。
+        If dataEXTZ0203.propStrSeikyuNaiyo = SEIKYU_CD_FUTAI Or dataEXTZ0203.propStrSeikyuNaiyo = SEIKYU_CD_RIYO_FUTAI Then
+            Me.cmbFugo.Enabled = False
+            Me.txtChoseiKin.Enabled = False
+        End If
+        ' --- 2019/06/25 軽減税率対応 Start E.Okuda@Compass ---
 
         ' 背景色設定
         Me.BackColor = commonLogicEXT.SetFormBackColor(CommonEXT.PropConfigrationFlg)

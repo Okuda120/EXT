@@ -20,13 +20,15 @@ Public Class EXTZ0204
     Private Const COL_FUTAI_UCHI_NM As Integer = 4
     Private Const COL_FUTAI_SHOSAI_NM As Integer = 5
     Private Const COL_FUTAI_KEIJO_KIN As Integer = 6
-    Private Const COL_FUTAI_ZEIRITSU As Integer = 7
-    Private Const COL_FUTAI_TAX_KIN As Integer = 8
-    Private Const COL_FUTAI_TAX_KBN As Integer = 9
+    Private Const COL_FUTAI_TAX_KBN As Integer = 7
+    Private Const COL_FUTAI_ZEIRITSU As Integer = 8
+    Private Const COL_FUTAI_TAX_KIN As Integer = 9
     Private Const COL_FUTAI_SEIKYU_TITLE1 As Integer = 10
     Private Const COL_FUTAI_SEIKYU_TITLE2 As Integer = 11
     Private Const COL_FUTAI_EVENT_NM As Integer = 12
     Private Const COL_FUTAI_CONTENT_UCHI_NM As Integer = 13
+    Private Const COL_FUTAI_BTN_COPY As Integer = 14
+    Private Const COL_FUTAI_BTN_REFER As Integer = 15
     Private Const COL_FUTAI_KAMOKU_CD As Integer = 16
     Private Const COL_FUTAI_SAIMOKU_CD As Integer = 17
     Private Const COL_FUTAI_UCHI_CD As Integer = 18
@@ -34,6 +36,13 @@ Public Class EXTZ0204
     Private Const COL_FUTAI_CONTENT_CD As Integer = 20
     Private Const COL_FUTAI_CONTENT_UCHI_CD As Integer = 21
     Private Const COL_FUTAI_RIYO_NM As Integer = 22
+
+    ' 税区分
+    Private Const DISP_UCHIZEI As String = "内税"
+    Private Const VAL_UCHIZEI As String = "1"
+    Private Const DISP_SOTOZEI As String = "外税"
+    Private Const VAL_SOTOZEI As String = "0"
+
     ' --- 2019/06/14 軽減税率対応 End E.Okuda@Compass ---
 
     Private commonLogic As New CommonLogic              '共通クラス
@@ -171,7 +180,8 @@ Public Class EXTZ0204
             'SPREAD 付帯
             Dim TblFutai As DataTable = dataEXTZ0204.PropDtExasFutai
             Dim shtFutai As FarPoint.Win.Spread.SheetView = Me.fbFutai.ActiveSheet
-            ' --- 2019/06/141 軽減税率対応 Start E.Okuda@Compass ---
+            ' --- 2019/06/17 軽減税率対応 Start E.Okuda@Compass ---
+            ' 列番号定数化＆「税率」、「税区分」列追加
             shtFutai.ColumnCount = 23
 
             ' 列非表示設定
@@ -200,7 +210,7 @@ Public Class EXTZ0204
             'shtFutai.Columns(18).Visible = False
             'shtFutai.Columns(19).Visible = False
             'shtFutai.Columns(20).Visible = False
-            'shtFutai.Columns(21).Visible = False                            ' 2019.03.25 UPD e,okuda@Compass
+            'shtFutai.Columns(21).Visible = False                           
             'shtFutai.Columns(0).Locked = True
             'shtFutai.Columns(1).Locked = True
             'shtFutai.Columns(2).Locked = True
@@ -209,7 +219,9 @@ Public Class EXTZ0204
             'shtFutai.Columns(5).Locked = True
             'shtFutai.Columns(10).Locked = True
             'shtFutai.Columns(11).Locked = True
-            'shtFutai.Columns(12).Locked = True                              ' 2019.03.25 UPD e,okuda@Compass
+            'shtFutai.Columns(12).Locked = True                              
+            ' --- 2019/06/17 軽減税率対応 End E.Okuda@Compass ---
+
             ' 2015.12.21 ADD START↓ h.hagiwara
             Dim numCellKeijyoFutai As New FarPoint.Win.Spread.CellType.NumberCellType()
             numCellKeijyo.MaximumValue = 99999999
@@ -230,54 +242,105 @@ Public Class EXTZ0204
                 Do While i < TblFutai.Rows.Count
                     row = TblFutai.Rows(i)
                     Dim ary As Array = row.ItemArray
-                    shtFutai.Cells(i, 0).Value = commonLogicEXT.convYmDateStr(commonLogicEXT.DbNullToNothing(row, "riyo_ym"))
-                    shtFutai.Cells(i, 1).Value = commonLogicEXT.DbNullToNothing(row, "shukei_grp")
-                    shtFutai.Cells(i, 2).Value = commonLogicEXT.DbNullToNothing(row, "kamoku_nm")
-                    shtFutai.Cells(i, 3).Value = commonLogicEXT.DbNullToNothing(row, "saimoku_nm")
-                    shtFutai.Cells(i, 4).Value = commonLogicEXT.DbNullToNothing(row, "uchi_nm")
-                    shtFutai.Cells(i, 5).Value = commonLogicEXT.DbNullToNothing(row, "shosai_nm")
-                    ''shtFutai.Cells(i, 6).CellType = numCellKeijyo                                         ' 2015.12.21 UPD h.hagiwara
-                    'shtFutai.Cells(i, 6).CellType = numCellKeijyoFutai                                     ' 2015.12.21 UPD h.hagiwara
-                    'shtFutai.Cells(i, 6).Value = Integer.Parse(commonLogicEXT.DbNullToNothing(row, "keijo_kin"))        ' 2015.12.21 UPD h.hagiwara
-                    shtFutai.Cells(i, 6).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "keijo_kin"))            ' 2015.12.21 UPD h.hagiwara
-                    ''shtFutai.Cells(i, 7).CellType = numCellTax                                            ' 2015.12.21 UPD h.hagiwara
-                    'shtFutai.Cells(i, 7).CellType = numCellTaxFutai                                        ' 2015.12.21 UPD h.hagiwara
-                    'shtFutai.Cells(i, 7).Value = Integer.Parse(commonLogicEXT.DbNullToNothing(row, "tax_kin"))         ' 2015.12.21 UPD h.hagiwara
-                    shtFutai.Cells(i, 7).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "tax_kin"))             ' 2015.12.21 UPD h.hagiwara
-                    futaiKei = futaiKei + shtFutai.Cells(i, 6).Value
-                    futaiTaxKei = futaiTaxKei + shtFutai.Cells(i, 7).Value
-                    ' 2015.12.07 UPD START↓ h.hagiwara
-                    'shtFutai.Cells(i, 8).Value = commonLogicEXT.DbNullToNothing(row, "tekiyo1")
-                    'shtFutai.Cells(i, 8).CellType = txtCellTitle
-                    'shtFutai.Cells(i, 9).Value = commonLogicEXT.DbNullToNothing(row, "tekiyo2")
-                    'shtFutai.Cells(i, 9).CellType = txtCellTitle
-                    If commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_input_flg") Is Nothing Then
-                        shtFutai.Cells(i, 8).CellType = txtCellTitle
-                        shtFutai.Cells(i, 8).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title1")
-                        shtFutai.Cells(i, 9).CellType = txtCellTitle
-                        shtFutai.Cells(i, 9).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title2")
-                    ElseIf commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_input_flg") = "0" Then
-                        shtFutai.Cells(i, 8).CellType = txtCellTitle
-                        shtFutai.Cells(i, 8).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title1")
-                        shtFutai.Cells(i, 9).CellType = txtCellTitle
-                        shtFutai.Cells(i, 9).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title2")
+                    ' --- 2019/06/17 軽減税率対応 Start E.Okuda@Compass ---
+                    ' 列番号定数化＆「税率」、「税区分」列追加
+                    shtFutai.Cells(i, COL_FUTAI_RIYO_YM).Value = commonLogicEXT.convYmDateStr(commonLogicEXT.DbNullToNothing(row, "riyo_ym"))
+                    shtFutai.Cells(i, COL_FUTAI_SHUKEI_GRP).Value = commonLogicEXT.DbNullToNothing(row, "shukei_grp")
+                    shtFutai.Cells(i, COL_FUTAI_KAMOKU_NM).Value = commonLogicEXT.DbNullToNothing(row, "kamoku_nm")
+                    shtFutai.Cells(i, COL_FUTAI_SAIMOKU_NM).Value = commonLogicEXT.DbNullToNothing(row, "saimoku_nm")
+                    shtFutai.Cells(i, COL_FUTAI_UCHI_NM).Value = commonLogicEXT.DbNullToNothing(row, "uchi_nm")
+                    shtFutai.Cells(i, COL_FUTAI_SHOSAI_NM).Value = commonLogicEXT.DbNullToNothing(row, "shosai_nm")
+                    shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "keijo_kin"))            ' 2015.12.21 UPD h.hagiwara
+                    If commonLogicEXT.DbNullToNothing(row, "notax_flg") = VAL_UCHIZEI Then
+                        shtFutai.Cells(i, COL_FUTAI_TAX_KBN).Value = DISP_UCHIZEI
+                    ElseIf commonLogicEXT.DbNullToNothing(row, "notax_flg") = VAL_SOTOZEI Then
+                        shtFutai.Cells(i, COL_FUTAI_TAX_KBN).Value = DISP_SOTOZEI
+                    End If
+                    If Long.TryParse(commonLogicEXT.DbNullToNothing(row, "zeiritsu"), 0) = True Then
+                        shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "zeiritsu"))
                     Else
-                        shtFutai.Cells(i, 8).Value = commonLogicEXT.DbNullToNothing(row, "tekiyo1")
-                        shtFutai.Cells(i, 8).CellType = txtCellTitle
-                        shtFutai.Cells(i, 9).Value = commonLogicEXT.DbNullToNothing(row, "tekiyo2")
-                        shtFutai.Cells(i, 9).CellType = txtCellTitle
+                    End If
+
+                    shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "tax_kin"))             ' 2015.12.21 UPD h.hagiwara
+                    futaiKei = futaiKei + shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value
+                    futaiTaxKei = futaiTaxKei + shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value
+                    If commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_input_flg") Is Nothing Then
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE1).CellType = txtCellTitle
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE1).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title1")
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE2).CellType = txtCellTitle
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE2).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title2")
+                    ElseIf commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_input_flg") = "0" Then
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE1).CellType = txtCellTitle
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE1).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title1")
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE2).CellType = txtCellTitle
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE2).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title2")
+                    Else
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE1).Value = commonLogicEXT.DbNullToNothing(row, "tekiyo1")
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE1).CellType = txtCellTitle
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE2).Value = commonLogicEXT.DbNullToNothing(row, "tekiyo2")
+                        shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE2).CellType = txtCellTitle
                     End If
                     ' 2015.12.07 UPD END↑ h.hagiwara
-                    shtFutai.Cells(i, 10).Value = commonLogicEXT.DbNullToNothing(row, "event_nm")
-                    shtFutai.Cells(i, 11).Value = commonLogicEXT.DbNullToNothing(row, "content_uchi_nm")
-                    shtFutai.Cells(i, 14).Value = commonLogicEXT.DbNullToNothing(row, "kamoku_cd")
-                    shtFutai.Cells(i, 15).Value = commonLogicEXT.DbNullToNothing(row, "saimoku_cd")
-                    shtFutai.Cells(i, 16).Value = commonLogicEXT.DbNullToNothing(row, "uchi_cd")
-                    shtFutai.Cells(i, 17).Value = commonLogicEXT.DbNullToNothing(row, "shosai_cd")
-                    shtFutai.Cells(i, 18).Value = commonLogicEXT.DbNullToNothing(row, "content_cd")
-                    shtFutai.Cells(i, 19).Value = commonLogicEXT.DbNullToNothing(row, "content_uchi_cd")
-                    shtFutai.Cells(i, 20).Value = commonLogicEXT.DbNullToNothing(row, "riyo_ym")
+                    shtFutai.Cells(i, COL_FUTAI_EVENT_NM).Value = commonLogicEXT.DbNullToNothing(row, "event_nm")
+                    shtFutai.Cells(i, COL_FUTAI_CONTENT_UCHI_NM).Value = commonLogicEXT.DbNullToNothing(row, "content_uchi_nm")
+                    shtFutai.Cells(i, COL_FUTAI_KAMOKU_CD).Value = commonLogicEXT.DbNullToNothing(row, "kamoku_cd")
+                    shtFutai.Cells(i, COL_FUTAI_SAIMOKU_CD).Value = commonLogicEXT.DbNullToNothing(row, "saimoku_cd")
+                    shtFutai.Cells(i, COL_FUTAI_UCHI_CD).Value = commonLogicEXT.DbNullToNothing(row, "uchi_cd")
+                    shtFutai.Cells(i, COL_FUTAI_SHOSAI_CD).Value = commonLogicEXT.DbNullToNothing(row, "shosai_cd")
+                    shtFutai.Cells(i, COL_FUTAI_CONTENT_CD).Value = commonLogicEXT.DbNullToNothing(row, "content_cd")
+                    shtFutai.Cells(i, COL_FUTAI_CONTENT_UCHI_CD).Value = commonLogicEXT.DbNullToNothing(row, "content_uchi_cd")
+                    shtFutai.Cells(i, COL_FUTAI_RIYO_NM).Value = commonLogicEXT.DbNullToNothing(row, "riyo_ym")
                     i = i + 1
+                    ' --- 2019/06/17 軽減税率対応 End E.Okuda@Compass ---
+
+                    'shtFutai.Cells(i, 0).Value = commonLogicEXT.convYmDateStr(commonLogicEXT.DbNullToNothing(row, "riyo_ym"))
+                    'shtFutai.Cells(i, 1).Value = commonLogicEXT.DbNullToNothing(row, "shukei_grp")
+                    'shtFutai.Cells(i, 2).Value = commonLogicEXT.DbNullToNothing(row, "kamoku_nm")
+                    'shtFutai.Cells(i, 3).Value = commonLogicEXT.DbNullToNothing(row, "saimoku_nm")
+                    'shtFutai.Cells(i, 4).Value = commonLogicEXT.DbNullToNothing(row, "uchi_nm")
+                    'shtFutai.Cells(i, 5).Value = commonLogicEXT.DbNullToNothing(row, "shosai_nm")
+                    '''shtFutai.Cells(i, 6).CellType = numCellKeijyo                                         ' 2015.12.21 UPD h.hagiwara
+                    ''shtFutai.Cells(i, 6).CellType = numCellKeijyoFutai                                     ' 2015.12.21 UPD h.hagiwara
+                    ''shtFutai.Cells(i, 6).Value = Integer.Parse(commonLogicEXT.DbNullToNothing(row, "keijo_kin"))        ' 2015.12.21 UPD h.hagiwara
+                    'shtFutai.Cells(i, 6).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "keijo_kin"))            ' 2015.12.21 UPD h.hagiwara
+                    '''shtFutai.Cells(i, 7).CellType = numCellTax                                            ' 2015.12.21 UPD h.hagiwara
+                    ''shtFutai.Cells(i, 7).CellType = numCellTaxFutai                                        ' 2015.12.21 UPD h.hagiwara
+                    ''shtFutai.Cells(i, 7).Value = Integer.Parse(commonLogicEXT.DbNullToNothing(row, "tax_kin"))         ' 2015.12.21 UPD h.hagiwara
+                    'shtFutai.Cells(i, 7).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "tax_kin"))             ' 2015.12.21 UPD h.hagiwara
+                    'futaiKei = futaiKei + shtFutai.Cells(i, 6).Value
+                    'futaiTaxKei = futaiTaxKei + shtFutai.Cells(i, 7).Value
+                    '' 2015.12.07 UPD START↓ h.hagiwara
+                    ''shtFutai.Cells(i, 8).Value = commonLogicEXT.DbNullToNothing(row, "tekiyo1")
+                    ''shtFutai.Cells(i, 8).CellType = txtCellTitle
+                    ''shtFutai.Cells(i, 9).Value = commonLogicEXT.DbNullToNothing(row, "tekiyo2")
+                    ''shtFutai.Cells(i, 9).CellType = txtCellTitle
+                    'If commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_input_flg") Is Nothing Then
+                    '    shtFutai.Cells(i, 8).CellType = txtCellTitle
+                    '    shtFutai.Cells(i, 8).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title1")
+                    '    shtFutai.Cells(i, 9).CellType = txtCellTitle
+                    '    shtFutai.Cells(i, 9).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title2")
+                    'ElseIf commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_input_flg") = "0" Then
+                    '    shtFutai.Cells(i, 8).CellType = txtCellTitle
+                    '    shtFutai.Cells(i, 8).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title1")
+                    '    shtFutai.Cells(i, 9).CellType = txtCellTitle
+                    '    shtFutai.Cells(i, 9).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title2")
+                    'Else
+                    '    shtFutai.Cells(i, 8).Value = commonLogicEXT.DbNullToNothing(row, "tekiyo1")
+                    '    shtFutai.Cells(i, 8).CellType = txtCellTitle
+                    '    shtFutai.Cells(i, 9).Value = commonLogicEXT.DbNullToNothing(row, "tekiyo2")
+                    '    shtFutai.Cells(i, 9).CellType = txtCellTitle
+                    'End If
+                    '' 2015.12.07 UPD END↑ h.hagiwara
+                    'shtFutai.Cells(i, 10).Value = commonLogicEXT.DbNullToNothing(row, "event_nm")
+                    'shtFutai.Cells(i, 11).Value = commonLogicEXT.DbNullToNothing(row, "content_uchi_nm")
+                    'shtFutai.Cells(i, 14).Value = commonLogicEXT.DbNullToNothing(row, "kamoku_cd")
+                    'shtFutai.Cells(i, 15).Value = commonLogicEXT.DbNullToNothing(row, "saimoku_cd")
+                    'shtFutai.Cells(i, 16).Value = commonLogicEXT.DbNullToNothing(row, "uchi_cd")
+                    'shtFutai.Cells(i, 17).Value = commonLogicEXT.DbNullToNothing(row, "shosai_cd")
+                    'shtFutai.Cells(i, 18).Value = commonLogicEXT.DbNullToNothing(row, "content_cd")
+                    'shtFutai.Cells(i, 19).Value = commonLogicEXT.DbNullToNothing(row, "content_uchi_cd")
+                    'shtFutai.Cells(i, 20).Value = commonLogicEXT.DbNullToNothing(row, "riyo_ym")
+                    'i = i + 1
                 Loop
             End If
 
@@ -351,31 +414,20 @@ Public Class EXTZ0204
     Private Sub btnFutai_Click(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.EditorNotifyEventArgs) Handles fbFutai.ButtonClicked
         Dim sheet As FarPoint.Win.Spread.SheetView = Me.fbFutai.ActiveSheet
         '下にコピーボタンが押された場合
-        If e.Column = 12 Then
+        ' --- 2019/06/14 軽減税率対応 Start E.Okuda@Compass ---
+        If e.Column = COL_FUTAI_BTN_COPY Then
             '最下行はスキップ
             If sheet.Rows.Count > e.Row + 1 Then
                 Dim cpIndex As Integer = e.Row + 1
-                ' 2015．12.07 DEL START↓ h.hagiwara コピーはコンテンツのみ
-                'sheet.Cells(cpIndex, 6).Value = sheet.Cells(e.Row, 6).Value
-                'sheet.Cells(cpIndex, 7).Value = sheet.Cells(e.Row, 7).Value
-                'sheet.Cells(cpIndex, 8).Value = sheet.Cells(e.Row, 8).Value
-                'sheet.Cells(cpIndex, 9).Value = sheet.Cells(e.Row, 9).Value
-                ' 2015．12.07 DEL END↑ h.hagiwara コピーはコンテンツのみ
-                sheet.Cells(cpIndex, 10).Value = sheet.Cells(e.Row, 10).Value
-                sheet.Cells(cpIndex, 11).Value = sheet.Cells(e.Row, 11).Value
-                ' 2015．12.07 DEL START↓ h.hagiwara コピーはコンテンツのみ
-                'sheet.Cells(cpIndex, 14).Value = sheet.Cells(e.Row, 14).Value
-                'sheet.Cells(cpIndex, 15).Value = sheet.Cells(e.Row, 15).Value
-                'sheet.Cells(cpIndex, 16).Value = sheet.Cells(e.Row, 16).Value
-                'sheet.Cells(cpIndex, 17).Value = sheet.Cells(e.Row, 17).Value
-                ' 2015．12.07 DEL END↑ h.hagiwara コピーはコンテンツのみ
-                sheet.Cells(cpIndex, 18).Value = sheet.Cells(e.Row, 18).Value
-                sheet.Cells(cpIndex, 19).Value = sheet.Cells(e.Row, 19).Value
+                sheet.Cells(cpIndex, COL_FUTAI_EVENT_NM).Value = sheet.Cells(e.Row, COL_FUTAI_EVENT_NM).Value
+                sheet.Cells(cpIndex, COL_FUTAI_CONTENT_UCHI_NM).Value = sheet.Cells(e.Row, COL_FUTAI_CONTENT_UCHI_NM).Value
+                sheet.Cells(cpIndex, COL_FUTAI_CONTENT_CD).Value = sheet.Cells(e.Row, COL_FUTAI_CONTENT_CD).Value
+                sheet.Cells(cpIndex, COL_FUTAI_CONTENT_UCHI_CD).Value = sheet.Cells(e.Row, COL_FUTAI_CONTENT_UCHI_CD).Value
                 calcSagaku()
             End If
         End If
         '表示ボタンが押された場合
-        If e.Column = 13 Then
+        If e.Column = COL_FUTAI_BTN_REFER Then
 
             ' DBレプリケーション
             If commonLogicEXT.CheckDBCondition() = False Then
@@ -388,14 +440,61 @@ Public Class EXTZ0204
             Dim dt As Date = seikyubi
             frm.dataEXTZ0205.PropStrRiyobi = dt.ToString("yyyyMMdd")
             frm.ShowDialog()
-            'If String.IsNullOrEmpty(frm.dataEXTZ0205.PropStrResPrjNm) = False Then      ' 2015.11.25 UPD h.hagiwara 利用料時と同じ判定にする
             If frm.dataEXTZ0205.PropBlnChangeFlg Then                                    ' 2015.11.25 UPD h.hagiwara 利用料時と同じ判定にする
-                sheet.Cells(e.Row, 10).Value = frm.dataEXTZ0205.PropStrResPrjNm
-                sheet.Cells(e.Row, 11).Value = frm.dataEXTZ0205.PropStrResUchiNm
-                sheet.Cells(e.Row, 18).Value = frm.dataEXTZ0205.PropStrResPrjCd
-                sheet.Cells(e.Row, 19).Value = frm.dataEXTZ0205.PropStrResUchiCd
+                sheet.Cells(e.Row, COL_FUTAI_EVENT_NM).Value = frm.dataEXTZ0205.PropStrResPrjNm
+                sheet.Cells(e.Row, COL_FUTAI_CONTENT_UCHI_NM).Value = frm.dataEXTZ0205.PropStrResUchiNm
+                sheet.Cells(e.Row, COL_FUTAI_SHOSAI_CD).Value = frm.dataEXTZ0205.PropStrResPrjCd
+                sheet.Cells(e.Row, COL_FUTAI_CONTENT_UCHI_CD).Value = frm.dataEXTZ0205.PropStrResUchiCd
             End If
         End If
+
+
+        'If e.Column = 12 Then
+        '    '最下行はスキップ
+        '    If sheet.Rows.Count > e.Row + 1 Then
+        '        Dim cpIndex As Integer = e.Row + 1
+        '        ' 2015．12.07 DEL START↓ h.hagiwara コピーはコンテンツのみ
+        '        'sheet.Cells(cpIndex, 6).Value = sheet.Cells(e.Row, 6).Value
+        '        'sheet.Cells(cpIndex, 7).Value = sheet.Cells(e.Row, 7).Value
+        '        'sheet.Cells(cpIndex, 8).Value = sheet.Cells(e.Row, 8).Value
+        '        'sheet.Cells(cpIndex, 9).Value = sheet.Cells(e.Row, 9).Value
+        '        ' 2015．12.07 DEL END↑ h.hagiwara コピーはコンテンツのみ
+        '        sheet.Cells(cpIndex, 10).Value = sheet.Cells(e.Row, 10).Value
+        '        sheet.Cells(cpIndex, 11).Value = sheet.Cells(e.Row, 11).Value
+        '        ' 2015．12.07 DEL START↓ h.hagiwara コピーはコンテンツのみ
+        '        'sheet.Cells(cpIndex, 14).Value = sheet.Cells(e.Row, 14).Value
+        '        'sheet.Cells(cpIndex, 15).Value = sheet.Cells(e.Row, 15).Value
+        '        'sheet.Cells(cpIndex, 16).Value = sheet.Cells(e.Row, 16).Value
+        '        'sheet.Cells(cpIndex, 17).Value = sheet.Cells(e.Row, 17).Value
+        '        ' 2015．12.07 DEL END↑ h.hagiwara コピーはコンテンツのみ
+        '        sheet.Cells(cpIndex, 18).Value = sheet.Cells(e.Row, 18).Value
+        '        sheet.Cells(cpIndex, 19).Value = sheet.Cells(e.Row, 19).Value
+        '        calcSagaku()
+        '    End If
+        'End If
+        ''表示ボタンが押された場合
+        'If e.Column = 13 Then
+
+        '    ' DBレプリケーション
+        '    If commonLogicEXT.CheckDBCondition() = False Then
+        '        'メッセージを出力 
+        '        MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
+        '        Exit Sub
+        '    End If
+
+        '    Dim frm As New EXTZ0205
+        '    Dim dt As Date = seikyubi
+        '    frm.dataEXTZ0205.PropStrRiyobi = dt.ToString("yyyyMMdd")
+        '    frm.ShowDialog()
+        '    'If String.IsNullOrEmpty(frm.dataEXTZ0205.PropStrResPrjNm) = False Then      ' 2015.11.25 UPD h.hagiwara 利用料時と同じ判定にする
+        '    If frm.dataEXTZ0205.PropBlnChangeFlg Then                                    ' 2015.11.25 UPD h.hagiwara 利用料時と同じ判定にする
+        '        sheet.Cells(e.Row, 10).Value = frm.dataEXTZ0205.PropStrResPrjNm
+        '        sheet.Cells(e.Row, 11).Value = frm.dataEXTZ0205.PropStrResUchiNm
+        '        sheet.Cells(e.Row, 18).Value = frm.dataEXTZ0205.PropStrResPrjCd
+        '        sheet.Cells(e.Row, 19).Value = frm.dataEXTZ0205.PropStrResUchiCd
+        '    End If
+        'End If
+        ' --- 2019/06/14 軽減税率対応 End E.Okuda@Compass ---
     End Sub
 
     ''' <summary>
@@ -443,8 +542,14 @@ Public Class EXTZ0204
         Loop
         i = 0
         Do While i < shtFutai.RowCount
-            riyoKei = riyoKei + shtFutai.Cells(i, 6).Value
-            riyoTaxKei = riyoTaxKei + shtFutai.Cells(i, 7).Value
+
+            ' --- 2019/06/24 軽減税率対応 Start E.Okuda@Compass ---
+            ' 列番号定数化
+            riyoKei = riyoKei + shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value
+            riyoTaxKei = riyoTaxKei + shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value
+            'riyoKei = riyoKei + shtFutai.Cells(i, 6).Value
+            'riyoTaxKei = riyoTaxKei + shtFutai.Cells(i, 7).Value
+            ' --- 2019/06/24 軽減税率対応 End E.Okuda@Compass ---
             i = i + 1
         Loop
         Me.lblSagakuKin.Text = shtSeikyu.Cells(0, 3).Value - riyoKei
@@ -499,20 +604,39 @@ Public Class EXTZ0204
         i = 0
         Do While i < shtFutai.RowCount
             row = TblFutai.Rows(i)
-            row("keijo_kin") = commonLogicEXT.convInsNumStr(shtFutai.Cells(i, 6).Value)
-            row("tax_kin") = commonLogicEXT.convInsNumStr(shtFutai.Cells(i, 7).Value)
-            row("tekiyo1") = shtFutai.Cells(i, 8).Value
-            row("tekiyo2") = shtFutai.Cells(i, 9).Value
-            row("event_nm") = shtFutai.Cells(i, 10).Value
-            row("content_uchi_nm") = shtFutai.Cells(i, 11).Value
-            row("content_cd") = shtFutai.Cells(i, 18).Value
-            row("content_uchi_cd") = shtFutai.Cells(i, 19).Value
+
+            ' --- 2019/06/25 軽減税率対応 Start E.Okuda@Compass ---
+            row("keijo_kin") = commonLogicEXT.convInsNumStr(shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value)
+            row("tax_kin") = commonLogicEXT.convInsNumStr(shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value)
+            row("tekiyo1") = shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE1).Value
+            row("tekiyo2") = shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE2).Value
+            row("event_nm") = shtFutai.Cells(i, COL_FUTAI_EVENT_NM).Value
+            row("content_uchi_nm") = shtFutai.Cells(i, COL_FUTAI_CONTENT_UCHI_NM).Value
+            row("content_cd") = shtFutai.Cells(i, COL_FUTAI_CONTENT_CD).Value
+            row("content_uchi_cd") = shtFutai.Cells(i, COL_FUTAI_CONTENT_UCHI_CD).Value
             ' 2016.01.26 ADD START↓ h.hagiwara
-            If String.IsNullOrEmpty(shtFutai.Cells(i, 7).Value) Then
+            If String.IsNullOrEmpty(shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value) Then
             Else
-                bigTaxkin += CLng(shtFutai.Cells(i, 7).Value)
+                bigTaxkin += CLng(shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value)
             End If
+
+            'row("keijo_kin") = commonLogicEXT.convInsNumStr(shtFutai.Cells(i, 6).Value)
+            'row("tax_kin") = commonLogicEXT.convInsNumStr(shtFutai.Cells(i, 7).Value)
+            'row("tekiyo1") = shtFutai.Cells(i, 8).Value
+            'row("tekiyo2") = shtFutai.Cells(i, 9).Value
+            'row("event_nm") = shtFutai.Cells(i, 10).Value
+            'row("content_uchi_nm") = shtFutai.Cells(i, 11).Value
+            'row("content_cd") = shtFutai.Cells(i, 18).Value
+            'row("content_uchi_cd") = shtFutai.Cells(i, 19).Value
+            '' 2016.01.26 ADD START↓ h.hagiwara
+            'If String.IsNullOrEmpty(shtFutai.Cells(i, 7).Value) Then
+            'Else
+            '    bigTaxkin += CLng(shtFutai.Cells(i, 7).Value)
+            'End If
             ' 2016.01.26 ADD END↑ h.hagiwara
+
+            ' --- 2019/06/25 軽減税率対応 End E.Okuda@Compass ---
+
             i = i + 1
         Loop
         dataEXTZ0204.PropDrBillReq("seikyu_title1") = Me.txtTitle1.Text
