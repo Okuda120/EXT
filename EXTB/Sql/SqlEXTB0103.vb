@@ -404,7 +404,6 @@ Public Class SqlEXTB0103
                             "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
                             "ORDER BY " & vbCrLf &
                             "    m1.sort "
-    ' --- 2019/06/17 軽減税率対応 End E.Okuda@Cmpass ---
 
     'Private strEX05S096 As String =
     '                        "SELECT " & vbCrLf &
@@ -463,6 +462,7 @@ Public Class SqlEXTB0103
     '                        "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
     '                        "ORDER BY " & vbCrLf &
     '                        "    m1.sort "
+    ' --- 2019/06/17 軽減税率対応 End E.Okuda@Cmpass ---
 
     '消費税の取得
     Private strEX05S095 As String =
@@ -1914,11 +1914,11 @@ Public Class SqlEXTB0103
                                                       "t2.tanka," & vbCrLf &
                                                       "t1.futai_su," & vbCrLf &
                                                       "t1.futai_shokei," & vbCrLf &
-                                                      "coalesce(t1.futai_chosei,'0')," & vbCrLf &
+                                                      "coalesce(t1.futai_chosei,'0') as futai_chosei," & vbCrLf &
                                                       "t1.futai_kin," & vbCrLf &
                                                       "t1.futai_biko," & vbCrLf &
                                                       "t3.notax_flg," & vbCrLf &
-                                                      "t3.zeiritsu," & vbCrLf &
+                                                      " (CASE WHEN t3.zeiritsu IS NULL THEN t6.tax_ritu ELSE t3.zeiritsu END) as zeiritsu," & vbCrLf &
                                                       "t3.sort," & vbCrLf &
                                                       "t2.sort" & vbCrLf &
                                                       ",COALESCE(t5.chosei_kin,0)" & vbCrLf &
@@ -1959,6 +1959,9 @@ Public Class SqlEXTB0103
                                                      "          ) t5" & vbCrLf &
                                                        "    ON t1.yoyaku_no = t5.yoyaku_no" & vbCrLf &
                                                        "   AND t1.yoyaku_dt = t5.yoyaku_dt" & vbCrLf &
+                                                     "LEFT JOIN tax_mst t6" & vbCrLf &
+                                                          "ON  to_timestamp(t1.yoyaku_dt, 'YYYY/MM/DD') >= to_timestamp(t6.taxs_dt, 'YYYY/MM/DD')" & vbCrLf &
+                                                          "AND  to_timestamp(t1.yoyaku_dt, 'YYYY/MM/DD') <= to_timestamp(t6.taxe_dt, 'YYYY/MM/DD')" & vbCrLf &
                                                   "WHERE" & vbCrLf &
                                                         "t1.yoyaku_no= :ReserveNo" & vbCrLf &
                                                     "AND t2.sts = '0'" & vbCrLf &

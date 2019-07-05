@@ -46,6 +46,12 @@ Public Class LogicEXTB0103
     Private Const THEATER_FEE As String = "基本会場利用料"
     '表示文字列：小計（項目別）
     Private Const INCIDENT_SUBFEE As String = "F{0}+G{0}"
+
+    ' --- 2019/07/03 軽減税率対応 Start E.Okuda@Compass ---
+    Private Const INCIDENT_TAX_AMOUNT As String = "(F{0}+G{0})*I{0}"
+    ' --- 2019/07/03 軽減税率対応 End E.Okuda@Compass ---
+
+
     '出力ファイル名：利用明細書（合算）
     Private Const DETAILS_FILENAME_ALL As String = "付帯設備利用明細書_{0}.xlsx"
     '出力ファイル名：利用明細書（日別）
@@ -63,6 +69,46 @@ Public Class LogicEXTB0103
     Private Const FORMAT_DETAILS As String = "付帯設備利用明細書_シアター.xlsx"              ' 利用明細書
 
     Private Property vwAppSheetNote As Object
+
+    ' --- 2019/07/03 軽減税率対応 Start E.Okuda@Compass ---
+    Private Const RNG_RIYOSYA_NM As String = "B3"                       ' 利用者名
+    Private Const RNG_RIYO_DT As String = "B4"                          ' 利用日時
+    Private Const RNG_EVENT_NM As String = "B5"                         ' 催事名＋出演者名
+    Private Const RNG_SUM_RIYO_DT As String = "E8"                      ' 延べ利用日数
+    Private Const RNG_KINGAKU As String = "F8"                          ' 金額
+    Private Const RNG_CHOSEI As String = "G8"                           ' 調整額
+
+    Private Const RNG_RIYO_SHOKKEI As String = "H8"                     ' 利用料小計
+
+    Private Const COL_TAX_RATE As Integer = 4                           ' 集計消費税率　列
+    Private Const COL_TAX_AMOUNT As Integer = 5                         ' 集計消費税額　列
+    Private Const ROW_TAX_START As Integer = 47                         ' 集計消費税開始行
+
+
+    Private Const COL_DTABLE_USEDETAIL_RIYO_NAME As Integer = 1         ' 利用者名
+    Private Const COL_DTABLE_USEDETAIL_RIYO_DT As Integer = 2           ' 利用者名
+    Private Const COL_DTABLE_USEDETAIL_EVENT_NM As Integer = 3          ' 催事名＋出演者名
+    Private Const COL_DTABLE_USEDETAIL_SUM_RIYO_DT As Integer = 4       ' 延べ利用日数
+    Private Const COL_DTABLE_USEDETAIL_KINGAKU As Integer = 5           ' 金額
+
+    Private Const COL_DTABLE_USEDETAIL_SUM_FUTAIKIN As Integer = 13     ' 付帯金合計
+
+
+
+    Private Const COL_SHEET_USE_DETAIL_IDX As Integer = 0               ' インデックス列
+    Private Const COL_SHEET_USE_DETAIL_ITEM_NAME As Integer = 1         ' 項目名列
+    Private Const COL_SHEET_USE_DETAIL_TANI As Integer = 2              ' 単位列
+    Private Const COL_SHEET_USE_DETAIL_TANKA As Integer = 3             ' 単価列
+    Private Const COL_SHEET_USE_DETAIL_SURYO As Integer = 4             ' 数量列
+    Private Const COL_SHEET_USE_DETAIL_KINGAKU As Integer = 5           ' 金額列
+    Private Const COL_SHEET_USE_DETAIL_CHOSEI As Integer = 6            ' 調整額列
+    Private Const COL_SHEET_USE_DETAIL_SHOKEI As Integer = 7            ' 小計列
+    Private Const COL_SHEET_USE_DETAIL_ZEIRITSU As Integer = 8          ' 税率列
+    Private Const COL_SHEET_USE_DETAIL_ZEIGAKU As Integer = 9           ' 税額列
+    Private Const COL_SHEET_USE_DETAIL_BIKO As Integer = 10             ' 備考列
+
+    ' --- 2019/07/03 軽減税率対応 End E.Okuda@Compass ---
+
 
     ''' <summary>
     ''' 各種明細情報登録／更新
@@ -1902,10 +1948,12 @@ Public Class LogicEXTB0103
                 ''    .PropVwPrintSheet.ActiveSheet.Cells("F8").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(4) '金額
                 ''    .PropVwPrintSheet.ActiveSheet.Cells("G8").Value = 0 '調整額
                 ''End If
+                ' --- 2019/07/04 軽減税率対応 Start E.Okuda@Compass ---
+                ' 列番号定数化
                 If .PropDtUseDetailsNoTax_Output.Rows.Count > 0 Then
-                    .PropVwPrintSheet.ActiveSheet.Cells("B3").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(1) '利用者名
-                    .PropVwPrintSheet.ActiveSheet.Cells("B4").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(2) '利用日時
-                    .PropVwPrintSheet.ActiveSheet.Cells("B5").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(3) '催事名＋出演者名
+                    .PropVwPrintSheet.ActiveSheet.Cells("B3").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(COL_DTABLE_USEDETAIL_RIYO_NAME) '利用者名
+                    .PropVwPrintSheet.ActiveSheet.Cells("B4").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(COL_DTABLE_USEDETAIL_RIYO_DT) '利用日時
+                    .PropVwPrintSheet.ActiveSheet.Cells("B5").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(COL_DTABLE_USEDETAIL_EVENT_NM) '催事名＋出演者名
                     'ご利用明細
                     '基本会場利用料
                     .PropVwPrintSheet.ActiveSheet.Cells("A8").Value = "1"
@@ -1914,22 +1962,22 @@ Public Class LogicEXTB0103
 
 
                     If .PropBlnSumFlg Then
-                        .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = .PropDtUseDetailsNoTax_Output(0)(4) '延べ利用日数
-                        .PropVwPrintSheet.ActiveSheet.Cells("F8").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(5) '金額
-                        .PropVwPrintSheet.ActiveSheet.Cells("G8").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(6) '調整額
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_SUM_RIYO_DT).Value = .PropDtUseDetailsNoTax_Output(0)(4) '延べ利用日数
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_KINGAKU).Value = .PropDtUseDetailsNoTax_Output.Rows(0)(5) '金額
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_CHOSEI).Value = .PropDtUseDetailsNoTax_Output.Rows(0)(6) '調整額
                     Else
                         If .PropDtUseDetailsNoTax_Output.Rows(0)(4) = 0 Then
-                            .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = "" '延べ利用日数
+                            .PropVwPrintSheet.ActiveSheet.Cells(RNG_SUM_RIYO_DT).Value = "" '延べ利用日数
                         Else
-                            .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = 1 '延べ利用日数
+                            .PropVwPrintSheet.ActiveSheet.Cells(RNG_SUM_RIYO_DT).Value = 1 '延べ利用日数
                         End If
-                        .PropVwPrintSheet.ActiveSheet.Cells("F8").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(4) '金額
-                        .PropVwPrintSheet.ActiveSheet.Cells("G8").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(15) '調整額
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_KINGAKU).Value = .PropDtUseDetailsNoTax_Output.Rows(0)(4) '金額
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_CHOSEI).Value = .PropDtUseDetailsNoTax_Output.Rows(0)(15) '調整額
                     End If
                 ElseIf .PropDtUseDetails_Output.Rows.Count > 0 Then
-                    .PropVwPrintSheet.ActiveSheet.Cells("B3").Value = .PropDtUseDetails_Output.Rows(0)(1) '利用者名
-                    .PropVwPrintSheet.ActiveSheet.Cells("B4").Value = .PropDtUseDetails_Output.Rows(0)(2) '利用日時
-                    .PropVwPrintSheet.ActiveSheet.Cells("B5").Value = .PropDtUseDetails_Output.Rows(0)(3) '催事名＋出演者名
+                    .PropVwPrintSheet.ActiveSheet.Cells(RNG_RIYOSYA_NM).Value = .PropDtUseDetails_Output.Rows(0)(COL_DTABLE_USEDETAIL_RIYO_NAME) '利用者名
+                    .PropVwPrintSheet.ActiveSheet.Cells(RNG_RIYO_DT).Value = .PropDtUseDetails_Output.Rows(0)(COL_DTABLE_USEDETAIL_RIYO_DT) '利用日時
+                    .PropVwPrintSheet.ActiveSheet.Cells(RNG_EVENT_NM).Value = .PropDtUseDetails_Output.Rows(0)(COL_DTABLE_USEDETAIL_EVENT_NM) '催事名＋出演者名
                     'ご利用明細
                     '基本会場利用料
                     .PropVwPrintSheet.ActiveSheet.Cells("A8").Value = "1"
@@ -1937,20 +1985,20 @@ Public Class LogicEXTB0103
                     .PropVwPrintSheet.ActiveSheet.Cells("C8").Value = "1日"
 
                     If .PropBlnSumFlg Then
-                        .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = .PropDtUseDetails_Output(0)(4) '延べ利用日数
-                        .PropVwPrintSheet.ActiveSheet.Cells("F8").Value = .PropDtUseDetails_Output.Rows(0)(5) '金額
-                        .PropVwPrintSheet.ActiveSheet.Cells("G8").Value = .PropDtUseDetails_Output.Rows(0)(6) '調整額
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_SUM_RIYO_DT).Value = .PropDtUseDetails_Output(0)(COL_DTABLE_USEDETAIL_SUM_RIYO_DT) '延べ利用日数
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_KINGAKU).Value = .PropDtUseDetails_Output.Rows(0)(5) '金額
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_CHOSEI).Value = .PropDtUseDetails_Output.Rows(0)(6) '調整額
                     Else
-                        If .PropDtUseDetails_Output.Rows(0)(4) = 0 Then
-                            .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = "" '延べ利用日数
+                        If .PropDtUseDetails_Output.Rows(0)(COL_DTABLE_USEDETAIL_SUM_RIYO_DT) = 0 Then
+                            .PropVwPrintSheet.ActiveSheet.Cells(RNG_SUM_RIYO_DT).Value = "" '延べ利用日数
                         Else
-                            .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = 1  '延べ利用日数
+                            .PropVwPrintSheet.ActiveSheet.Cells(RNG_SUM_RIYO_DT).Value = 1  '延べ利用日数
                         End If
-                        .PropVwPrintSheet.ActiveSheet.Cells("F8").Value = .PropDtUseDetails_Output.Rows(0)(4)  '金額
-                        .PropVwPrintSheet.ActiveSheet.Cells("G8").Value = .PropDtUseDetails_Output.Rows(0)(15) '調整額
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_KINGAKU).Value = .PropDtUseDetails_Output.Rows(0)(COL_DTABLE_USEDETAIL_SUM_RIYO_DT)  '金額
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_CHOSEI).Value = .PropDtUseDetails_Output.Rows(0)(COL_DTABLE_USEDETAIL_SUM_FUTAIKIN) '調整額
                     End If
                 End If
-                ' 2015.11.27 UPD END↑ h.hagiwara 税有・税込どちらか未存在時の判定追加
+
 
                 '小計
                 .PropVwPrintSheet.ActiveSheet.Cells("H8").Formula = String.Format(INCIDENT_SUBFEE, 8)
@@ -1958,7 +2006,29 @@ Public Class LogicEXTB0103
 
                 '消費税
                 If dataEXTB0103.PropStrRentalClass_Output = "1" Or dataEXTB0103.PropStrRentalClass_Output = "3" Then
-                    .PropVwPrintSheet.ActiveSheet.Cells("E48").Formula = CInt(.PropStrTax_Output) / 100
+
+                    ' 軽減税率対応で消費税行追加対応
+                    Dim dtvTaxRateAmount As New DataView(.PropDtUseDetailsNoTax_Output)
+                    dtvTaxRateAmount.Sort = "zeiritsu DESC"
+                    Dim dtbTaxRateAmount As DataTable = dtvTaxRateAmount.ToTable(True, "zeiritsu")
+                    dtbTaxRateAmount.Columns.Add("sumKingaku")
+                    dtbTaxRateAmount.Columns.Add("sumChosei")
+
+                    Dim row As DataRow
+                    Dim intRowCnt As Integer = 0
+                    For Each row In dtbTaxRateAmount.Rows
+                        row("sumKingaku") = .PropDtUseDetailsNoTax_Output.Compute("SUM(futai_kin)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                        row("sumChosei") = .PropDtUseDetails_Output.Compute("SUM(futai_chosei)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                        ' 集計税率設定
+                        .PropVwPrintSheet.ActiveSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value = CInt(row("zeiritsu")) / 100
+                        ' 集計税額表示
+                        .PropVwPrintSheet.ActiveSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (row("sumKingaku") + row("sumChosei")) * row("zeiritsu") / 100
+
+
+                        intRowCnt = intRowCnt + 1
+                    Next
+
+
                 End If
 
                 '利用料＋全付帯設備の小計
@@ -1966,13 +2036,86 @@ Public Class LogicEXTB0103
                 '.PropVwPrintSheet.ActiveSheet.Cells("G47").Formula = "SUM(G8:G46)"
                 '.PropVwPrintSheet.ActiveSheet.Cells("H47").Formula = "SUM(H8:H46)"
                 '消費税額
-                .PropVwPrintSheet.ActiveSheet.Cells("F48").Formula = "F47*E48"
+                '.PropVwPrintSheet.ActiveSheet.Cells("F48").Formula = "F47*E48"
                 '.PropVwPrintSheet.ActiveSheet.Cells("G48").Formula = "G47*E48"
                 '.PropVwPrintSheet.ActiveSheet.Cells("H48").Formula = "H47*E48"
                 '小計＋消費税
-                .PropVwPrintSheet.ActiveSheet.Cells("F49").Formula = "F47+F48"
+                .PropVwPrintSheet.ActiveSheet.Cells("F50").Formula = "F47+F48+F49"
                 '.PropVwPrintSheet.ActiveSheet.Cells("G49").Formula = "G47+G48"
                 '.PropVwPrintSheet.ActiveSheet.Cells("H49").Formula = "H47+H48"
+                'If .PropDtUseDetailsNoTax_Output.Rows.Count > 0 Then
+                '    .PropVwPrintSheet.ActiveSheet.Cells("B3").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(1) '利用者名
+                '    .PropVwPrintSheet.ActiveSheet.Cells("B4").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(2) '利用日時
+                '    .PropVwPrintSheet.ActiveSheet.Cells("B5").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(3) '催事名＋出演者名
+                '    'ご利用明細
+                '    '基本会場利用料
+                '    .PropVwPrintSheet.ActiveSheet.Cells("A8").Value = "1"
+                '    .PropVwPrintSheet.ActiveSheet.Cells("B8").Value = THEATER_FEE
+                '    .PropVwPrintSheet.ActiveSheet.Cells("C8").Value = "1日"
+
+
+                '    If .PropBlnSumFlg Then
+                '        .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = .PropDtUseDetailsNoTax_Output(0)(4) '延べ利用日数
+                '        .PropVwPrintSheet.ActiveSheet.Cells("F8").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(5) '金額
+                '        .PropVwPrintSheet.ActiveSheet.Cells("G8").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(6) '調整額
+                '    Else
+                '        If .PropDtUseDetailsNoTax_Output.Rows(0)(4) = 0 Then
+                '            .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = "" '延べ利用日数
+                '        Else
+                '            .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = 1 '延べ利用日数
+                '        End If
+                '        .PropVwPrintSheet.ActiveSheet.Cells("F8").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(4) '金額
+                '        .PropVwPrintSheet.ActiveSheet.Cells("G8").Value = .PropDtUseDetailsNoTax_Output.Rows(0)(15) '調整額
+                '    End If
+                'ElseIf .PropDtUseDetails_Output.Rows.Count > 0 Then
+                '    .PropVwPrintSheet.ActiveSheet.Cells("B3").Value = .PropDtUseDetails_Output.Rows(0)(1) '利用者名
+                '    .PropVwPrintSheet.ActiveSheet.Cells("B4").Value = .PropDtUseDetails_Output.Rows(0)(2) '利用日時
+                '    .PropVwPrintSheet.ActiveSheet.Cells("B5").Value = .PropDtUseDetails_Output.Rows(0)(3) '催事名＋出演者名
+                '    'ご利用明細
+                '    '基本会場利用料
+                '    .PropVwPrintSheet.ActiveSheet.Cells("A8").Value = "1"
+                '    .PropVwPrintSheet.ActiveSheet.Cells("B8").Value = THEATER_FEE
+                '    .PropVwPrintSheet.ActiveSheet.Cells("C8").Value = "1日"
+
+                '    If .PropBlnSumFlg Then
+                '        .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = .PropDtUseDetails_Output(0)(4) '延べ利用日数
+                '        .PropVwPrintSheet.ActiveSheet.Cells("F8").Value = .PropDtUseDetails_Output.Rows(0)(5) '金額
+                '        .PropVwPrintSheet.ActiveSheet.Cells("G8").Value = .PropDtUseDetails_Output.Rows(0)(6) '調整額
+                '    Else
+                '        If .PropDtUseDetails_Output.Rows(0)(4) = 0 Then
+                '            .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = "" '延べ利用日数
+                '        Else
+                '            .PropVwPrintSheet.ActiveSheet.Cells("E8").Value = 1  '延べ利用日数
+                '        End If
+                '        .PropVwPrintSheet.ActiveSheet.Cells("F8").Value = .PropDtUseDetails_Output.Rows(0)(4)  '金額
+                '        .PropVwPrintSheet.ActiveSheet.Cells("G8").Value = .PropDtUseDetails_Output.Rows(0)(15) '調整額
+                '    End If
+                'End If
+                ' 2015.11.27 UPD END↑ h.hagiwara 税有・税込どちらか未存在時の判定追加
+
+                ''小計
+                '.PropVwPrintSheet.ActiveSheet.Cells("H8").Formula = String.Format(INCIDENT_SUBFEE, 8)
+                ''付帯設備利用料
+
+                ''消費税
+                'If dataEXTB0103.PropStrRentalClass_Output = "1" Or dataEXTB0103.PropStrRentalClass_Output = "3" Then
+                '    .PropVwPrintSheet.ActiveSheet.Cells("E48").Formula = CInt(.PropStrTax_Output) / 100
+                'End If
+
+                ''利用料＋全付帯設備の小計
+                '.PropVwPrintSheet.ActiveSheet.Cells("F47").Formula = "SUM(H8:H46)"
+                ''.PropVwPrintSheet.ActiveSheet.Cells("G47").Formula = "SUM(G8:G46)"
+                ''.PropVwPrintSheet.ActiveSheet.Cells("H47").Formula = "SUM(H8:H46)"
+                ''消費税額
+                '.PropVwPrintSheet.ActiveSheet.Cells("F48").Formula = "F47*E48"
+                ''.PropVwPrintSheet.ActiveSheet.Cells("G48").Formula = "G47*E48"
+                ''.PropVwPrintSheet.ActiveSheet.Cells("H48").Formula = "H47*E48"
+                ''小計＋消費税
+                '.PropVwPrintSheet.ActiveSheet.Cells("F49").Formula = "F47+F48"
+                ''.PropVwPrintSheet.ActiveSheet.Cells("G49").Formula = "G47+G48"
+                ''.PropVwPrintSheet.ActiveSheet.Cells("H49").Formula = "H47+H48"
+
+                ' --- 2019/07/04 軽減税率対応 End E.Okuda@Compass ---
 
                 If .PropBlnSumFlg Then
                     '合算の場合
@@ -2023,15 +2166,29 @@ Public Class LogicEXTB0103
                             'DataTableから一行取得
                             Dim dtSelectRow As DataRow = .PropDtUseDetailsNoTax_Output.Rows(i)
                             'スプレッドシートに値設定
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 0).Value = i + 2 'インデックス
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 1).Value = dtSelectRow.Item(5) '項目名
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 2).Value = dtSelectRow.Item(6) '単位
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 3).Value = dtSelectRow.Item(7) '単価
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 4).Value = dtSelectRow.Item(8) '数量
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 5).Value = dtSelectRow.Item(9) '金額
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 6).Value = dtSelectRow.Item(10) '調整額
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 7).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 8).Value = dtSelectRow.Item(12) '備考
+                            ' --- 2019/07/03 軽減税率対応 Start E.Okuda@Compass ---
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_IDX).Value = i + 2 'インデックス
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ITEM_NAME).Value = dtSelectRow.Item(5) '項目名
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_TANI).Value = dtSelectRow.Item(6) '単位
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_TANKA).Value = dtSelectRow.Item(7) '単価
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SURYO).Value = dtSelectRow.Item(8) '数量
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_KINGAKU).Value = dtSelectRow.Item(9) '金額
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_CHOSEI).Value = dtSelectRow.Item(10) '調整額
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(14) / 100 '税率
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Formula = String.Format(INCIDENT_TAX_AMOUNT, j + 1) '税額
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_BIKO).Value = dtSelectRow.Item(12) '備考
+
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 0).Value = i + 2 'インデックス
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 1).Value = dtSelectRow.Item(5) '項目名
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 2).Value = dtSelectRow.Item(6) '単位
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 3).Value = dtSelectRow.Item(7) '単価
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 4).Value = dtSelectRow.Item(8) '数量
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 5).Value = dtSelectRow.Item(9) '金額
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 6).Value = dtSelectRow.Item(10) '調整額
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 7).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 8).Value = dtSelectRow.Item(12) '備考
+                            ' --- 2019/07/03 軽減税率対応 End E.Okuda@Compass ---
                         Next
                     End If
                     '楽屋ケイタリングサービス・お立替経費・追加人件費他
