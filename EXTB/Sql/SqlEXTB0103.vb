@@ -1657,8 +1657,10 @@ Public Class SqlEXTB0103
                                                 "t2.tanka," & vbCrLf &
                                                 "SUM(t1.futai_su),  " & vbCrLf &
                                                 "SUM(t1.futai_shokei),  " & vbCrLf &
-                                                "SUM(t1.futai_chosei),  " & vbCrLf &
-                                                "SUM(t1.futai_kin),  " & vbCrLf &
+                                                "SUM(t1.futai_chosei) as futai_chosei,  " & vbCrLf &
+                                                "SUM(t1.futai_kin) as futai_kin,  " & vbCrLf &
+                                                "t3.notax_flg," & vbCrLf &
+                                                "(CASE WHEN t3.zeiritsu IS NULL THEN t8.tax_ritu ELSE t3.zeiritsu END) as zeiritsu," & vbCrLf &
                                                 "t3.sort," & vbCrLf &
                                                 "t2.sort" & vbCrLf &
                                                 "FROM" & vbCrLf &
@@ -1723,6 +1725,9 @@ Public Class SqlEXTB0103
                                                     "               t70.yoyaku_no" & vbCrLf &
                                                 "          ) t7" & vbCrLf &
                                                        " ON t1.yoyaku_no = t7.yoyaku_no" & vbCrLf &
+                                                     "LEFT JOIN tax_mst t8" & vbCrLf &
+                                                          "ON  to_timestamp(t1.yoyaku_dt, 'YYYY/MM/DD') >= to_timestamp(t8.taxs_dt, 'YYYY/MM/DD')" & vbCrLf &
+                                                          "AND  to_timestamp(t1.yoyaku_dt, 'YYYY/MM/DD') <= to_timestamp(t8.taxe_dt, 'YYYY/MM/DD')" & vbCrLf &
                                                 "WHERE" & vbCrLf &
                                                 "     t1.yoyaku_no = :ReserveNo" & vbCrLf &
                                                 " AND t2.sts = '0'" & vbCrLf &
@@ -1742,6 +1747,9 @@ Public Class SqlEXTB0103
                                                 "     t2.futai_nm," & vbCrLf &
                                                 "     t2.tani," & vbCrLf &
                                                 "     t2.tanka," & vbCrLf &
+                                                "     t3.notax_flg," & vbCrLf &
+                                                "     t3.zeiritsu," & vbCrLf &
+                                                "     t8.tax_ritu," & vbCrLf &
                                                 "     t3.sort," & vbCrLf &
                                                 "     t2.sort" & vbCrLf &
                                                 "ORDER BY" & vbCrLf &
@@ -2090,6 +2098,17 @@ Public Class SqlEXTB0103
                            ")" & vbCrLf &
                            "AND SEKININ_NM = :SekininNm"
     ' 2016.08.04 ADD END e.watanabe 課題No.58
+
+    ' --- 2019/07/19 軽減税率対応 Start E.Okuda@Compass ---
+    Private strSelectTaxRateSql =
+                           "SELECT" & vbCrLf &
+                           "    TAX_RITU, REDUCED_RATE" & vbCrLf &
+                           "FROM TAX_MST" & vbCrLf &
+                           "WHERE TAXS_DT < :RiyouStart" & vbCrLf &
+                           "AND TAXE_DT > :RiyouEnd"
+
+    ' --- 2019/07/19 軽減税率対応 End E.Okuda@Compass ---
+
 
     ''' <summary>
     ''' 請求情報取得
@@ -5323,8 +5342,8 @@ Public Class SqlEXTB0103
     ''' <para>作成情報：2016/08/04 e.watanabe
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Public Function GetSqlSekininshaMailTelKakuData(ByRef Adapter As NpgsqlDataAdapter, _
-                                       ByRef Cn As NpgsqlConnection, _
+    Public Function GetSqlSekininshaMailTelKakuData(ByRef Adapter As NpgsqlDataAdapter,
+                                       ByRef Cn As NpgsqlConnection,
                                        ByVal dataEXTB0102 As DataEXTB0102) As Boolean
 
         'ログ出力
@@ -5361,6 +5380,59 @@ Public Class SqlEXTB0103
             '例外処理
             Return False
         End Try
+    End Function
+
+    ''' <summary>
+    ''' 消費税マスタ／消費税率・軽減税率取得用SQLの作成・設定処理
+    ''' </summary>
+    ''' <param name="Adapter">[IN/OUT]NpgSqlDataAdapterクラス</param>
+    ''' <param name="Cn">[IN]NpgSqlConnectionクラス</param>
+    ''' <param name="dataEXTB0102">[IN]正式予約登録/詳細画面Dataクラス</param>
+    ''' <returns>Boolean True:正常終了 False:異常終了</returns>
+    ''' <remarks>消費税マスタ／消費税率および軽減税率取得用SQLを作成し、アダプタにセットする
+    ''' <para>作成情報：2019/07/19 E.Okuda@Compass
+    ''' <p>改訂情報 : </p>
+    ''' </para></remarks>
+    Public Function SelectTaxRateSql(ByRef Adapter As NpgsqlDataAdapter,
+                                               ByVal Cn As NpgsqlConnection,
+                                               ByVal arrRiyobiStartEnd As Array) As Boolean
+
+        '開始ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+        '変数宣言
+        Dim strSQL As String = ""
+
+        Try
+
+            'SQL文(SELECT)
+            strSQL = strSelectTaxSql
+
+            'データアダプタに、SQLのSELECT文を設定
+            Adapter.SelectCommand = New NpgsqlCommand(strSQL, Cn)
+
+            'バインド変数に型を設定
+            '利用開始日
+            Adapter.SelectCommand.Parameters.Add("RiyouStart", NpgsqlTypes.NpgsqlDbType.Varchar)
+            Adapter.SelectCommand.Parameters("RiyouStart").Value = arrRiyobiStartEnd(0)
+            '利用終了日
+            Adapter.SelectCommand.Parameters.Add("RiyouEnd", NpgsqlTypes.NpgsqlDbType.Varchar)
+            Adapter.SelectCommand.Parameters("RiyouEnd").Value = arrRiyobiStartEnd(1)
+
+            '終了ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+            '正常終了
+            Return True
+
+        Catch ex As Exception
+            'ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.ERROR_Lv, ex.Message, ex, Adapter.SelectCommand)
+            'メッセージ変数にエラーメッセージを格納
+            puErrMsg = EXT_E001 + ex.Message
+            Return False
+        End Try
+
     End Function
 
 End Class

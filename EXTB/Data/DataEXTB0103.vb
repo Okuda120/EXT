@@ -22,6 +22,9 @@ Public Class DataEXTB0103
     Private ppDtUseDetails_Output As DataTable          '利用明細
     Private ppDtUseDetailsNoTax_Output As DataTable     '利用明細(税込分)
     Private ppStrRentalClass_Output As String           '貸出種別
+    ' --- 2019/07/19 軽減税率対応 Start E.Okuda@Compass ---
+    Private ppLstRiyouStartEnd As ArrayList             ' 消費税率&軽減税率取得
+    ' --- 2019/07/19 軽減税率対応 End E.Okuda@Compass ---
 
     '画面情報
     Private ppLblReserveNo As Label                     '予約番号
@@ -1050,5 +1053,21 @@ Public Class DataEXTB0103
             ppStrClickedRiyobi = value
         End Set
     End Property
+
+    ' --- 2019/07/19 軽減税率対応 Start E.Okuda@Compass ---
+    ''' <summary>
+    ''' プロパティセット【】
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property PropLstRiyouStartEnd() As ArrayList
+        Get
+            Return ppLstRiyouStartEnd
+        End Get
+        Set(ByVal value As ArrayList)
+            ppLstRiyouStartEnd = value
+        End Set
+    End Property
+    ' --- 2019/07/19 軽減税率対応 End E.Okuda@Compass ---
+
 
 End Class
