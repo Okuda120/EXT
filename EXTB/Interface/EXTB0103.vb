@@ -3271,14 +3271,6 @@ Public Class EXTB0103
         dataEXTB0103.PropStrCalculateDay_Output = dataEXTB0103.PropStrCalculateDay_Output.Substring(0, 10)
         '貸出区分
         dataEXTB0103.PropStrRentalClass_Output = dataEXTB0102.PropStrKashiKind
-        ' --- 2019/07/19 軽減税率対応 Start E.Okuda@Compass ---
-        ' 利用開始日・終了日
-        Dim artListRiyoubi As New ArrayList
-        artListRiyoubi = dataEXTB0102.PropListRiyobi
-
-        '   dataEXTB0103.PropLstRiyouStartEnd = logicEXTB0103.setStartEndRiyobi(artListRiyoubi)
-
-        ' --- 2019/07/19 軽減税率対応 End E.Okuda@Compass ---
 
         If MsgBox(EXT_C0009, MsgBoxStyle.OkCancel, TITLE_INFO) = vbOK Then
 

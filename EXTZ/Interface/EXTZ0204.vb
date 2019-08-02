@@ -198,7 +198,7 @@ Public Class EXTZ0204
             shtFutai.Columns(COL_FUTAI_UCHI_NM).Locked = True
             shtFutai.Columns(COL_FUTAI_SHOSAI_NM).Locked = True
             shtFutai.Columns(COL_FUTAI_ZEIRITSU).Locked = True
-            shtFutai.Columns(COL_FUTAI_TAX_KIN).Locked = True
+            'shtFutai.Columns(COL_FUTAI_TAX_KIN).Locked = True
             shtFutai.Columns(COL_FUTAI_TAX_KBN).Locked = True
             shtFutai.Columns(COL_FUTAI_EVENT_NM).Locked = True
             shtFutai.Columns(COL_FUTAI_CONTENT_UCHI_NM).Locked = True
@@ -261,9 +261,21 @@ Public Class EXTZ0204
                     Else
                     End If
 
-                    shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "tax_kin"))             ' 2015.12.21 UPD h.hagiwara
-                    futaiKei = futaiKei + shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value
-                    futaiTaxKei = futaiTaxKei + shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value
+                    ' --- 2019/07/23 軽減税率対応 Start E.Okuda@Compass ---
+                    If commonLogicEXT.DbNullToNothing(row, "notax_flg") = VAL_UCHIZEI Then
+                        shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "keijo_kin")) / (1.0 + shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100) * shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100
+                        futaiKei = futaiKei + shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value
+                    Else
+                        shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "tax_kin"))
+                        futaiKei = futaiKei + shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value
+                        futaiTaxKei = futaiTaxKei + shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value
+                    End If
+                    ' --- 2019/07/23 軽減税率対応 End E.Okuda@Compass ---
+
+                    'shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "tax_kin"))             ' 2015.12.21 UPD h.hagiwara
+                    'futaiKei = futaiKei + shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value
+                    'futaiTaxKei = futaiTaxKei + shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value
+
                     If commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_input_flg") Is Nothing Then
                         shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE1).CellType = txtCellTitle
                         shtFutai.Cells(i, COL_FUTAI_SEIKYU_TITLE1).Value = commonLogicEXT.DbNullToNothing(RowSeikyu, "seikyu_title1")
@@ -617,7 +629,13 @@ Public Class EXTZ0204
             ' 2016.01.26 ADD START↓ h.hagiwara
             If String.IsNullOrEmpty(shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value) Then
             Else
-                bigTaxkin += CLng(shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value)
+                ' --- 2019/07/23 軽減税率対応 Start E.Okuda@Compass ---
+                If shtFutai.Cells(i, COL_FUTAI_TAX_KBN).Value = DISP_SOTOZEI Then
+                    bigTaxkin += CLng(shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value)
+                End If
+                ' --- 2019/07/23 軽減税率対応 End E.Okuda@Compass ---
+
+                ' bigTaxkin += CLng(shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value)
             End If
 
             'row("keijo_kin") = commonLogicEXT.convInsNumStr(shtFutai.Cells(i, 6).Value)

@@ -108,10 +108,6 @@ Public Class LogicEXTB0103
     Private Const COL_DTABLE_USEDETAIL_NOTAX_BIKO As Integer = 12       ' 備考
 
 
-
-
-
-
     Private Const COL_SHEET_USE_DETAIL_IDX As Integer = 0               ' インデックス列
     Private Const COL_SHEET_USE_DETAIL_ITEM_NAME As Integer = 1         ' 項目名列
     Private Const COL_SHEET_USE_DETAIL_TANI As Integer = 2              ' 単位列
@@ -1379,8 +1375,7 @@ Public Class LogicEXTB0103
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
 
         ' --- 2019/07/19 軽減税率対応 Start E.Okuda@Compass ---
-        Dim arrRiyouStartEnd As Array
-        arrRiyouStartEnd = setStartEndRiyobi(arrListRiyoubi)
+        dataEXTB0103.PropAryRiyouStartEnd = setStartEndRiyobi(arrListRiyoubi)
         ' --- 2019/07/19 軽減税率対応 End E.Okuda@Compass ---
 
         '合算フラグ設定
@@ -1447,10 +1442,6 @@ Public Class LogicEXTB0103
         Dim cn As New NpgsqlConnection(DbString)        'コネクション
         Dim Adapter As New NpgsqlDataAdapter            'アダプタ
         Dim table As New DataTable                     'データテーブル
-
-
-
-
 
         '開始ログ出力
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
@@ -1591,8 +1582,16 @@ Public Class LogicEXTB0103
                 'Adapter.Dispose()
                 table.Dispose()
 
+                ' --- 2019/07/22 軽減税率対応 Start E.Okuda@Compass ---
+                ' 税率および軽減税率取得
+                If GetPeriodTaxRate(dataEXTB0103) = False Then
+                    Return False
+                End If
+                ' --- 2019/07/22 軽減税率対応 End E.Okuda@Compass ---
+
                 '税なしのデータを取得
                 table = New DataTable
+
                 dataEXTB0103.PropBlnNoTaxFlg = True
                 '付帯利用明細取得SQLを設定
                 If sqlEXTB0103.SetSelectUseDetailsAllSql(Adapter, cn, dataEXTB0103) = False Then
@@ -1628,6 +1627,12 @@ Public Class LogicEXTB0103
                 'Adapter.Dispose()
                 table.Dispose()
 
+                ' --- 2019/07/22 軽減税率対応 Start E.Okuda@Compass ---
+                ' 税率および軽減税率取得
+                If GetPeriodTaxRate(dataEXTB0103) = False Then
+                    Return False
+                End If
+                ' --- 2019/07/22 軽減税率対応 End E.Okuda@Compass ---
 
                 '税なしのデータを取得
                 table = New DataTable
@@ -1683,16 +1688,7 @@ Public Class LogicEXTB0103
         Try
             With dataEXTB0103
 
-                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾　START
-                If DateDiff("d", dataEXTB0103.PropStrCalculateDay_Output, TAX_CHANGE_DATE_10PER) > 0 Then
-                    downloadPath = ConfigurationManager.AppSettings("formatPath") & FORMAT_CERTIFICATES
-                Else
-                    downloadPath = ConfigurationManager.AppSettings("formatPath") & FORMAT_CERTIFICATES2
-                End If
-
-
-                '                downloadPath = ConfigurationManager.AppSettings("formatPath") & FORMAT_CERTIFICATES
-                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾　END
+                downloadPath = ConfigurationManager.AppSettings("formatPath") & FORMAT_CERTIFICATES
 
                 'Excel読み込み
                 .PropVwPrintSheet = New FarPoint.Win.Spread.FpSpread
@@ -1710,21 +1706,11 @@ Public Class LogicEXTB0103
                 Dim vwAppSheet As FarPoint.Win.Spread.SheetView = .PropVwPrintSheet.Sheets(0)      '利用承認書
                 vwAppSheet.ColumnCount = 11 '列数
 
-                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾 START
-                vwAppSheet.RowCount = 32    '行数
-                '                vwAppSheet.RowCount = 31    '行数
-
-                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾 END
+                vwAppSheet.RowCount = 31    '行数
                 Dim vwAppSheetNote As FarPoint.Win.Spread.SheetView = .PropVwPrintSheet.Sheets(1)  '利用承認書（シアター控え）
                 vwAppSheetNote.ColumnCount = 11 '列数
 
-                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾 START
-                vwAppSheetNote.RowCount = 32    '行数
-                '                vwAppSheetNote.RowCount = 31    '行数    
-                ' 2018/09/19 E.Okuda@Compass 消費税率変更第一弾 END
-
-
-
+                vwAppSheetNote.RowCount = 31    '行数    
 
                 '付帯設備利用料
                 If .PropDtUseApproval_Output IsNot Nothing Then
@@ -2032,15 +2018,37 @@ Public Class LogicEXTB0103
                 If dataEXTB0103.PropStrRentalClass_Output = "1" Or dataEXTB0103.PropStrRentalClass_Output = "3" Then
 
                     ' 軽減税率対応で消費税行追加対応
-                    Dim dtvTaxRateAmount As New DataView(.PropDtUseDetailsNoTax_Output)
-                    dtvTaxRateAmount.Sort = "zeiritsu DESC"
-                    Dim dtbTaxRateAmount As DataTable = dtvTaxRateAmount.ToTable(True, "zeiritsu")
-                    dtbTaxRateAmount.Columns.Add("sumKingaku")
-                    dtbTaxRateAmount.Columns.Add("sumChosei")
-
-                    Dim row As DataRow
+                    Dim dtbTaxRateAmount As New DataTable
                     Dim intRowCnt As Integer = 0
-                    For Each row In dtbTaxRateAmount.Rows
+                    dtbTaxRateAmount.Columns.Add("zeiritsu", GetType(Integer))
+                    For Each drow As DataRow In dataEXTB0103.PropDtPeriodTaxReducedRate.Rows
+                        dtbTaxRateAmount.Rows.Add()
+                        dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("TAX_RITU")
+                        intRowCnt = intRowCnt + 1
+                        ' 軽減税率はNullでない時、行追加する。
+                        If Not drow("REDUCED_RATE") Is DBNull.Value Then
+                            dtbTaxRateAmount.Rows.Add()
+                            dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("REDUCED_RATE")
+                            intRowCnt = intRowCnt + 1
+                        End If
+                    Next
+
+                    ' 重複除去
+                    Dim dtvTaxRateAmount As New DataView(dtbTaxRateAmount)
+                    dtvTaxRateAmount.Sort = "zeiritsu DESC"
+                    Dim dtbResTaxRate As DataTable = dtvTaxRateAmount.ToTable(True, "zeiritsu")
+                    dtbResTaxRate.Columns.Add("sumKingaku")
+                    dtbResTaxRate.Columns.Add("sumChosei")
+
+                    'Dim dtvTaxRateAmount As New DataView(.PropDtUseDetailsNoTax_Output)
+                    'dtvTaxRateAmount.Sort = "zeiritsu DESC"
+                    'Dim dtbTaxRateAmount As DataTable = dtvTaxRateAmount.ToTable(True, "zeiritsu")
+                    'dtbTaxRateAmount.Columns.Add("sumKingaku")
+                    'dtbTaxRateAmount.Columns.Add("sumChosei")
+
+
+                    intRowCnt = 0
+                    For Each row As DataRow In dtbResTaxRate.Rows
                         row("sumKingaku") = .PropDtUseDetailsNoTax_Output.Compute("SUM(futai_kin)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
                         If row("sumKingaku") Is DBNull.Value Then
                             row("sumKingaku") = "0"
@@ -2155,26 +2163,34 @@ Public Class LogicEXTB0103
                             'DataTableから一行取得
                             Dim dtSelectRow As DataRow = .PropDtUseDetailsNoTax_Output.Rows(i)
                             'スプレッドシートに値設定
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 0).Value = i + 2 'インデックス
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 1).Value = dtSelectRow.Item(7) '項目名
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 2).Value = dtSelectRow.Item(8) '単位
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 3).Value = dtSelectRow.Item(9) '単価
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 4).Value = dtSelectRow.Item(10) '数量
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 5).Value = dtSelectRow.Item(11) '金額
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 6).Value = dtSelectRow.Item(12) '調整額
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, 7).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
+                            ' --- 2019/07/22 軽減税率対応 Start E.Okuda@Compass ---
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_IDX).Value = i + 2 'インデックス
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ITEM_NAME).Value = dtSelectRow.Item(7) '項目名
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_TANI).Value = dtSelectRow.Item(8) '単位
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_TANKA).Value = dtSelectRow.Item(9) '単価
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SURYO).Value = dtSelectRow.Item(10) '数量
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_KINGAKU).Value = dtSelectRow.Item(11) '金額
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_CHOSEI).Value = dtSelectRow.Item(12) '調整額
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(15) / 100 '税率
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Formula = String.Format(INCIDENT_TAX_AMOUNT, j + 1) '税額
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 0).Value = i + 2 'インデックス
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 1).Value = dtSelectRow.Item(7) '項目名
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 2).Value = dtSelectRow.Item(8) '単位
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 3).Value = dtSelectRow.Item(9) '単価
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 4).Value = dtSelectRow.Item(10) '数量
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 5).Value = dtSelectRow.Item(11) '金額
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 6).Value = dtSelectRow.Item(12) '調整額
+                            '.PropVwPrintSheet.ActiveSheet.Cells(j, 7).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
+                            ' --- 2019/07/22 軽減税率対応 End E.Okuda@Compass ---
                         Next
                     End If
                     '楽屋ケイタリングサービス・お立替経費・追加人件費他
                     'If .PropDtUseDetailsNoTax_Output IsNot Nothing Then               ' 2015.11.27 UPD h.hagiwara
                     If .PropDtUseDetails_Output.Rows.Count > 0 Then                    ' 2015.11.27 UPD h.hagiwara
                         For i As Integer = 0 To .PropDtUseDetails_Output.Rows.Count - 1
-
-
-
-
                             'データを設定するスプレッド行数
-                            ' --- 2019/07/09 軽減税率対応 Start E.Okuda@Compass ---
+                            ' --- 2019/07/22 軽減税率対応 Start E.Okuda@Compass ---
                             Dim j As Integer = i + ROW_UCHIZEI_DATA_START
                             'DataTableから一行取得
                             Dim dtSelectRow As DataRow =
@@ -2188,8 +2204,9 @@ Public Class LogicEXTB0103
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_KINGAKU).Value = dtSelectRow.Item(11) '金額
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_CHOSEI).Value = dtSelectRow.Item(12) '調整額
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(15) / 100 '税率
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Formula = String.Format(INCIDENT_TAX_AMOUNT, j + 1) '税額
 
-                            ' --- 2019/07/09 軽減税率対応 Start E.Okuda@Compass ---
                             'Dim j As Integer = i + 51
                             ''DataTableから一行取得
                             'Dim dtSelectRow As DataRow =
@@ -2203,7 +2220,7 @@ Public Class LogicEXTB0103
                             '.PropVwPrintSheet.ActiveSheet.Cells(j, 5).Value = dtSelectRow.Item(11) '金額
                             '.PropVwPrintSheet.ActiveSheet.Cells(j, 6).Value = dtSelectRow.Item(12) '調整額
                             '.PropVwPrintSheet.ActiveSheet.Cells(j, 7).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
-                            ' --- 2019/07/09 軽減税率対応 End E.Okuda@Compass ---
+                            ' --- 2019/07/22 軽減税率対応 End E.Okuda@Compass ---
                         Next
                     End If
                 Else
@@ -3541,8 +3558,16 @@ Public Class LogicEXTB0103
     End Function
 
     ' --- 2019/07/19 軽減税率対応 Start E.Okuda@Compass ---
-
-    Public Function GetPeriodTaxRate(ByVal arrRiyobiStartEnd As Array) As Boolean
+    ''' <summary>
+    ''' 消費税率・軽減税率取得
+    ''' </summary>
+    ''' <param name="dataEXTB0103"></param>
+    ''' <returns>boolean エラーコード  true 正常終了　false 異常終了</returns>
+    ''' <remarks>消費税マスタ／消費税率および軽減税率取得をする
+    ''' <para>作成情報：2019/07/19 E.Okuda@Compass
+    ''' <p>改訂情報 : </p>
+    ''' </para></remarks>
+    Public Function GetPeriodTaxRate(ByRef dataEXTB0103 As DataEXTB0103) As Boolean
         'ログ出力
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
         '変数宣言
@@ -3552,12 +3577,11 @@ Public Class LogicEXTB0103
         Dim Table As New DataTable()
 
         Try
-            ' 
-
+            ' コネクションを開く
             Cn.Open()
 
             'SELECT用SQLCommandを作成
-            If sqlEXTB0103.SelectTaxRateSql(Adapter, Cn, arrRiyobiStartEnd) = False Then
+            If sqlEXTB0103.SelectTaxRateSql(Adapter, Cn, dataEXTB0103) = False Then
                 '異常終了
                 Return False
             End If
@@ -3565,6 +3589,7 @@ Public Class LogicEXTB0103
             'データを取得
             Adapter.Fill(Table)
 
+            dataEXTB0103.PropDtPeriodTaxReducedRate = Table
 
             'ログ出力
             CommonLogic.WriteLog(Common.LogLevel.DEBUG_Lv, "消費税率・軽減税率情報取得", Nothing, Adapter.SelectCommand)

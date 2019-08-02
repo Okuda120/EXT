@@ -26,6 +26,24 @@ Public Class LogicEXTC0103
     Private Const FORMAT_CERTIFICATES As String = "利用確認書_スタジオ.xlsx"                 ' 利用承認書
     Private Const FORMAT_DETAILS As String = "付帯設備利用明細書_スタジオ.xlsx"              ' 利用明細書
 
+    ' --- 2019/07/28 軽減税率対応 Start E.Okuda@Compass ---
+    Private Const COL_SHEET_USE_DETAIL_IDX As Integer = 0               ' インデックス列
+    Private Const COL_SHEET_USE_DETAIL_ITEM_NAME As Integer = 1         ' 項目名列
+    Private Const COL_SHEET_USE_DETAIL_TANI As Integer = 2              ' 単位列
+    Private Const COL_SHEET_USE_DETAIL_TANKA As Integer = 3             ' 単価列
+    Private Const COL_SHEET_USE_DETAIL_SURYO As Integer = 4             ' 数量列
+    Private Const COL_SHEET_USE_DETAIL_KINGAKU As Integer = 5           ' 金額列
+    Private Const COL_SHEET_USE_DETAIL_CHOSEI As Integer = 6            ' 調整額列
+    Private Const COL_SHEET_USE_DETAIL_SHOKEI As Integer = 7            ' 小計列
+    Private Const COL_SHEET_USE_DETAIL_ZEIRITSU As Integer = 8          ' 税率列
+    Private Const COL_SHEET_USE_DETAIL_ZEIGAKU As Integer = 9           ' 税額列
+    Private Const COL_SHEET_USE_DETAIL_BIKO As Integer = 10             ' 備考列
+
+    Private Const ROW_UCHIZEI_DATA_START As Integer = 52                ' 内税データ開始行
+
+    Private Const INCIDENT_TAX_AMOUNT As String = "(F{0}+G{0})*I{0}"
+    ' --- 2019/07/28 軽減税率対応 End E.Okuda@Compass ---
+
     ''' <summary>
     ''' 各種明細情報登録／更新
     ''' </summary>
@@ -1466,9 +1484,12 @@ Public Class LogicEXTC0103
                     Else
                         vwOutputSheet.Cells("E8").Value = 1    '利用日数
                     End If
+                    ' --- 2019/07/31 軽減税率対応 Start E.Okuda@Compass ---
                     vwOutputSheet.Cells("F8").Value = .Rows(0).Item(4) '金額
-                    vwOutputSheet.Cells("G8").Value = .Rows(0).Item(14) '調整額
-
+                    vwOutputSheet.Cells("G8").Value = .Rows(0).Item(16) '調整額
+                    'vwOutputSheet.Cells("F8").Value = .Rows(0).Item(4) '金額
+                    'vwOutputSheet.Cells("G8").Value = .Rows(0).Item(14) '調整額
+                    ' --- 2019/07/31 軽減税率対応 End E.Okuda@Compass ---
 
                 End With
 
@@ -1490,8 +1511,12 @@ Public Class LogicEXTC0103
                     Else
                         vwOutputSheet.Cells("E8").Value = 1    '利用日数
                     End If
+                    ' --- 2019/07/31 軽減税率対応 Start E.Okuda@Compass ---
                     vwOutputSheet.Cells("F8").Value = .Rows(0).Item(4) '金額
-                    vwOutputSheet.Cells("G8").Value = .Rows(0).Item(14) '調整額
+                    vwOutputSheet.Cells("G8").Value = .Rows(0).Item(16) '調整額
+                    'vwOutputSheet.Cells("F8").Value = .Rows(0).Item(4) '金額
+                    'vwOutputSheet.Cells("G8").Value = .Rows(0).Item(14) '調整額
+                    ' --- 2019/07/31 軽減税率対応 End E.Okuda@Compass ---
 
                 End With
 
@@ -1503,28 +1528,70 @@ Public Class LogicEXTC0103
                 With dataEXTC0103.PropDtUseDetails_Output
                     '付帯設備
                     For i As Integer = 0 To .Rows.Count - 1
-
+                        ' --- 2019/07/28 軽減税率対応 Start E.Okuda@Compass ---
+                        ' 列番号定数化
                         If IsDBNull(.Rows(i).Item(5)) Then                                 ' 2016.07.21 ADD h.hagiwara
                         Else                                                               ' 2016.07.21 ADD h.hagiwara
                             '税別の付帯設備
-                            vwOutputSheet.Cells(i + 8, 0).Value = i + 2 'インデックス
-                            vwOutputSheet.Cells(i + 8, 1).Value = .Rows(i).Item(5) '項目名
-                            vwOutputSheet.Cells(i + 8, 2).Value = .Rows(i).Item(6) '単位
-                            vwOutputSheet.Cells(i + 8, 3).Value = .Rows(i).Item(7) '単価
-                            vwOutputSheet.Cells(i + 8, 4).Value = .Rows(i).Item(8) '数量
-                            vwOutputSheet.Cells(i + 8, 5).Value = .Rows(i).Item(9) '金額
-                            vwOutputSheet.Cells(i + 8, 6).Value = .Rows(i).Item(10) '調整額
-                            vwOutputSheet.Cells(i + 8, 8).Value = .Rows(i).Item(11) '備考
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_IDX).Value = i + 2 'インデックス
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_ITEM_NAME).Value = .Rows(i).Item(5) '項目名
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_TANI).Value = .Rows(i).Item(6) '単位
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_TANKA).Value = .Rows(i).Item(7) '単価
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_SURYO).Value = .Rows(i).Item(8) '数量
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_KINGAKU).Value = .Rows(i).Item(9) '金額
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_CHOSEI).Value = .Rows(i).Item(10) '調整額
+
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = .Rows(i).Item(13) / 100 ' 税率
+
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_ZEIGAKU).Formula = String.Format(INCIDENT_TAX_AMOUNT, i + 9) ' 税額
+
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_BIKO).Value = .Rows(i).Item(11) '備考
                         End If                                                             ' 2016.07.21 ADD h.hagiwara
+                        ' --- 2019/07/28 軽減税率対応 End E.Okuda@Compass ---
+
+                        'If IsDBNull(.Rows(i).Item(5)) Then                                 ' 2016.07.21 ADD h.hagiwara
+                        'Else                                                               ' 2016.07.21 ADD h.hagiwara
+                        '    '税別の付帯設備
+                        '    vwOutputSheet.Cells(i + 8, 0).Value = i + 2 'インデックス
+                        '    vwOutputSheet.Cells(i + 8, 1).Value = .Rows(i).Item(5) '項目名
+                        '    vwOutputSheet.Cells(i + 8, 2).Value = .Rows(i).Item(6) '単位
+                        '    vwOutputSheet.Cells(i + 8, 3).Value = .Rows(i).Item(7) '単価
+                        '    vwOutputSheet.Cells(i + 8, 4).Value = .Rows(i).Item(8) '数量
+                        '    vwOutputSheet.Cells(i + 8, 5).Value = .Rows(i).Item(9) '金額
+                        '    vwOutputSheet.Cells(i + 8, 6).Value = .Rows(i).Item(10) '調整額
+                        '    vwOutputSheet.Cells(i + 8, 8).Value = .Rows(i).Item(11) '備考
+                        'End If                                                             ' 2016.07.21 ADD h.hagiwara
 
                     Next
 
                 End With
 
+                ' --- 2019/08/02 軽減税率対応 Start E.Okuda@Compass ---
+                ' 軽減税率対応で消費税行追加対応
+                Dim dtbTaxRateAmount As New DataTable
+                Dim intRowCnt As Integer = 0
+                dtbTaxRateAmount.Columns.Add("zeiritsu", GetType(Integer))
+                For Each drow As DataRow In dataEXTC0103.PropDtPeriodTaxReducedRate.Rows
+                    dtbTaxRateAmount.Rows.Add()
+                    dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("TAX_RITU")
+                    intRowCnt = intRowCnt + 1
+                    ' 軽減税率はNullでない時、行追加する。
+                    If Not drow("REDUCED_RATE") Is DBNull.Value Then
+                        dtbTaxRateAmount.Rows.Add()
+                        dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("REDUCED_RATE")
+                        intRowCnt = intRowCnt + 1
+                    End If
+                Next
+
+
                 If dataEXTC0103.PropBlnGeneralFlg Then
                     vwOutputSheet.Cells("E48").Value = dataEXTC0103.PropIntTax / 100 '消費税
                 End If
+                'If dataEXTC0103.PropBlnGeneralFlg Then
+                '    vwOutputSheet.Cells("E48").Value = dataEXTC0103.PropIntTax / 100 '消費税
+                'End If
 
+                ' --- 2019/08/02 軽減税率対応 Start E.Okuda@Compass ---
             End If
             ' 2016.02.02 UPD END↑ h.hggiwara 内税のみの場合に利用料が出力されない不具合対応
 
@@ -1538,14 +1605,16 @@ Public Class LogicEXTC0103
                         If IsDBNull(.Rows(i).Item(5)) Then                                 ' 2016.07.21 ADD h.hagiwara
                         Else                                                               ' 2016.07.21 ADD h.hagiwara
                             '税込の付帯設備
-                            vwOutputSheet.Cells(i + 51, 0).Value = i + 1 'インデックス
-                            vwOutputSheet.Cells(i + 51, 1).Value = .Rows(i).Item(5) '項目名
-                            vwOutputSheet.Cells(i + 51, 2).Value = .Rows(i).Item(6) '単位
-                            vwOutputSheet.Cells(i + 51, 3).Value = .Rows(i).Item(7) '単価
-                            vwOutputSheet.Cells(i + 51, 4).Value = .Rows(i).Item(8) '数量
-                            vwOutputSheet.Cells(i + 51, 5).Value = .Rows(i).Item(9) '金額
-                            vwOutputSheet.Cells(i + 51, 6).Value = .Rows(i).Item(10) '調整額
-                            vwOutputSheet.Cells(i + 51, 8).Value = .Rows(i).Item(11) '備考
+                            ' --- 2019/07/31 軽減税率対応 Start E.Okuda@Compass ---
+                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, 0).Value = i + 1 'インデックス
+                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, 1).Value = .Rows(i).Item(5) '項目名
+                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, 2).Value = .Rows(i).Item(6) '単位
+                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, 3).Value = .Rows(i).Item(7) '単価
+                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, 4).Value = .Rows(i).Item(8) '数量
+                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, 5).Value = .Rows(i).Item(9) '金額
+                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, 6).Value = .Rows(i).Item(10) '調整額
+                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, 8).Value = .Rows(i).Item(11) '備考
+                            ' --- 2019/07/31 軽減税率対応 End E.Okuda@Compass ---
                         End If                                                             ' 2016.07.21 ADD h.hagiwara
 
                     Next
@@ -2858,5 +2927,62 @@ Public Class LogicEXTC0103
         End Try
 
     End Function
+
+    ' --- 2019/08/02 軽減税率対応 Start E.Okuda@Compass ---
+    ''' <summary>
+    ''' 消費税率・軽減税率取得
+    ''' </summary>
+    ''' <param name="dataEXTC0103"></param>
+    ''' <returns>boolean エラーコード  true 正常終了　false 異常終了</returns>
+    ''' <remarks>消費税マスタ／消費税率および軽減税率取得をする
+    ''' <para>作成情報：2019/08/02 E.Okuda@Compass
+    ''' <p>改訂情報 : </p>
+    ''' </para></remarks>
+    Public Function GetPeriodTaxRate(ByRef dataEXTC0103 As DataEXTC0103) As Boolean
+        'ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+        '変数宣言
+        Dim Cn As New NpgsqlConnection(DbString)
+        Dim Tx As NpgsqlTransaction = Nothing
+        Dim Adapter As New NpgsqlDataAdapter
+        Dim Table As New DataTable()
+
+        Try
+            ' コネクションを開く
+            Cn.Open()
+
+            'SELECT用SQLCommandを作成
+            If sqlEXTC0103.SelectTaxRateSql(Adapter, Cn, dataEXTC0103) = False Then
+                '異常終了
+                Return False
+            End If
+
+            'データを取得
+            Adapter.Fill(Table)
+
+            dataEXTC0103.PropDtPeriodTaxReducedRate = Table
+
+            'ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.DEBUG_Lv, "消費税率・軽減税率情報取得", Nothing, Adapter.SelectCommand)
+            'ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+            '正常終了
+            Return True
+        Catch ex As Exception
+            'ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.ERROR_Lv, ex.Message, ex, Adapter.SelectCommand)
+            Return False
+        Finally
+            '終了処理
+            Cn.Dispose()
+            Adapter.Dispose()
+            Table.Dispose()
+        End Try
+
+        Return True
+
+    End Function
+    ' --- 2019/08/02 軽減税率対応 End E.Okuda@Compass ---
+
 
 End Class

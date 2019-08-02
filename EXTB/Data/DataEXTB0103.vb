@@ -23,7 +23,8 @@ Public Class DataEXTB0103
     Private ppDtUseDetailsNoTax_Output As DataTable     '利用明細(税込分)
     Private ppStrRentalClass_Output As String           '貸出種別
     ' --- 2019/07/19 軽減税率対応 Start E.Okuda@Compass ---
-    Private ppLstRiyouStartEnd As ArrayList             ' 消費税率&軽減税率取得
+    Private ppAryRiyouStartEnd As Array                 ' 利用開始日・終了日
+    Private ppDtPeriodTaxReducedRate As DataTable       ' 消費税率&軽減税率取得
     ' --- 2019/07/19 軽減税率対応 End E.Okuda@Compass ---
 
     '画面情報
@@ -1054,20 +1055,41 @@ Public Class DataEXTB0103
         End Set
     End Property
 
-    ' --- 2019/07/19 軽減税率対応 Start E.Okuda@Compass ---
+    ' --- 2019/07/22 軽減税率対応 Start E.Okuda@Compass ---
     ''' <summary>
-    ''' プロパティセット【】
+    ''' プロパティセット【利用開始・終了日】
     ''' </summary>
-    ''' <returns></returns>
-    Public Property PropLstRiyouStartEnd() As ArrayList
+    ''' <value></value>
+    ''' <returns>ppAryRiyouStartEnd</returns>
+    ''' <remarks><para>作成情報：2019.07.22 E.Okuda@Compass
+    ''' <p>改定情報：</p>
+    ''' </para></remarks>
+    Public Property PropAryRiyouStartEnd() As Array
         Get
-            Return ppLstRiyouStartEnd
+            Return ppAryRiyouStartEnd
         End Get
-        Set(ByVal value As ArrayList)
-            ppLstRiyouStartEnd = value
+        Set(ByVal value As Array)
+            ppAryRiyouStartEnd = value
         End Set
     End Property
-    ' --- 2019/07/19 軽減税率対応 End E.Okuda@Compass ---
+
+    ''' <summary>
+    ''' プロパティセット【指定期間税率・軽減税率】
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>ppDtPeriodTaxReducedRate</returns>
+    ''' <remarks><para>作成情報：2019.07.22 E.Okuda@Compass
+    ''' <p>改定情報：</p>
+    ''' </para></remarks>
+    Public Property PropDtPeriodTaxReducedRate() As DataTable
+        Get
+            Return ppDtPeriodTaxReducedRate
+        End Get
+        Set(ByVal value As DataTable)
+            ppDtPeriodTaxReducedRate = value
+        End Set
+    End Property
+    ' --- 2019/07/22 軽減税率対応 End E.Okuda@Compass ---
 
 
 End Class

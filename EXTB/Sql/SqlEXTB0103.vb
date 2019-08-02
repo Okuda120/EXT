@@ -2099,15 +2099,15 @@ Public Class SqlEXTB0103
                            "AND SEKININ_NM = :SekininNm"
     ' 2016.08.04 ADD END e.watanabe 課題No.58
 
-    ' --- 2019/07/19 軽減税率対応 Start E.Okuda@Compass ---
+    ' --- 2019/07/22 軽減税率対応 Start E.Okuda@Compass ---
     Private strSelectTaxRateSql =
                            "SELECT" & vbCrLf &
                            "    TAX_RITU, REDUCED_RATE" & vbCrLf &
                            "FROM TAX_MST" & vbCrLf &
-                           "WHERE TAXS_DT < :RiyouStart" & vbCrLf &
-                           "AND TAXE_DT > :RiyouEnd"
+                           "WHERE :RiyouStart BETWEEN TAXS_DT AND TAXE_DT" & vbCrLf &
+                           "OR :RiyouEnd BETWEEN TAXS_DT AND TAXE_DT"
 
-    ' --- 2019/07/19 軽減税率対応 End E.Okuda@Compass ---
+    ' --- 2019/07/22 軽減税率対応 End E.Okuda@Compass ---
 
 
     ''' <summary>
@@ -5387,7 +5387,7 @@ Public Class SqlEXTB0103
     ''' </summary>
     ''' <param name="Adapter">[IN/OUT]NpgSqlDataAdapterクラス</param>
     ''' <param name="Cn">[IN]NpgSqlConnectionクラス</param>
-    ''' <param name="dataEXTB0102">[IN]正式予約登録/詳細画面Dataクラス</param>
+    ''' <param name="dataEXTB0103">[IN]正式予約登録/詳細画面Dataクラス</param>
     ''' <returns>Boolean True:正常終了 False:異常終了</returns>
     ''' <remarks>消費税マスタ／消費税率および軽減税率取得用SQLを作成し、アダプタにセットする
     ''' <para>作成情報：2019/07/19 E.Okuda@Compass
@@ -5395,7 +5395,7 @@ Public Class SqlEXTB0103
     ''' </para></remarks>
     Public Function SelectTaxRateSql(ByRef Adapter As NpgsqlDataAdapter,
                                                ByVal Cn As NpgsqlConnection,
-                                               ByVal arrRiyobiStartEnd As Array) As Boolean
+                                               ByVal dataEXTB0103 As DataEXTB0103) As Boolean
 
         '開始ログ出力
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
@@ -5406,7 +5406,7 @@ Public Class SqlEXTB0103
         Try
 
             'SQL文(SELECT)
-            strSQL = strSelectTaxSql
+            strSQL = strSelectTaxRateSql
 
             'データアダプタに、SQLのSELECT文を設定
             Adapter.SelectCommand = New NpgsqlCommand(strSQL, Cn)
@@ -5414,10 +5414,10 @@ Public Class SqlEXTB0103
             'バインド変数に型を設定
             '利用開始日
             Adapter.SelectCommand.Parameters.Add("RiyouStart", NpgsqlTypes.NpgsqlDbType.Varchar)
-            Adapter.SelectCommand.Parameters("RiyouStart").Value = arrRiyobiStartEnd(0)
+            Adapter.SelectCommand.Parameters("RiyouStart").Value = dataEXTB0103.PropAryRiyouStartEnd(0)
             '利用終了日
             Adapter.SelectCommand.Parameters.Add("RiyouEnd", NpgsqlTypes.NpgsqlDbType.Varchar)
-            Adapter.SelectCommand.Parameters("RiyouEnd").Value = arrRiyobiStartEnd(1)
+            Adapter.SelectCommand.Parameters("RiyouEnd").Value = dataEXTB0103.PropAryRiyouStartEnd(1)
 
             '終了ログ出力
             CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)

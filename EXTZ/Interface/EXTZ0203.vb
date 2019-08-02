@@ -89,7 +89,7 @@ Public Class EXTZ0203
         End If
 
         ' --- 2019/06/25 軽減税率対応 Start E.Okuda@Compass ---
-        ' s請求内容に「付帯設備」が含まれる場合、調整額のコントロールを無効化する。
+        ' 請求内容に「付帯設備」が含まれる場合、調整額のコントロールを無効化する。
         If dataEXTZ0203.propStrSeikyuNaiyo = SEIKYU_CD_FUTAI Or dataEXTZ0203.propStrSeikyuNaiyo = SEIKYU_CD_RIYO_FUTAI Then
             Me.cmbFugo.Enabled = False
             Me.txtChoseiKin.Enabled = False
