@@ -2205,7 +2205,11 @@ Public Class LogicEXTB0103
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_CHOSEI).Value = dtSelectRow.Item(12) '調整額
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(15) / 100 '税率
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Formula = String.Format(INCIDENT_TAX_AMOUNT, j + 1) '税額
+
+                            ' 税額計算
+                            ' 小数点以下切り捨て計算する。
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Truncate(
+                            CLng(.PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100) * dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100)
 
                             'Dim j As Integer = i + 51
                             ''DataTableから一行取得
@@ -2279,8 +2283,9 @@ Public Class LogicEXTB0103
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100   ' 税率
                             .PropVwPrintSheet.ActiveSheet.Cells(j, 10).Value = dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_BIKO) '備考
                             ' 税額計算
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Value =
-                            CLng(.PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100) * dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100
+                            ' 小数点以下切り捨て計算する。
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Truncate(
+                            CLng(.PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100) * dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100)
 
                             ''データを設定するスプレッド行数
                             'Dim j As Integer = i + 51

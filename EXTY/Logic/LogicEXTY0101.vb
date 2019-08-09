@@ -940,7 +940,28 @@ Public Class LogicEXTY0101
             '    sw.Write(comma & dr(25))                 '消費税率
             '    sw.Write(comma)                          '外税内税区分
             'End If
+            ' --- 2019/08/08 軽減税率対応 Start E.Okuda@Compass ---
+            'If dr(27) = "1" Then
+            '    sw.Write(comma & dr(24))                 '消費税額
+            '    sw.Write(comma)                          '消費税区分
+            '    sw.Write(comma & dr(25))                 '消費税率
+            '    sw.Write(comma)                          '外税内税区分
+            'Else
+            '    If dr(26) = "1" Then
+            '        sw.Write(comma & "0")                '消費税額
+            '        sw.Write(comma & "10")               '消費税区分
+            '        sw.Write(comma)                      '消費税率
+            '        sw.Write(comma & "2")                '外税内税区分
+            '    Else
+            '        sw.Write(comma & dr(24))             '消費税額
+            '        sw.Write(comma)                      '消費税区分
+            '        sw.Write(comma & dr(25))             '消費税率
+            '        sw.Write(comma)                      '外税内税区分
+            '    End If
+            'End If
+            '' 2016.03.17 UPD END↑ h.hagiwara 利用料は課税
             If dr(27) = "1" Then
+                ' 外税の場合
                 sw.Write(comma & dr(24))                 '消費税額
                 sw.Write(comma)                          '消費税区分
                 sw.Write(comma & dr(25))                 '消費税率
@@ -958,7 +979,7 @@ Public Class LogicEXTY0101
                     sw.Write(comma)                      '外税内税区分
                 End If
             End If
-            ' 2016.03.17 UPD END↑ h.hagiwara 利用料は課税
+            ' --- 2019/08/08 軽減税率対応 End E.Okuda@Compass ---
             sw.Write(comma)                          'G請求内容コード
             sw.Write(comma)                          'G_セグメントコード
             sw.Write(comma)                          'Gコンテンツ識別区分

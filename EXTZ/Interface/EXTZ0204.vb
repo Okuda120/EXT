@@ -558,7 +558,10 @@ Public Class EXTZ0204
             ' --- 2019/06/24 軽減税率対応 Start E.Okuda@Compass ---
             ' 列番号定数化
             riyoKei = riyoKei + shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value
-            riyoTaxKei = riyoTaxKei + shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value
+            If shtFutai.Cells(i, COL_FUTAI_TAX_KBN).Value = DISP_SOTOZEI Then
+                ' 外税の場合のみ、合計額に加算する
+                riyoTaxKei = riyoTaxKei + shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value
+            End If
             'riyoKei = riyoKei + shtFutai.Cells(i, 6).Value
             'riyoTaxKei = riyoTaxKei + shtFutai.Cells(i, 7).Value
             ' --- 2019/06/24 軽減税率対応 End E.Okuda@Compass ---

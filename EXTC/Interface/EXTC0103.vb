@@ -839,10 +839,18 @@ Public Class EXTC0103
             End If
             dataEXTC0103.PropStrClickedIncident = Me.fbFutai.ActiveSheet.Cells(e.Row, 0).Value
             If MsgBox(C0103_C0009, MsgBoxStyle.OkCancel, TITLE_INFO) = vbOK Then
+
                 '利用明細出力
-                If logicEXTC0103.OutputUseDetailsMain(dataEXTC0103) = False Then
+                ' --- 2019/08/05 軽減税率対応 Start E.Okuda@Compass ---
+                Dim lstRiyobi As ArrayList = dataEXTC0102.PropListRiyobi
+                If logicEXTC0103.OutputUseDetailsMain(dataEXTC0103, lstRiyobi) = False Then
                     MsgBox(puErrMsg)
                 End If
+                'If logicEXTC0103.OutputUseDetailsMain(dataEXTC0103) = False Then
+
+                '    MsgBox(puErrMsg)
+                'End If
+                ' --- 2019/08/05 軽減税率対応 End E.Okuda@Compass ---
             End If
         End If
     End Sub
@@ -2987,9 +2995,15 @@ Public Class EXTC0103
 
             dataEXTC0103.PropStrClickedIncident = ""                                          ' 2015.12.16 ADD h.hagiwara
             '利用明細出力
-            If logicEXTC0103.OutputUseDetailsMain(dataEXTC0103) = False Then
+            ' --- 2019/08/05 軽減税率対応 Start E.Okuda@Compass ---
+            Dim lstRiyobi As ArrayList = dataEXTC0102.PropListRiyobi
+            If logicEXTC0103.OutputUseDetailsMain(dataEXTC0103, lstRiyobi) = False Then
                 MsgBox(puErrMsg)
             End If
+            'If logicEXTC0103.OutputUseDetailsMain(dataEXTC0103) = False Then
+            '    MsgBox(puErrMsg)
+            'End If
+            ' --- 2019/08/05 軽減税率対応 End E.Okuda@Compass ---
 
         End If
     End Sub
@@ -3263,11 +3277,17 @@ Public Class EXTC0103
                                 '消費税額
                                 appendDtl(sbDetail, dRow("tax_kin"))
                                 '消費税区分
-                                appendDtl(sbDetail, "")
+                                ' --- 2019/08/08 軽減税率対応 Start E.Okuda@Compass ---
+                                appendDtl(sbDetail, "10")
+                                'appendDtl(sbDetail, "")
+                                ' --- 2019/08/08 軽減税率対応 End E.Okuda@Compass ---
                                 '消費税率
                                 appendDtl(sbDetail, Double.Parse(dataEXTC0102.propDblTax) * 100)
                                 '外税内税区分
-                                appendDtl(sbDetail, "")
+                                ' --- 2019/08/08 軽減税率対応 Start E.Okuda@Compass ---
+                                appendDtl(sbDetail, "1")
+                                'appendDtl(sbDetail, "")
+                                ' --- 2019/08/08 軽減税率対応 End E.Okuda@Compass ---
                                 'G請求内容コード
                                 ' 2016.01.20 MOD START↓ y.morooka グループ請求対応　EXAS相手先がグループの場合
                                 'appendDtl(sbDetail, "")
@@ -3367,25 +3387,47 @@ Public Class EXTC0103
                                 dataEXTC0103.PropStrCalculateDay_Output = Me.fpRiyobi.ActiveSheet.Cells(0, 2).Value
                                 dataEXTC0103.PropStrCalculateDay_Output = dataEXTC0103.PropStrCalculateDay_Output.Substring(0, 10)
                                 dataEXTC0103.PropStrGrpKey = dRow("shukei_grp")
-                                If logicEXTC0103.GetNotaxflg(dataEXTC0103) = "1" Then
+                                ' --- 2019/08/08 軽減税率対応 Start E.Okuda@Compass ---
+                                If dRow("notax_flg") = "1" Then
                                     '消費税額
                                     appendDtl(sbDetail, "0")
                                     '消費税区分
-                                    appendDtl(sbDetail, "10")
+                                    appendDtl(sbDetail, "1D")
                                     '消費税率
-                                    appendDtl(sbDetail, "")
+                                    appendDtl(sbDetail, dRow("zeiritsu"))
                                     '外税内税区分
                                     appendDtl(sbDetail, "2")
                                 Else
                                     '消費税額
                                     appendDtl(sbDetail, dRow("tax_kin"))
                                     '消費税区分
-                                    appendDtl(sbDetail, "")
+                                    appendDtl(sbDetail, "10")
                                     '消費税率
-                                    appendDtl(sbDetail, Double.Parse(dataEXTC0102.propDblTax) * 100)
+                                    appendDtl(sbDetail, dRow("zeiritsu"))
                                     '外税内税区分
-                                    appendDtl(sbDetail, "")
+                                    appendDtl(sbDetail, "1")
                                 End If
+                                'If logicEXTC0103.GetNotaxflg(dataEXTC0103) = "1" Then
+                                '    '消費税額
+                                '    appendDtl(sbDetail, "0")
+                                '    '消費税区分
+                                '    appendDtl(sbDetail, "10")
+                                '    '消費税率
+                                '    appendDtl(sbDetail, "")
+                                '    '外税内税区分
+                                '    appendDtl(sbDetail, "2")
+                                'Else
+                                '    '消費税額
+                                '    appendDtl(sbDetail, dRow("tax_kin"))
+                                '    '消費税区分
+                                '    appendDtl(sbDetail, "")
+                                '    '消費税率
+                                '    appendDtl(sbDetail, Double.Parse(dataEXTC0102.propDblTax) * 100)
+                                '    '外税内税区分
+                                '    appendDtl(sbDetail, "")
+                                'End If
+                                ' --- 2019/08/08 軽減税率対応 End E.Okuda@Compass ---
+
                                 'G請求内容コード
                                 ' 2016.01.20 MOD START↓ y.morooka グループ請求対応　EXAS相手先がグループの場合
                                 'appendDtl(sbDetail, "")
@@ -3717,4 +3759,5 @@ Public Class EXTC0103
         End If
 
     End Sub
+
 End Class

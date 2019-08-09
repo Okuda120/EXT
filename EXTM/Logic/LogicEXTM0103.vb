@@ -11,6 +11,25 @@ Public Class LogicEXTM0103
     Public CommonEXT As New CommonLogicEXT
     Public CommonValidation As New CommonValidation
 
+    ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+    Private Const COL_SHEET_TAXS_DT As Integer = 0              ' 開始日
+    Private Const COL_SHEET_TAXE_DT As Integer = 1              ' 終了日
+    Private Const COL_SHEET_TAX_RITU As Integer = 2             ' 消費税率
+    Private Const COL_SHEET_REDUCED_RATE As Integer = 3         ' 軽減税率
+    Private Const COL_SHEET_SEQ As Integer = 4                  ' SEQ
+    Private Const COL_SHEET_UPDATE_KBN As Integer = 5           ' 更新区分
+    Private Const COL_SHEET_BEFORE_TAXS_DTN As Integer = 6      ' 修正前開始日
+    Private Const COL_SHEET_BEFORE_TAXE_DT As Integer = 7       ' 修正前終了日
+    Private Const COL_SHEET_BEFORE_TAX_RITU As Integer = 8      ' 修正前消費税率
+    Private Const COL_SHEET_BEFORE_REDUCED_RATE As Integer = 9  ' 修正前軽減税率
+
+
+
+
+
+    ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
+
+
     ''' <summary>
     ''' 一覧データの取得
     ''' <paramref name="dataEXTM0103">[IN/OUT]データクラス</paramref>
@@ -105,11 +124,20 @@ Public Class LogicEXTM0103
                             .PropVwList.Sheets(0).Cells(i, 1).Text = .PropDtExtTaxMasta.Rows(i).Item("TAXE_DT")
                         End If
                         .PropVwList.Sheets(0).Cells(i, 2).Text = .PropDtExtTaxMasta.Rows(i).Item("TAX_RITU")
+                        ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+
                         .PropVwList.Sheets(0).Cells(i, 3).Text = .PropDtExtTaxMasta.Rows(i).Item("SEQ")
                         .PropVwList.Sheets(0).Cells(i, 4).Text = .PropDtExtTaxMasta.Rows(i).Item(4) '更新区分
                         .PropVwList.Sheets(0).Cells(i, 5).Text = .PropDtExtTaxMasta.Rows(i).Item(5) '修正前開始日
                         .PropVwList.Sheets(0).Cells(i, 6).Text = .PropDtExtTaxMasta.Rows(i).Item(6) '修正前終了日
                         .PropVwList.Sheets(0).Cells(i, 7).Text = .PropDtExtTaxMasta.Rows(i).Item(7) '修正前消費税率
+
+                        '.PropVwList.Sheets(0).Cells(i, 3).Text = .PropDtExtTaxMasta.Rows(i).Item("SEQ")
+                        '.PropVwList.Sheets(0).Cells(i, 4).Text = .PropDtExtTaxMasta.Rows(i).Item(4) '更新区分
+                        '.PropVwList.Sheets(0).Cells(i, 5).Text = .PropDtExtTaxMasta.Rows(i).Item(5) '修正前開始日
+                        '.PropVwList.Sheets(0).Cells(i, 6).Text = .PropDtExtTaxMasta.Rows(i).Item(6) '修正前終了日
+                        '.PropVwList.Sheets(0).Cells(i, 7).Text = .PropDtExtTaxMasta.Rows(i).Item(7) '修正前消費税率
+                        ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
                     Next
 
                 End With

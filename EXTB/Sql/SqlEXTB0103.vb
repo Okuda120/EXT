@@ -3400,7 +3400,6 @@ Public Class SqlEXTB0103
             Dim currentYm As String = ""
             Dim htTempExasFutai As New Hashtable
             Dim tableFutaiDetail As DataTable
-            Dim newRow As DataRow
             Dim futaiRow As DataRow
             Dim exasRow As DataRow
             Dim futaiIndex As Integer = 0

@@ -13,19 +13,35 @@ Public Class SqlEXTM0103
     'SQL文宣言
 
     '<sqlid:EX20S001>消費税の初期表示（SELECT）SQL
-    Public strSelectTaxmstSearch As String = " SELECT " & vbCrLf & _
-                                             " TAXS_DT " & vbCrLf & _
-                                             ",TAXE_DT " & vbCrLf & _
-                                             ",TAX_RITU " & vbCrLf & _
-                                             ",SEQ " & vbCrLf & _
-                                             ",'1' " & vbCrLf & _
-                                             ",TAXS_DT " & vbCrLf & _
-                                             ",TAXE_DT " & vbCrLf & _
-                                             ",TAX_RITU " & vbCrLf & _
-                                             " FROM TAX_MST " & vbCrLf & _
+    ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+    'Public strSelectTaxmstSearch As String = " SELECT " & vbCrLf &
+    '                                         " TAXS_DT " & vbCrLf &
+    '                                         ",TAXE_DT " & vbCrLf &
+    '                                         ",TAX_RITU " & vbCrLf &
+    '                                         ",SEQ " & vbCrLf &
+    '                                         ",'1' " & vbCrLf &
+    '                                         ",TAXS_DT " & vbCrLf &
+    '                                         ",TAXE_DT " & vbCrLf &
+    '                                         ",TAX_RITU " & vbCrLf &
+    '                                         " FROM TAX_MST " & vbCrLf &
+    '                                         " ORDER BY SEQ "
+    Public strSelectTaxmstSearch As String = " SELECT " & vbCrLf &
+                                             " TAXS_DT " & vbCrLf &
+                                             ",TAXE_DT " & vbCrLf &
+                                             ",TAX_RITU " & vbCrLf &
+                                             ",REDUCED_RATE " & vbCrLf &
+                                             ",SEQ " & vbCrLf &
+                                             ",'1' " & vbCrLf &
+                                             ",TAXS_DT " & vbCrLf &
+                                             ",TAXE_DT " & vbCrLf &
+                                             ",TAX_RITU " & vbCrLf &
+                                             ",REDUCED_RATE " & vbCrLf &
+                                             " FROM TAX_MST " & vbCrLf &
                                              " ORDER BY SEQ "
+    ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
 
     '<sqlid:EX20I001>消費税の登録（INSERT）SQL
+    ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
     ' 2015.10.09 UPDATE START↓ h.hagiwara 
     'Private strInsertTaxmstSql As String = " INSERT INTO TAX_MST" & vbCrLf & _
     '                                        " (SEQ, " & vbCrLf & _
@@ -45,34 +61,67 @@ Public Class SqlEXTM0103
     '                                        " , :setAddUserCd " & vbCrLf & _
     '                                        " , :setUpDt " & vbCrLf & _
     '                                        " , :setUpUserCd ); "
-    Private strInsertTaxmstSql As String = " INSERT INTO TAX_MST" & vbCrLf & _
-                                            " (SEQ, " & vbCrLf & _
-                                            " TAXS_DT, " & vbCrLf & _
-                                            " TAXE_DT, " & vbCrLf & _
-                                            " TAX_RITU, " & vbCrLf & _
-                                            " ADD_DT, " & vbCrLf & _
-                                            " ADD_USER_CD, " & vbCrLf & _
-                                            " UP_DT, " & vbCrLf & _
-                                            " UP_USER_CD) " & vbCrLf & _
-                                            " VALUES " & vbCrLf & _
-                                            " (( SELECT COALESCE(MAX(SEQ),0) + 1 FROM TAX_MST ) " & vbCrLf & _
-                                            " , :setTaxsDt " & vbCrLf & _
-                                            " , :setTaxeDt " & vbCrLf & _
-                                            " , :setTaxRitu " & vbCrLf & _
-                                            " , :setAddDt " & vbCrLf & _
-                                            " , :setAddUserCd " & vbCrLf & _
-                                            " , :setUpDt " & vbCrLf & _
+    'Private strInsertTaxmstSql As String = " INSERT INTO TAX_MST" & vbCrLf &
+    '                                        " (SEQ, " & vbCrLf &
+    '                                        " TAXS_DT, " & vbCrLf &
+    '                                        " TAXE_DT, " & vbCrLf &
+    '                                        " TAX_RITU, " & vbCrLf &
+    '                                        " ADD_DT, " & vbCrLf &
+    '                                        " ADD_USER_CD, " & vbCrLf &
+    '                                        " UP_DT, " & vbCrLf &
+    '                                        " UP_USER_CD) " & vbCrLf &
+    '                                        " VALUES " & vbCrLf &
+    '                                        " (( SELECT COALESCE(MAX(SEQ),0) + 1 FROM TAX_MST ) " & vbCrLf &
+    '                                        " , :setTaxsDt " & vbCrLf &
+    '                                        " , :setTaxeDt " & vbCrLf &
+    '                                        " , :setTaxRitu " & vbCrLf &
+    '                                        " , :setAddDt " & vbCrLf &
+    '                                        " , :setAddUserCd " & vbCrLf &
+    '                                        " , :setUpDt " & vbCrLf &
+    '                                        " , :setUpUserCd ); "
+    Private strInsertTaxmstSql As String = " INSERT INTO TAX_MST" & vbCrLf &
+                                            " (SEQ, " & vbCrLf &
+                                            " TAXS_DT, " & vbCrLf &
+                                            " TAXE_DT, " & vbCrLf &
+                                            " TAX_RITU, " & vbCrLf &
+                                            " REDUCED_RATE, " & vbCrLf &
+                                            " ADD_DT, " & vbCrLf &
+                                            " ADD_USER_CD, " & vbCrLf &
+                                            " UP_DT, " & vbCrLf &
+                                            " UP_USER_CD) " & vbCrLf &
+                                            " VALUES " & vbCrLf &
+                                            " (( SELECT COALESCE(MAX(SEQ),0) + 1 FROM TAX_MST ) " & vbCrLf &
+                                            " , :setTaxsDt " & vbCrLf &
+                                            " , :setTaxeDt " & vbCrLf &
+                                            " , :setTaxRitu " & vbCrLf &
+                                            " , :setReducedRate " & vbCrLf &
+                                            " , :setAddDt " & vbCrLf &
+                                            " , :setAddUserCd " & vbCrLf &
+                                            " , :setUpDt " & vbCrLf &
                                             " , :setUpUserCd ); "
     ' 2015.10.09 UPDATE END↑ h.hagiwara 
+    ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
 
     '<sqlid:EX20U001>消費税マスタの更新（UPDATE）SQL
-    Private strUpdateTaxmstSql As String = " UPDATE TAX_MST SET " & vbCrLf & _
-                                            " TAXS_DT        = :UpdateTaxsDt " & vbCrLf & _
-                                            ",TAXE_DT        = :UpdateTaxeDt " & vbCrLf & _
-                                            ",TAX_RITU       = :UpdateTaxRitu " & vbCrLf & _
-                                            ",UP_DT          = :UpdateUpDt " & vbCrLf & _
-                                            ",UP_USER_CD     = :UpdateUpUserCd " & vbCrLf & _
+    ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+    Private strUpdateTaxmstSql As String = " UPDATE TAX_MST SET " & vbCrLf &
+                                            " TAXS_DT        = :UpdateTaxsDt " & vbCrLf &
+                                            ",TAXE_DT        = :UpdateTaxeDt " & vbCrLf &
+                                            ",TAX_RITU       = :UpdateTaxRitu " & vbCrLf &
+                                            ",REDUCED_RATE   = :UpdateReducedRate " & vbCrLf &
+                                            ",UP_DT          = :UpdateUpDt " & vbCrLf &
+                                            ",UP_USER_CD     = :UpdateUpUserCd " & vbCrLf &
                                             " WHERE SEQ      = :SEQ "
+
+    'Private strUpdateTaxmstSql As String = " UPDATE TAX_MST SET " & vbCrLf & _
+    '                                        " TAXS_DT        = :UpdateTaxsDt " & vbCrLf & _
+    '                                        ",TAXE_DT        = :UpdateTaxeDt " & vbCrLf & _
+    '                                        ",TAX_RITU       = :UpdateTaxRitu " & vbCrLf & _
+    '                                        ",UP_DT          = :UpdateUpDt " & vbCrLf & _
+    '                                        ",UP_USER_CD     = :UpdateUpUserCd " & vbCrLf & _
+    '                                        " WHERE SEQ      = :SEQ "
+    ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+
     ' 2015.12.08 ADD START↓ h.hagiwara 
     Private strDeleteTaxmstSql As String = " DELETE FROM TAX_MST " & vbCrLf & _
                                            " WHERE SEQ      = :SEQ "
@@ -121,13 +170,15 @@ Public Class SqlEXTM0103
     End Function
     ''' <summary>
     ''' 登録のSQLの設定
-    ''' <param name="Adapter">[IN/OUT]NpgSqlDataAdapterクラス</param>
     ''' <param name="Cn">[IN]NpgSqlConnectionクラス</param>
-    ''' <param name="dataHBKZ0101">[IN]データクラス</param>
+    ''' <param name="Cmd">[IN]NpgSqlCommandクラス</param>
+    ''' <param name="j">[IN]行番号</param>
+    ''' <param name="dataEXTM0103">[IN]データクラス</param>
     ''' </summary> 
     ''' <returns>boolean エラーコード  true 正常終了  false	異常終了 </returns>
     ''' <remarks>EXシアター消費税マスタメンテフォームから渡される値をもとに消費税マスタへの登録を行うSQL
     ''' <para>作成情報：2015/08/26 hayabuchi
+    '''    <p>改訂情報：2019/08/09 E.Okuda@Compass 軽減税率対応</p>
     ''' </para></remarks>
     Public Function SetInsertTaxmstSql(ByVal Cn As NpgsqlConnection, _
                                        ByRef Cmd As NpgsqlCommand, _
@@ -154,6 +205,9 @@ Public Class SqlEXTM0103
                 .Add(New NpgsqlParameter("setTaxsDt", NpgsqlTypes.NpgsqlDbType.Varchar))                 '開始日
                 .Add(New NpgsqlParameter("setTaxeDt", NpgsqlTypes.NpgsqlDbType.Varchar))                 '終了日
                 .Add(New NpgsqlParameter("setTaxRitu", NpgsqlTypes.NpgsqlDbType.Integer))                '消費税割合
+                ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+                .Add(New NpgsqlParameter("setReducedRate", NpgsqlTypes.NpgsqlDbType.Integer))             ' 軽減税率
+                ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
                 .Add(New NpgsqlParameter("setAddDt", NpgsqlTypes.NpgsqlDbType.Timestamp))                '登録年月日
                 .Add(New NpgsqlParameter("setAddUserCd", NpgsqlTypes.NpgsqlDbType.Varchar))              '登録ユーザーCD
                 .Add(New NpgsqlParameter("setUpDt", NpgsqlTypes.NpgsqlDbType.Timestamp))                 '更新年月日
@@ -168,6 +222,10 @@ Public Class SqlEXTM0103
                 Else : .Parameters("setTaxeDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text
                 End If
                 .Parameters("setTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 2).Text     '終了日更新年月日
+                ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+                .Parameters("setReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 3).Text  ' 軽減税率
+                ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
+
                 .Parameters("setAddDt").Value = Now                                                      'メールアドレス
                 '.Parameters("setAddUserCd").Value = setAdd_User_CD                                       '画面.ユーザーCD
                 .Parameters("setAddUserCd").Value = CommonEXT.PropComStrUserId                            '画面.ユーザーCD
@@ -199,6 +257,7 @@ Public Class SqlEXTM0103
     ''' <returns>boolean エラーコード  true 正常終了  false	異常終了 </returns>
     ''' <remarks>EXシアター消費税マスタに終了日の修正を行うSQL
     ''' <para>作成情報：2015/08/26 hayabuchi
+    '''    <p>改訂情報：2019/08/09 E.Okuda@Compass 軽減税率対応</p>
     ''' </para></remarks>
     Public Function SetUpdateTaxeDtSql(ByVal Cn As NpgsqlConnection, _
                                        ByRef Cmd As NpgsqlCommand, _
@@ -228,6 +287,9 @@ Public Class SqlEXTM0103
                 .Add(New NpgsqlParameter("UpdateTaxsDt", NpgsqlTypes.NpgsqlDbType.Varchar))                 '開始日
                 .Add(New NpgsqlParameter("UpdateTaxeDt", NpgsqlTypes.NpgsqlDbType.Varchar))                 '終了日
                 .Add(New NpgsqlParameter("UpdateTaxRitu", NpgsqlTypes.NpgsqlDbType.Integer))                '消費税割合
+                ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+                .Add(New NpgsqlParameter("UpdateReducedRate", NpgsqlTypes.NpgsqlDbType.Integer))             ' 軽減税率
+                ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
                 .Add(New NpgsqlParameter("UpdateUpDt", NpgsqlTypes.NpgsqlDbType.Timestamp))                 '更新年月日
                 .Add(New NpgsqlParameter("UpdateUpUserCd", NpgsqlTypes.NpgsqlDbType.Varchar))               '更新ユーザーCD
                 .Add(New NpgsqlParameter("SEQ", NpgsqlTypes.NpgsqlDbType.Integer))                          '画面.SEQ番号
@@ -238,6 +300,9 @@ Public Class SqlEXTM0103
                 .Parameters("UpdateTaxsDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 0).Text   '開始日
                 .Parameters("UpdateTaxeDt").Value = StartDt.AddDays(-1).ToString("yyyy/MM/dd")               '終了日
                 .Parameters("UpdateTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 2).Text  '消費税割合
+                ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+                .Parameters("UpdateReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 3).Text  ' 軽減税率
+                ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
                 .Parameters("UpdateUpDt").Value = Now                                                        '更新年月日
                 .Parameters("UpdateUpUserCd").Value = setUp_User_CD                                          '更新ユーザーCD
                 .Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 3).Text            '画面.SEQ番号
@@ -266,6 +331,7 @@ Public Class SqlEXTM0103
     ''' <returns>boolean エラーコード  true 正常終了  false	異常終了 </returns>
     ''' <remarks>EXシアターユーザーマスタにスプレッドシート内の値の更新を行うSQL
     ''' <para>作成情報：2015/08/26 hayabuchi
+    '''    <p>改訂情報：2019/08/09 E.Okuda@Compass 軽減税率対応</p>
     ''' </para></remarks>
     Public Function SetUpdateTaxmstSql(ByVal Cn As NpgsqlConnection, _
                                        ByRef Cmd As NpgsqlCommand, _
@@ -293,6 +359,9 @@ Public Class SqlEXTM0103
                 .Add(New NpgsqlParameter("UpdateTaxsDt", NpgsqlTypes.NpgsqlDbType.Varchar))                    '開始日
                 .Add(New NpgsqlParameter("UpdateTaxeDt", NpgsqlTypes.NpgsqlDbType.Varchar))                    '終了日
                 .Add(New NpgsqlParameter("UpdateTaxRitu", NpgsqlTypes.NpgsqlDbType.Integer))                '消費税割合
+                ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+                .Add(New NpgsqlParameter("UpdateReducedRate", NpgsqlTypes.NpgsqlDbType.Integer))             ' 軽減税率
+                ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
                 .Add(New NpgsqlParameter("UpdateUpDt", NpgsqlTypes.NpgsqlDbType.Timestamp))                 '更新年月日
                 .Add(New NpgsqlParameter("UpdateUpUserCd", NpgsqlTypes.NpgsqlDbType.Varchar))               '更新ユーザーCD
                 .Add(New NpgsqlParameter("SEQ", NpgsqlTypes.NpgsqlDbType.Integer))                          '画面.SEQ番号
@@ -308,6 +377,9 @@ Public Class SqlEXTM0103
                 End If
 
                 .Parameters("UpdateTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 2).Text     '消費税割合
+                ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+                .Parameters("UpdateReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 3).Text     ' 軽減税率
+                ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
                 .Parameters("UpdateUpDt").Value = Now                                                       '更新年月日
                 '.Parameters("UpdateUpUserCd").Value = setUp_User_CD                                        '更新ユーザーCD
                 .Parameters("UpdateUpUserCd").Value = CommonEXT.PropComStrUserId                            '更新ユーザーCD
