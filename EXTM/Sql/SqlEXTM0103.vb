@@ -10,6 +10,20 @@ Imports Common
 ''' </para></remarks>
 Public Class SqlEXTM0103
 
+    ' --- 2019/08/13 軽減税率対応 Start E.Okuda@Compass ---
+    Private Const COL_SHEET_TAXS_DT As Integer = 0              ' 開始日
+    Private Const COL_SHEET_TAXE_DT As Integer = 1              ' 終了日
+    Private Const COL_SHEET_TAX_RITU As Integer = 2             ' 消費税率
+    Private Const COL_SHEET_REDUCED_RATE As Integer = 3         ' 軽減税率
+    Private Const COL_SHEET_SEQ As Integer = 4                  ' SEQ
+    Private Const COL_SHEET_UPDATE_KBN As Integer = 5           ' 更新区分
+    Private Const COL_SHEET_BEFORE_TAXS_DTN As Integer = 6      ' 修正前開始日
+    Private Const COL_SHEET_BEFORE_TAXE_DT As Integer = 7       ' 修正前終了日
+    Private Const COL_SHEET_BEFORE_TAX_RITU As Integer = 8      ' 修正前消費税率
+    Private Const COL_SHEET_BEFORE_REDUCED_RATE As Integer = 9  ' 修正前軽減税率
+
+    ' --- 2019/08/13 軽減税率対応 End E.Okuda@Compass ---
+
     'SQL文宣言
 
     '<sqlid:EX20S001>消費税の初期表示（SELECT）SQL
@@ -216,14 +230,25 @@ Public Class SqlEXTM0103
 
             'バインド変数に値をセット
             With Cmd
-                .Parameters("setTaxsDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Text      '開始日
-                If dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text.Trim() = "" Then
-                    .Parameters("setTaxeDt").Value = "2099/12/31"                                        '終了日
-                Else : .Parameters("setTaxeDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text
-                End If
-                .Parameters("setTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 2).Text     '終了日更新年月日
                 ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
-                .Parameters("setReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 3).Text  ' 軽減税率
+                .Parameters("setTaxsDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXS_DT).Text      '開始日
+                If dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXE_DT).Text.Trim() = "" Then
+                    .Parameters("setTaxeDt").Value = "2099/12/31"                                        '終了日
+                Else : .Parameters("setTaxeDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXE_DT).Text
+                End If
+                .Parameters("setTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_RITU).Text     '終了日更新年月日
+
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_REDUCED_RATE).Text) Then
+                    .Parameters("setReducedRate").Value = DBNull.Value
+                Else
+                    .Parameters("setReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_REDUCED_RATE).Text  ' 軽減税率
+                End If
+                '.Parameters("setTaxsDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Text      '開始日
+                'If dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text.Trim() = "" Then
+                '    .Parameters("setTaxeDt").Value = "2099/12/31"                                        '終了日
+                'Else : .Parameters("setTaxeDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text
+                'End If
+                '.Parameters("setTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 2).Text     '終了日更新年月日
                 ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
 
                 .Parameters("setAddDt").Value = Now                                                      'メールアドレス
@@ -297,15 +322,22 @@ Public Class SqlEXTM0103
 
             'バインド変数に値をセット
             With Cmd
-                .Parameters("UpdateTaxsDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 0).Text   '開始日
-                .Parameters("UpdateTaxeDt").Value = StartDt.AddDays(-1).ToString("yyyy/MM/dd")               '終了日
-                .Parameters("UpdateTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 2).Text  '消費税割合
                 ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
-                .Parameters("UpdateReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 3).Text  ' 軽減税率
+                '.Parameters("UpdateTaxsDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 0).Text   '開始日
+                '.Parameters("UpdateTaxeDt").Value = StartDt.AddDays(-1).ToString("yyyy/MM/dd")               '終了日
+                '.Parameters("UpdateTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 2).Text  '消費税割合
+                .Parameters("UpdateTaxsDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_TAXS_DT).Text   '開始日
+                .Parameters("UpdateTaxeDt").Value = StartDt.AddDays(-1).ToString("yyyy/MM/dd")               '終了日
+                .Parameters("UpdateTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_TAX_RITU).Text  '消費税割合
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_REDUCED_RATE).Text) Then
+                    .Parameters("UpdateReducedRate").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_REDUCED_RATE).Text  ' 軽減税率
+                End If
                 ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
                 .Parameters("UpdateUpDt").Value = Now                                                        '更新年月日
                 .Parameters("UpdateUpUserCd").Value = setUp_User_CD                                          '更新ユーザーCD
-                .Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 3).Text            '画面.SEQ番号
+                .Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_SEQ).Text            '画面.SEQ番号
             End With
 
             '終了ログ出力()
@@ -369,21 +401,39 @@ Public Class SqlEXTM0103
 
             'バインド変数に値をセット
             With Cmd
-                .Parameters("UpdateTaxsDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Text      '開始日
-                If dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text.Trim = "" Then                        '終了日(未入力時は2099/12/31をセット)
+                ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+                '.Parameters("UpdateTaxsDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Text      '開始日
+                'If dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text.Trim = "" Then                        '終了日(未入力時は2099/12/31をセット)
+                '    .Parameters("UpdateTaxeDt").Value = "2099/12/31"
+                'Else
+                '    .Parameters("UpdateTaxeDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text
+                'End If
+
+                '.Parameters("UpdateTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 2).Text     '消費税割合
+                '.Parameters("UpdateUpDt").Value = Now                                                       '更新年月日
+                ''.Parameters("UpdateUpUserCd").Value = setUp_User_CD                                        '更新ユーザーCD
+                '.Parameters("UpdateUpUserCd").Value = CommonEXT.PropComStrUserId                            '更新ユーザーCD
+                '.Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 3).Text               '画面.SEQ番号
+
+                .Parameters("UpdateTaxsDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXS_DT).Text      '開始日
+                If dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXE_DT).Text.Trim = "" Then                        '終了日(未入力時は2099/12/31をセット)
                     .Parameters("UpdateTaxeDt").Value = "2099/12/31"
                 Else
-                    .Parameters("UpdateTaxeDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text
+                    .Parameters("UpdateTaxeDt").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXE_DT).Text
                 End If
 
-                .Parameters("UpdateTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 2).Text     '消費税割合
-                ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
-                .Parameters("UpdateReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 3).Text     ' 軽減税率
-                ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
+                .Parameters("UpdateTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_RITU).Text     '消費税割合
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_REDUCED_RATE).Text) Then
+                    .Parameters("UpdateReducedRate").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_REDUCED_RATE).Text     ' 軽減税率
+                End If
+
                 .Parameters("UpdateUpDt").Value = Now                                                       '更新年月日
-                '.Parameters("UpdateUpUserCd").Value = setUp_User_CD                                        '更新ユーザーCD
-                .Parameters("UpdateUpUserCd").Value = CommonEXT.PropComStrUserId                            '更新ユーザーCD
-                .Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 3).Text               '画面.SEQ番号
+                    '.Parameters("UpdateUpUserCd").Value = setUp_User_CD                                        '更新ユーザーCD
+                    .Parameters("UpdateUpUserCd").Value = CommonEXT.PropComStrUserId                            '更新ユーザーCD
+                .Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_SEQ).Text               '画面.SEQ番号
+                ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
             End With
 
             '終了ログ出力()
@@ -437,7 +487,10 @@ Public Class SqlEXTM0103
 
             'バインド変数に値をセット
             With Cmd
-                .Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 3).Text               '画面.SEQ番号
+                ' --- 2019/08/13 軽減税率対応 Start E.Okuda@Compass ---
+                '.Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 3).Text               '画面.SEQ番号
+                .Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_SEQ).Text               '画面.SEQ番号
+                ' --- 2019/08/13 軽減税率対応 End E.Okuda@Compass ---
             End With
 
             '終了ログ出力()

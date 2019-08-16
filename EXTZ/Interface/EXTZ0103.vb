@@ -303,6 +303,10 @@ Public Class EXTZ0103
 
     End Sub
 
+    Private Sub vwDayUriageTheatre_CellClick(sender As Object, e As FarPoint.Win.Spread.CellClickEventArgs) Handles vwDayUriageTheatre.CellClick
+
+    End Sub
+
 #End Region
 
 End Class

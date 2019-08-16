@@ -23,10 +23,6 @@ Public Class LogicEXTM0103
     Private Const COL_SHEET_BEFORE_TAX_RITU As Integer = 8      ' 修正前消費税率
     Private Const COL_SHEET_BEFORE_REDUCED_RATE As Integer = 9  ' 修正前軽減税率
 
-
-
-
-
     ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
 
 
@@ -117,21 +113,38 @@ Public Class LogicEXTM0103
 
                     For i As Integer = 0 To dataEXTM0103.PropDtExtTaxMasta.Rows.Count - 1
                         '一覧シートに一行ずつデータをセット
-                        .PropVwList.Sheets(0).Cells(i, 0).Text = .PropDtExtTaxMasta.Rows(i).Item("TAXS_DT")
-                        If .PropDtExtTaxMasta.Rows(i).Item("TAXE_DT").ToString = "2099/12/31" Then
-                            .PropVwList.Sheets(0).Cells(i, 1).Text = ""
-                        Else
-                            .PropVwList.Sheets(0).Cells(i, 1).Text = .PropDtExtTaxMasta.Rows(i).Item("TAXE_DT")
-                        End If
-                        .PropVwList.Sheets(0).Cells(i, 2).Text = .PropDtExtTaxMasta.Rows(i).Item("TAX_RITU")
                         ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+                        .PropVwList.Sheets(0).Cells(i, COL_SHEET_TAXS_DT).Text = .PropDtExtTaxMasta.Rows(i).Item("TAXS_DT")
+                        If .PropDtExtTaxMasta.Rows(i).Item("TAXE_DT").ToString = "2099/12/31" Then
+                            .PropVwList.Sheets(0).Cells(i, COL_SHEET_TAXE_DT).Text = ""
+                        Else
+                            .PropVwList.Sheets(0).Cells(i, COL_SHEET_TAXE_DT).Text = .PropDtExtTaxMasta.Rows(i).Item("TAXE_DT")
+                        End If
+                        .PropVwList.Sheets(0).Cells(i, COL_SHEET_TAX_RITU).Text = .PropDtExtTaxMasta.Rows(i).Item("TAX_RITU")
+                        If IsDBNull(.PropDtExtTaxMasta.Rows(i).Item("REDUCED_RATE")) Then
+                            .PropVwList.Sheets(0).Cells(i, COL_SHEET_REDUCED_RATE).Text = ""
+                        Else
+                            .PropVwList.Sheets(0).Cells(i, COL_SHEET_REDUCED_RATE).Text = .PropDtExtTaxMasta.Rows(i).Item("REDUCED_RATE")
+                        End If
 
-                        .PropVwList.Sheets(0).Cells(i, 3).Text = .PropDtExtTaxMasta.Rows(i).Item("SEQ")
-                        .PropVwList.Sheets(0).Cells(i, 4).Text = .PropDtExtTaxMasta.Rows(i).Item(4) '更新区分
-                        .PropVwList.Sheets(0).Cells(i, 5).Text = .PropDtExtTaxMasta.Rows(i).Item(5) '修正前開始日
-                        .PropVwList.Sheets(0).Cells(i, 6).Text = .PropDtExtTaxMasta.Rows(i).Item(6) '修正前終了日
-                        .PropVwList.Sheets(0).Cells(i, 7).Text = .PropDtExtTaxMasta.Rows(i).Item(7) '修正前消費税率
+                        .PropVwList.Sheets(0).Cells(i, COL_SHEET_SEQ).Text = .PropDtExtTaxMasta.Rows(i).Item("SEQ")
+                        .PropVwList.Sheets(0).Cells(i, COL_SHEET_UPDATE_KBN).Text = .PropDtExtTaxMasta.Rows(i).Item(5) '更新区分
+                        .PropVwList.Sheets(0).Cells(i, COL_SHEET_BEFORE_TAXS_DTN).Text = .PropDtExtTaxMasta.Rows(i).Item(6) '修正前開始日
+                        .PropVwList.Sheets(0).Cells(i, COL_SHEET_BEFORE_TAXE_DT).Text = .PropDtExtTaxMasta.Rows(i).Item(7) '修正前終了日
+                        .PropVwList.Sheets(0).Cells(i, COL_SHEET_BEFORE_TAX_RITU).Text = .PropDtExtTaxMasta.Rows(i).Item(8) '修正前消費税率
+                        If IsDBNull(.PropDtExtTaxMasta.Rows(i).Item("REDUCED_RATE")) Then                           '修正前軽減税率
+                            .PropVwList.Sheets(0).Cells(i, COL_SHEET_BEFORE_TAX_RITU).Text = ""
+                        Else
+                            .PropVwList.Sheets(0).Cells(i, COL_SHEET_BEFORE_REDUCED_RATE).Text = .PropDtExtTaxMasta.Rows(i).Item(9)
+                        End If
 
+                        '.PropVwList.Sheets(0).Cells(i, 0).Text = .PropDtExtTaxMasta.Rows(i).Item("TAXS_DT")
+                        'If .PropDtExtTaxMasta.Rows(i).Item("TAXE_DT").ToString = "2099/12/31" Then
+                        '    .PropVwList.Sheets(0).Cells(i, 1).Text = ""
+                        'Else
+                        '    .PropVwList.Sheets(0).Cells(i, 1).Text = .PropDtExtTaxMasta.Rows(i).Item("TAXE_DT")
+                        'End If
+                        '.PropVwList.Sheets(0).Cells(i, 2).Text = .PropDtExtTaxMasta.Rows(i).Item("TAX_RITU")
                         '.PropVwList.Sheets(0).Cells(i, 3).Text = .PropDtExtTaxMasta.Rows(i).Item("SEQ")
                         '.PropVwList.Sheets(0).Cells(i, 4).Text = .PropDtExtTaxMasta.Rows(i).Item(4) '更新区分
                         '.PropVwList.Sheets(0).Cells(i, 5).Text = .PropDtExtTaxMasta.Rows(i).Item(5) '修正前開始日
@@ -291,15 +304,56 @@ Public Class LogicEXTM0103
                         End If
                         '(2行目以降)消費税率が前行と重複している場合
                         If i > 0 Then
-                            If .Value = dataEXTM0103.PropVwList.Sheets(0).Cells(i - 1, 2).Value Then
+                            ' --- 2019/08/13 軽減税率対応 Start E.Okuda@Compass ---
+                            If .Value = dataEXTM0103.PropVwList.Sheets(0).Cells(i - 1, COL_SHEET_TAX_RITU).Value And
+                                dataEXTM0103.PropVwList.Sheets(0).Cells(i, COL_SHEET_REDUCED_RATE).Value =
+                                dataEXTM0103.PropVwList.Sheets(0).Cells(i - 1, COL_SHEET_REDUCED_RATE).Value Then
                                 'エラーメッセージ設定
                                 puErrMsg = String.Format(M0103_E2039, "消費税率")
                                 'エラーを返す
                                 Return False
                             End If
+                            'If .Value = dataEXTM0103.PropVwList.Sheets(0).Cells(i - 1, 2).Value Then
+                            '    'エラーメッセージ設定
+                            '    puErrMsg = String.Format(M0103_E2039, "消費税率")
+                            '    'エラーを返す
+                            '    Return False
+                            'End If
+                            ' --- 2019/08/13 軽減税率対応 End E.Okuda@Compass ---
                         End If
                     End With
+                    ' --- 2019/08/13 軽減税率対応 Start E.Okuda@Compass ---
+                    '消費税率
+                    With .Cells(i, COL_SHEET_REDUCED_RATE)
+                        '桁数チェック(3桁以内)
+                        If .Text.Length > 3 Then
+                            'エラーメッセージ設定
+                            puErrMsg = String.Format(M0103_E0009, "軽減税率", "1", "3")
+                            'エラーを返す
+                            Return False
+                        End If
+                        '半角数字
+                        If CommonValidation.IsHalfNmb(.Text) = False Then
+                            'エラーメッセージ設定
+                            puErrMsg = String.Format(M0103_E0003, "軽減税率")
+                            'エラーを返す
+                            Return False
+                        End If
+                        '(2行目以降)消費税率が前行と重複している場合
+                        If i > 0 Then
+                            ' --- 2019/08/13 軽減税率対応 Start E.Okuda@Compass ---
+                            If .Value = dataEXTM0103.PropVwList.Sheets(0).Cells(i - 1, COL_SHEET_REDUCED_RATE).Value And
+                                dataEXTM0103.PropVwList.Sheets(0).Cells(i, COL_SHEET_TAX_RITU).Value =
+                                dataEXTM0103.PropVwList.Sheets(0).Cells(i - 1, COL_SHEET_TAX_RITU).Value Then
+                                'エラーメッセージ設定
+                                puErrMsg = String.Format(M0103_E2039, "軽減税率")
+                                'エラーを返す
+                                Return False
+                            End If
+                        End If
 
+                    End With
+                    ' --- 2019/08/13 軽減税率対応 End E.Okuda@Compass ---
                 End With
             Next
 
@@ -357,14 +411,24 @@ Public Class LogicEXTM0103
                 End If
             Next
             If noData = 3 Then           '一行あたりの空欄数が3の場合＝空行
+                ' --- 2019/08/13 軽減税率対応 Start E.Okuda@Compass ---
                 ' 2015.12.08 UPD START↓ h.hagiwara 既存情報で空白とした場合は処理対象とする
                 'Exit For
-                If dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, 4).Value = 1 Then
-                    dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, 4).Value = 2
+                If dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, COL_SHEET_UPDATE_KBN).Value = 1 Then
+                    dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, COL_SHEET_UPDATE_KBN).Value = 2
                 Else
                     Exit For
                 End If
                 ' 2015.12.08 UPD END↑ h.hagiwara 既存情報で空白とした場合は処理対象とする
+                '' 2015.12.08 UPD START↓ h.hagiwara 既存情報で空白とした場合は処理対象とする
+                ''Exit For
+                'If dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, 4).Value = 1 Then
+                '    dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, 4).Value = 2
+                'Else
+                '    Exit For
+                'End If
+                '' 2015.12.08 UPD END↑ h.hagiwara 既存情報で空白とした場合は処理対象とする
+                ' --- 2019/08/13 軽減税率対応 End E.Okuda@Compass ---
             End If
             intRowCount += 1
         Next
@@ -382,14 +446,15 @@ Public Class LogicEXTM0103
                 EndDt = New DateTime                     '前行の終了日
                 StartDt = New DateTime                   '開始日
 
+                ' --- 2019/08/13 軽減税率対応 Start E.Okuda@Compass ---
+
                 '隠し列（＝更新区分）に１が立っているかチェック
-                If dataEXTM0103.PropVwList.Sheets(0).Cells(j, 4).Value = 2 Then                                        ' 2015.12.08 ADD h.hagiwara データ削除追加
+                If dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_UPDATE_KBN).Value = 2 Then                                        ' 2015.12.08 ADD h.hagiwara データ削除追加
                     '既存データの削除処理(DELETE)                                                                      ' 2015.12.08 ADD h.hagiwara データ削除追加
                     DeleteDB(dataEXTM0103, j, Tsx, Cn)                                                                 ' 2015.12.08 ADD h.hagiwara データ削除追加
                     StrDelflg = "1"                                                                                    ' 2015.12.08 ADD h.hagiwara データ削除追加
 
-                    'If dataEXTM0103.PropVwList.Sheets(0).Cells(j, 4).Value <> 1 Then                                  ' 2015.12.08 UPD h.hagiwara データ削除追加
-                ElseIf dataEXTM0103.PropVwList.Sheets(0).Cells(j, 4).Value <> 1 Then                                   ' 2015.12.08 UPD h.hagiwara データ削除追加
+                ElseIf dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_UPDATE_KBN).Value <> 1 Then                                   ' 2015.12.08 UPD h.hagiwara データ削除追加
                     '新規登録 = 追加処理(Insert)
                     Insert(dataEXTM0103, j, Tsx, Cn)
 
@@ -401,12 +466,12 @@ Public Class LogicEXTM0103
                     'End If
                     If j = 0 Then
                     Else
-                        If dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 1).Value = Nothing Then
+                        If dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_TAXE_DT).Value = Nothing Then
                             EndDt = Date.Parse("2099/12/31")
                         Else
-                            EndDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 1).Value)
+                            EndDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_TAXE_DT).Value)
                         End If
-                        StartDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Value)
+                        StartDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXS_DT).Value)
                         '前行の終了日が不適切なとき、自動修正
                         If EndDt.AddDays(1) <> StartDt Then
                             UpdateTaxeDt(dataEXTM0103, j, Tsx, Cn)
@@ -416,17 +481,18 @@ Public Class LogicEXTM0103
                     StrDelflg = ""                                                                                     ' 2015.12.08 ADD h.hagiwara データ削除追加
                 Else
                     '隠し列（修正前データ）と比較・既存データが修正されたかチェック
-                    If dataEXTM0103.PropVwList.Sheets(0).Cells(j, 5).Text <> dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Text Or
-                       dataEXTM0103.PropVwList.Sheets(0).Cells(j, 6).Text <> dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text Or
-                       dataEXTM0103.PropVwList.Sheets(0).Cells(j, 7).Text <> dataEXTM0103.PropVwList.Sheets(0).Cells(j, 2).Text Then
+                    If dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAXS_DTN).Text <> dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXS_DT).Text Or
+                       dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAXE_DT).Text <> dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXE_DT).Text Or
+                       dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_RITU).Text <> dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_RITU).Text Or
+                        dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_REDUCED_RATE).Text <> dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_REDUCED_RATE).Text Then
 
                         '既存データの修正 = 更新処理(Update)
                         Update(dataEXTM0103, j, Tsx, Cn)
 
                         '前行の終了日が不適切なとき、自動修正
                         If j > 0 Then
-                            EndDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 1).Value)
-                            StartDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Value)
+                            EndDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_TAXE_DT).Value)
+                            StartDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXS_DT).Value)
                             If EndDt.AddDays(1) <> StartDt Then
                                 UpdateTaxeDt(dataEXTM0103, j, Tsx, Cn)
                             End If
@@ -436,8 +502,8 @@ Public Class LogicEXTM0103
                         If StrDelflg = "1" Then                                                                        ' 2015.12.08 ADD h.hagiwara データ削除追加
                             '前行の終了日が不適切なとき、自動修正                                                      ' 2015.12.08 ADD h.hagiwara データ削除追加
                             If j > 0 Then                                                                              ' 2015.12.08 ADD h.hagiwara データ削除追加
-                                EndDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 1).Value)            ' 2015.12.08 ADD h.hagiwara データ削除追加
-                                StartDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Value)              ' 2015.12.08 ADD h.hagiwara データ削除追加
+                                EndDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_TAXE_DT).Value)            ' 2015.12.08 ADD h.hagiwara データ削除追加
+                                StartDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAXS_DT).Value)              ' 2015.12.08 ADD h.hagiwara データ削除追加
                                 If EndDt.AddDays(1) <> StartDt Then                                                    ' 2015.12.08 ADD h.hagiwara データ削除追加
                                     UpdateTaxeDt(dataEXTM0103, j, Tsx, Cn)                                             ' 2015.12.08 ADD h.hagiwara データ削除追加
                                 End If                                                                                 ' 2015.12.08 ADD h.hagiwara データ削除追加
@@ -446,6 +512,71 @@ Public Class LogicEXTM0103
                         End If
                     End If
                 End If
+                ''隠し列（＝更新区分）に１が立っているかチェック
+                'If dataEXTM0103.PropVwList.Sheets(0).Cells(j, 4).Value = 2 Then                                        ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '    '既存データの削除処理(DELETE)                                                                      ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '    DeleteDB(dataEXTM0103, j, Tsx, Cn)                                                                 ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '    StrDelflg = "1"                                                                                    ' 2015.12.08 ADD h.hagiwara データ削除追加
+
+                '    'If dataEXTM0103.PropVwList.Sheets(0).Cells(j, 4).Value <> 1 Then                                  ' 2015.12.08 UPD h.hagiwara データ削除追加
+                'ElseIf dataEXTM0103.PropVwList.Sheets(0).Cells(j, 4).Value <> 1 Then                                   ' 2015.12.08 UPD h.hagiwara データ削除追加
+                '    '新規登録 = 追加処理(Insert)
+                '    Insert(dataEXTM0103, j, Tsx, Cn)
+
+                '    ' 2015.10.09 UPDATE START↓ h.hagiwara １件目登録時のINDEXエラー対応
+                '    'If dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 1).Value = Nothing Then
+                '    '    EndDt = Date.Parse("2099/12/31")
+                '    'Else
+                '    '    EndDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 1).Value)
+                '    'End If
+                '    If j = 0 Then
+                '    Else
+                '        If dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 1).Value = Nothing Then
+                '            EndDt = Date.Parse("2099/12/31")
+                '        Else
+                '            EndDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 1).Value)
+                '        End If
+                '        StartDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Value)
+                '        '前行の終了日が不適切なとき、自動修正
+                '        If EndDt.AddDays(1) <> StartDt Then
+                '            UpdateTaxeDt(dataEXTM0103, j, Tsx, Cn)
+                '        End If
+                '    End If
+                '    ' 2015.10.09 UPDATE END↑ h.hagiwara １件目登録時のINDEXエラー対応
+                '    StrDelflg = ""                                                                                     ' 2015.12.08 ADD h.hagiwara データ削除追加
+                'Else
+                '    '隠し列（修正前データ）と比較・既存データが修正されたかチェック
+                '    If dataEXTM0103.PropVwList.Sheets(0).Cells(j, 5).Text <> dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Text Or
+                '       dataEXTM0103.PropVwList.Sheets(0).Cells(j, 6).Text <> dataEXTM0103.PropVwList.Sheets(0).Cells(j, 1).Text Or
+                '       dataEXTM0103.PropVwList.Sheets(0).Cells(j, 7).Text <> dataEXTM0103.PropVwList.Sheets(0).Cells(j, 2).Text Then
+
+                '        '既存データの修正 = 更新処理(Update)
+                '        Update(dataEXTM0103, j, Tsx, Cn)
+
+                '        '前行の終了日が不適切なとき、自動修正
+                '        If j > 0 Then
+                '            EndDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 1).Value)
+                '            StartDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Value)
+                '            If EndDt.AddDays(1) <> StartDt Then
+                '                UpdateTaxeDt(dataEXTM0103, j, Tsx, Cn)
+                '            End If
+                '        End If
+                '        StrDelflg = ""                                                                                 ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '    Else                                                                                               ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '        If StrDelflg = "1" Then                                                                        ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '            '前行の終了日が不適切なとき、自動修正                                                      ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '            If j > 0 Then                                                                              ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '                EndDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, 1).Value)            ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '                StartDt = Date.Parse(dataEXTM0103.PropVwList.Sheets(0).Cells(j, 0).Value)              ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '                If EndDt.AddDays(1) <> StartDt Then                                                    ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '                    UpdateTaxeDt(dataEXTM0103, j, Tsx, Cn)                                             ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '                End If                                                                                 ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '            End If                                                                                     ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '            StrDelflg = ""                                                                             ' 2015.12.08 ADD h.hagiwara データ削除追加
+                '        End If
+                '    End If
+                'End If
+                ' --- 2019/08/13 軽減税率対応 End E.Okuda@Compass ---
             Next
 
             'コミット

@@ -33,7 +33,7 @@ Partial Class EXTM0103
         '
         'BtnBack
         '
-        Me.BtnBack.Location = New System.Drawing.Point(79, 399)
+        Me.BtnBack.Location = New System.Drawing.Point(93, 399)
         Me.BtnBack.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnBack.Name = "BtnBack"
         Me.BtnBack.Size = New System.Drawing.Size(152, 36)
@@ -43,7 +43,7 @@ Partial Class EXTM0103
         '
         'BtnReg
         '
-        Me.BtnReg.Location = New System.Drawing.Point(301, 399)
+        Me.BtnReg.Location = New System.Drawing.Point(323, 399)
         Me.BtnReg.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnReg.Name = "BtnReg"
         Me.BtnReg.Size = New System.Drawing.Size(152, 36)
@@ -58,7 +58,7 @@ Partial Class EXTM0103
         Me.ppVwList.Margin = New System.Windows.Forms.Padding(4)
         Me.ppVwList.Name = "ppVwList"
         Me.ppVwList.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.ppVwList_Sheet1})
-        Me.ppVwList.Size = New System.Drawing.Size(440, 318)
+        Me.ppVwList.Size = New System.Drawing.Size(511, 318)
         Me.ppVwList.TabIndex = 115
         '
         'ppVwList_Sheet1
@@ -134,7 +134,7 @@ Partial Class EXTM0103
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTM.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(540, 472)
+        Me.ClientSize = New System.Drawing.Size(584, 472)
         Me.Controls.Add(Me.ppVwList)
         Me.Controls.Add(Me.BtnBack)
         Me.Controls.Add(Me.BtnReg)

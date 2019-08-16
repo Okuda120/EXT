@@ -54,6 +54,19 @@ Public Class EXTB0103
     Public Const FB_FUTAI_COPY As Integer = 2
     Public Const FB_FUTAI_PRINT As Integer = 5
 
+    ' --- 2019/08/15 軽減税率対応 Start E.Okuda@Compass ---
+    ' EXAS請求依頼ファイル出力
+    Private Const EXAS_TAX_KBN_GENERAL As String = "10"
+    Private Const EXAS_TAX_KBN_REDUCED As String = "1D"
+    Private Const EXAS_TAX_INCLUSIVE As String = ""
+    Private Const EXAS_TAX_EXCLUSIVE As String = ""
+
+
+
+
+    ' --- 2019/08/15 軽減税率対応 End E.Okuda@Compass ---
+
+
     ''' <summary>
     ''' 初期処理
     ''' </summary>
@@ -149,6 +162,7 @@ Public Class EXTB0103
             MsgBox(CommonEXT.E0000, MsgBoxStyle.Exclamation, "エラー")
             Exit Sub
         End If
+
         SetSpreadAlsokMeisai(dataEXTB0102.PropDsCashElectro.Tables("ALSOK_MEISAI"))
         SetSpreadAlsokStore(dataEXTB0102.PropDsCashElectro.Tables("ALSOK_STORE"))
         '=========================================================================================
@@ -3398,6 +3412,25 @@ Public Class EXTB0103
                 Exit Sub
             End If
 
+            ' --- 2019/08/15 軽減税率対応 Start E.Okuda@Compass ---
+            ' 利用開始／終了日を取得する。
+            dataEXTB0103.PropAryRiyouStartEnd = logicEXTB0103.setStartEndRiyobi(dataEXTB0102.PropListRiyobi)
+
+            ' 税率および軽減税率取得
+            If logicEXTB0103.GetPeriodTaxRate(dataEXTB0103) = False Then
+                MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
+                Exit Sub
+            End If
+
+            Dim strReducedRate As String = ""
+
+            ' 軽減税率を取得する。
+            If Not dataEXTB0103.PropDtPeriodTaxReducedRate.Rows(0).Item("reduced_rate").ToString.Trim = "" Then
+                strReducedRate = dataEXTB0103.PropDtPeriodTaxReducedRate.Rows(0).Item("reduced_rate").ToString
+            End If
+
+            ' --- 2019/08/15 軽減税率対応 End E.Okuda@Compass ---
+
             ' 見出し出力
             sw.WriteLine(CSV_HEADER)
 
@@ -3559,12 +3592,21 @@ Public Class EXTB0103
                                 appendDtl(sbDetail, "1")
                                 '消費税額
                                 appendDtl(sbDetail, dRow("tax_kin"))
+                                ' --- 2019/08/15 軽減税率対応 Start E.Okuda@Compass ---
                                 '消費税区分
-                                appendDtl(sbDetail, "")
+                                appendDtl(sbDetail, EXAS_TAX_KBN_GENERAL)
                                 '消費税率
                                 appendDtl(sbDetail, Double.Parse(dataEXTB0102.propDblTax) * 100)
                                 '外税内税区分
-                                appendDtl(sbDetail, "")
+                                appendDtl(sbDetail, "1")
+                                ''消費税区分
+                                'appendDtl(sbDetail, "")
+                                ''消費税率
+                                'appendDtl(sbDetail, Double.Parse(dataEXTB0102.propDblTax) * 100)
+                                ''外税内税区分
+                                'appendDtl(sbDetail, "")
+                                ' --- 2019/08/15 軽減税率対応 End E.Okuda@Compass ---
+
                                 'G請求内容コード
                                 ' 2016.01.20 MOD START↓ y.morooka グループ請求対応　EXAS相手先がグループの場合
                                 'appendDtl(sbDetail, "")
@@ -3666,25 +3708,52 @@ Public Class EXTB0103
                                 dataEXTB0103.PropStrCalculateDay_Output = Me.fpRiyobi.ActiveSheet.Cells(0, 2).Value
                                 dataEXTB0103.PropStrCalculateDay_Output = dataEXTB0103.PropStrCalculateDay_Output.Substring(0, 10)
                                 dataEXTB0103.PropStrGrpKey = dRow("shukei_grp")
-                                If logicEXTB0103.GetNotaxflg(dataEXTB0103) = "1" Then
-                                    '消費税額
+                                ' --- 2019/08/15 軽減税率対応 Start E.Okuda@Compass ---
+                                '消費税額
+                                If dRow("notax_flg") = "1" Then
                                     appendDtl(sbDetail, "0")
-                                    '消費税区分
-                                    appendDtl(sbDetail, "10")
-                                    '消費税率
-                                    appendDtl(sbDetail, "")
+                                Else
+                                    appendDtl(sbDetail, dRow("tax_kin"))
+                                End If
+
+                                '消費税区分
+                                If strReducedRate = "" Or dRow("zeiritsu") <> strReducedRate.ToString Then
+                                    appendDtl(sbDetail, EXAS_TAX_KBN_GENERAL)
+                                Else
+                                    appendDtl(sbDetail, EXAS_TAX_KBN_REDUCED)
+                                End If
+
+                                '消費税率
+                                appendDtl(sbDetail, dRow("zeiritsu"))
+
+                                If dRow("notax_flg") = "1" Then
                                     '外税内税区分
                                     appendDtl(sbDetail, "2")
                                 Else
-                                    '消費税額
-                                    appendDtl(sbDetail, dRow("tax_kin"))
-                                    '消費税区分
-                                    appendDtl(sbDetail, "")
-                                    '消費税率
-                                    appendDtl(sbDetail, Double.Parse(dataEXTB0102.propDblTax) * 100)
                                     '外税内税区分
-                                    appendDtl(sbDetail, "")
+                                    appendDtl(sbDetail, "1")
                                 End If
+
+                                'If logicEXTB0103.GetNotaxflg(dataEXTB0103) = "1" Then
+                                '    '消費税額
+                                '    appendDtl(sbDetail, "0")
+                                '    '消費税区分
+                                '    appendDtl(sbDetail, "10")
+                                '    '消費税率
+                                '    appendDtl(sbDetail, "")
+                                '    '外税内税区分
+                                '    appendDtl(sbDetail, "2")
+                                'Else
+                                '    '消費税額
+                                '    appendDtl(sbDetail, dRow("tax_kin"))
+                                '    '消費税区分
+                                '    appendDtl(sbDetail, "")
+                                '    '消費税率
+                                '    appendDtl(sbDetail, Double.Parse(dataEXTB0102.propDblTax) * 100)
+                                '    '外税内税区分
+                                '    appendDtl(sbDetail, "")
+                                'End If
+                                ' --- 2019/08/15 軽減税率対応 End E.Okuda@Compass ---
                                 'G請求内容コード
                                 ' 2016.01.20 MOD START↓ y.morooka グループ請求対応　EXAS相手先がグループの場合
                                 'appendDtl(sbDetail, "")

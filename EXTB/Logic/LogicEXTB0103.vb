@@ -940,7 +940,7 @@ Public Class LogicEXTB0103
     ''' 利用開始日(0),終了日(1)をArrayで取得
     ''' </summary>
     ''' <remarks></remarks>
-    Private Function setStartEndRiyobi(ByRef dataList As ArrayList) As Array
+    Public Function setStartEndRiyobi(ByRef dataList As ArrayList) As Array
         Dim dtStart As Date
         Dim dtEnd As Date
         Dim dtTemp As Date

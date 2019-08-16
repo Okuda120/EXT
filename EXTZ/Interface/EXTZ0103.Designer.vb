@@ -22,7 +22,6 @@ Partial Class EXTZ0103
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim cultureInfo As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("ja-JP", False)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EXTZ0103))
         Me.Label65 = New System.Windows.Forms.Label()
         Me.Label64 = New System.Windows.Forms.Label()
@@ -84,7 +83,7 @@ Partial Class EXTZ0103
         Me.Label64.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label64.Location = New System.Drawing.Point(21, 131)
         Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(82, 13)
+        Me.Label64.Size = New System.Drawing.Size(107, 17)
         Me.Label64.TabIndex = 14
         Me.Label64.Text = "利用者名(ｶﾅ)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
@@ -93,7 +92,7 @@ Partial Class EXTZ0103
         Me.txtRiyoNm.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.txtRiyoNm.Location = New System.Drawing.Point(170, 96)
         Me.txtRiyoNm.Name = "txtRiyoNm"
-        Me.txtRiyoNm.Size = New System.Drawing.Size(306, 20)
+        Me.txtRiyoNm.Size = New System.Drawing.Size(306, 24)
         Me.txtRiyoNm.TabIndex = 13
         '
         'Label54
@@ -102,7 +101,7 @@ Partial Class EXTZ0103
         Me.Label54.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label54.Location = New System.Drawing.Point(21, 99)
         Me.Label54.Name = "Label54"
-        Me.Label54.Size = New System.Drawing.Size(59, 13)
+        Me.Label54.Size = New System.Drawing.Size(76, 17)
         Me.Label54.TabIndex = 12
         Me.Label54.Text = "利用者名"
         '
@@ -112,7 +111,7 @@ Partial Class EXTZ0103
         Me.Label53.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label53.Location = New System.Drawing.Point(317, 66)
         Me.Label53.Name = "Label53"
-        Me.Label53.Size = New System.Drawing.Size(20, 13)
+        Me.Label53.Size = New System.Drawing.Size(25, 17)
         Me.Label53.TabIndex = 7
         Me.Label53.Text = "～"
         '
@@ -121,7 +120,7 @@ Partial Class EXTZ0103
         Me.txtRiyoNm_Kana.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.txtRiyoNm_Kana.Location = New System.Drawing.Point(170, 131)
         Me.txtRiyoNm_Kana.Name = "txtRiyoNm_Kana"
-        Me.txtRiyoNm_Kana.Size = New System.Drawing.Size(306, 20)
+        Me.txtRiyoNm_Kana.Size = New System.Drawing.Size(306, 24)
         Me.txtRiyoNm_Kana.TabIndex = 15
         '
         'Panel1
@@ -138,7 +137,7 @@ Partial Class EXTZ0103
         Me.rdoStudio.AutoSize = True
         Me.rdoStudio.Location = New System.Drawing.Point(99, 3)
         Me.rdoStudio.Name = "rdoStudio"
-        Me.rdoStudio.Size = New System.Drawing.Size(65, 17)
+        Me.rdoStudio.Size = New System.Drawing.Size(81, 21)
         Me.rdoStudio.TabIndex = 1
         Me.rdoStudio.Text = "スタジオ"
         Me.rdoStudio.UseVisualStyleBackColor = True
@@ -149,7 +148,7 @@ Partial Class EXTZ0103
         Me.rdoTheatre.Checked = True
         Me.rdoTheatre.Location = New System.Drawing.Point(3, 3)
         Me.rdoTheatre.Name = "rdoTheatre"
-        Me.rdoTheatre.Size = New System.Drawing.Size(66, 17)
+        Me.rdoTheatre.Size = New System.Drawing.Size(82, 21)
         Me.rdoTheatre.TabIndex = 0
         Me.rdoTheatre.TabStop = True
         Me.rdoTheatre.Text = "シアター"
@@ -200,7 +199,7 @@ Partial Class EXTZ0103
         Me.Label6.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label6.Location = New System.Drawing.Point(482, 67)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(17, 12)
+        Me.Label6.Size = New System.Drawing.Size(22, 15)
         Me.Label6.TabIndex = 11
         Me.Label6.Text = "月"
         '
@@ -210,7 +209,7 @@ Partial Class EXTZ0103
         Me.txtShiyoTsuki_To.Location = New System.Drawing.Point(440, 64)
         Me.txtShiyoTsuki_To.MaxLength = 2
         Me.txtShiyoTsuki_To.Name = "txtShiyoTsuki_To"
-        Me.txtShiyoTsuki_To.Size = New System.Drawing.Size(36, 19)
+        Me.txtShiyoTsuki_To.Size = New System.Drawing.Size(36, 22)
         Me.txtShiyoTsuki_To.TabIndex = 10
         Me.txtShiyoTsuki_To.Text = "5"
         Me.txtShiyoTsuki_To.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -221,7 +220,7 @@ Partial Class EXTZ0103
         Me.Label7.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label7.Location = New System.Drawing.Point(417, 67)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(17, 12)
+        Me.Label7.Size = New System.Drawing.Size(22, 15)
         Me.Label7.TabIndex = 9
         Me.Label7.Text = "年"
         '
@@ -231,7 +230,7 @@ Partial Class EXTZ0103
         Me.txtShiyoNen_To.Location = New System.Drawing.Point(352, 64)
         Me.txtShiyoNen_To.MaxLength = 4
         Me.txtShiyoNen_To.Name = "txtShiyoNen_To"
-        Me.txtShiyoNen_To.Size = New System.Drawing.Size(59, 19)
+        Me.txtShiyoNen_To.Size = New System.Drawing.Size(59, 22)
         Me.txtShiyoNen_To.TabIndex = 8
         Me.txtShiyoNen_To.Text = "2015"
         Me.txtShiyoNen_To.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -242,7 +241,7 @@ Partial Class EXTZ0103
         Me.Label5.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label5.Location = New System.Drawing.Point(284, 67)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(17, 12)
+        Me.Label5.Size = New System.Drawing.Size(22, 15)
         Me.Label5.TabIndex = 6
         Me.Label5.Text = "月"
         '
@@ -252,7 +251,7 @@ Partial Class EXTZ0103
         Me.txtShiyoTsuki_From.Location = New System.Drawing.Point(242, 64)
         Me.txtShiyoTsuki_From.MaxLength = 2
         Me.txtShiyoTsuki_From.Name = "txtShiyoTsuki_From"
-        Me.txtShiyoTsuki_From.Size = New System.Drawing.Size(36, 19)
+        Me.txtShiyoTsuki_From.Size = New System.Drawing.Size(36, 22)
         Me.txtShiyoTsuki_From.TabIndex = 5
         Me.txtShiyoTsuki_From.Text = "5"
         Me.txtShiyoTsuki_From.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -263,7 +262,7 @@ Partial Class EXTZ0103
         Me.Label11.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label11.Location = New System.Drawing.Point(219, 67)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(17, 12)
+        Me.Label11.Size = New System.Drawing.Size(22, 15)
         Me.Label11.TabIndex = 4
         Me.Label11.Text = "年"
         '
@@ -273,7 +272,7 @@ Partial Class EXTZ0103
         Me.txtShiyoNen_From.Location = New System.Drawing.Point(154, 64)
         Me.txtShiyoNen_From.MaxLength = 4
         Me.txtShiyoNen_From.Name = "txtShiyoNen_From"
-        Me.txtShiyoNen_From.Size = New System.Drawing.Size(59, 19)
+        Me.txtShiyoNen_From.Size = New System.Drawing.Size(59, 22)
         Me.txtShiyoNen_From.TabIndex = 3
         Me.txtShiyoNen_From.Text = "2015"
         Me.txtShiyoNen_From.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -293,7 +292,7 @@ Partial Class EXTZ0103
         Me.Label66.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label66.Location = New System.Drawing.Point(21, 34)
         Me.Label66.Name = "Label66"
-        Me.Label66.Size = New System.Drawing.Size(59, 13)
+        Me.Label66.Size = New System.Drawing.Size(76, 17)
         Me.Label66.TabIndex = 0
         Me.Label66.Text = "検索対象"
         '
@@ -313,7 +312,7 @@ Partial Class EXTZ0103
         Me.Label1.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label1.Location = New System.Drawing.Point(12, 200)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(85, 13)
+        Me.Label1.Size = New System.Drawing.Size(110, 17)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "日別料金一覧"
         '
@@ -324,7 +323,7 @@ Partial Class EXTZ0103
         Me.Label2.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label2.Location = New System.Drawing.Point(12, 699)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(159, 13)
+        Me.Label2.Size = New System.Drawing.Size(206, 17)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "請求時の調整額(グロス調整)"
         '
@@ -345,41 +344,19 @@ Partial Class EXTZ0103
         Me.vwDayUriageTheatre_Sheet1.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
         Me.vwDayUriageTheatre_Sheet1.ColumnCount = 24
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 0).Value = "T00001"
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 1).ParseFormatString = "yyyy/M/d"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 1).Value = New Date(2015, 4, 1, 0, 0, 0, 0)
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 2).Value = "音楽祭"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 3).Value = "エンターテイメント株式会社"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 4).Value = "一般"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 5).Value = "着席"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 6).Value = "音楽"
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 7).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 7).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 7).ParseFormatString = "n"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 7).Value = 1000000
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 8).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 8).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 8).ParseFormatString = "n"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 8).Value = 300000
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 9).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 9).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 9).ParseFormatString = "n"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 9).Value = -100000
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 10).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 10).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 10).ParseFormatString = "n"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 10).Value = 1200000
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 11).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 11).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 11).ParseFormatString = "n"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 11).Value = 50000
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 23).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 23).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 23).ParseFormatString = "n"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(0, 23).Value = 1250000
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(1, 0).Value = "T00001"
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(1, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(1, 1).ParseFormatString = "yyyy/M/d"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(1, 1).Value = New Date(2015, 4, 2, 0, 0, 0, 0)
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(1, 2).Value = "音楽祭"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(1, 3).Value = "エンターテイメント株式会社"
@@ -387,16 +364,12 @@ Partial Class EXTZ0103
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(1, 5).Value = "スタンディング"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(1, 6).Value = "演劇"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(2, 0).Value = "T00002"
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(2, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(2, 1).ParseFormatString = "yyyy/M/d"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(2, 1).Value = New Date(2015, 4, 3, 0, 0, 0, 0)
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(2, 2).Value = "とっとちゃんシアター"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(2, 3).Value = "株式会社黒船団"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(2, 5).Value = "変則"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(2, 6).Value = "演芸"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(3, 0).Value = "T00003"
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(3, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
-        Me.vwDayUriageTheatre_Sheet1.Cells.Get(3, 1).ParseFormatString = "yyyy/M/d"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(3, 1).Value = New Date(2015, 4, 6, 0, 0, 0, 0)
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(3, 5).Value = "催事"
         Me.vwDayUriageTheatre_Sheet1.Cells.Get(3, 6).Value = "ビジネス"
@@ -425,20 +398,24 @@ Partial Class EXTZ0103
         Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Cells.Get(0, 22).Value = "現金合計" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(P)=(E～O)"
         Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Cells.Get(0, 23).Value = "総売上合計" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Q)=(D+P)"
         Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Rows.Get(0).Height = 56.0!
+        Me.vwDayUriageTheatre_Sheet1.Columns.Get(0).AllowAutoSort = True
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(0).Label = "予約番号"
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(0).Locked = True
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(0).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(0).Width = 68.0!
+        Me.vwDayUriageTheatre_Sheet1.Columns.Get(1).AllowAutoSort = True
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(1).Label = "利用日"
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(1).Locked = True
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(1).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(1).Width = 77.0!
+        Me.vwDayUriageTheatre_Sheet1.Columns.Get(2).AllowAutoSort = True
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(2).Label = "催事名"
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(2).Locked = True
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(2).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(2).Width = 149.0!
+        Me.vwDayUriageTheatre_Sheet1.Columns.Get(3).AllowAutoSort = True
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(3).Label = "利用者名"
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(3).Locked = True
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(3).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
@@ -564,7 +541,6 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiTheatre_Sheet1.ColumnCount = 10
         Me.vwSeikyuChoseiTheatre_Sheet1.ActiveColumnIndex = 6
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 0).Value = "T00001"
-        Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 1).Value = New Date(2015, 4, 1, 0, 0, 0, 0)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 2).Value = "音楽祭"
@@ -573,7 +549,6 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 5).Value = "着席"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 6).Value = "音楽"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 0).Value = "T00001"
-        Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 1).Value = New Date(2015, 4, 2, 0, 0, 0, 0)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 2).Value = "音楽祭"
@@ -582,7 +557,6 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 5).Value = "スタンディング"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 6).Value = "演劇"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 0).Value = "T00002"
-        Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 1).Value = New Date(2015, 4, 3, 0, 0, 0, 0)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 2).Value = "とっとちゃんシアター"
@@ -590,7 +564,6 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 5).Value = "変則"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 6).Value = "演芸"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(3, 0).Value = "T00003"
-        Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(3, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(3, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(3, 1).Value = New Date(2015, 4, 6, 0, 0, 0, 0)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(3, 5).Value = "催事"
@@ -673,61 +646,38 @@ Partial Class EXTZ0103
         Me.vwDayUriageStudio_Sheet1.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
         Me.vwDayUriageStudio_Sheet1.ColumnCount = 23
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 0).Value = "S00001"
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 1).ParseFormatString = "yyyy/M/d"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 1).Value = New Date(2015, 4, 1, 0, 0, 0, 0)
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 2).Value = "爆弾岩"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 3).Value = "ミュージックオン株式会社"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 4).Value = "一般"
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 5).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 5).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 5).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 5).Value = 201
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 6).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 6).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 6).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 6).Value = 50000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 7).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 7).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 7).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 7).Value = 20000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 8).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 8).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 8).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 8).Value = -10000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 9).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 9).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 9).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 9).Value = 60000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 10).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 10).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 10).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 10).Value = 50000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 11).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 11).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 11).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 11).Value = 12000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 12).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 12).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 12).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 12).Value = 72000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 22).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 22).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 22).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 22).Value = 1250000
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 0).Value = "S00002"
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 1).ParseFormatString = "yyyy/M/d"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 1).Value = New Date(2015, 4, 2, 0, 0, 0, 0)
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 2).Value = "ノベルノベル"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 3).Value = "池田　健人"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 4).Value = "社内"
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 5).ParseFormatInfo = CType(cultureInfo.NumberFormat.Clone, System.Globalization.NumberFormatInfo)
-        CType(Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 5).ParseFormatInfo, System.Globalization.NumberFormatInfo).NumberDecimalDigits = 0
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 5).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 5).Value = 202
         Me.vwDayUriageStudio_Sheet1.Cells.Get(2, 0).Value = "S00003"
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(2, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
         Me.vwDayUriageStudio_Sheet1.Cells.Get(2, 1).ParseFormatString = "yyyy/M/d"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(2, 1).Value = New Date(2015, 4, 3, 0, 0, 0, 0)
         Me.vwDayUriageStudio_Sheet1.Cells.Get(2, 5).Value = "H/L"
@@ -888,13 +838,11 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiStudio_Sheet1.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
         Me.vwSeikyuChoseiStudio_Sheet1.ColumnCount = 9
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 0).Value = "S00001"
-        Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 1).Value = New Date(2015, 4, 1, 0, 0, 0, 0)
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 3).Value = "エンターテイメント株式会社"
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 4).Value = "一般"
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(1, 0).Value = "S00002"
-        Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(1, 1).ParseFormatInfo = CType(cultureInfo.DateTimeFormat.Clone, System.Globalization.DateTimeFormatInfo)
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(1, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(1, 1).Value = New Date(2015, 4, 2, 0, 0, 0, 0)
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(1, 3).Value = "エンターテイメント株式会社"
@@ -961,13 +909,13 @@ Partial Class EXTZ0103
         Me.Label3.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label3.Location = New System.Drawing.Point(20, 903)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(494, 13)
+        Me.Label3.Size = New System.Drawing.Size(636, 17)
         Me.Label3.TabIndex = 15
         Me.Label3.Text = "※表のデータは、コピーしたい部分を選択し、キーボードの「Ctrl」＋「C」を押すとコピーできます。"
         '
         'EXTZ0103
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.Color.White

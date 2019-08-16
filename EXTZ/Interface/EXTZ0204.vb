@@ -263,7 +263,7 @@ Public Class EXTZ0204
 
                     ' --- 2019/07/23 軽減税率対応 Start E.Okuda@Compass ---
                     If commonLogicEXT.DbNullToNothing(row, "notax_flg") = VAL_UCHIZEI Then
-                        shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "keijo_kin")) / (1.0 + shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100) * shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100
+                        shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value = Long.Parse(Math.Truncate(commonLogicEXT.DbNullToNothing(row, "keijo_kin")) / (1.0 + shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100) * shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100)
                         futaiKei = futaiKei + shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value
                     Else
                         shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "tax_kin"))

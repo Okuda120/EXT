@@ -3402,7 +3402,7 @@ Public Class SqlEXTB0103
             Dim tableFutaiDetail As DataTable
             Dim futaiRow As DataRow
             Dim exasRow As DataRow
-            Dim futaiIndex As Integer = 0
+            Dim futaiIndex As Integer
             Dim exasIndex As Integer = 0
 
             Do While exasIndex < exasFutaitable.Rows.Count
@@ -3411,6 +3411,9 @@ Public Class SqlEXTB0103
                     tableFutaiDetail = htFutaiDetail(Key)
                     dt = Key
                     currentYm = dt.ToString("yyyyMM")
+
+                    ' 付帯明細インデックス初期化
+                    futaiIndex = 0
 
                     Do While futaiIndex < tableFutaiDetail.Rows.Count
                         futaiRow = tableFutaiDetail.Rows(futaiIndex)
