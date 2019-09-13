@@ -1482,13 +1482,24 @@ Public Class SqlEXTZ0103
                     strSQL &= "AND t1.RIYO_NM LIKE '%' || '" & .PropStrRiyoNm & "' || '%'" & vbCrLf
                 End If
 
+                ' --- 2019/08/23 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
                 '利用者名カナが入力されている場合
+                'If .PropStrRiyoNmKana <> String.Empty Then
+                '    strSQL &= "AND t1.RIYO_KANA LIKE '%' || '" & .PropStrRiyoNmKana & "' || '%'"
+                'End If
                 If .PropStrRiyoNmKana <> String.Empty Then
-                    strSQL &= "AND t1.RIYO_KANA LIKE '%' || '" & .PropStrRiyoNmKana & "' || '%'"
+                    strSQL &= "AND t1.RIYO_KANA LIKE '%' || '" & .PropStrRiyoNmKana & "' || '%'" & vbCrLf
+                End If
+
+                ' 利用料／付帯設備利用料ゼロ除外チェックが入っている場合
+                If .PropBlnExcludeZero Then
+                    strSQL &= "AND (RIYO_KIN <> 0 OR FUTAI_KIN <> 0)" & vbCrLf
                 End If
 
                 'ORDER BY句追加
-                strSQL &= "ORDER BY t2.YOYAKU_NO, t2.YOYAKU_DT"
+                strSQL &= " ORDER BY t2.YOYAKU_DT, t1.SAIJI_NM"
+                '                strSQL &= "ORDER BY t2.YOYAKU_NO, t2.YOYAKU_DT"
+                ' --- 2019/08/23 日別売上一覧機能追加対応 End E.Okuda@Compass ---
 
             End With
 

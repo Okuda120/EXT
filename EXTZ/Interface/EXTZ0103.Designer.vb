@@ -34,6 +34,7 @@ Partial Class EXTZ0103
         Me.rdoTheatre = New System.Windows.Forms.RadioButton()
         Me.btnRiyoshaSearch = New System.Windows.Forms.Button()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.chkExcludeZero = New System.Windows.Forms.CheckBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.txtShiyoTsuki_To = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
@@ -56,6 +57,7 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiStudio = New FarPoint.Win.Spread.FpSpread()
         Me.vwSeikyuChoseiStudio_Sheet1 = New FarPoint.Win.Spread.SheetView()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.btnDailyList = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
         CType(Me.vwDayUriageTheatre, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -168,6 +170,7 @@ Partial Class EXTZ0103
         'GroupBox5
         '
         Me.GroupBox5.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox5.Controls.Add(Me.chkExcludeZero)
         Me.GroupBox5.Controls.Add(Me.Label6)
         Me.GroupBox5.Controls.Add(Me.txtShiyoTsuki_To)
         Me.GroupBox5.Controls.Add(Me.Label7)
@@ -189,9 +192,19 @@ Partial Class EXTZ0103
         Me.GroupBox5.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.GroupBox5.Location = New System.Drawing.Point(12, 12)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(799, 170)
+        Me.GroupBox5.Size = New System.Drawing.Size(912, 170)
         Me.GroupBox5.TabIndex = 0
         Me.GroupBox5.TabStop = False
+        '
+        'chkExcludeZero
+        '
+        Me.chkExcludeZero.AutoSize = True
+        Me.chkExcludeZero.Location = New System.Drawing.Point(542, 62)
+        Me.chkExcludeZero.Name = "chkExcludeZero"
+        Me.chkExcludeZero.Size = New System.Drawing.Size(345, 21)
+        Me.chkExcludeZero.TabIndex = 18
+        Me.chkExcludeZero.Text = "利用料、付帯設備利用料がともに「0円」を除く"
+        Me.chkExcludeZero.UseVisualStyleBackColor = True
         '
         'Label6
         '
@@ -279,7 +292,7 @@ Partial Class EXTZ0103
         '
         'btnSearch
         '
-        Me.btnSearch.Location = New System.Drawing.Point(577, 129)
+        Me.btnSearch.Location = New System.Drawing.Point(672, 126)
         Me.btnSearch.Name = "btnSearch"
         Me.btnSearch.Size = New System.Drawing.Size(96, 23)
         Me.btnSearch.TabIndex = 17
@@ -525,7 +538,7 @@ Partial Class EXTZ0103
         '
         'vwSeikyuChoseiTheatre
         '
-        Me.vwSeikyuChoseiTheatre.AccessibleDescription = "vwSeikyuChoseiTheatre, Sheet1, Row 0, Column 6, 音楽"
+        Me.vwSeikyuChoseiTheatre.AccessibleDescription = "vwSeikyuChoseiTheatre, Sheet1, Row 0, Column 0, T00001"
         Me.vwSeikyuChoseiTheatre.Location = New System.Drawing.Point(12, 717)
         Me.vwSeikyuChoseiTheatre.Name = "vwSeikyuChoseiTheatre"
         Me.vwSeikyuChoseiTheatre.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwSeikyuChoseiTheatre_Sheet1})
@@ -539,9 +552,7 @@ Partial Class EXTZ0103
         'Formulas and custom names must be loaded with R1C1 reference style
         Me.vwSeikyuChoseiTheatre_Sheet1.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
         Me.vwSeikyuChoseiTheatre_Sheet1.ColumnCount = 10
-        Me.vwSeikyuChoseiTheatre_Sheet1.ActiveColumnIndex = 6
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 0).Value = "T00001"
-        Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 1).Value = New Date(2015, 4, 1, 0, 0, 0, 0)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 2).Value = "音楽祭"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 3).Value = "エンターテイメント株式会社"
@@ -549,7 +560,6 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 5).Value = "着席"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(0, 6).Value = "音楽"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 0).Value = "T00001"
-        Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 1).Value = New Date(2015, 4, 2, 0, 0, 0, 0)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 2).Value = "音楽祭"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 3).Value = "エンターテイメント株式会社"
@@ -557,14 +567,12 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 5).Value = "スタンディング"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(1, 6).Value = "演劇"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 0).Value = "T00002"
-        Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 1).Value = New Date(2015, 4, 3, 0, 0, 0, 0)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 2).Value = "とっとちゃんシアター"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 3).Value = "株式会社黒船団"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 5).Value = "変則"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(2, 6).Value = "演芸"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(3, 0).Value = "T00003"
-        Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(3, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(3, 1).Value = New Date(2015, 4, 6, 0, 0, 0, 0)
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(3, 5).Value = "催事"
         Me.vwSeikyuChoseiTheatre_Sheet1.Cells.Get(3, 6).Value = "ビジネス"
@@ -579,20 +587,24 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiTheatre_Sheet1.ColumnHeader.Cells.Get(0, 8).Value = "請求内容"
         Me.vwSeikyuChoseiTheatre_Sheet1.ColumnHeader.Cells.Get(0, 9).Value = "調整額"
         Me.vwSeikyuChoseiTheatre_Sheet1.ColumnHeader.Rows.Get(0).Height = 56.0!
+        Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(0).AllowAutoSort = True
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(0).Label = "予約番号"
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(0).Locked = True
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(0).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(0).Width = 68.0!
+        Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(1).AllowAutoSort = True
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(1).Label = "利用日"
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(1).Locked = True
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(1).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(1).Width = 77.0!
+        Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(2).AllowAutoSort = True
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(2).Label = "催事名"
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(2).Locked = True
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(2).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(2).Width = 149.0!
+        Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(3).AllowAutoSort = True
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(3).Label = "利用者名"
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(3).Locked = True
         Me.vwSeikyuChoseiTheatre_Sheet1.Columns.Get(3).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
@@ -631,7 +643,7 @@ Partial Class EXTZ0103
         '
         'vwDayUriageStudio
         '
-        Me.vwDayUriageStudio.AccessibleDescription = "FpSpread3, Sheet1, Row 0, Column 0, S00001"
+        Me.vwDayUriageStudio.AccessibleDescription = "vwDayUriageStudio, Sheet1, Row 0, Column 0, S00001"
         Me.vwDayUriageStudio.Location = New System.Drawing.Point(12, 219)
         Me.vwDayUriageStudio.Name = "vwDayUriageStudio"
         Me.vwDayUriageStudio.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwDayUriageStudio_Sheet1})
@@ -646,39 +658,26 @@ Partial Class EXTZ0103
         Me.vwDayUriageStudio_Sheet1.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
         Me.vwDayUriageStudio_Sheet1.ColumnCount = 23
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 0).Value = "S00001"
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 1).ParseFormatString = "yyyy/M/d"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 1).Value = New Date(2015, 4, 1, 0, 0, 0, 0)
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 2).Value = "爆弾岩"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 3).Value = "ミュージックオン株式会社"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 4).Value = "一般"
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 5).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 5).Value = 201
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 6).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 6).Value = 50000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 7).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 7).Value = 20000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 8).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 8).Value = -10000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 9).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 9).Value = 60000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 10).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 10).Value = 50000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 11).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 11).Value = 12000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 12).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 12).Value = 72000
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 22).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(0, 22).Value = 1250000
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 0).Value = "S00002"
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 1).ParseFormatString = "yyyy/M/d"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 1).Value = New Date(2015, 4, 2, 0, 0, 0, 0)
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 2).Value = "ノベルノベル"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 3).Value = "池田　健人"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 4).Value = "社内"
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 5).ParseFormatString = "n"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(1, 5).Value = 202
         Me.vwDayUriageStudio_Sheet1.Cells.Get(2, 0).Value = "S00003"
-        Me.vwDayUriageStudio_Sheet1.Cells.Get(2, 1).ParseFormatString = "yyyy/M/d"
         Me.vwDayUriageStudio_Sheet1.Cells.Get(2, 1).Value = New Date(2015, 4, 3, 0, 0, 0, 0)
         Me.vwDayUriageStudio_Sheet1.Cells.Get(2, 5).Value = "H/L"
         Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 0).Value = "予約番号"
@@ -705,20 +704,24 @@ Partial Class EXTZ0103
         Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 21).Value = "現金合計" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(P)=(E～O)"
         Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 22).Value = "総売上合計" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Q)=(D+P)"
         Me.vwDayUriageStudio_Sheet1.ColumnHeader.Rows.Get(0).Height = 56.0!
+        Me.vwDayUriageStudio_Sheet1.Columns.Get(0).AllowAutoSort = True
         Me.vwDayUriageStudio_Sheet1.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.vwDayUriageStudio_Sheet1.Columns.Get(0).Label = "予約番号"
         Me.vwDayUriageStudio_Sheet1.Columns.Get(0).Locked = True
         Me.vwDayUriageStudio_Sheet1.Columns.Get(0).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwDayUriageStudio_Sheet1.Columns.Get(0).Width = 68.0!
+        Me.vwDayUriageStudio_Sheet1.Columns.Get(1).AllowAutoSort = True
         Me.vwDayUriageStudio_Sheet1.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.vwDayUriageStudio_Sheet1.Columns.Get(1).Label = "利用日"
         Me.vwDayUriageStudio_Sheet1.Columns.Get(1).Locked = True
         Me.vwDayUriageStudio_Sheet1.Columns.Get(1).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwDayUriageStudio_Sheet1.Columns.Get(1).Width = 77.0!
+        Me.vwDayUriageStudio_Sheet1.Columns.Get(2).AllowAutoSort = True
         Me.vwDayUriageStudio_Sheet1.Columns.Get(2).Label = "アーティスト名"
         Me.vwDayUriageStudio_Sheet1.Columns.Get(2).Locked = True
         Me.vwDayUriageStudio_Sheet1.Columns.Get(2).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwDayUriageStudio_Sheet1.Columns.Get(2).Width = 149.0!
+        Me.vwDayUriageStudio_Sheet1.Columns.Get(3).AllowAutoSort = True
         Me.vwDayUriageStudio_Sheet1.Columns.Get(3).Label = "利用者名"
         Me.vwDayUriageStudio_Sheet1.Columns.Get(3).Locked = True
         Me.vwDayUriageStudio_Sheet1.Columns.Get(3).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
@@ -823,7 +826,7 @@ Partial Class EXTZ0103
         '
         'vwSeikyuChoseiStudio
         '
-        Me.vwSeikyuChoseiStudio.AccessibleDescription = "FpSpread4, Sheet1, Row 0, Column 0, S00001"
+        Me.vwSeikyuChoseiStudio.AccessibleDescription = "vwSeikyuChoseiStudio, Sheet1, Row 0, Column 0, S00001"
         Me.vwSeikyuChoseiStudio.Location = New System.Drawing.Point(12, 717)
         Me.vwSeikyuChoseiStudio.Name = "vwSeikyuChoseiStudio"
         Me.vwSeikyuChoseiStudio.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwSeikyuChoseiStudio_Sheet1})
@@ -838,12 +841,10 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiStudio_Sheet1.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
         Me.vwSeikyuChoseiStudio_Sheet1.ColumnCount = 9
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 0).Value = "S00001"
-        Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 1).Value = New Date(2015, 4, 1, 0, 0, 0, 0)
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 3).Value = "エンターテイメント株式会社"
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(0, 4).Value = "一般"
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(1, 0).Value = "S00002"
-        Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(1, 1).ParseFormatString = "yyyy/M/d"
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(1, 1).Value = New Date(2015, 4, 2, 0, 0, 0, 0)
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(1, 3).Value = "エンターテイメント株式会社"
         Me.vwSeikyuChoseiStudio_Sheet1.Cells.Get(1, 4).Value = "社内"
@@ -857,20 +858,24 @@ Partial Class EXTZ0103
         Me.vwSeikyuChoseiStudio_Sheet1.ColumnHeader.Cells.Get(0, 7).Value = "請求内容"
         Me.vwSeikyuChoseiStudio_Sheet1.ColumnHeader.Cells.Get(0, 8).Value = "調整額"
         Me.vwSeikyuChoseiStudio_Sheet1.ColumnHeader.Rows.Get(0).Height = 56.0!
+        Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(0).AllowAutoSort = True
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(0).Label = "予約番号"
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(0).Locked = True
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(0).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(0).Width = 68.0!
+        Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(1).AllowAutoSort = True
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(1).Label = "利用日"
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(1).Locked = True
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(1).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(1).Width = 77.0!
+        Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(2).AllowAutoSort = True
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(2).Label = "アーティスト名"
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(2).Locked = True
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(2).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(2).Width = 149.0!
+        Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(3).AllowAutoSort = True
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(3).Label = "利用者名"
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(3).Locked = True
         Me.vwSeikyuChoseiStudio_Sheet1.Columns.Get(3).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
@@ -913,6 +918,15 @@ Partial Class EXTZ0103
         Me.Label3.TabIndex = 15
         Me.Label3.Text = "※表のデータは、コピーしたい部分を選択し、キーボードの「Ctrl」＋「C」を押すとコピーできます。"
         '
+        'btnDailyList
+        '
+        Me.btnDailyList.Location = New System.Drawing.Point(1484, 157)
+        Me.btnDailyList.Name = "btnDailyList"
+        Me.btnDailyList.Size = New System.Drawing.Size(152, 25)
+        Me.btnDailyList.TabIndex = 16
+        Me.btnDailyList.Text = "集計CSV出力"
+        Me.btnDailyList.UseVisualStyleBackColor = True
+        '
         'EXTZ0103
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
@@ -922,6 +936,7 @@ Partial Class EXTZ0103
         Me.BackgroundImage = Global.EXTZ.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(1684, 962)
+        Me.Controls.Add(Me.btnDailyList)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
@@ -986,5 +1001,6 @@ Partial Class EXTZ0103
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents txtShiyoNen_From As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
-
+    Friend WithEvents chkExcludeZero As CheckBox
+    Friend WithEvents btnDailyList As Button
 End Class

@@ -11,9 +11,15 @@ Public Class EXTM0102
     Private commonLogicEXT As New CommonLogicEXT    '共通ロジッククラス
 
     ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+    Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 4
     Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
     Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
     Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
+    Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 8
+
+
+    Private Const M0102_MSG_INFO_001 As String = "期間を設定して下さい。"
+
     ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
 
 
@@ -42,7 +48,11 @@ Public Class EXTM0102
             .PropBackBtn = Me.btnBack
             .PropNewEntryBtn = Me.btnNewEntry
             .PropEntryBtn = Me.btnEntry
+            ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+            .PropCmdPeriodBtn = Me.btnPeriod
 
+            .PropCmdPeriodBtn.Enabled = False
+            ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
         End With
 
         '分類表表示
@@ -61,6 +71,14 @@ Public Class EXTM0102
             MsgBox(puErrMsg)
             Exit Sub
         End If
+
+        ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
+        'If logicEXTM0102.CheckErrerKikan(dataEXTM0102) = False Then
+        '    MsgBox(puErrMsg)
+        '    ' 設定ボタン
+        '    Exit Sub
+        'End If
+        ' --- 2019/09/10 軽減税率対応 End E.Okuda@Compass ---
 
         ' 背景色設定
         Me.BackColor = commonLogicEXT.SetFormBackColor(CommonEXT.PropConfigrationFlg)
@@ -128,6 +146,11 @@ Public Class EXTM0102
     Private Sub btnNewEntry_Click(sender As Object, e As EventArgs) Handles btnNewEntry.Click
         '期間をクリアし、対象期間を活性化
         logicEXTM0102.PushNewEntryBtn(dataEXTM0102)
+
+        ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+        dataEXTM0102.PropGetReducedRateFlg = False
+        dataEXTM0102.PropCmdPeriodBtn.Enabled = True
+        ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
 
     End Sub
 
@@ -300,35 +323,40 @@ Public Class EXTM0102
     ''' <para>作成情報：2015/08/10 yu.satoh
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
-    Private Sub cmbBoxFnishedFromTo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbBoxFnishedFromTo.SelectedIndexChanged
-        '初期表示以外で実行
-        If dataEXTM0102.PropInitFlg = True Then
+    'Private Sub cmbBoxFnishedFromTo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbBoxFnishedFromTo.SelectedIndexChanged
+    '    '初期表示以外で実行
+    '    If dataEXTM0102.PropInitFlg = True Then
 
-            ' DBレプリケーション
-            If commonLogicEXT.CheckDBCondition() = False Then
-                'メッセージを出力 
-                MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
-                Exit Sub
-            End If
-            '分類シート記述
-            If logicEXTM0102.InitBunrui(dataEXTM0102) = False Then
-                MsgBox(puErrMsg)
-                Exit Sub
-            End If
-            '付帯シート記述
-            If logicEXTM0102.InitFutai(dataEXTM0102, 0) = False Then
-                MsgBox(puErrMsg)
-                Exit Sub
-            End If
-            dataEXTM0102.PropBunruiCd = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(0, 0).Value
-            '取得したデータを付帯設備シートに代入
-            If logicEXTM0102.SetFutaiData(dataEXTM0102) = False Then
-                MsgBox(puErrMsg)
-                Exit Sub
-            End If
-        End If
+    '        ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+    '        ' 軽減税率取得フラグOFF
+    '        dataEXTM0102.PropGetReducedRateFlg = False
+    '        ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
 
-    End Sub
+    '        ' DBレプリケーション
+    '        If commonLogicEXT.CheckDBCondition() = False Then
+    '            'メッセージを出力 
+    '            MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
+    '            Exit Sub
+    '        End If
+    '        '分類シート記述
+    '        If logicEXTM0102.InitBunrui(dataEXTM0102) = False Then
+    '            MsgBox(puErrMsg)
+    '            Exit Sub
+    '        End If
+    '        '付帯シート記述
+    '        If logicEXTM0102.InitFutai(dataEXTM0102, 0) = False Then
+    '            MsgBox(puErrMsg)
+    '            Exit Sub
+    '        End If
+    '        dataEXTM0102.PropBunruiCd = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(0, 0).Value
+    '        '取得したデータを付帯設備シートに代入
+    '        If logicEXTM0102.SetFutaiData(dataEXTM0102) = False Then
+    '            MsgBox(puErrMsg)
+    '            Exit Sub
+    '        End If
+    '    End If
+
+    'End Sub
 
     ''' <summary>
     ''' 付帯設備マスタメンテ、対象期間選択処理
@@ -360,6 +388,12 @@ Public Class EXTM0102
                 dataEXTM0102.PropFinishedFromTo.SelectedValue = txtFinishedFromTo
             End If
 
+
+            ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+            ' 軽減税率取得フラグOFF
+            dataEXTM0102.PropGetReducedRateFlg = False
+            ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
+
             '分類シート記述
             If logicEXTM0102.InitBunrui(dataEXTM0102) = False Then
                 MsgBox(puErrMsg)
@@ -376,6 +410,17 @@ Public Class EXTM0102
                 MsgBox(puErrMsg)
                 Exit Sub
             End If
+            ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+            If dataEXTM0102.PropFinishedFromTo.SelectedValue = "0" Then
+                ' メッセージ表示
+                MsgBox(M0102_MSG_INFO_001, MsgBoxStyle.OkOnly & MsgBoxStyle.Information)
+
+                dataEXTM0102.PropCmdPeriodBtn.Enabled = True
+            Else
+
+            End If
+            ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
+
         End If
 
     End Sub
@@ -389,9 +434,15 @@ Public Class EXTM0102
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
     Private Sub rdoBtnNew_CheckedChanged(sender As Object, e As EventArgs) Handles rdoBtnNew.CheckedChanged
+
         'クリア、非活性処理
         If dataEXTM0102.PropNewBtn.Checked = True And dataEXTM0102.PropNewEntryBtnFlg = False Then
             logicEXTM0102.CheckNewBtn(dataEXTM0102)
+            ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+            ' 軽減税率取得フラグOFF
+            'dataEXTM0102.PropGetReducedRateFlg = False
+            ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
+
         End If
 
     End Sub
@@ -414,6 +465,11 @@ Public Class EXTM0102
         'クリア、活性処理
         If dataEXTM0102.PropInitFlg = True Then
             logicEXTM0102.CheckFinishedBtn(dataEXTM0102)
+            ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+            ' 軽減税率取得フラグOFF
+            'dataEXTM0102.PropGetReducedRateFlg = False 
+            ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
+
         End If
 
     End Sub
@@ -460,21 +516,40 @@ Public Class EXTM0102
             End If
 
             For i = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1
-                If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 4).Value <> Nothing Then
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Locked = False
+                ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+                If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).Value <> Nothing Then
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).Locked = False
                 Else
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Locked = True
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).Locked = True
                 End If
-                If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Value <> Nothing Then
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Locked = False
+                If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).Value <> Nothing Then
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).Locked = False
                 Else
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Locked = True
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).Locked = True
                 End If
-                If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Value <> Nothing Then
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 7).Locked = False
+                If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).Value <> Nothing Then
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).Locked = False
                 Else
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 7).Locked = True
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).Locked = True
                 End If
+
+                'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 4).Value <> Nothing Then
+                '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Locked = False
+                'Else
+                '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Locked = True
+                'End If
+                'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 5).Value <> Nothing Then
+                '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Locked = False
+                'Else
+                '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Locked = True
+                'End If
+                'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 6).Value <> Nothing Then
+                '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 7).Locked = False
+                'Else
+                '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 7).Locked = True
+                'End If
+                ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
+
                 ' 2016.04.28 DEL START↓ h.hagiwara レスポンス改善
                 'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value <> Nothing Then
                 '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Locked = False
@@ -609,6 +684,43 @@ Public Class EXTM0102
     Private Sub vwFutaiSheet_Change(sender As Object, e As FarPoint.Win.Spread.ChangeEventArgs) Handles vwFutaiSheet.Change
         '表示行数を調整
         logicEXTM0102.ChangeFutaiInsartRow(dataEXTM0102)
+    End Sub
+
+    ''' <summary>
+    ''' 期間設定ボタンクリック時処理
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks>開始終了期間をチェックして、税率コンボボックスを作成する。
+    ''' <para>作成情報：2019/09/10 E.Okuda@Compass
+    ''' <p>改訂情報：</p>
+    ''' </para></remarks>
+    Private Sub btnPeriod_Click(sender As Object, e As EventArgs) Handles btnPeriod.Click
+        If dataEXTM0102.PropGetReducedRateFlg = False Then
+            If logicEXTM0102.CheckInputPeriod(dataEXTM0102) = False Then
+                ' メッセージ表示するか
+                MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
+                Exit Sub
+            Else
+                If logicEXTM0102.CmbReducedRateSet(dataEXTM0102) = False Then
+                    MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
+                    Exit Sub
+                End If
+
+                ' 軽減税率取得フラグON
+                dataEXTM0102.PropGetReducedRateFlg = True
+
+                ' コンボボックス生成
+                logicEXTM0102.CmbReducedRateCreate(dataEXTM0102)
+
+                '
+                logicEXTM0102.SetCmbReducedRateColumn(dataEXTM0102)
+
+                dataEXTM0102.PropCmdPeriodBtn.Enabled = False
+
+            End If
+        End If
+
     End Sub
 
 End Class

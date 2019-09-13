@@ -15,6 +15,10 @@
     Private ppDtDayUriage As DataTable                              '日別売上データ
     Private ppDtSeikyuChosei As DataTable                           '請求時調整額データ
 
+    ' --- 2019/08/23 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
+    Private ppbBlnExcludeZero As Boolean          ' 利用料／付帯設備利用料ゼロ除外フラグ
+    ' --- 2019/08/23 日別売上一覧機能追加対応 End E.Okuda@Compass ---
+
     ''' <summary>
     ''' プロパティセット【施設区分】
     ''' </summary>
@@ -223,7 +227,7 @@
     ''' プロパティセット【請求調整データ】
     ''' </summary>
     ''' <value></value>
-    ''' <returns>ppDtSeikyuChosei</returns>
+    ''' <returns>ppStrExcludeZero</returns>
     ''' <remarks><para>作成情報：2015/09/16 h.endo
     ''' <p>改訂情報:</p>
     ''' </para></remarks>
@@ -235,5 +239,24 @@
             ppDtSeikyuChosei = value
         End Set
     End Property
+
+    ' --- 2019/08/23 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
+    ''' <summary>
+    ''' プロパティセット【利用料、付帯設備利用料ゼロ除外】
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>ppStrRiyoNmKana</returns>
+    ''' <remarks><para>作成情報：2019/08/23 E.Okuda@Compass
+    ''' <p>改訂情報:</p>
+    ''' </para></remarks>
+    Public Property PropBlnExcludeZero() As Boolean
+        Get
+            Return ppbBlnExcludeZero
+        End Get
+        Set(ByVal value As Boolean)
+            ppbBlnExcludeZero = value
+        End Set
+    End Property
+    ' --- 2019/08/23 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
 
 End Class

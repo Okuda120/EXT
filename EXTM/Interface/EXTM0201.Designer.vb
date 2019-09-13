@@ -22,8 +22,8 @@ Partial Class EXTM0201
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim CheckBoxCellType2 As FarPoint.Win.Spread.CellType.CheckBoxCellType = New FarPoint.Win.Spread.CellType.CheckBoxCellType()
-        Dim ButtonCellType2 As FarPoint.Win.Spread.CellType.ButtonCellType = New FarPoint.Win.Spread.CellType.ButtonCellType()
+        Dim CheckBoxCellType1 As FarPoint.Win.Spread.CellType.CheckBoxCellType = New FarPoint.Win.Spread.CellType.CheckBoxCellType()
+        Dim ButtonCellType1 As FarPoint.Win.Spread.CellType.ButtonCellType = New FarPoint.Win.Spread.CellType.ButtonCellType()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EXTM0201))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Btn_Kensaku = New System.Windows.Forms.Button()
@@ -79,21 +79,18 @@ Partial Class EXTM0201
         Me.GroupBox1.Controls.Add(Me.Label19)
         Me.GroupBox1.Controls.Add(Me.Panel1)
         Me.GroupBox1.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(44, 30)
-        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Location = New System.Drawing.Point(33, 24)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.GroupBox1.Size = New System.Drawing.Size(1696, 254)
+        Me.GroupBox1.Size = New System.Drawing.Size(1272, 203)
         Me.GroupBox1.TabIndex = 127
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "検索条件"
         '
         'Btn_Kensaku
         '
-        Me.Btn_Kensaku.Location = New System.Drawing.Point(1299, 195)
-        Me.Btn_Kensaku.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Btn_Kensaku.Location = New System.Drawing.Point(974, 156)
         Me.Btn_Kensaku.Name = "Btn_Kensaku"
-        Me.Btn_Kensaku.Size = New System.Drawing.Size(165, 36)
+        Me.Btn_Kensaku.Size = New System.Drawing.Size(124, 29)
         Me.Btn_Kensaku.TabIndex = 73
         Me.Btn_Kensaku.Text = "検索"
         Me.Btn_Kensaku.UseVisualStyleBackColor = True
@@ -101,76 +98,68 @@ Partial Class EXTM0201
         'Txt_AitesakiNm
         '
         Me.Txt_AitesakiNm.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Txt_AitesakiNm.Location = New System.Drawing.Point(217, 201)
-        Me.Txt_AitesakiNm.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Txt_AitesakiNm.Location = New System.Drawing.Point(163, 161)
         Me.Txt_AitesakiNm.Name = "Txt_AitesakiNm"
-        Me.Txt_AitesakiNm.Size = New System.Drawing.Size(501, 24)
+        Me.Txt_AitesakiNm.Size = New System.Drawing.Size(377, 20)
         Me.Txt_AitesakiNm.TabIndex = 71
         '
         'Txt_AitesakiCd
         '
         Me.Txt_AitesakiCd.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Txt_AitesakiCd.Location = New System.Drawing.Point(217, 161)
-        Me.Txt_AitesakiCd.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Txt_AitesakiCd.Location = New System.Drawing.Point(163, 129)
         Me.Txt_AitesakiCd.Name = "Txt_AitesakiCd"
-        Me.Txt_AitesakiCd.Size = New System.Drawing.Size(173, 24)
+        Me.Txt_AitesakiCd.Size = New System.Drawing.Size(131, 20)
         Me.Txt_AitesakiCd.TabIndex = 70
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label1.Location = New System.Drawing.Point(41, 205)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label1.Location = New System.Drawing.Point(31, 164)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(117, 17)
+        Me.Label1.Size = New System.Drawing.Size(90, 13)
         Me.Label1.TabIndex = 69
         Me.Label1.Text = "EXAS相手先名"
         '
         'Txt_RiyoCd
         '
         Me.Txt_RiyoCd.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Txt_RiyoCd.Location = New System.Drawing.Point(217, 39)
-        Me.Txt_RiyoCd.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Txt_RiyoCd.Location = New System.Drawing.Point(163, 31)
         Me.Txt_RiyoCd.Name = "Txt_RiyoCd"
-        Me.Txt_RiyoCd.Size = New System.Drawing.Size(173, 24)
+        Me.Txt_RiyoCd.Size = New System.Drawing.Size(131, 20)
         Me.Txt_RiyoCd.TabIndex = 68
         '
         'Txt_Tel3
         '
         Me.Txt_Tel3.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Txt_Tel3.Location = New System.Drawing.Point(1241, 38)
-        Me.Txt_Tel3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Txt_Tel3.Location = New System.Drawing.Point(931, 30)
         Me.Txt_Tel3.Name = "Txt_Tel3"
-        Me.Txt_Tel3.Size = New System.Drawing.Size(87, 24)
+        Me.Txt_Tel3.Size = New System.Drawing.Size(66, 20)
         Me.Txt_Tel3.TabIndex = 67
         '
         'Txt_Tel2
         '
         Me.Txt_Tel2.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Txt_Tel2.Location = New System.Drawing.Point(1128, 38)
-        Me.Txt_Tel2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Txt_Tel2.Location = New System.Drawing.Point(846, 30)
         Me.Txt_Tel2.Name = "Txt_Tel2"
-        Me.Txt_Tel2.Size = New System.Drawing.Size(87, 24)
+        Me.Txt_Tel2.Size = New System.Drawing.Size(66, 20)
         Me.Txt_Tel2.TabIndex = 66
         '
         'Txt_Tel1
         '
         Me.Txt_Tel1.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Txt_Tel1.Location = New System.Drawing.Point(1015, 39)
-        Me.Txt_Tel1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Txt_Tel1.Location = New System.Drawing.Point(761, 31)
         Me.Txt_Tel1.Name = "Txt_Tel1"
-        Me.Txt_Tel1.Size = New System.Drawing.Size(87, 24)
+        Me.Txt_Tel1.Size = New System.Drawing.Size(66, 20)
         Me.Txt_Tel1.TabIndex = 65
         '
         'Label39
         '
         Me.Label39.AutoSize = True
         Me.Label39.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label39.Location = New System.Drawing.Point(883, 42)
-        Me.Label39.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label39.Location = New System.Drawing.Point(662, 34)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(76, 17)
+        Me.Label39.Size = New System.Drawing.Size(59, 13)
         Me.Label39.TabIndex = 64
         Me.Label39.Text = "電話番号"
         '
@@ -178,50 +167,45 @@ Partial Class EXTM0201
         '
         Me.Label32.AutoSize = True
         Me.Label32.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label32.Location = New System.Drawing.Point(41, 165)
-        Me.Label32.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label32.Location = New System.Drawing.Point(31, 132)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(138, 17)
+        Me.Label32.Size = New System.Drawing.Size(106, 13)
         Me.Label32.TabIndex = 63
         Me.Label32.Text = "EXAS相手先コード"
         '
         'Txt_RiyoNm
         '
         Me.Txt_RiyoNm.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Txt_RiyoNm.Location = New System.Drawing.Point(217, 118)
-        Me.Txt_RiyoNm.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Txt_RiyoNm.Location = New System.Drawing.Point(163, 94)
         Me.Txt_RiyoNm.Name = "Txt_RiyoNm"
-        Me.Txt_RiyoNm.Size = New System.Drawing.Size(501, 24)
+        Me.Txt_RiyoNm.Size = New System.Drawing.Size(377, 20)
         Me.Txt_RiyoNm.TabIndex = 62
         '
         'Label24
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label24.Location = New System.Drawing.Point(41, 118)
-        Me.Label24.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label24.Location = New System.Drawing.Point(31, 94)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(131, 34)
+        Me.Label24.Size = New System.Drawing.Size(102, 26)
         Me.Label24.TabIndex = 61
         Me.Label24.Text = "利用者名" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(会社名、団体名)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
         'Txt_RiyoKana
         '
         Me.Txt_RiyoKana.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Txt_RiyoKana.Location = New System.Drawing.Point(217, 75)
-        Me.Txt_RiyoKana.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Txt_RiyoKana.Location = New System.Drawing.Point(163, 60)
         Me.Txt_RiyoKana.Name = "Txt_RiyoKana"
-        Me.Txt_RiyoKana.Size = New System.Drawing.Size(501, 24)
+        Me.Txt_RiyoKana.Size = New System.Drawing.Size(377, 20)
         Me.Txt_RiyoKana.TabIndex = 60
         '
         'Label23
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label23.Location = New System.Drawing.Point(41, 79)
-        Me.Label23.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label23.Location = New System.Drawing.Point(31, 63)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(114, 34)
+        Me.Label23.Size = New System.Drawing.Size(89, 26)
         Me.Label23.TabIndex = 59
         Me.Label23.Text = "利用者名(ｶﾅ)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(会社名、団体)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
@@ -229,10 +213,9 @@ Partial Class EXTM0201
         '
         Me.Label22.AutoSize = True
         Me.Label22.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label22.Location = New System.Drawing.Point(41, 48)
-        Me.Label22.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label22.Location = New System.Drawing.Point(31, 38)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(93, 17)
+        Me.Label22.Size = New System.Drawing.Size(72, 13)
         Me.Label22.TabIndex = 58
         Me.Label22.Text = "利用者番号"
         '
@@ -240,10 +223,9 @@ Partial Class EXTM0201
         '
         Me.Label19.AutoSize = True
         Me.Label19.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label19.Location = New System.Drawing.Point(884, 96)
-        Me.Label19.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label19.Location = New System.Drawing.Point(663, 77)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(42, 15)
+        Me.Label19.Size = New System.Drawing.Size(34, 12)
         Me.Label19.TabIndex = 35
         Me.Label19.Text = "レベル"
         '
@@ -252,19 +234,17 @@ Partial Class EXTM0201
         Me.Panel1.Controls.Add(Me.Rdo_Huka)
         Me.Panel1.Controls.Add(Me.Rdo_chui)
         Me.Panel1.Controls.Add(Me.Rdo_Tujyo)
-        Me.Panel1.Location = New System.Drawing.Point(1015, 79)
-        Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Panel1.Location = New System.Drawing.Point(761, 63)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(371, 46)
+        Me.Panel1.Size = New System.Drawing.Size(278, 37)
         Me.Panel1.TabIndex = 34
         '
         'Rdo_Huka
         '
         Me.Rdo_Huka.AutoSize = True
-        Me.Rdo_Huka.Location = New System.Drawing.Point(225, 18)
-        Me.Rdo_Huka.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Rdo_Huka.Location = New System.Drawing.Point(169, 14)
         Me.Rdo_Huka.Name = "Rdo_Huka"
-        Me.Rdo_Huka.Size = New System.Drawing.Size(97, 21)
+        Me.Rdo_Huka.Size = New System.Drawing.Size(77, 17)
         Me.Rdo_Huka.TabIndex = 35
         Me.Rdo_Huka.Text = "利用不可"
         Me.Rdo_Huka.UseVisualStyleBackColor = True
@@ -272,10 +252,9 @@ Partial Class EXTM0201
         'Rdo_chui
         '
         Me.Rdo_chui.AutoSize = True
-        Me.Rdo_chui.Location = New System.Drawing.Point(112, 18)
-        Me.Rdo_chui.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Rdo_chui.Location = New System.Drawing.Point(84, 14)
         Me.Rdo_chui.Name = "Rdo_chui"
-        Me.Rdo_chui.Size = New System.Drawing.Size(80, 21)
+        Me.Rdo_chui.Size = New System.Drawing.Size(64, 17)
         Me.Rdo_chui.TabIndex = 34
         Me.Rdo_chui.Text = "要注意"
         Me.Rdo_chui.UseVisualStyleBackColor = True
@@ -284,10 +263,9 @@ Partial Class EXTM0201
         '
         Me.Rdo_Tujyo.AutoSize = True
         Me.Rdo_Tujyo.Checked = True
-        Me.Rdo_Tujyo.Location = New System.Drawing.Point(20, 18)
-        Me.Rdo_Tujyo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Rdo_Tujyo.Location = New System.Drawing.Point(15, 14)
         Me.Rdo_Tujyo.Name = "Rdo_Tujyo"
-        Me.Rdo_Tujyo.Size = New System.Drawing.Size(63, 21)
+        Me.Rdo_Tujyo.Size = New System.Drawing.Size(51, 17)
         Me.Rdo_Tujyo.TabIndex = 33
         Me.Rdo_Tujyo.TabStop = True
         Me.Rdo_Tujyo.Text = "通常"
@@ -295,30 +273,27 @@ Partial Class EXTM0201
         '
         'Btn_Touroku
         '
-        Me.Btn_Touroku.Location = New System.Drawing.Point(44, 314)
-        Me.Btn_Touroku.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Btn_Touroku.Location = New System.Drawing.Point(33, 251)
         Me.Btn_Touroku.Name = "Btn_Touroku"
-        Me.Btn_Touroku.Size = New System.Drawing.Size(165, 36)
+        Me.Btn_Touroku.Size = New System.Drawing.Size(124, 29)
         Me.Btn_Touroku.TabIndex = 74
         Me.Btn_Touroku.Text = "新規登録"
         Me.Btn_Touroku.UseVisualStyleBackColor = True
         '
         'Btn_Kakutei
         '
-        Me.Btn_Kakutei.Location = New System.Drawing.Point(1321, 1128)
-        Me.Btn_Kakutei.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Btn_Kakutei.Location = New System.Drawing.Point(991, 902)
         Me.Btn_Kakutei.Name = "Btn_Kakutei"
-        Me.Btn_Kakutei.Size = New System.Drawing.Size(165, 44)
+        Me.Btn_Kakutei.Size = New System.Drawing.Size(124, 35)
         Me.Btn_Kakutei.TabIndex = 128
         Me.Btn_Kakutei.Text = "選択確定"
         Me.Btn_Kakutei.UseVisualStyleBackColor = True
         '
         'Btn_Modoru
         '
-        Me.Btn_Modoru.Location = New System.Drawing.Point(715, 1128)
-        Me.Btn_Modoru.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Btn_Modoru.Location = New System.Drawing.Point(536, 902)
         Me.Btn_Modoru.Name = "Btn_Modoru"
-        Me.Btn_Modoru.Size = New System.Drawing.Size(165, 44)
+        Me.Btn_Modoru.Size = New System.Drawing.Size(124, 35)
         Me.Btn_Modoru.TabIndex = 129
         Me.Btn_Modoru.Text = "戻る"
         Me.Btn_Modoru.UseVisualStyleBackColor = True
@@ -326,11 +301,10 @@ Partial Class EXTM0201
         'FpSpread1
         '
         Me.FpSpread1.AccessibleDescription = "FpSpread1, Sheet1, Row 0, Column 0, "
-        Me.FpSpread1.Location = New System.Drawing.Point(44, 371)
-        Me.FpSpread1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.FpSpread1.Location = New System.Drawing.Point(33, 297)
         Me.FpSpread1.Name = "FpSpread1"
         Me.FpSpread1.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.FpSpread1_Sheet1})
-        Me.FpSpread1.Size = New System.Drawing.Size(2092, 726)
+        Me.FpSpread1.Size = New System.Drawing.Size(1582, 582)
         Me.FpSpread1.TabIndex = 130
         '
         'FpSpread1_Sheet1
@@ -370,7 +344,7 @@ Partial Class EXTM0201
         Me.FpSpread1_Sheet1.ColumnHeader.Cells.Get(0, 27).Value = "住所３"
         Me.FpSpread1_Sheet1.ColumnHeader.Cells.Get(0, 28).Value = "住所４"
         Me.FpSpread1_Sheet1.ColumnHeader.Rows.Get(0).Height = 21.0!
-        Me.FpSpread1_Sheet1.Columns.Get(0).CellType = CheckBoxCellType2
+        Me.FpSpread1_Sheet1.Columns.Get(0).CellType = CheckBoxCellType1
         Me.FpSpread1_Sheet1.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.FpSpread1_Sheet1.Columns.Get(0).Label = "選択"
         Me.FpSpread1_Sheet1.Columns.Get(0).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
@@ -399,9 +373,9 @@ Partial Class EXTM0201
         Me.FpSpread1_Sheet1.Columns.Get(11).Width = 77.0!
         Me.FpSpread1_Sheet1.Columns.Get(12).Label = "住所"
         Me.FpSpread1_Sheet1.Columns.Get(12).Width = 278.0!
-        ButtonCellType2.ButtonColor2 = System.Drawing.SystemColors.ButtonFace
-        ButtonCellType2.Text = "確認・編集"
-        Me.FpSpread1_Sheet1.Columns.Get(13).CellType = ButtonCellType2
+        ButtonCellType1.ButtonColor2 = System.Drawing.SystemColors.ButtonFace
+        ButtonCellType1.Text = "確認・編集"
+        Me.FpSpread1_Sheet1.Columns.Get(13).CellType = ButtonCellType1
         Me.FpSpread1_Sheet1.Columns.Get(13).Label = "詳細"
         Me.FpSpread1_Sheet1.Columns.Get(13).Width = 75.0!
         Me.FpSpread1_Sheet1.Columns.Get(14).Label = "レベル区分"
@@ -441,22 +415,20 @@ Partial Class EXTM0201
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label2.Location = New System.Drawing.Point(47, 1108)
-        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label2.Location = New System.Drawing.Point(35, 886)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(636, 17)
+        Me.Label2.Size = New System.Drawing.Size(494, 13)
         Me.Label2.TabIndex = 131
         Me.Label2.Text = "※表のデータは、コピーしたい部分を選択し、キーボードの「Ctrl」＋「C」を押すとコピーできます。"
         '
         'EXTM0201
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTM.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(2149, 1180)
+        Me.ClientSize = New System.Drawing.Size(1627, 944)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.FpSpread1)
         Me.Controls.Add(Me.Btn_Modoru)
@@ -465,7 +437,6 @@ Partial Class EXTM0201
         Me.Controls.Add(Me.GroupBox1)
         Me.DoubleBuffered = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "EXTM0201"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "ちゃり～ん。　利用者一覧"

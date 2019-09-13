@@ -753,7 +753,7 @@ Partial Class EXTB0103
         '
         'fbBillPay
         '
-        Me.fbBillPay.AccessibleDescription = "FpSpread2, Sheet1, Row 0, Column 0, "
+        Me.fbBillPay.AccessibleDescription = "fbBillPay, Sheet1, Row 0, Column 0, "
         Me.fbBillPay.Location = New System.Drawing.Point(21, 21)
         Me.fbBillPay.Name = "fbBillPay"
         Me.fbBillPay.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.fbBillPay_Sheet1})
@@ -769,13 +769,9 @@ Partial Class EXTB0103
         Me.fbBillPay_Sheet1.ColumnCount = 15
         Me.fbBillPay_Sheet1.RowCount = 3
         Me.fbBillPay_Sheet1.Cells.Get(0, 1).Value = "○"
-        Me.fbBillPay_Sheet1.Cells.Get(0, 5).ParseFormatString = "n"
         Me.fbBillPay_Sheet1.Cells.Get(0, 5).Value = 600000
-        Me.fbBillPay_Sheet1.Cells.Get(0, 6).ParseFormatString = "n"
         Me.fbBillPay_Sheet1.Cells.Get(0, 6).Value = 0
-        Me.fbBillPay_Sheet1.Cells.Get(0, 7).ParseFormatString = "n"
         Me.fbBillPay_Sheet1.Cells.Get(0, 7).Value = 48000
-        Me.fbBillPay_Sheet1.Cells.Get(0, 8).ParseFormatString = "n"
         Me.fbBillPay_Sheet1.Cells.Get(0, 8).Value = 648000
         Me.fbBillPay_Sheet1.Cells.Get(0, 9).Value = "2015/5/21（木）"
         Me.fbBillPay_Sheet1.Cells.Get(0, 10).Value = "S12345"
@@ -789,7 +785,7 @@ Partial Class EXTB0103
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 4).Value = "請求" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "情報"
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 5).Value = "確定額"
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 6).Value = "増額／値引き"
-        Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 7).Value = "消費税"
+        Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 7).Value = "外税(税額)"
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 8).Value = "請求額"
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 9).Value = "請求日"
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 10).Value = "請求依頼番号"
@@ -821,7 +817,7 @@ Partial Class EXTB0103
         Me.fbBillPay_Sheet1.Columns.Get(5).Width = 85.0!
         Me.fbBillPay_Sheet1.Columns.Get(6).Label = "増額／値引き"
         Me.fbBillPay_Sheet1.Columns.Get(6).Width = 85.0!
-        Me.fbBillPay_Sheet1.Columns.Get(7).Label = "消費税"
+        Me.fbBillPay_Sheet1.Columns.Get(7).Label = "外税(税額)"
         Me.fbBillPay_Sheet1.Columns.Get(7).Width = 85.0!
         Me.fbBillPay_Sheet1.Columns.Get(8).Label = "請求額"
         Me.fbBillPay_Sheet1.Columns.Get(8).Width = 85.0!
@@ -1433,7 +1429,7 @@ Partial Class EXTB0103
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 1).Value = "　"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 2).Value = "　"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 3).Value = "設備"
-        Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 4).Value = "設備使用料"
+        Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 4).Value = "付帯設備合計"
         Me.fbFutai_Sheet1.ColumnHeader.Cells.Get(0, 5).Value = "付帯" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "利用明細"
         Me.fbFutai_Sheet1.ColumnHeader.Rows.Get(0).Height = 35.0!
         Me.fbFutai_Sheet1.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
@@ -1449,8 +1445,8 @@ Partial Class EXTB0103
         Me.fbFutai_Sheet1.Columns.Get(2).Label = "　"
         Me.fbFutai_Sheet1.Columns.Get(3).Label = "設備"
         Me.fbFutai_Sheet1.Columns.Get(3).Width = 473.0!
-        Me.fbFutai_Sheet1.Columns.Get(4).Label = "設備使用料"
-        Me.fbFutai_Sheet1.Columns.Get(4).Width = 94.0!
+        Me.fbFutai_Sheet1.Columns.Get(4).Label = "付帯設備合計"
+        Me.fbFutai_Sheet1.Columns.Get(4).Width = 106.0!
         ButtonCellType7.ButtonColor2 = System.Drawing.SystemColors.ButtonFace
         ButtonCellType7.Text = "印刷"
         Me.fbFutai_Sheet1.Columns.Get(5).CellType = ButtonCellType7

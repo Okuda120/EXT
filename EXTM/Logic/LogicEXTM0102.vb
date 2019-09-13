@@ -53,6 +53,9 @@ Public Class LogicEXTM0102
     'Private Const M0102_BUNRUI_COL_SORT As Integer = 8
     'Private Const M0102_BUNRUI_COL_DEFFLG As Integer = 9
     'Private Const M0102_BUNRUI_COL_FRIYOFLG As Integer = 10
+    Private Const MSG_TAX_NOT_SELECT As String = "税率が選択できません。"
+
+    Dim cmbReducedRate As New FarPoint.Win.Spread.CellType.ComboBoxCellType()        '勘定科目
 
     ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
 
@@ -204,6 +207,25 @@ Public Class LogicEXTM0102
                 dataEXTM0102.PropInitCmbFlg = True
             End If
 
+            ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
+            'If dataEXTM0102.PropGetReducedRateFlg = False Then
+            '    If CheckInputPeriod(dataEXTM0102) = False Then
+            '        ' メッセージ表示するか
+            '        'Return False
+            '    Else
+            '        If CmbReducedRateSet(dataEXTM0102) = False Then
+            '            Return False
+            '        End If
+
+            '        ' 軽減税率取得フラグON
+            '        dataEXTM0102.PropGetReducedRateFlg = True
+            '    End If
+            'End If
+            'If CmbReducedRateSet(dataEXTM0102) = False Then
+            '    Return False
+            'End If
+            ' --- 2019/09/10 軽減税率対応 End E.Okuda@Compass ---
+
             '分類マスタを代入
             If SetBunruiData(dataEXTM0102) = False Then
                 Return False
@@ -310,6 +332,34 @@ Public Class LogicEXTM0102
                 '分類表の表示行数を、sql取得行数＋５に設定
                 'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount = dataEXTM0102.PropDtFbunruiMst.Rows.Count + 5
 
+                ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
+                If dataEXTM0102.PropGetReducedRateFlg = False Then
+                    ' データテーブルクリア
+                    If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
+                        dataEXTM0102.PropDtReducedRate.Clear()
+                    End If
+
+                    If CheckInputPeriod(dataEXTM0102) = False Then
+                        ' 消費税マスタコンボロックメッセージ表示するか
+                        MsgBox(puErrMsg & MSG_TAX_NOT_SELECT)
+                        dataEXTM0102.PropCmdPeriodBtn.Enabled = True
+                    Else
+                        If CmbReducedRateSet(dataEXTM0102) = False Then
+                            MsgBox(puErrMsg & MSG_TAX_NOT_SELECT)
+                            dataEXTM0102.PropCmdPeriodBtn.Enabled = True
+                        Else
+                            ' コンボボックス生成
+                            CmbReducedRateCreate(dataEXTM0102)
+
+                            ' 軽減税率取得フラグON
+                            dataEXTM0102.PropGetReducedRateFlg = True
+
+                            dataEXTM0102.PropCmdPeriodBtn.Enabled = False
+                        End If
+                    End If
+                End If
+                ' --- 2019/09/10 軽減税率対応 End E.Okuda@Compass ---
+
                 '発行したSQLより、各初期値を代入
                 For i = 0 To dataEXTM0102.PropDtFbunruiMst.Rows.Count - 1
                     dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Rows.Add(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount, 1)
@@ -327,9 +377,19 @@ Public Class LogicEXTM0102
                         dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value = True
                     End If
 
-                    ' --- 2019/05/31 軽減税率対応 Start E.Okuda@Compass ---  
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Text = Convert.ToString(dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21))
-                    ' --- 2019/05/31 軽減税率対応 End E.Okuda@Compass ---  
+                    ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21)
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+                    If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
+                        If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
+                            If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
+                                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+                            End If
+                        End If
+                    End If
+                    'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Text = Convert.ToString(dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21))
+                    ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
 
                     '勘定科目
                     CmbKamokuCdCreate(dataEXTM0102)                                                                                                           ' セレクトボックスの中身を作成  2016.02.12 ADD h.hagiwara
@@ -491,6 +551,22 @@ Public Class LogicEXTM0102
             ' 2016.02.12 ADD START↓ h.hagiwara
             For j = 1 To 5
                 dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Rows.Add(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount, 1)
+
+                ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
+                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
+
+                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+
+                If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
+                    If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
+                        If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
+                            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+                        End If
+                    End If
+                End If
+
+                ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
+
                 CmbKamokuCdCreate(dataEXTM0102)
                 dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_KANJYO).CellType = cmbKamoku
                 ' 2016.04.28 DEL START↓ h.hagiwara レスポンス改善
@@ -783,11 +859,15 @@ Public Class LogicEXTM0102
         ' 分類スプレッドの分類コードクリア
         For i = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1
             dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUICD).Text = ""
+
+            ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value = ""
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+            ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
         Next
         ' 付帯設備スプレッドの設備コードクリア
         For i = 0 To dataEXTM0102.PropVwFutaiSheet.ActiveSheet.RowCount - 1
             dataEXTM0102.PropVwFutaiSheet.ActiveSheet.Cells(i, M0102_FUTAI_COL_SETUBICD).Text = ""
-            dataEXTM0102.PropVwFutaiSheet.ActiveSheet.Cells(i, M0102_FUTAI_COL_BUNRUICD).Text = ""
         Next
         ' 付帯設備データテーブルの設備コードクリア
         For i = 0 To dataEXTM0102.PropDtFutaiMst.Rows.Count - 1
@@ -824,7 +904,6 @@ Public Class LogicEXTM0102
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
 
         If dataEXTM0102.PropNewBtn.Checked = True Then
-
             'コンボボックスを初期化し、活性化、新規に登録のボタンも活性化
             dataEXTM0102.PropFinishedFromTo.Text = ""
             dataEXTM0102.PropFinishedFromTo.SelectedValue = -1
@@ -849,6 +928,7 @@ Public Class LogicEXTM0102
                 'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 11).Locked = True
                 ' 2016.04.28 DEL END↑ h.hagiwara レスポンス改善
             Next
+
         End If
 
         '終了ログ出力
@@ -961,6 +1041,52 @@ Public Class LogicEXTM0102
             'Table.Dispose()
         End Try
     End Function
+
+    ' --- 2019/09/09 軽減税率対応 Start E.Okuda@Compass ---
+
+    ''' <summary>
+    ''' 付帯設備マスタメンテ初期表示消費税マスタより税率のコンボボックス生成処理
+    ''' <paramref name="dataEXTM0102">[IN/OUT]データクラス</paramref>
+    ''' </summary>
+    ''' <remarks>消費税マスタより、軽減税率のデータを取得し、表示する
+    ''' <para>作成情報：2019/09/09 E.Okuda@Compass
+    ''' <p>改訂情報 : </p>
+    ''' </para></remarks>
+    'Public Function CmbZeiristu(ByRef dataEXTM0102 As DataEXTM0102) As Boolean
+    '    '変数宣言
+    '    Dim Cn As New NpgsqlConnection(DbString)    'コネクション
+    '    Dim Adapter As New NpgsqlDataAdapter        'アダプタ
+    '    Dim Table As New DataTable()                'テーブル
+
+    '    Try
+
+    '        'コネクションを開く
+    '        Cn.Open()
+
+    '        '付帯設備マスタメンテ用SQLの作成・設定
+
+    '        'SQLログ
+    '        CommonLogic.WriteLog(Common.LogLevel.DEBUG_Lv, "システム管理情報", Nothing, Adapter.SelectCommand)
+
+    '        'データを取得
+    '        Adapter.Fill(Table)
+
+    '        Return True
+    '    Catch ex As Exception
+    '        '例外発生
+    '        CommonLogic.WriteLog(Common.LogLevel.ERROR_Lv, ex.Message, ex, Nothing)
+    '        puErrMsg = EXTM0102_E0000 & ex.Message
+    '        Return False
+    '    Finally
+    '        Cn.Close()
+    '        Cn.Dispose()
+    '        Adapter.Dispose()
+    '        Table.Dispose()
+    '    End Try
+
+    'End Function
+
+    ' --- 2019/09/09 軽減税率対応 End E.Okuda@Compass ---
 
     ''' <summary>
     ''' 付帯設備マスタメンテ初期表示科目マスタよりコードのコンボボックス生成処理
@@ -1845,6 +1971,19 @@ Public Class LogicEXTM0102
 
         'シート上コンボボックス設定
         For i = cnt To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1
+
+            ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+
+            If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) Is DBNull.Value Then
+                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+            Else
+                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+            End If
+            ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
+
+
             'i4とi8はここで全てコンボボックスとして宣言
             dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).CellType = cmbKamoku
             ' 2016.04.28 DEL START↓ h.hagiwara レスポンス改善
@@ -2927,21 +3066,23 @@ Public Class LogicEXTM0102
             'End If
 
             ' 半角数字チェックを行う。
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value <> Nothing Then
-                If ChkZenkaku(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) = False Then
-                    puErrMsg = String.Format(EXTM0102_E0003, "税率")
-                    Return False
-                End If
-                '税率は半角数字のみ
-                If Not IsNumeric(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) Then
-                    puErrMsg = String.Format(EXTM0102_E0003, "税率")
-                    Return False
-                End If
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value IsNot DBNull.Value Then
+                If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value <> Nothing Then
+                    If ChkZenkaku(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) = False Then
+                        puErrMsg = String.Format(EXTM0102_E0003, "税率")
+                        Return False
+                    End If
+                    '税率は半角数字のみ
+                    If Not IsNumeric(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) Then
+                        puErrMsg = String.Format(EXTM0102_E0003, "税率")
+                        Return False
+                    End If
 
-                ' 桁数チェック
-                If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Text.Length > 2 Then
-                    puErrMsg = String.Format(EXTM0102_E0010, "税率", "2")
-                    Return False
+                    ' 桁数チェック
+                    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Text.Length > 2 Then
+                        puErrMsg = String.Format(EXTM0102_E0010, "税率", "2")
+                        Return False
+                    End If
                 End If
             End If
             ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---  
@@ -3419,11 +3560,23 @@ Public Class LogicEXTM0102
 
                 '空の行を判断
                 For j = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.ColumnCount - 1
-                    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, j).Value <> Nothing Then
+                    ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
+                    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, j).Value IsNot DBNull.Value Then
+                        If Not String.IsNullOrEmpty(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, j).Value) Then
 
+                        Else
+                            noData += 1
+                        End If
                     Else
                         noData += 1
                     End If
+                    ' --- 2019/09/10 軽減税率対応 End E.Okuda@Compass ---
+
+                    'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, j).Value <> Nothing Then
+
+                    'Else
+                    '    noData += 1
+                    'End If
                 Next
 
                 '更新、もしくは挿入実行、全て空の行では実行しない
@@ -3719,13 +3872,26 @@ Public Class LogicEXTM0102
                 noData = 0
 
                 '空の行を判断
+                ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
                 For j = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.ColumnCount - 1
-                    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, j).Value <> Nothing Then
+                    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, j).Value IsNot DBNull.Value Then
+                        If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, j).Value <> Nothing Then
 
+                        Else
+                            noData += 1
+                        End If
                     Else
                         noData += 1
                     End If
                 Next
+                'For j = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.ColumnCount - 1
+                '    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, j).Value <> Nothing Then
+
+                '    Else
+                '        noData += 1
+                '    End If
+                'Next
+                ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
 
                 ' --- 2019/05/30 軽減税率対応 Start E.Okuda@Compass ---
                 If noData <> dataEXTM0102.PropVwGroupingSheet.ActiveSheet.ColumnCount Then
@@ -3885,6 +4051,196 @@ Public Class LogicEXTM0102
 
         End Try
     End Function
+
     ' --- 2019/05/31 軽減税率対応 End E.Okuda@Compass ---
+
+    ' --- 2019/09/09 軽減税率対応 Start E.Okuda@Compass ---
+    ''' <summary>
+    ''' 付帯設備マスターメンテ、税率コンボボックス作成
+    ''' </summary>
+    ''' <param name="dataEXTM0102"></param>
+    ''' <remarks>税率コンボボックス作成
+    ''' <para>作成情報：2019/09/10 E.Okudap@Compass
+    ''' <p>改訂情報 : </p>
+    ''' </para></remarks>
+    Public Sub CmbReducedRateCreate(ByRef dataEXTM0102 As DataEXTM0102)
+        ' 開始ログ出力()
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+        '宣言
+        '        Dim cmbReducedRate As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
+
+        cmbReducedRate.Items = New String() {""}
+        cmbReducedRate.ItemData = New String() {Nothing}
+
+        Dim aryNm As ArrayList = New ArrayList()
+        Dim aryData As ArrayList = New ArrayList()
+
+        aryNm.AddRange(cmbReducedRate.Items)
+        aryData.AddRange(cmbReducedRate.ItemData)
+
+        For i = 0 To dataEXTM0102.PropDtReducedRate.Rows.Count - 1
+            If dataEXTM0102.PropDtReducedRate.Rows(i).Item(0) IsNot DBNull.Value Then
+                aryNm.Add(dataEXTM0102.PropDtReducedRate.Rows(i).Item(0).ToString)
+                aryData.Add(dataEXTM0102.PropDtReducedRate.Rows(i).Item(0).ToString)
+            End If
+        Next
+
+        cmbReducedRate.Items = CType(aryNm.ToArray(GetType(String)), String())
+        cmbReducedRate.ItemData = CType(aryData.ToArray(GetType(String)), String())
+
+        '終了ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+    End Sub
+
+    Public Function CmbReducedRateSet(ByRef dataEXTM0102 As DataEXTM0102) As Boolean
+        '開始ログ出力()
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+        '変数宣言   
+        Dim Cn1 As New NpgsqlConnection(DbString)    ' コネクション
+        Dim Adapter As New NpgsqlDataAdapter         ' アダプタ
+        Dim Table As New DataTable()                 ' テーブル
+
+        Try
+            'コネクションを開く
+            Cn1.Open()
+
+
+            ' 消費税マスタから軽減税率取得
+            If sqlEXTM0102.CmbReducedRateSet(Adapter, Cn1, dataEXTM0102) = False Then
+                Return False
+            End If
+
+            'データを取得
+            Adapter.Fill(Table)
+
+            If Table.Rows.Count = 1 Then
+                dataEXTM0102.PropDtReducedRate = Table
+            Else
+                puErrMsg = String.Format(EXTM0102_E2034)
+                Return False
+            End If
+
+            '終了ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+            Return True
+        Catch ex As Exception
+            '例外発生
+            CommonLogic.WriteLog(Common.LogLevel.ERROR_Lv, ex.Message, ex, Nothing)
+            puErrMsg = EXTM0102_E0000 & ex.Message
+            Return False
+        Finally
+            Cn1.Close()
+            Cn1.Dispose()
+            Adapter.Dispose()
+        End Try
+
+    End Function
+
+    Public Function CheckInputPeriod(dataEXTM0102 As DataEXTM0102) As Boolean
+        '開始ログ出力()
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+
+        '期間from（年）入力チェック
+        If dataEXTM0102.PropYearFrom.Text = Nothing Then
+            puErrMsg = String.Format(EXTM0102_E0001, "期間(FROM)・年")
+            Return False
+        End If
+
+        '期間from(年)が数字かどうか
+        If Not IsNumeric(dataEXTM0102.PropYearFrom.Text) Then
+            puErrMsg = String.Format(EXTM0102_E0003, "期間(FROM)・年")
+            Return False
+        End If
+
+        '期間from（月）入力チェック
+        If dataEXTM0102.PropMonthFrom.Text = Nothing Then
+            puErrMsg = String.Format(EXTM0102_E0001, "期間(FROM)・月")
+            Return False
+        End If
+
+        '期間from(月)が数字かどうか
+        If Not IsNumeric(dataEXTM0102.PropMonthFrom.Text) Then
+            puErrMsg = String.Format(EXTM0102_E0003, "期間(FROM)・月")
+            Return False
+        End If
+
+        '期間from(月)入力チェック
+        If CInt(dataEXTM0102.PropMonthFrom.Text) < 1 Or CInt(dataEXTM0102.PropMonthFrom.Text) > 12 Then
+            puErrMsg = String.Format(EXTM0102_E0018, "期間(FROM)・月", "1", "12")
+            Return False
+        End If
+
+        '期間To（年）入力チェック
+        If dataEXTM0102.PropYearTo.Text = Nothing Then
+            puErrMsg = String.Format(EXTM0102_E0001, "期間(TO)・年")
+            Return False
+        End If
+        '期間To(年)が数字かどうか
+        If Not IsNumeric(dataEXTM0102.PropYearTo.Text) Then
+            puErrMsg = String.Format(EXTM0102_E0003, "期間(TO)・年")
+            Return False
+        End If
+
+        '期間To（月）入力チェック
+        If dataEXTM0102.PropMonthTo.Text = Nothing Then
+            puErrMsg = String.Format(EXTM0102_E0001, "期間(TO)・月")
+            Return False
+        End If
+        '期間To(月)が数字かどうか
+        If Not IsNumeric(dataEXTM0102.PropMonthTo.Text) Then
+            puErrMsg = String.Format(EXTM0102_E0003, "期間(TO)・月")
+            Return False
+        End If
+        '期間from(月)入力チェック
+        If CInt(dataEXTM0102.PropMonthTo.Text) < 1 Or CInt(dataEXTM0102.PropMonthTo.Text) > 12 Then
+            puErrMsg = String.Format(EXTM0102_E0018, "期間(TO)・月", "1", "12")
+            Return False
+        End If
+
+        '期間逆転入力チェック
+        Dim strKikanFrom As String = dataEXTM0102.PropYearFrom.Text + dataEXTM0102.PropMonthFrom.Text
+        Dim strkikanTo As String = dataEXTM0102.PropYearTo.Text + dataEXTM0102.PropMonthTo.Text
+
+        If CInt(strkikanTo) - CInt(strKikanFrom) < 0 Then
+            puErrMsg = String.Format(EXTM0102_E2011, "期間(TO)", "期間(FROM)")
+            Return False
+        End If
+
+        '終了ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+        Return True
+
+    End Function
+
+    Public Sub SetCmbReducedRateColumn(dataEXTM0102 As DataEXTM0102)
+        '開始ログ出力()
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+        For i = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
+
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+
+            If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
+                If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
+                    If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+                    End If
+                End If
+            End If
+        Next
+
+        '終了ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+    End Sub
+
+    ' --- 2019/09/09 軽減税率対応 End E.Okuda@Compass ---
+
 
 End Class

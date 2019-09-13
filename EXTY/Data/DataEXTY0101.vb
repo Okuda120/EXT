@@ -22,6 +22,12 @@ Public Class DataEXTY0101
     Private ppStrTantoNm As String      '担当者名              2016.08.12 m.hayabuchi 代行処理対応
     Private ppStrTantobusho As String   '所属部署名            2016.08.12 m.hayabuchi 代行処理対応
 
+    ' --- 2019/08/21 軽減税率対応 Start E.Okuda@Compass ---
+    'Private ppAryRiyouStartEnd As Array                 ' 利用開始日・終了日
+    Private ppDtPeriodTaxReducedRate As DataTable       ' 消費税率&軽減税率取得
+    ' --- 2019/08/21 軽減税率対応 End E.Okuda@Compass ---
+
+
     ''' <summary>
     ''' プロパティセット【ラジオボタン（シアター）】
     ''' </summary>
@@ -242,5 +248,25 @@ Public Class DataEXTY0101
             ppStrTantobusho = value
         End Set
     End Property
+
+    ' --- 2019/08/21 軽減税率対応 Start E.Okuda@Compass ---
+
+    ''' <summary>
+    ''' プロパティセット【指定期間税率・軽減税率】
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>ppDtPeriodTaxReducedRate</returns>
+    ''' <remarks><para>作成情報：2019.08.02 E.Okuda@Compass
+    ''' <p>改定情報：</p>
+    ''' </para></remarks>
+    Public Property PropDtPeriodTaxReducedRate() As DataTable
+        Get
+            Return ppDtPeriodTaxReducedRate
+        End Get
+        Set(ByVal value As DataTable)
+            ppDtPeriodTaxReducedRate = value
+        End Set
+    End Property
+    ' --- 2019/08/21 軽減税率対応 End E.Okuda@Compass ---
 
 End Class

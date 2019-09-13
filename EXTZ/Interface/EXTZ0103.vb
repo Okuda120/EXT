@@ -19,6 +19,7 @@ Public Class EXTZ0103
     Public dataEXTZ0103 As New DataEXTZ0103         'データクラス
     Private commonLogicEXT As New CommonLogicEXT    '共通ロジッククラス
 
+
 #Region "「日別売上一覧画面」ロード時処理 "
 
     ''' <summary>
@@ -28,7 +29,7 @@ Public Class EXTZ0103
     ''' <param name="e"></param>
     ''' <remarks>「日別売上一覧画面」ロード時の処理を行う 
     ''' <para>作成情報：2015/09/16 h.endo
-    ''' <p>改訂情報：</p>
+    ''' <p>改訂情報：2019/08/27 E.Okuda@Compass 集計機能追加</p>
     ''' </para></remarks>
     Private Sub EXTZ0103_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -82,6 +83,11 @@ Public Class EXTZ0103
             Me.BackgroundImage = Nothing
         End If
 
+        ' --- 2019/08/27 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
+        Me.btnDailyList.Enabled = False
+        ' --- 2019/08/27 日別売上一覧機能追加対応 End E.Okuda@Compass ---
+
+
     End Sub
 
 #End Region
@@ -129,7 +135,7 @@ Public Class EXTZ0103
     ''' <param name="e"></param>
     ''' <remarks>「戻る」ボタン押下時の処理を行う 
     ''' <para>作成情報：2015/09/09 h.endo
-    ''' <p>改訂情報：</p>
+    ''' <p>改訂情報：2019/08/27 E.Okuda@Compass 集計機能追加</p>
     ''' </para></remarks>
     Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
 
@@ -243,12 +249,31 @@ Public Class EXTZ0103
             .PropStrShiyoTsukiTo = Me.txtShiyoTsuki_To.Text
             .PropStrRiyoNm = Me.txtRiyoNm.Text
             .PropStrRiyoNmKana = Me.txtRiyoNm_Kana.Text
+
+            ' --- 2019/08/27 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
+            .PropBlnExcludeZero = Me.chkExcludeZero.Checked
+            ' --- 2019/08/27 日別売上一覧機能追加対応 End E.Okuda@Compass ---
+
         End With
 
         'スプレッドの作成
         If logicEXTZ0103.MakeSpread(dataEXTZ0103) = False Then
             MsgBox(puErrMsg, MsgBoxStyle.Exclamation, "エラー")
         End If
+
+        ' --- 2019/08/27 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
+        Me.btnDailyList.Enabled = False
+
+        If Me.rdoTheatre.Checked Then
+            If dataEXTZ0103.PropvwDayUriageTheatre.Sheets(0).RowCount > 0 Then
+                Me.btnDailyList.Enabled = True
+            End If
+        Else
+            If dataEXTZ0103.PropvwDayUriageStudio.Sheets(0).RowCount > 0 Then
+                Me.btnDailyList.Enabled = True
+            End If
+        End If
+        ' --- 2019/08/27 日別売上一覧機能追加対応 End E.Okuda@Compass ---
 
     End Sub
 
@@ -283,7 +308,7 @@ Public Class EXTZ0103
     ''' <param name="e"></param>
     ''' <remarks>表示する一覧を切り替える 
     ''' <para>作成情報：2015/09/16 h.endo
-    ''' <p>改訂情報：</p>
+    ''' <p>改訂情報：2019/08/27 E.Okuda@Compass 集計機能追加</p>
     ''' </para></remarks>
     Private Sub rdoTheatre_CheckedChanged(sender As Object, e As EventArgs) Handles rdoTheatre.CheckedChanged
 
@@ -293,20 +318,65 @@ Public Class EXTZ0103
             Me.vwSeikyuChoseiTheatre.Visible = True
             Me.vwDayUriageStudio.Visible = False
             Me.vwSeikyuChoseiStudio.Visible = False
+
+            ' --- 2019/08/27 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
+            Me.btnDailyList.Enabled = False
+            If Me.vwDayUriageTheatre.Sheets.Count > 0 Then
+                If Me.vwDayUriageTheatre.Sheets(0).RowCount > 0 Then
+                    Me.btnDailyList.Enabled = True
+                End If
+            End If
+            ' --- 2019/08/27 日別売上一覧機能追加対応 End E.Okuda@Compass ---
         Else
-            'スタジオがチェック状態
-            Me.vwDayUriageStudio.Visible = True
+                'スタジオがチェック状態
+                Me.vwDayUriageStudio.Visible = True
             Me.vwSeikyuChoseiStudio.Visible = True
             Me.vwDayUriageTheatre.Visible = False
             Me.vwSeikyuChoseiTheatre.Visible = False
+
+            ' --- 2019/08/27 日別売上一覧機能追加対応 Start.Okuda@Compass ---
+            Me.btnDailyList.Enabled = False
+            If Me.vwDayUriageStudio.Sheets.Count > 0 Then
+                If Me.vwDayUriageStudio.Sheets(0).RowCount > 0 Then
+                    Me.btnDailyList.Enabled = True
+                End If
+            End If
+            ' --- 2019/08/27 日別売上一覧機能追加対応 End E.Okuda@Compass ---
         End If
 
     End Sub
 
-    Private Sub vwDayUriageTheatre_CellClick(sender As Object, e As FarPoint.Win.Spread.CellClickEventArgs) Handles vwDayUriageTheatre.CellClick
+#End Region
+
+    ' --- 2019/08/27 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
+
+#Region "集計CSV出力ボタンが変クリックされた場合の処理 "
+
+    ''' <summary>
+    ''' 集計CSV出力ボタンが変クリックされた場合の処理 
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks>CSVファイルを出力する 
+    ''' <para>作成情報：2019/08/27 E.Okuda@Compass
+    ''' <p>改訂情報：</p>
+    ''' </para></remarks>
+    Private Sub btnDailyList_Click(sender As Object, e As EventArgs) Handles btnDailyList.Click
+
+        ' DBレプリケーション
+        If commonLogicEXT.CheckDBCondition() = False Then
+            'メッセージを出力 
+            MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
+            Exit Sub
+        End If
+
+        'CSVファイル出力処理を行う
+        If logicEXTZ0103.OutputCsvMain(dataEXTZ0103) = False Then
+            MsgBox(puErrMsg)
+        End If
 
     End Sub
-
 #End Region
+    ' --- 2019/08/27 日別売上一覧機能追加対応 End E.Okuda@Compass ---
 
 End Class

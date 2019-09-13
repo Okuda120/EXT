@@ -96,7 +96,7 @@ Partial Class EXTZ0203
         Me.Label2.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.Label2.Location = New System.Drawing.Point(70, 525)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(0, 13)
+        Me.Label2.Size = New System.Drawing.Size(0, 17)
         Me.Label2.TabIndex = 79
         '
         'btnBack
@@ -180,7 +180,7 @@ Partial Class EXTZ0203
         Me.cmbFugo.FormattingEnabled = True
         Me.cmbFugo.Location = New System.Drawing.Point(81, 145)
         Me.cmbFugo.Name = "cmbFugo"
-        Me.cmbFugo.Size = New System.Drawing.Size(34, 21)
+        Me.cmbFugo.Size = New System.Drawing.Size(34, 24)
         Me.cmbFugo.TabIndex = 99
         '
         'txtChoseiKin
@@ -190,7 +190,7 @@ Partial Class EXTZ0203
         Me.txtChoseiKin.Location = New System.Drawing.Point(121, 146)
         Me.txtChoseiKin.MaxLength = 11
         Me.txtChoseiKin.Name = "txtChoseiKin"
-        Me.txtChoseiKin.Size = New System.Drawing.Size(89, 20)
+        Me.txtChoseiKin.Size = New System.Drawing.Size(89, 24)
         Me.txtChoseiKin.TabIndex = 100
         Me.txtChoseiKin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -212,7 +212,7 @@ Partial Class EXTZ0203
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(103, 17)
         Me.Label8.TabIndex = 106
-        Me.Label8.Text = "消費税"
+        Me.Label8.Text = "外税(税額)"
         '
         'lblShokei
         '
@@ -386,7 +386,7 @@ Partial Class EXTZ0203
         Me.rdoNyukin2.AutoSize = True
         Me.rdoNyukin2.Location = New System.Drawing.Point(72, 4)
         Me.rdoNyukin2.Name = "rdoNyukin2"
-        Me.rdoNyukin2.Size = New System.Drawing.Size(99, 17)
+        Me.rdoNyukin2.Size = New System.Drawing.Size(125, 21)
         Me.rdoNyukin2.TabIndex = 30
         Me.rdoNyukin2.Text = "現金(ALSOK)"
         Me.rdoNyukin2.UseVisualStyleBackColor = True
@@ -397,7 +397,7 @@ Partial Class EXTZ0203
         Me.rdoNyukin1.Checked = True
         Me.rdoNyukin1.Location = New System.Drawing.Point(3, 4)
         Me.rdoNyukin1.Name = "rdoNyukin1"
-        Me.rdoNyukin1.Size = New System.Drawing.Size(51, 17)
+        Me.rdoNyukin1.Size = New System.Drawing.Size(63, 21)
         Me.rdoNyukin1.TabIndex = 29
         Me.rdoNyukin1.TabStop = True
         Me.rdoNyukin1.Text = "振込"
@@ -426,6 +426,7 @@ Partial Class EXTZ0203
         'dtpSeikyuDt
         '
         Me.dtpSeikyuDt.Location = New System.Drawing.Point(121, 49)
+        Me.dtpSeikyuDt.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtpSeikyuDt.Name = "dtpSeikyuDt"
         Me.dtpSeikyuDt.Size = New System.Drawing.Size(145, 25)
         Me.dtpSeikyuDt.TabIndex = 122
@@ -433,13 +434,14 @@ Partial Class EXTZ0203
         'dtpNyukinYoteiDt
         '
         Me.dtpNyukinYoteiDt.Location = New System.Drawing.Point(121, 78)
+        Me.dtpNyukinYoteiDt.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtpNyukinYoteiDt.Name = "dtpNyukinYoteiDt"
         Me.dtpNyukinYoteiDt.Size = New System.Drawing.Size(145, 25)
         Me.dtpNyukinYoteiDt.TabIndex = 123
         '
         'EXTZ0203
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTZ.My.Resources.Resources.背景

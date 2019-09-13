@@ -233,6 +233,9 @@ Public Class EXTM0104
         Me.txtkikanfrommonth.Clear()
         Me.txtkikantoyear.Clear()
         Me.txtkikantomonth.Clear()
+
+
+
         'ラジオボタンが変わったため分類ビュー、料金ビュー、倍率ビューを再セットする必要がある
         If logicEXTM0104.SetBunruiData(dataEXTM0104) = False Then
             MsgBox(puErrMsg, MsgBoxStyle.Critical, "エラー")

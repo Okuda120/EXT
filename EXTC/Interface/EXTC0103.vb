@@ -52,6 +52,15 @@ Public Class EXTC0103
     Public Const FB_FUTAI_COPY As Integer = 2
     Public Const FB_FUTAI_PRINT As Integer = 5
 
+    ' --- 2019/08/19 軽減税率対応 Start E.Okuda@Compass ---
+    ' EXAS請求依頼ファイル出力
+    Private Const EXAS_TAX_KBN_GENERAL As String = "10"
+    Private Const EXAS_TAX_KBN_REDUCED As String = "1D"
+    Private Const EXAS_TAX_INCLUSIVE As String = "2"
+    Private Const EXAS_TAX_EXCLUSIVE As String = "1"
+
+    ' --- 2019/08/19 軽減税率対応 End E.Okuda@Compass ---
+
     ''' <summary>
     ''' 初期処理
     ''' </summary>
@@ -3118,6 +3127,26 @@ Public Class EXTC0103
             End If
             ' 2016.08.12 ADD END↑ m.hayabuchi 代行処理対応
 
+            ' --- 2019/08/15 軽減税率対応 Start E.Okuda@Compass ---
+            ' 利用開始／終了日を取得する。
+            dataEXTC0103.PropAryRiyouStartEnd = logicEXTC0103.setStartEndRiyobi(dataEXTC0102.PropListRiyobi)
+
+            ' 税率および軽減税率取得
+            If logicEXTC0103.GetPeriodTaxRate(dataEXTC0103) = False Then
+                MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
+                Exit Sub
+            End If
+
+            Dim strReducedRate As String = ""
+
+            ' 軽減税率を取得する。
+            If Not dataEXTC0103.PropDtPeriodTaxReducedRate.Rows(0).Item("reduced_rate").ToString.Trim = "" Then
+                strReducedRate = dataEXTC0103.PropDtPeriodTaxReducedRate.Rows(0).Item("reduced_rate").ToString
+            End If
+
+            ' --- 2019/08/15 軽減税率対応 End E.Okuda@Compass ---
+
+
             ' 見出し出力
             sw.WriteLine(CSV_HEADER)
 
@@ -3278,7 +3307,7 @@ Public Class EXTC0103
                                 appendDtl(sbDetail, dRow("tax_kin"))
                                 '消費税区分
                                 ' --- 2019/08/08 軽減税率対応 Start E.Okuda@Compass ---
-                                appendDtl(sbDetail, "10")
+                                appendDtl(sbDetail, EXAS_TAX_KBN_GENERAL)
                                 'appendDtl(sbDetail, "")
                                 ' --- 2019/08/08 軽減税率対応 End E.Okuda@Compass ---
                                 '消費税率
@@ -3388,24 +3417,27 @@ Public Class EXTC0103
                                 dataEXTC0103.PropStrCalculateDay_Output = dataEXTC0103.PropStrCalculateDay_Output.Substring(0, 10)
                                 dataEXTC0103.PropStrGrpKey = dRow("shukei_grp")
                                 ' --- 2019/08/08 軽減税率対応 Start E.Okuda@Compass ---
+                                '消費税額
                                 If dRow("notax_flg") = "1" Then
-                                    '消費税額
                                     appendDtl(sbDetail, "0")
-                                    '消費税区分
-                                    appendDtl(sbDetail, "1D")
-                                    '消費税率
-                                    appendDtl(sbDetail, dRow("zeiritsu"))
-                                    '外税内税区分
-                                    appendDtl(sbDetail, "2")
                                 Else
-                                    '消費税額
                                     appendDtl(sbDetail, dRow("tax_kin"))
-                                    '消費税区分
-                                    appendDtl(sbDetail, "10")
-                                    '消費税率
-                                    appendDtl(sbDetail, dRow("zeiritsu"))
-                                    '外税内税区分
-                                    appendDtl(sbDetail, "1")
+                                End If
+
+                                '消費税区分
+                                If strReducedRate = "" Or dRow("zeiritsu") <> strReducedRate.ToString Then
+                                    appendDtl(sbDetail, EXAS_TAX_KBN_GENERAL)
+                                Else
+                                    appendDtl(sbDetail, EXAS_TAX_KBN_REDUCED)
+                                End If
+                                '消費税率
+                                appendDtl(sbDetail, dRow("zeiritsu"))
+
+                                '外税内税区分
+                                If dRow("notax_flg") = "1" Then
+                                    appendDtl(sbDetail, EXAS_TAX_INCLUSIVE)
+                                Else
+                                    appendDtl(sbDetail, EXAS_TAX_EXCLUSIVE)
                                 End If
                                 'If logicEXTC0103.GetNotaxflg(dataEXTC0103) = "1" Then
                                 '    '消費税額

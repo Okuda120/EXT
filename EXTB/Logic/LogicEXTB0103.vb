@@ -1614,6 +1614,9 @@ Public Class LogicEXTB0103
 
                 'sql実行
                 Adapter.Fill(table)
+                ' 2019/09/09 コメント追加 E.Okuda@Compass
+                ' 外税データ取得してPropDtUseDetailsNoTax_Outputに代入している
+                ' 2019/09/09 コメント追加終了 E.Okuda@Compass
                 'DBの値をDATAクラスに代入
                 dataEXTB0103.PropDtUseDetailsNoTax_Output = table
 
@@ -2053,7 +2056,7 @@ Public Class LogicEXTB0103
                         If row("sumKingaku") Is DBNull.Value Then
                             row("sumKingaku") = "0"
                         End If
-                        row("sumChosei") = .PropDtUseDetails_Output.Compute("SUM(futai_chosei)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                        row("sumChosei") = .PropDtUseDetailsNoTax_Output.Compute("SUM(futai_chosei)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
                         If row("sumChosei") Is DBNull.Value Then
                             row("sumChosei") = "0"
                         End If
@@ -2172,7 +2175,9 @@ Public Class LogicEXTB0103
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_KINGAKU).Value = dtSelectRow.Item(11) '金額
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_CHOSEI).Value = dtSelectRow.Item(12) '調整額
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(15) / 100 '税率
+                            If dtSelectRow.Item(15) IsNot DBNull.Value Then
+                                .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(15) / 100 '税率
+                            End If
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Formula = String.Format(INCIDENT_TAX_AMOUNT, j + 1) '税額
                             '.PropVwPrintSheet.ActiveSheet.Cells(j, 0).Value = i + 2 'インデックス
                             '.PropVwPrintSheet.ActiveSheet.Cells(j, 1).Value = dtSelectRow.Item(7) '項目名
@@ -2207,9 +2212,9 @@ Public Class LogicEXTB0103
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(15) / 100 '税率
 
                             ' 税額計算
-                            ' 小数点以下切り捨て計算する。
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Truncate(
-                            CLng(.PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100) * dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100)
+                            ' 小数点以下四捨五入計算する。
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Round(
+                            CLng(.PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(15) / 100) * dtSelectRow.Item(15) / 100, MidpointRounding.AwayFromZero)
 
                             'Dim j As Integer = i + 51
                             ''DataTableから一行取得
@@ -2237,7 +2242,7 @@ Public Class LogicEXTB0103
                             'DataTableから一行取得
                             Dim dtSelectRow As DataRow = .PropDtUseDetailsNoTax_Output.Rows(i)
                             'スプレッドシートに値設定
-                            ' --- 2019/07/03 軽減税率対応 Start E.Okuda@Compass ---
+                            ' --- 2019/09/13 軽減税率対応 Start E.Okuda@Compass ---
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_IDX).Value = i + 2 'インデックス
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ITEM_NAME).Value = dtSelectRow.Item(5) '項目名
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_TANI).Value = dtSelectRow.Item(6) '単位
@@ -2246,7 +2251,9 @@ Public Class LogicEXTB0103
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_KINGAKU).Value = dtSelectRow.Item(9) '金額
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_CHOSEI).Value = dtSelectRow.Item(10) '調整額
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(14) / 100 '税率
+                            If dtSelectRow.Item(14) IsNot DBNull.Value Then
+                                .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(14) / 100 '税率
+                            End If
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Formula = String.Format(INCIDENT_TAX_AMOUNT, j + 1) '税額
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_BIKO).Value = dtSelectRow.Item(12) '備考
 
@@ -2259,7 +2266,7 @@ Public Class LogicEXTB0103
                             '.PropVwPrintSheet.ActiveSheet.Cells(j, 6).Value = dtSelectRow.Item(10) '調整額
                             '.PropVwPrintSheet.ActiveSheet.Cells(j, 7).Formula = String.Format(INCIDENT_SUBFEE, j + 1) '小計
                             '.PropVwPrintSheet.ActiveSheet.Cells(j, 8).Value = dtSelectRow.Item(12) '備考
-                            ' --- 2019/07/03 軽減税率対応 End E.Okuda@Compass ---
+                            ' --- 2019/09/13 軽減税率対応 End E.Okuda@Compass ---
                         Next
                     End If
                     '楽屋ケイタリングサービス・お立替経費・追加人件費他
@@ -2283,9 +2290,9 @@ Public Class LogicEXTB0103
                             .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100   ' 税率
                             .PropVwPrintSheet.ActiveSheet.Cells(j, 10).Value = dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_BIKO) '備考
                             ' 税額計算
-                            ' 小数点以下切り捨て計算する。
-                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Truncate(
-                            CLng(.PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100) * dtSelectRow.Item(COL_DTABLE_USEDETAIL_NOTAX_ZEIRITSU) / 100)
+                            ' 小数点以下四捨五入計算する。
+                            .PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Round(
+                            CLng(.PropVwPrintSheet.ActiveSheet.Cells(j, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(14) / 100) * dtSelectRow.Item(14) / 100, MidpointRounding.AwayFromZero)
 
                             ''データを設定するスプレッド行数
                             'Dim j As Integer = i + 51

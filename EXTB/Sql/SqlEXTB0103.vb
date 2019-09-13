@@ -140,36 +140,68 @@ Public Class SqlEXTB0103
     '                        "WHERE yoyaku_no = :YoyakuNo " & vbCrLf & _
     '                        "    AND yoyaku_dt = :Riyobi " & vbCrLf & _
     '                        "ORDER BY add_dt "
-    Private strEX05S004 As String = _
-                            "SELECT " & vbCrLf & _
-                            "    t1.yoyaku_no, " & vbCrLf & _
-                            "    t1.yoyaku_dt, " & vbCrLf & _
-                            "    t1.fuzoku_nm, " & vbCrLf & _
-                            "    t1.total_fuzoku_kin " & vbCrLf & _
-                            "   ,CASE WHEN :SYANAI = '2' THEN 0 ELSE COALESCE(t2.tax_kin,0) END AS tax_kin" & vbCrLf & _
-                            "FROM " & vbCrLf & _
-                            "    friyo_tbl t1 " & vbCrLf & _
-                            "LEFT JOIN ( SELECT t0.YOYAKU_NO , t0.YOYAKU_DT , sum(t0.tax_kin) AS tax_kin " & vbCrLf & _
-                                       " FROM  ( SELECT CASE WHEN tt2.NOTAX_FLG = '0' THEN ROUND((tt1.FUTAI_KIN * tt3.TAX_RITU ) /100 ,0 )" & vbCrLf & _
-                                       "                                              ELSE 0 " & vbCrLf & _
-                                       "                END TAX_KIN " & vbCrLf & _
-                                       "               ,tt1.YOYAKU_NO " & vbCrLf & _
-                                       "               ,tt1.YOYAKU_DT " & vbCrLf & _
-                                       "         FROM  FRIYO_MEISAI_TBL tt1 " & vbCrLf & _
-                                       "           LEFT OUTER JOIN  FBUNRUI_MST tt2 " & vbCrLf & _
-                                       "                       ON   tt1.FUTAI_BUNRUI_CD = tt2.BUNRUI_CD " & vbCrLf & _
-                                       "                      AND   '1' = tt2.SHISETU_KBN " & vbCrLf & _
-                                       "                      AND   tt1.YOYAKU_DT BETWEEN tt2.KIKAN_FROM AND tt2.KIKAN_TO " & vbCrLf & _
-                                       "           LEFT OUTER JOIN  TAX_MST tt3 " & vbCrLf & _
-                                       "                       ON   tt1.YOYAKU_DT BETWEEN tt3.TAXS_DT AND tt3.TAXE_DT " & vbCrLf & _
-                                       "        ) t0 " & vbCrLf & _
-                                       " GROUP BY t0.YOYAKU_NO , t0.YOYAKU_DT " & vbCrLf & _
-                            "       ) t2 " & vbCrLf & _
-                            "      ON  t1.YOYAKU_NO = t2.YOYAKU_NO " & vbCrLf & _
-                            "     AND  t1.YOYAKU_DT = t2.YOYAKU_DT " & vbCrLf & _
-                            "WHERE t1.yoyaku_no = :YoyakuNo " & vbCrLf & _
-                            " AND  t1.yoyaku_dt = :Riyobi " & vbCrLf & _
+    ' --- 2019/08/20 軽減税率対応 Start E.Okuda@Compass ---
+    'Private strEX05S004 As String =
+    '                        "SELECT " & vbCrLf &
+    '                        "    t1.yoyaku_no, " & vbCrLf &
+    '                        "    t1.yoyaku_dt, " & vbCrLf &
+    '                        "    t1.fuzoku_nm, " & vbCrLf &
+    '                        "    t1.total_fuzoku_kin " & vbCrLf &
+    '                        "   ,CASE WHEN :SYANAI = '2' THEN 0 ELSE COALESCE(t2.tax_kin,0) END AS tax_kin" & vbCrLf &
+    '                        "FROM " & vbCrLf &
+    '                        "    friyo_tbl t1 " & vbCrLf &
+    '                        "LEFT JOIN ( SELECT t0.YOYAKU_NO , t0.YOYAKU_DT , sum(t0.tax_kin) AS tax_kin " & vbCrLf &
+    '                                   " FROM  ( SELECT CASE WHEN tt2.NOTAX_FLG = '0' THEN ROUND((tt1.FUTAI_KIN * tt3.TAX_RITU ) /100 ,0 )" & vbCrLf &
+    '                                   "                                              ELSE 0 " & vbCrLf &
+    '                                   "                END TAX_KIN " & vbCrLf &
+    '                                   "               ,tt1.YOYAKU_NO " & vbCrLf &
+    '                                   "               ,tt1.YOYAKU_DT " & vbCrLf &
+    '                                   "         FROM  FRIYO_MEISAI_TBL tt1 " & vbCrLf &
+    '                                   "           LEFT OUTER JOIN  FBUNRUI_MST tt2 " & vbCrLf &
+    '                                   "                       ON   tt1.FUTAI_BUNRUI_CD = tt2.BUNRUI_CD " & vbCrLf &
+    '                                   "                      AND   '1' = tt2.SHISETU_KBN " & vbCrLf &
+    '                                   "                      AND   tt1.YOYAKU_DT BETWEEN tt2.KIKAN_FROM AND tt2.KIKAN_TO " & vbCrLf &
+    '                                   "           LEFT OUTER JOIN  TAX_MST tt3 " & vbCrLf &
+    '                                   "                       ON   tt1.YOYAKU_DT BETWEEN tt3.TAXS_DT AND tt3.TAXE_DT " & vbCrLf &
+    '                                   "        ) t0 " & vbCrLf &
+    '                                   " GROUP BY t0.YOYAKU_NO , t0.YOYAKU_DT " & vbCrLf &
+    '                        "       ) t2 " & vbCrLf &
+    '                        "      ON  t1.YOYAKU_NO = t2.YOYAKU_NO " & vbCrLf &
+    '                        "     AND  t1.YOYAKU_DT = t2.YOYAKU_DT " & vbCrLf &
+    '                        "WHERE t1.yoyaku_no = :YoyakuNo " & vbCrLf &
+    '                        " AND  t1.yoyaku_dt = :Riyobi " & vbCrLf &
+    '                        "ORDER BY add_dt "
+    Private strEX05S004 As String =
+                            "SELECT " & vbCrLf &
+                            "    t1.yoyaku_no, " & vbCrLf &
+                            "    t1.yoyaku_dt, " & vbCrLf &
+                            "    t1.fuzoku_nm, " & vbCrLf &
+                            "    t1.total_fuzoku_kin " & vbCrLf &
+                            "   ,CASE WHEN :SYANAI = '2' THEN 0 ELSE COALESCE(t2.tax_kin,0) END AS tax_kin" & vbCrLf &
+                            "FROM " & vbCrLf &
+                            "    friyo_tbl t1 " & vbCrLf &
+                            "LEFT JOIN ( SELECT t0.YOYAKU_NO , t0.YOYAKU_DT , sum(t0.tax_kin) AS tax_kin " & vbCrLf &
+                                       " FROM  ( SELECT CASE WHEN tt2.NOTAX_FLG = '0' THEN ROUND((tt1.FUTAI_KIN * COALESCE(tt2.ZEIRITSU,tt3.TAX_RITU)) /100 ,0 )" & vbCrLf &
+                                       "                                              ELSE 0 " & vbCrLf &
+                                       "                END TAX_KIN " & vbCrLf &
+                                       "               ,tt1.YOYAKU_NO " & vbCrLf &
+                                       "               ,tt1.YOYAKU_DT " & vbCrLf &
+                                       "         FROM  FRIYO_MEISAI_TBL tt1 " & vbCrLf &
+                                       "           LEFT OUTER JOIN  FBUNRUI_MST tt2 " & vbCrLf &
+                                       "                       ON   tt1.FUTAI_BUNRUI_CD = tt2.BUNRUI_CD " & vbCrLf &
+                                       "                      AND   '1' = tt2.SHISETU_KBN " & vbCrLf &
+                                       "                      AND   tt1.YOYAKU_DT BETWEEN tt2.KIKAN_FROM AND tt2.KIKAN_TO " & vbCrLf &
+                                       "           LEFT OUTER JOIN  TAX_MST tt3 " & vbCrLf &
+                                       "                       ON   tt1.YOYAKU_DT BETWEEN tt3.TAXS_DT AND tt3.TAXE_DT " & vbCrLf &
+                                       "        ) t0 " & vbCrLf &
+                                       " GROUP BY t0.YOYAKU_NO , t0.YOYAKU_DT " & vbCrLf &
+                            "       ) t2 " & vbCrLf &
+                            "      ON  t1.YOYAKU_NO = t2.YOYAKU_NO " & vbCrLf &
+                            "     AND  t1.YOYAKU_DT = t2.YOYAKU_DT " & vbCrLf &
+                            "WHERE t1.yoyaku_no = :YoyakuNo " & vbCrLf &
+                            " AND  t1.yoyaku_dt = :Riyobi " & vbCrLf &
                             "ORDER BY add_dt "
+    ' --- 2019/08/20 軽減税率対応 End E.Okuda@Compass ---
     ' 2015.11.13 UPD END↑ h.hagiwara 
 
     '付帯設備明細
@@ -3276,12 +3308,19 @@ Public Class SqlEXTB0103
                 Dim futaiIndex As Integer = 0
                 Do While futaiIndex < tableFutaiDetail.Rows.Count
                     row = tableFutaiDetail.Rows(futaiIndex)
-                    If htTempExasFutai.ContainsKey(currentYm + row("shukei_grp")) Then
-                        newRow = htTempExasFutai(currentYm + row("shukei_grp"))
+                    ' --- 2019/08/20 軽減税率対応 Start E.Okuda@Compass ---
+                    If htTempExasFutai.ContainsKey(currentYm + row("shukei_grp") + row("zeiritsu").ToString + row("notax_flg").ToString) Then
+                        newRow = htTempExasFutai(currentYm + row("shukei_grp") + row("zeiritsu").ToString + row("notax_flg").ToString)
+                        'If htTempExasFutai.ContainsKey(currentYm + row("shukei_grp")) Then
+                        '    newRow = htTempExasFutai(currentYm + row("shukei_grp"))
+                        ' --- 2019/08/20 軽減税率対応 End E.Okuda@Compass ---
                         newRow("keijo_kin") = newRow("keijo_kin") + row("futai_shokei")
                         'newRow("tax_kin") = newRow("tax_kin") + Integer.Parse(Math.Round((row("futai_shokei") * dblTax), MidpointRounding.AwayFromZero))  ' 2015/11/13 UPD h.hagiwara
                         newRow("tax_kin") = newRow("tax_kin") + row("tax_kin")                                                                             ' 2015/11/13 UPD h.hagiwara
-                        htTempExasFutai.Remove(currentYm + row("shukei_grp"))
+                        ' --- 2019/08/20 軽減税率対応 Start E.Okuda@Compass ---
+                        htTempExasFutai.Remove(currentYm + row("shukei_grp") + row("zeiritsu").ToString + row("notax_flg").ToString)
+                        'htTempExasFutai.Remove(currentYm + row("shukei_grp"))
+                        ' --- 2019/08/20 軽減税率対応 End E.Okuda@Compass ---
                     Else
                         newRow = exasFutaitable.NewRow
                         newRow("riyo_ym") = currentYm
@@ -3331,7 +3370,10 @@ Public Class SqlEXTB0103
                         'htTempExasFutai.Add(currentYm + row("shukei_grp"), newRow)                                             ' 2015.12.17 MOVE h.hagiwara
                     End If
                     Debug.WriteLine(Key + row("shukei_grp"))                                                                  ' 2015.12.17 MOVE h.hagiwara
-                    htTempExasFutai.Add(currentYm + row("shukei_grp"), newRow)                                                ' 2015.12.17 MOVE h.hagiwara
+                    ' --- 2019/08/20 軽減税率対応 Start E.Okuda@Compass ---
+                    htTempExasFutai.Add(currentYm + row("shukei_grp") + row("zeiritsu").ToString + row("notax_flg").ToString, newRow)                                                ' 2015.12.17 MOVE h.hagiwara
+                    'htTempExasFutai.Add(currentYm + row("shukei_grp"), newRow)                                                ' 2015.12.17 MOVE h.hagiwara
+                    ' --- 2019/06/18 軽減税率対応 End E.Okuda@Compass ---
                     futaiIndex = futaiIndex + 1
                 Loop
             Next
@@ -3345,7 +3387,8 @@ Public Class SqlEXTB0103
                 Dim lineIndex As New Integer
                 Do While exasIndex < exasFutaitable.Rows.Count
                     exasRow = exasFutaitable(exasIndex)
-                    If exasRow("riyo_ym") = futaiRow("riyo_ym") And exasRow("shukei_grp") = futaiRow("shukei_grp") Then
+                    If exasRow("riyo_ym") = futaiRow("riyo_ym") And exasRow("shukei_grp") = futaiRow("shukei_grp") And
+                       exasRow("zeiritsu") = futaiRow("zeiritsu") And exasRow("notax_flg") = futaiRow("notax_flg") Then
                         blnExist = True
                         lineIndex = exasIndex
                     End If

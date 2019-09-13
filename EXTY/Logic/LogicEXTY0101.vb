@@ -19,6 +19,14 @@ Public Class LogicEXTY0101
     'Public定数宣言
     Public Const COL_SELECT As Integer = 0                   '選択
 
+    ' --- 2019/08/21 軽減税率対応 Start E.Okuda@Compass ---
+    ' EXAS請求依頼ファイル出力
+    Private Const EXAS_TAX_KBN_GENERAL As String = "10"
+    Private Const EXAS_TAX_KBN_REDUCED As String = "1D"
+    Private Const EXAS_TAX_INCLUSIVE As String = "2"
+    Private Const EXAS_TAX_EXCLUSIVE As String = "1"
+    ' --- 2019/08/21 軽減税率対応 End E.Okuda@Compass ---
+
 
     'CSVファイルヘッダ行文字列
     'Private Const CSV_HEADER As String = """請求日"",""入金予定日"",""当社担当者コード"",""当社担当者所属部署コード"",""当社部署""," &
@@ -457,6 +465,14 @@ Public Class LogicEXTY0101
                         End If
                         '取得したデータを格納
                         dtCsvData = dataEXTY0101.PropDtOutputCsvData
+
+                        ' --- 2019/08/21 軽減税率対応 Start E.Okuda@Compass ---
+                        ' 税率および軽減税率取得
+                        If GetPeriodTaxRate(dataEXTY0101) = False Then
+                            Return False
+                        End If
+
+                        ' --- 2019/08/21 軽減税率対応 End E.Okuda@Compass ---
 
                         '請求依頼データを書き込む
                         For Each Row As DataRow In dtCsvData.Rows
@@ -961,25 +977,48 @@ Public Class LogicEXTY0101
             'End If
             '' 2016.03.17 UPD END↑ h.hagiwara 利用料は課税
             If dr(27) = "1" Then
-                ' 外税の場合
+                ' 請求内容が利用料の場合
                 sw.Write(comma & dr(24))                 '消費税額
-                sw.Write(comma)                          '消費税区分
+                sw.Write(comma & EXAS_TAX_KBN_GENERAL)   '消費税区分
                 sw.Write(comma & dr(25))                 '消費税率
-                sw.Write(comma)                          '外税内税区分
+                sw.Write(comma & EXAS_TAX_EXCLUSIVE)     '外税内税区分
             Else
+                ' 請求内容が利用料以外の場合
+
+                ' 消費税額設定
+                ' 税無しフラグがONの場合は税額 = 0
                 If dr(26) = "1" Then
                     sw.Write(comma & "0")                '消費税額
-                    sw.Write(comma & "10")               '消費税区分
-                    sw.Write(comma)                      '消費税率
-                    sw.Write(comma & "2")                '外税内税区分
                 Else
-                    sw.Write(comma & dr(24))             '消費税額
-                    sw.Write(comma)                      '消費税区分
-                    sw.Write(comma & dr(25))             '消費税率
-                    sw.Write(comma)                      '外税内税区分
+                    sw.Write(comma & dr(24))
+                End If
+
+                ' 消費税区分
+                If dataEXTY0101.PropDtPeriodTaxReducedRate.Rows(0).Item("reduced_rate") Is DBNull.Value Then
+                    ' DBNullの場合、「課税売上」を設定
+                    sw.Write(comma & EXAS_TAX_KBN_GENERAL)
+                Else
+                    If dataEXTY0101.PropDtPeriodTaxReducedRate.Rows(0).Item("reduced_rate") = dr(25) Then
+                        ' 消費税マスタの軽減税率と一致する場合、「課税売上軽減」を設定
+                        sw.Write(comma & EXAS_TAX_KBN_REDUCED)
+                    Else
+                        ' 「課税売上」を設定
+                        sw.Write(comma & EXAS_TAX_KBN_GENERAL)
+                    End If
+                End If
+
+                ' 消費税率
+                sw.Write(comma & dr(25))
+
+                '外税内税区分
+                If dr(26) = "1" Then
+                    sw.Write(comma & EXAS_TAX_INCLUSIVE)
+                Else
+                    sw.Write(comma & EXAS_TAX_EXCLUSIVE)
                 End If
             End If
             ' --- 2019/08/08 軽減税率対応 End E.Okuda@Compass ---
+
             sw.Write(comma)                          'G請求内容コード
             sw.Write(comma)                          'G_セグメントコード
             sw.Write(comma)                          'Gコンテンツ識別区分
@@ -1139,5 +1178,61 @@ Public Class LogicEXTY0101
         End Try
 
     End Function
+
+    ' --- 2019/08/21 軽減税率対応 Start E.Okuda@Compass ---
+    ''' <summary>
+    ''' 消費税率・軽減税率取得
+    ''' </summary>
+    ''' <param name="dataEXY0101"></param>
+    ''' <returns>boolean エラーコード  true 正常終了　false 異常終了</returns>
+    ''' <remarks>消費税マスタ／消費税率および軽減税率取得をする
+    ''' <para>作成情報：2019/08/21 E.Okuda@Compass
+    ''' <p>改訂情報 : </p>
+    ''' </para></remarks>
+    Public Function GetPeriodTaxRate(ByRef dataEXY0101 As DataEXTY0101) As Boolean
+        'ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+        '変数宣言
+        Dim Cn As New NpgsqlConnection(DbString)
+        Dim Tx As NpgsqlTransaction = Nothing
+        Dim Adapter As New NpgsqlDataAdapter
+        Dim Table As New DataTable()
+
+        Try
+            ' コネクションを開く
+            Cn.Open()
+
+            'SELECT用SQLCommandを作成
+            If sqlEXTY0101.SelectTaxRateSql(Adapter, Cn, dataEXY0101) = False Then
+                Return False
+            End If
+
+            'データを取得
+            Adapter.Fill(Table)
+
+            dataEXY0101.PropDtPeriodTaxReducedRate = Table
+
+            'ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.DEBUG_Lv, "消費税率・軽減税率情報取得", Nothing, Adapter.SelectCommand)
+            'ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+            '正常終了
+            Return True
+        Catch ex As Exception
+            'ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.ERROR_Lv, ex.Message, ex, Adapter.SelectCommand)
+            Return False
+        Finally
+            '終了処理
+            Cn.Dispose()
+            Adapter.Dispose()
+            Table.Dispose()
+        End Try
+
+        Return True
+
+    End Function
+    ' --- 2019/08/21 軽減税率対応 End E.Okuda@Compass ---
+
 
 End Class

@@ -58,7 +58,7 @@ Partial Class EXTM0103
         Me.ppVwList.Margin = New System.Windows.Forms.Padding(4)
         Me.ppVwList.Name = "ppVwList"
         Me.ppVwList.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.ppVwList_Sheet1})
-        Me.ppVwList.Size = New System.Drawing.Size(511, 318)
+        Me.ppVwList.Size = New System.Drawing.Size(517, 318)
         Me.ppVwList.TabIndex = 115
         '
         'ppVwList_Sheet1
@@ -134,7 +134,7 @@ Partial Class EXTM0103
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTM.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(584, 472)
+        Me.ClientSize = New System.Drawing.Size(593, 472)
         Me.Controls.Add(Me.ppVwList)
         Me.Controls.Add(Me.BtnBack)
         Me.Controls.Add(Me.BtnReg)

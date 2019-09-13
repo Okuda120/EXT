@@ -76,10 +76,9 @@ Partial Class EXTM0104
         '
         'btnsinki
         '
-        Me.btnsinki.Location = New System.Drawing.Point(768, 1129)
-        Me.btnsinki.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnsinki.Location = New System.Drawing.Point(576, 903)
         Me.btnsinki.Name = "btnsinki"
-        Me.btnsinki.Size = New System.Drawing.Size(263, 36)
+        Me.btnsinki.Size = New System.Drawing.Size(197, 29)
         Me.btnsinki.TabIndex = 134
         Me.btnsinki.Text = "登録内容を元に新規登録"
         Me.btnsinki.UseVisualStyleBackColor = True
@@ -89,10 +88,9 @@ Partial Class EXTM0104
         Me.Label34.AutoSize = True
         Me.Label34.BackColor = System.Drawing.Color.Transparent
         Me.Label34.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label34.Location = New System.Drawing.Point(55, 124)
-        Me.Label34.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label34.Location = New System.Drawing.Point(41, 99)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(70, 17)
+        Me.Label34.Size = New System.Drawing.Size(55, 13)
         Me.Label34.TabIndex = 127
         Me.Label34.Text = "期間　＊"
         '
@@ -103,30 +101,26 @@ Partial Class EXTM0104
         Me.GroupBox1.Controls.Add(Me.rdosumi)
         Me.GroupBox1.Controls.Add(Me.rdoshinki)
         Me.GroupBox1.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(59, 32)
-        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Location = New System.Drawing.Point(44, 26)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.GroupBox1.Size = New System.Drawing.Size(1191, 64)
+        Me.GroupBox1.Size = New System.Drawing.Size(893, 51)
         Me.GroupBox1.TabIndex = 126
         Me.GroupBox1.TabStop = False
         '
         'cmbkikan
         '
         Me.cmbkikan.FormattingEnabled = True
-        Me.cmbkikan.Location = New System.Drawing.Point(493, 20)
-        Me.cmbkikan.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cmbkikan.Location = New System.Drawing.Point(370, 16)
         Me.cmbkikan.Name = "cmbkikan"
-        Me.cmbkikan.Size = New System.Drawing.Size(443, 24)
+        Me.cmbkikan.Size = New System.Drawing.Size(333, 21)
         Me.cmbkikan.TabIndex = 33
         '
         'rdosumi
         '
         Me.rdosumi.AutoSize = True
-        Me.rdosumi.Location = New System.Drawing.Point(259, 21)
-        Me.rdosumi.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.rdosumi.Location = New System.Drawing.Point(194, 17)
         Me.rdosumi.Name = "rdosumi"
-        Me.rdosumi.Size = New System.Drawing.Size(217, 21)
+        Me.rdosumi.Size = New System.Drawing.Size(170, 17)
         Me.rdosumi.TabIndex = 32
         Me.rdosumi.Text = "設定済みの料金を編集する"
         Me.rdosumi.UseVisualStyleBackColor = True
@@ -134,30 +128,27 @@ Partial Class EXTM0104
         'rdoshinki
         '
         Me.rdoshinki.AutoSize = True
-        Me.rdoshinki.Location = New System.Drawing.Point(21, 21)
-        Me.rdoshinki.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.rdoshinki.Location = New System.Drawing.Point(16, 17)
         Me.rdoshinki.Name = "rdoshinki"
-        Me.rdoshinki.Size = New System.Drawing.Size(184, 21)
+        Me.rdoshinki.Size = New System.Drawing.Size(144, 17)
         Me.rdoshinki.TabIndex = 31
         Me.rdoshinki.Text = "新規に料金を設定する"
         Me.rdoshinki.UseVisualStyleBackColor = True
         '
         'btnback
         '
-        Me.btnback.Location = New System.Drawing.Point(423, 1129)
-        Me.btnback.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnback.Location = New System.Drawing.Point(317, 903)
         Me.btnback.Name = "btnback"
-        Me.btnback.Size = New System.Drawing.Size(152, 36)
+        Me.btnback.Size = New System.Drawing.Size(114, 29)
         Me.btnback.TabIndex = 125
         Me.btnback.Text = "戻る"
         Me.btnback.UseVisualStyleBackColor = True
         '
         'btninsert
         '
-        Me.btninsert.Location = New System.Drawing.Point(1196, 1129)
-        Me.btninsert.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btninsert.Location = New System.Drawing.Point(897, 903)
         Me.btninsert.Name = "btninsert"
-        Me.btninsert.Size = New System.Drawing.Size(152, 36)
+        Me.btninsert.Size = New System.Drawing.Size(114, 29)
         Me.btninsert.TabIndex = 124
         Me.btninsert.Text = "登録"
         Me.btninsert.UseVisualStyleBackColor = True
@@ -167,10 +158,9 @@ Partial Class EXTM0104
         Me.Label14.AutoSize = True
         Me.Label14.BackColor = System.Drawing.Color.Transparent
         Me.Label14.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label14.Location = New System.Drawing.Point(56, 201)
-        Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label14.Location = New System.Drawing.Point(42, 161)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(123, 15)
+        Me.Label14.Size = New System.Drawing.Size(97, 12)
         Me.Label14.TabIndex = 135
         Me.Label14.Text = "利用料（分類）　＊"
         '
@@ -178,10 +168,9 @@ Partial Class EXTM0104
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label2.Location = New System.Drawing.Point(959, 201)
-        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label2.Location = New System.Drawing.Point(719, 161)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(123, 15)
+        Me.Label2.Size = New System.Drawing.Size(97, 12)
         Me.Label2.TabIndex = 136
         Me.Label2.Text = "利用料（料金）　＊"
         '
@@ -190,21 +179,19 @@ Partial Class EXTM0104
         Me.Label3.AutoSize = True
         Me.Label3.BackColor = System.Drawing.Color.Transparent
         Me.Label3.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label3.Location = New System.Drawing.Point(56, 686)
-        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label3.Location = New System.Drawing.Point(42, 549)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(62, 15)
+        Me.Label3.Size = New System.Drawing.Size(49, 12)
         Me.Label3.TabIndex = 137
         Me.Label3.Text = "倍率　＊"
         '
         'vwbunrui
         '
         Me.vwbunrui.AccessibleDescription = "vwbunrui, Sheet1, Row 0, Column 0, "
-        Me.vwbunrui.Location = New System.Drawing.Point(59, 234)
-        Me.vwbunrui.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.vwbunrui.Location = New System.Drawing.Point(44, 187)
         Me.vwbunrui.Name = "vwbunrui"
         Me.vwbunrui.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwbunrui_Sheet1})
-        Me.vwbunrui.Size = New System.Drawing.Size(853, 386)
+        Me.vwbunrui.Size = New System.Drawing.Size(641, 349)
         Me.vwbunrui.TabIndex = 138
         Me.vwbunrui.SetViewportTopRow(0, 0, 3)
         '
@@ -247,11 +234,10 @@ Partial Class EXTM0104
         'vwryokin
         '
         Me.vwryokin.AccessibleDescription = "vwryokin, Sheet1, Row 0, Column 0, "
-        Me.vwryokin.Location = New System.Drawing.Point(961, 234)
-        Me.vwryokin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.vwryokin.Location = New System.Drawing.Point(721, 187)
         Me.vwryokin.Name = "vwryokin"
         Me.vwryokin.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwryokin_Sheet1})
-        Me.vwryokin.Size = New System.Drawing.Size(969, 435)
+        Me.vwryokin.Size = New System.Drawing.Size(728, 349)
         Me.vwryokin.TabIndex = 139
         '
         'vwryokin_Sheet1
@@ -314,11 +300,10 @@ Partial Class EXTM0104
         'vwbairitu
         '
         Me.vwbairitu.AccessibleDescription = "vwbairitu, Sheet1, Row 0, Column 0, "
-        Me.vwbairitu.Location = New System.Drawing.Point(59, 724)
-        Me.vwbairitu.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.vwbairitu.Location = New System.Drawing.Point(44, 579)
         Me.vwbairitu.Name = "vwbairitu"
         Me.vwbairitu.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwbairitu_Sheet1})
-        Me.vwbairitu.Size = New System.Drawing.Size(951, 368)
+        Me.vwbairitu.Size = New System.Drawing.Size(714, 295)
         Me.vwbairitu.TabIndex = 140
         '
         'vwbairitu_Sheet1
@@ -363,20 +348,18 @@ Partial Class EXTM0104
         Me.Label1.AutoSize = True
         Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label1.Location = New System.Drawing.Point(567, 125)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label1.Location = New System.Drawing.Point(425, 100)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(22, 15)
+        Me.Label1.Size = New System.Drawing.Size(17, 12)
         Me.Label1.TabIndex = 156
         Me.Label1.Text = "月"
         '
         'txtkikantomonth
         '
         Me.txtkikantomonth.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtkikantomonth.Location = New System.Drawing.Point(511, 121)
-        Me.txtkikantomonth.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtkikantomonth.Location = New System.Drawing.Point(383, 97)
         Me.txtkikantomonth.Name = "txtkikantomonth"
-        Me.txtkikantomonth.Size = New System.Drawing.Size(47, 22)
+        Me.txtkikantomonth.Size = New System.Drawing.Size(36, 19)
         Me.txtkikantomonth.TabIndex = 155
         Me.txtkikantomonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -385,20 +368,18 @@ Partial Class EXTM0104
         Me.Label4.AutoSize = True
         Me.Label4.BackColor = System.Drawing.Color.Transparent
         Me.Label4.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label4.Location = New System.Drawing.Point(480, 125)
-        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label4.Location = New System.Drawing.Point(360, 100)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(22, 15)
+        Me.Label4.Size = New System.Drawing.Size(17, 12)
         Me.Label4.TabIndex = 154
         Me.Label4.Text = "年"
         '
         'txtkikantoyear
         '
         Me.txtkikantoyear.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtkikantoyear.Location = New System.Drawing.Point(393, 121)
-        Me.txtkikantoyear.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtkikantoyear.Location = New System.Drawing.Point(295, 97)
         Me.txtkikantoyear.Name = "txtkikantoyear"
-        Me.txtkikantoyear.Size = New System.Drawing.Size(77, 22)
+        Me.txtkikantoyear.Size = New System.Drawing.Size(59, 19)
         Me.txtkikantoyear.TabIndex = 153
         Me.txtkikantoyear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -407,20 +388,18 @@ Partial Class EXTM0104
         Me.Label5.AutoSize = True
         Me.Label5.BackColor = System.Drawing.Color.Transparent
         Me.Label5.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label5.Location = New System.Drawing.Point(320, 125)
-        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label5.Location = New System.Drawing.Point(240, 100)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(47, 15)
+        Me.Label5.Size = New System.Drawing.Size(37, 12)
         Me.Label5.TabIndex = 152
         Me.Label5.Text = "月　～"
         '
         'txtkikanfrommonth
         '
         Me.txtkikanfrommonth.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtkikanfrommonth.Location = New System.Drawing.Point(264, 121)
-        Me.txtkikanfrommonth.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtkikanfrommonth.Location = New System.Drawing.Point(198, 97)
         Me.txtkikanfrommonth.Name = "txtkikanfrommonth"
-        Me.txtkikanfrommonth.Size = New System.Drawing.Size(47, 22)
+        Me.txtkikanfrommonth.Size = New System.Drawing.Size(36, 19)
         Me.txtkikanfrommonth.TabIndex = 151
         Me.txtkikanfrommonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -429,32 +408,29 @@ Partial Class EXTM0104
         Me.Label11.AutoSize = True
         Me.Label11.BackColor = System.Drawing.Color.Transparent
         Me.Label11.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label11.Location = New System.Drawing.Point(233, 125)
-        Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label11.Location = New System.Drawing.Point(175, 100)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(22, 15)
+        Me.Label11.Size = New System.Drawing.Size(17, 12)
         Me.Label11.TabIndex = 150
         Me.Label11.Text = "年"
         '
         'txtkikanfromyear
         '
         Me.txtkikanfromyear.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtkikanfromyear.Location = New System.Drawing.Point(147, 121)
-        Me.txtkikanfromyear.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtkikanfromyear.Location = New System.Drawing.Point(110, 97)
         Me.txtkikanfromyear.Name = "txtkikanfromyear"
-        Me.txtkikanfromyear.Size = New System.Drawing.Size(77, 22)
+        Me.txtkikanfromyear.Size = New System.Drawing.Size(59, 19)
         Me.txtkikanfromyear.TabIndex = 149
         Me.txtkikanfromyear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'EXTM0104
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTM.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(1979, 1202)
+        Me.ClientSize = New System.Drawing.Size(1484, 962)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtkikantomonth)
         Me.Controls.Add(Me.Label4)
@@ -476,7 +452,6 @@ Partial Class EXTM0104
         Me.Controls.Add(Me.btninsert)
         Me.DoubleBuffered = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "EXTM0104"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "ちゃり～ん。　利用料マスタメンテ"

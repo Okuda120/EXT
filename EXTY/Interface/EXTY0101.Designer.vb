@@ -48,21 +48,18 @@ Partial Class EXTY0101
         Me.GroupBox1.Controls.Add(Me.rdoStudio)
         Me.GroupBox1.Controls.Add(Me.rdoTheater)
         Me.GroupBox1.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(45, 34)
-        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
+        Me.GroupBox1.Location = New System.Drawing.Point(34, 27)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox1.Size = New System.Drawing.Size(631, 80)
+        Me.GroupBox1.Size = New System.Drawing.Size(473, 64)
         Me.GroupBox1.TabIndex = 127
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "検索対象"
         '
         'btnDisplay
         '
-        Me.btnDisplay.Location = New System.Drawing.Point(428, 24)
-        Me.btnDisplay.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnDisplay.Location = New System.Drawing.Point(321, 19)
         Me.btnDisplay.Name = "btnDisplay"
-        Me.btnDisplay.Size = New System.Drawing.Size(165, 36)
+        Me.btnDisplay.Size = New System.Drawing.Size(124, 29)
         Me.btnDisplay.TabIndex = 75
         Me.btnDisplay.Text = "表示"
         Me.btnDisplay.UseVisualStyleBackColor = True
@@ -70,10 +67,9 @@ Partial Class EXTY0101
         'rdoStudio
         '
         Me.rdoStudio.AutoSize = True
-        Me.rdoStudio.Location = New System.Drawing.Point(196, 31)
-        Me.rdoStudio.Margin = New System.Windows.Forms.Padding(4)
+        Me.rdoStudio.Location = New System.Drawing.Point(147, 25)
         Me.rdoStudio.Name = "rdoStudio"
-        Me.rdoStudio.Size = New System.Drawing.Size(81, 21)
+        Me.rdoStudio.Size = New System.Drawing.Size(65, 17)
         Me.rdoStudio.TabIndex = 32
         Me.rdoStudio.TabStop = True
         Me.rdoStudio.Text = "スタジオ"
@@ -82,10 +78,9 @@ Partial Class EXTY0101
         'rdoTheater
         '
         Me.rdoTheater.AutoSize = True
-        Me.rdoTheater.Location = New System.Drawing.Point(53, 31)
-        Me.rdoTheater.Margin = New System.Windows.Forms.Padding(4)
+        Me.rdoTheater.Location = New System.Drawing.Point(40, 25)
         Me.rdoTheater.Name = "rdoTheater"
-        Me.rdoTheater.Size = New System.Drawing.Size(82, 21)
+        Me.rdoTheater.Size = New System.Drawing.Size(66, 17)
         Me.rdoTheater.TabIndex = 31
         Me.rdoTheater.TabStop = True
         Me.rdoTheater.Text = "シアター"
@@ -96,29 +91,26 @@ Partial Class EXTY0101
         Me.Label32.AutoSize = True
         Me.Label32.BackColor = System.Drawing.Color.Transparent
         Me.Label32.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label32.Location = New System.Drawing.Point(57, 162)
-        Me.Label32.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label32.Location = New System.Drawing.Point(43, 130)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(110, 17)
+        Me.Label32.Size = New System.Drawing.Size(85, 13)
         Me.Label32.TabIndex = 128
         Me.Label32.Text = "作成対象請求"
         '
         'btnBack
         '
-        Me.btnBack.Location = New System.Drawing.Point(633, 1062)
-        Me.btnBack.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnBack.Location = New System.Drawing.Point(475, 850)
         Me.btnBack.Name = "btnBack"
-        Me.btnBack.Size = New System.Drawing.Size(165, 44)
+        Me.btnBack.Size = New System.Drawing.Size(124, 35)
         Me.btnBack.TabIndex = 129
         Me.btnBack.Text = "戻る"
         Me.btnBack.UseVisualStyleBackColor = True
         '
         'btnOutput
         '
-        Me.btnOutput.Location = New System.Drawing.Point(1195, 1062)
-        Me.btnOutput.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnOutput.Location = New System.Drawing.Point(800, 850)
         Me.btnOutput.Name = "btnOutput"
-        Me.btnOutput.Size = New System.Drawing.Size(216, 44)
+        Me.btnOutput.Size = New System.Drawing.Size(162, 35)
         Me.btnOutput.TabIndex = 130
         Me.btnOutput.Text = "請求依頼データ出力"
         Me.btnOutput.UseVisualStyleBackColor = True
@@ -127,11 +119,10 @@ Partial Class EXTY0101
         '
         Me.vwBillpay.AccessibleDescription = "vwBillpay, Sheet1, Row 0, Column 0, "
         Me.vwBillpay.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never
-        Me.vwBillpay.Location = New System.Drawing.Point(45, 201)
-        Me.vwBillpay.Margin = New System.Windows.Forms.Padding(4)
+        Me.vwBillpay.Location = New System.Drawing.Point(34, 157)
         Me.vwBillpay.Name = "vwBillpay"
         Me.vwBillpay.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwBillpay_Sheet1, Me.vwBillpay_Sheet2})
-        Me.vwBillpay.Size = New System.Drawing.Size(2023, 804)
+        Me.vwBillpay.Size = New System.Drawing.Size(1173, 644)
         Me.vwBillpay.TabIndex = 131
         Me.vwBillpay.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Never
         Me.vwBillpay.ActiveSheetIndex = 1
@@ -277,13 +268,12 @@ Partial Class EXTY0101
         '
         'EXTY0101
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTY.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(2112, 1141)
+        Me.ClientSize = New System.Drawing.Size(1566, 913)
         Me.Controls.Add(Me.vwBillpay)
         Me.Controls.Add(Me.btnOutput)
         Me.Controls.Add(Me.btnBack)
@@ -291,7 +281,6 @@ Partial Class EXTY0101
         Me.Controls.Add(Me.GroupBox1)
         Me.DoubleBuffered = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "EXTY0101"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "ちゃり～ん。　EXAS請求依頼データ作成"

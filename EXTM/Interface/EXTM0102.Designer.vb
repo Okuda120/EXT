@@ -30,6 +30,7 @@ Partial Class EXTM0102
         Dim ComboBoxCellType2 As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType()
         Dim ComboBoxCellType3 As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType()
         Dim ComboBoxCellType4 As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType()
+        Dim ComboBoxCellType5 As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType()
         Dim TextCellType4 As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType()
         Dim CheckBoxCellType2 As FarPoint.Win.Spread.CellType.CheckBoxCellType = New FarPoint.Win.Spread.CellType.CheckBoxCellType()
         Dim CheckBoxCellType3 As FarPoint.Win.Spread.CellType.CheckBoxCellType = New FarPoint.Win.Spread.CellType.CheckBoxCellType()
@@ -67,6 +68,7 @@ Partial Class EXTM0102
         Me.txtMonthTo = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtYearTo = New System.Windows.Forms.TextBox()
+        Me.btnPeriod = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.vwGroupingSheet, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -215,7 +217,7 @@ Partial Class EXTM0102
         Me.vwGroupingSheet.Location = New System.Drawing.Point(34, 236)
         Me.vwGroupingSheet.Name = "vwGroupingSheet"
         Me.vwGroupingSheet.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwGroupingSheet_Sheet1})
-        Me.vwGroupingSheet.Size = New System.Drawing.Size(1253, 252)
+        Me.vwGroupingSheet.Size = New System.Drawing.Size(1304, 252)
         Me.vwGroupingSheet.TabIndex = 139
         '
         'vwGroupingSheet_Sheet1
@@ -262,31 +264,34 @@ Partial Class EXTM0102
         Me.vwGroupingSheet_Sheet1.Columns.Get(3).Label = "内税"
         Me.vwGroupingSheet_Sheet1.Columns.Get(3).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwGroupingSheet_Sheet1.Columns.Get(3).Width = 40.0!
-        Me.vwGroupingSheet_Sheet1.Columns.Get(4).Label = "税率(%)"
-        Me.vwGroupingSheet_Sheet1.Columns.Get(4).Width = 52.0!
         ComboBoxCellType1.AllowEditorVerticalAlign = True
         ComboBoxCellType1.ButtonAlign = FarPoint.Win.ButtonAlign.Right
-        Me.vwGroupingSheet_Sheet1.Columns.Get(5).CellType = ComboBoxCellType1
+        Me.vwGroupingSheet_Sheet1.Columns.Get(4).CellType = ComboBoxCellType1
+        Me.vwGroupingSheet_Sheet1.Columns.Get(4).Label = "税率(%)"
+        Me.vwGroupingSheet_Sheet1.Columns.Get(4).Width = 52.0!
+        ComboBoxCellType2.AllowEditorVerticalAlign = True
+        ComboBoxCellType2.ButtonAlign = FarPoint.Win.ButtonAlign.Right
+        Me.vwGroupingSheet_Sheet1.Columns.Get(5).CellType = ComboBoxCellType2
         Me.vwGroupingSheet_Sheet1.Columns.Get(5).Label = "勘定科目"
         Me.vwGroupingSheet_Sheet1.Columns.Get(5).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwGroupingSheet_Sheet1.Columns.Get(5).Width = 150.0!
-        ComboBoxCellType2.AllowEditorVerticalAlign = True
-        ComboBoxCellType2.ButtonAlign = FarPoint.Win.ButtonAlign.Right
-        Me.vwGroupingSheet_Sheet1.Columns.Get(6).CellType = ComboBoxCellType2
+        ComboBoxCellType3.AllowEditorVerticalAlign = True
+        ComboBoxCellType3.ButtonAlign = FarPoint.Win.ButtonAlign.Right
+        Me.vwGroupingSheet_Sheet1.Columns.Get(6).CellType = ComboBoxCellType3
         Me.vwGroupingSheet_Sheet1.Columns.Get(6).Label = "細目"
         Me.vwGroupingSheet_Sheet1.Columns.Get(6).Locked = True
         Me.vwGroupingSheet_Sheet1.Columns.Get(6).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwGroupingSheet_Sheet1.Columns.Get(6).Width = 150.0!
-        ComboBoxCellType3.AllowEditorVerticalAlign = True
-        ComboBoxCellType3.ButtonAlign = FarPoint.Win.ButtonAlign.Right
-        Me.vwGroupingSheet_Sheet1.Columns.Get(7).CellType = ComboBoxCellType3
+        ComboBoxCellType4.AllowEditorVerticalAlign = True
+        ComboBoxCellType4.ButtonAlign = FarPoint.Win.ButtonAlign.Right
+        Me.vwGroupingSheet_Sheet1.Columns.Get(7).CellType = ComboBoxCellType4
         Me.vwGroupingSheet_Sheet1.Columns.Get(7).Label = "内訳"
         Me.vwGroupingSheet_Sheet1.Columns.Get(7).Locked = True
         Me.vwGroupingSheet_Sheet1.Columns.Get(7).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwGroupingSheet_Sheet1.Columns.Get(7).Width = 150.0!
-        ComboBoxCellType4.AllowEditorVerticalAlign = True
-        ComboBoxCellType4.ButtonAlign = FarPoint.Win.ButtonAlign.Right
-        Me.vwGroupingSheet_Sheet1.Columns.Get(8).CellType = ComboBoxCellType4
+        ComboBoxCellType5.AllowEditorVerticalAlign = True
+        ComboBoxCellType5.ButtonAlign = FarPoint.Win.ButtonAlign.Right
+        Me.vwGroupingSheet_Sheet1.Columns.Get(8).CellType = ComboBoxCellType5
         Me.vwGroupingSheet_Sheet1.Columns.Get(8).Label = "詳細"
         Me.vwGroupingSheet_Sheet1.Columns.Get(8).Locked = True
         Me.vwGroupingSheet_Sheet1.Columns.Get(8).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
@@ -504,6 +509,15 @@ Partial Class EXTM0102
         Me.txtYearTo.Text = "2015"
         Me.txtYearTo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
+        'btnPeriod
+        '
+        Me.btnPeriod.Location = New System.Drawing.Point(432, 96)
+        Me.btnPeriod.Name = "btnPeriod"
+        Me.btnPeriod.Size = New System.Drawing.Size(90, 19)
+        Me.btnPeriod.TabIndex = 149
+        Me.btnPeriod.Text = "設定"
+        Me.btnPeriod.UseVisualStyleBackColor = True
+        '
         'EXTM0102
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -512,7 +526,8 @@ Partial Class EXTM0102
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTM.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(1314, 948)
+        Me.ClientSize = New System.Drawing.Size(1376, 948)
+        Me.Controls.Add(Me.btnPeriod)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtMonthTo)
         Me.Controls.Add(Me.Label3)
@@ -573,4 +588,5 @@ Partial Class EXTM0102
     Friend WithEvents txtMonthTo As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents txtYearTo As System.Windows.Forms.TextBox
+    Friend WithEvents btnPeriod As Button
 End Class

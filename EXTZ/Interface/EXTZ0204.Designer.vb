@@ -71,7 +71,7 @@ Partial Class EXTZ0204
         '
         'btnBack
         '
-        Me.btnBack.Location = New System.Drawing.Point(658, 641)
+        Me.btnBack.Location = New System.Drawing.Point(688, 641)
         Me.btnBack.Name = "btnBack"
         Me.btnBack.Size = New System.Drawing.Size(96, 23)
         Me.btnBack.TabIndex = 89
@@ -157,7 +157,7 @@ Partial Class EXTZ0204
         '
         'btnComplate
         '
-        Me.btnComplate.Location = New System.Drawing.Point(881, 641)
+        Me.btnComplate.Location = New System.Drawing.Point(889, 641)
         Me.btnComplate.Name = "btnComplate"
         Me.btnComplate.Size = New System.Drawing.Size(140, 23)
         Me.btnComplate.TabIndex = 86
@@ -186,9 +186,9 @@ Partial Class EXTZ0204
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 0).Value = "請求内容"
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 1).Value = "確定額"
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 2).Value = "グロス調整"
-        Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 3).Value = "小計（税抜）"
+        Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 3).Value = "小計"
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 4).Value = "消費税割合"
-        Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 5).Value = "消費税"
+        Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 5).Value = "外税(税額)"
         Me.fbBillPay_Sheet1.ColumnHeader.Cells.Get(0, 6).Value = "請求金額"
         Me.fbBillPay_Sheet1.Columns.Get(0).Label = "請求内容"
         Me.fbBillPay_Sheet1.Columns.Get(0).Width = 142.0!
@@ -196,12 +196,12 @@ Partial Class EXTZ0204
         Me.fbBillPay_Sheet1.Columns.Get(1).Width = 92.0!
         Me.fbBillPay_Sheet1.Columns.Get(2).Label = "グロス調整"
         Me.fbBillPay_Sheet1.Columns.Get(2).Width = 92.0!
-        Me.fbBillPay_Sheet1.Columns.Get(3).Label = "小計（税抜）"
+        Me.fbBillPay_Sheet1.Columns.Get(3).Label = "小計"
         Me.fbBillPay_Sheet1.Columns.Get(3).Width = 92.0!
         Me.fbBillPay_Sheet1.Columns.Get(4).Label = "消費税割合"
         Me.fbBillPay_Sheet1.Columns.Get(4).Visible = False
         Me.fbBillPay_Sheet1.Columns.Get(4).Width = 88.0!
-        Me.fbBillPay_Sheet1.Columns.Get(5).Label = "消費税"
+        Me.fbBillPay_Sheet1.Columns.Get(5).Label = "外税(税額)"
         Me.fbBillPay_Sheet1.Columns.Get(5).Width = 100.0!
         Me.fbBillPay_Sheet1.Columns.Get(6).Label = "請求金額"
         Me.fbBillPay_Sheet1.Columns.Get(6).Width = 100.0!
@@ -297,7 +297,7 @@ Partial Class EXTZ0204
         Me.fbFutai.Location = New System.Drawing.Point(12, 396)
         Me.fbFutai.Name = "fbFutai"
         Me.fbFutai.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.fbFutai_Sheet1})
-        Me.fbFutai.Size = New System.Drawing.Size(1591, 143)
+        Me.fbFutai.Size = New System.Drawing.Size(1649, 143)
         Me.fbFutai.TabIndex = 115
         '
         'fbFutai_Sheet1
@@ -330,22 +330,22 @@ Partial Class EXTZ0204
         Me.fbFutai_Sheet1.Columns.Get(0).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.fbFutai_Sheet1.Columns.Get(0).Label = "利用年月"
-        Me.fbFutai_Sheet1.Columns.Get(0).Width = 71.0!
+        Me.fbFutai_Sheet1.Columns.Get(0).Width = 69.0!
         Me.fbFutai_Sheet1.Columns.Get(1).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(1).Label = "集計キー"
-        Me.fbFutai_Sheet1.Columns.Get(1).Width = 136.0!
+        Me.fbFutai_Sheet1.Columns.Get(1).Width = 141.0!
         Me.fbFutai_Sheet1.Columns.Get(2).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(2).Label = "勘定科目名"
-        Me.fbFutai_Sheet1.Columns.Get(2).Width = 108.0!
+        Me.fbFutai_Sheet1.Columns.Get(2).Width = 127.0!
         Me.fbFutai_Sheet1.Columns.Get(3).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(3).Label = "細目名"
-        Me.fbFutai_Sheet1.Columns.Get(3).Width = 108.0!
+        Me.fbFutai_Sheet1.Columns.Get(3).Width = 98.0!
         Me.fbFutai_Sheet1.Columns.Get(4).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(4).Label = "内訳名"
-        Me.fbFutai_Sheet1.Columns.Get(4).Width = 108.0!
+        Me.fbFutai_Sheet1.Columns.Get(4).Width = 98.0!
         Me.fbFutai_Sheet1.Columns.Get(5).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(5).Label = "詳細名"
-        Me.fbFutai_Sheet1.Columns.Get(5).Width = 108.0!
+        Me.fbFutai_Sheet1.Columns.Get(5).Width = 98.0!
         NumberCellType3.DecimalPlaces = 0
         NumberCellType3.FixedPoint = False
         NumberCellType3.MaximumValue = 99999999999.0R
@@ -353,13 +353,15 @@ Partial Class EXTZ0204
         NumberCellType3.ShowSeparator = True
         Me.fbFutai_Sheet1.Columns.Get(6).CellType = NumberCellType3
         Me.fbFutai_Sheet1.Columns.Get(6).Label = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "計上額"
-        Me.fbFutai_Sheet1.Columns.Get(6).Width = 77.0!
+        Me.fbFutai_Sheet1.Columns.Get(6).Width = 74.0!
         Me.fbFutai_Sheet1.Columns.Get(7).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(7).Label = "消費税区分"
+        Me.fbFutai_Sheet1.Columns.Get(7).Width = 54.0!
         Me.fbFutai_Sheet1.Columns.Get(8).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
+        NumberCellType4.DecimalPlaces = 0
         Me.fbFutai_Sheet1.Columns.Get(8).CellType = NumberCellType4
         Me.fbFutai_Sheet1.Columns.Get(8).Label = "消費税率"
-        Me.fbFutai_Sheet1.Columns.Get(8).Width = 45.0!
+        Me.fbFutai_Sheet1.Columns.Get(8).Width = 43.0!
         NumberCellType5.DecimalPlaces = 0
         NumberCellType5.FixedPoint = False
         NumberCellType5.MaximumValue = 9999999999.0R
@@ -367,27 +369,43 @@ Partial Class EXTZ0204
         NumberCellType5.ShowSeparator = True
         Me.fbFutai_Sheet1.Columns.Get(9).CellType = NumberCellType5
         Me.fbFutai_Sheet1.Columns.Get(9).Label = "消費税"
-        Me.fbFutai_Sheet1.Columns.Get(9).Width = 77.0!
+        Me.fbFutai_Sheet1.Columns.Get(9).Width = 65.0!
         Me.fbFutai_Sheet1.Columns.Get(10).Label = "入力摘要1"
-        Me.fbFutai_Sheet1.Columns.Get(10).Width = 215.0!
+        Me.fbFutai_Sheet1.Columns.Get(10).Width = 201.0!
         Me.fbFutai_Sheet1.Columns.Get(11).Label = "入力摘要2"
-        Me.fbFutai_Sheet1.Columns.Get(11).Width = 215.0!
+        Me.fbFutai_Sheet1.Columns.Get(11).Width = 201.0!
         Me.fbFutai_Sheet1.Columns.Get(12).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(12).Label = "プロジェクト"
-        Me.fbFutai_Sheet1.Columns.Get(12).Width = 71.0!
+        Me.fbFutai_Sheet1.Columns.Get(12).Width = 79.0!
         Me.fbFutai_Sheet1.Columns.Get(13).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.fbFutai_Sheet1.Columns.Get(13).Label = "プロジェクト" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "内訳"
-        Me.fbFutai_Sheet1.Columns.Get(13).Width = 117.0!
+        Me.fbFutai_Sheet1.Columns.Get(13).Width = 113.0!
         ButtonCellType2.ButtonColor2 = System.Drawing.SystemColors.ButtonFace
         ButtonCellType2.Text = "下にコピー"
         Me.fbFutai_Sheet1.Columns.Get(14).CellType = ButtonCellType2
         Me.fbFutai_Sheet1.Columns.Get(14).Label = "コピー"
-        Me.fbFutai_Sheet1.Columns.Get(14).Width = 61.0!
+        Me.fbFutai_Sheet1.Columns.Get(14).Width = 64.0!
         ButtonCellType3.ButtonColor2 = System.Drawing.SystemColors.ButtonFace
         ButtonCellType3.Text = "表示"
         Me.fbFutai_Sheet1.Columns.Get(15).CellType = ButtonCellType3
         Me.fbFutai_Sheet1.Columns.Get(15).Label = "プロジェクト" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "一覧"
-        Me.fbFutai_Sheet1.Columns.Get(15).Width = 62.0!
+        Me.fbFutai_Sheet1.Columns.Get(15).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(16).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(17).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(18).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(19).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(20).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(21).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(22).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(23).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(24).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(25).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(26).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(27).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(28).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(29).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(30).Width = 64.0!
+        Me.fbFutai_Sheet1.Columns.Get(31).Width = 64.0!
         Me.fbFutai_Sheet1.RowHeader.Columns.Default.Resizable = False
         Me.fbFutai_Sheet1.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1
         '
@@ -437,7 +455,7 @@ Partial Class EXTZ0204
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTZ.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(1684, 676)
+        Me.ClientSize = New System.Drawing.Size(1675, 676)
         Me.Controls.Add(Me.txtTitle2)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.txtTitle1)

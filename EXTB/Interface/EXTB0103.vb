@@ -58,12 +58,8 @@ Public Class EXTB0103
     ' EXAS請求依頼ファイル出力
     Private Const EXAS_TAX_KBN_GENERAL As String = "10"
     Private Const EXAS_TAX_KBN_REDUCED As String = "1D"
-    Private Const EXAS_TAX_INCLUSIVE As String = ""
-    Private Const EXAS_TAX_EXCLUSIVE As String = ""
-
-
-
-
+    Private Const EXAS_TAX_INCLUSIVE As String = "2"
+    Private Const EXAS_TAX_EXCLUSIVE As String = "1"
     ' --- 2019/08/15 軽減税率対応 End E.Okuda@Compass ---
 
 
@@ -3728,10 +3724,10 @@ Public Class EXTB0103
 
                                 If dRow("notax_flg") = "1" Then
                                     '外税内税区分
-                                    appendDtl(sbDetail, "2")
+                                    appendDtl(sbDetail, EXAS_TAX_INCLUSIVE)
                                 Else
                                     '外税内税区分
-                                    appendDtl(sbDetail, "1")
+                                    appendDtl(sbDetail, EXAS_TAX_EXCLUSIVE)
                                 End If
 
                                 'If logicEXTB0103.GetNotaxflg(dataEXTB0103) = "1" Then

@@ -263,7 +263,10 @@ Public Class EXTZ0204
 
                     ' --- 2019/07/23 軽減税率対応 Start E.Okuda@Compass ---
                     If commonLogicEXT.DbNullToNothing(row, "notax_flg") = VAL_UCHIZEI Then
-                        shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value = Long.Parse(Math.Truncate(commonLogicEXT.DbNullToNothing(row, "keijo_kin")) / (1.0 + shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100) * shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100)
+                        shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value =
+                            Long.Parse(Math.Round(
+                            commonLogicEXT.DbNullToNothing(row, "keijo_kin") / (1.0 + shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100) *
+                            shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100, MidpointRounding.AwayFromZero))
                         futaiKei = futaiKei + shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value
                     Else
                         shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "tax_kin"))
@@ -455,7 +458,7 @@ Public Class EXTZ0204
             If frm.dataEXTZ0205.PropBlnChangeFlg Then                                    ' 2015.11.25 UPD h.hagiwara 利用料時と同じ判定にする
                 sheet.Cells(e.Row, COL_FUTAI_EVENT_NM).Value = frm.dataEXTZ0205.PropStrResPrjNm
                 sheet.Cells(e.Row, COL_FUTAI_CONTENT_UCHI_NM).Value = frm.dataEXTZ0205.PropStrResUchiNm
-                sheet.Cells(e.Row, COL_FUTAI_SHOSAI_CD).Value = frm.dataEXTZ0205.PropStrResPrjCd
+                sheet.Cells(e.Row, COL_FUTAI_CONTENT_CD).Value = frm.dataEXTZ0205.PropStrResPrjCd
                 sheet.Cells(e.Row, COL_FUTAI_CONTENT_UCHI_CD).Value = frm.dataEXTZ0205.PropStrResUchiCd
             End If
         End If
@@ -750,7 +753,5 @@ Public Class EXTZ0204
         Me.Close()
     End Sub
 
-    Private Sub fbFutai_CellClick(sender As Object, e As CellClickEventArgs) Handles fbFutai.CellClick
 
-    End Sub
 End Class

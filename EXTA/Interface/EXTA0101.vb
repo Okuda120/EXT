@@ -22,6 +22,11 @@ Public Class EXTA0101
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
     Private Sub EKJA0101_Load(sender As Object, e As System.EventArgs) Handles Me.Load
+        ' --- 2019/09/05 軽減税率対応追加 Start E.Okuda@Compass ---
+        ' アセンブリバージョンを取得する
+        Dim appVersion As String = Application.ProductVersion
+        Me.lblVersion.Text = "Ver." & appVersion
+        ' --- 2019/09/05 軽減税率対応追加 End E.Okuda@Compass ---
 
         '共通設定値取得
         If commonLogic.InitCommonSetting(Nothing) = False Then

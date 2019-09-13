@@ -705,7 +705,7 @@ Public Class LogicEXTC0103
     ''' 利用開始日(0),終了日(1)をArrayで取得
     ''' </summary>
     ''' <remarks></remarks>
-    Private Function setStartEndRiyobi(ByRef dataList As ArrayList) As Array
+    Public Function setStartEndRiyobi(ByRef dataList As ArrayList) As Array
         Dim dtStart As Date
         Dim dtEnd As Date
         Dim dtTemp As Date
@@ -1358,9 +1358,9 @@ Public Class LogicEXTC0103
                             vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = .Rows(i).Item(14) / 100  ' 税率
                             ' 税額計算
                             Dim dtSelectRow As DataRow = .Rows(i)
-                            ' 小数点以下切り捨て計算する
-                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Truncate(
-                            CLng(.Rows(i).Item(11) + .Rows(i).Item(12)) * (dtSelectRow.Item(14) / 100))
+                            ' 小数点以下四捨五入計算する
+                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Round(
+                            CLng(.Rows(i).Item(11) + .Rows(i).Item(12)) * (dtSelectRow.Item(14) / 100), MidpointRounding.AwayFromZero)
                         End If                                                                 ' 2016.07.21 ADD h.hagiwara
 
                     Next
@@ -1480,9 +1480,9 @@ Public Class LogicEXTC0103
 
                             ' 税額計算
                             Dim dtSelectRow As DataRow = .Rows(i)
-                            ' 小数点以下切り捨て計算する
-                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Truncate(
-                            CLng(vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(14) / 100) * dtSelectRow.Item(14) / 100)
+                            ' 小数点以下四捨五入計算する
+                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Round(
+                            CLng(vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(14) / 100) * dtSelectRow.Item(14) / 100, MidpointRounding.AwayFromZero)
 
 
 
@@ -1618,7 +1618,9 @@ Public Class LogicEXTC0103
                     ' --- 2019/07/31 軽減税率対応 Start E.Okuda@Compass ---
                     vwOutputSheet.Cells("F8").Value = .Rows(0).Item(4) '金額
                     vwOutputSheet.Cells("G8").Value = .Rows(0).Item(16) '調整額
-                    vwOutputSheet.Cells("I8").Value = .Rows(0).Item(13) / 100 ' 税率
+                    If .Rows(0).Item(13) IsNot DBNull.Value Then
+                        vwOutputSheet.Cells("I8").Value = .Rows(0).Item(13) / 100 ' 税率
+                    End If
                     vwOutputSheet.Cells("J8").Formula = String.Format(INCIDENT_TAX_AMOUNT, 8) ' 税額
 
                     'vwOutputSheet.Cells("F8").Value = .Rows(0).Item(4) '金額
@@ -1645,15 +1647,17 @@ Public Class LogicEXTC0103
                     Else
                         vwOutputSheet.Cells("E8").Value = 1    '利用日数
                     End If
-                    ' --- 2019/07/31 軽減税率対応 Start E.Okuda@Compass ---
+                    ' --- 2019/09/13 軽減税率対応 Start E.Okuda@Compass ---
                     vwOutputSheet.Cells("F8").Value = .Rows(0).Item(4) '金額
                     vwOutputSheet.Cells("G8").Value = .Rows(0).Item(16) '調整額
-                    vwOutputSheet.Cells("I8").Value = .Rows(0).Item(13) / 100 ' 税率
+                    If .Rows(0).Item(13) IsNot DBNull.Value Then
+                        vwOutputSheet.Cells("I8").Value = .Rows(0).Item(13) / 100 ' 税率
+                    End If
                     vwOutputSheet.Cells("J8").Formula = String.Format(INCIDENT_TAX_AMOUNT, 8) ' 税額
 
                     'vwOutputSheet.Cells("F8").Value = .Rows(0).Item(4) '金額
                     'vwOutputSheet.Cells("G8").Value = .Rows(0).Item(14) '調整額
-                    ' --- 2019/07/31 軽減税率対応 End E.Okuda@Compass ---
+                    ' --- 2019/09/13 軽減税率対応 End E.Okuda@Compass ---
                 End With
 
             End If
@@ -1676,13 +1680,14 @@ Public Class LogicEXTC0103
                             vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_SURYO).Value = .Rows(i).Item(8) '数量
                             vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_KINGAKU).Value = .Rows(i).Item(9) '金額
                             vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_CHOSEI).Value = .Rows(i).Item(10) '調整額
-
-                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = .Rows(i).Item(13) / 100 ' 税率
+                            If .Rows(i).Item(13) IsNot DBNull.Value Then
+                                vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_ZEIRITSU).Value = .Rows(i).Item(13) / 100 ' 税率
+                            End If
 
                             vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_ZEIGAKU).Formula = String.Format(INCIDENT_TAX_AMOUNT, i + 9) ' 税額
 
-                            vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_BIKO).Value = .Rows(i).Item(11) '備考
-                        End If                                                             ' 2016.07.21 ADD h.hagiwara
+                                vwOutputSheet.Cells(i + 8, COL_SHEET_USE_DETAIL_BIKO).Value = .Rows(i).Item(11) '備考
+                            End If                                                             ' 2016.07.21 ADD h.hagiwara
                         ' --- 2019/07/28 軽減税率対応 End E.Okuda@Compass ---
 
                         'If IsDBNull(.Rows(i).Item(5)) Then                                 ' 2016.07.21 ADD h.hagiwara
@@ -1789,9 +1794,9 @@ Public Class LogicEXTC0103
 
                             ' 税額計算
                             Dim dtSelectRow As DataRow = .Rows(i)
-                            ' 小数点以下切り捨て計算する
-                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Truncate(
-                            CLng(vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(13) / 100) * dtSelectRow.Item(13) / 100)
+                            ' 小数点以下四捨五入計算する
+                            vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, COL_SHEET_USE_DETAIL_ZEIGAKU).Value = Math.Round(
+                            CLng(vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, COL_SHEET_USE_DETAIL_SHOKEI).Value) / (1 + dtSelectRow.Item(13) / 100) * dtSelectRow.Item(13) / 100, MidpointRounding.AwayFromZero)
 
                             vwOutputSheet.Cells(i + ROW_UCHIZEI_DATA_START, COL_SHEET_USE_DETAIL_BIKO).Value = .Rows(i).Item(11) '備考
 

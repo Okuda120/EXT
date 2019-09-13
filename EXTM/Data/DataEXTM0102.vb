@@ -67,9 +67,12 @@ Public Class DataEXTM0102
     Private ppDtSaimoku As DataTable          ' 科目マスタ(細目)        ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応        
     Private ppDtUchiwake As DataTable         ' 科目マスタ(内訳)        ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応        
     Private ppDtShosai As DataTable           ' 科目マスタ(詳細)        ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応       
-    ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
+    ' 2019/09/09 軽減税率対応 変更 Start E.Okuda@Compass
     Private ppDtTaxMst As DataTable             ' 消費税マスタ跨りチェック
-    ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
+    Private ppDtReducedRate As DataTable        ' 税率コンボボックス用 
+    Private ppGetReducedRateFlg As Boolean      ' 軽減税率取得フラグ
+    Private ppCmdPeriodBtn As Button            ' 設定ボタン
+    ' 2019/09/09 軽減税率対応 変更 End E.Okuda@Compass
 
     'シート
     Private ppVwGroupingSheet As FpSpread   '分類表
@@ -851,7 +854,7 @@ Public Class DataEXTM0102
 
     ' 2016.06.24 ADD END↑ h.hagiwara コンボリスト設定方法変更対応
 
-    ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
+    ' 2019/09/09 軽減税率対応 変更 Start E.Okuda@Compass
     ''' <summary>
     ''' プロパティセット【消費税マスタ跨りチェック】
     ''' </summary>
@@ -868,7 +871,53 @@ Public Class DataEXTM0102
             ppDtTaxMst = value
         End Set
     End Property
-    ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
+
+
+
+    ''' <summary>
+    ''' プロパティセット【軽減税率取得】
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>ppDtReducedRate</returns>
+    ''' <remarks><para>作成情報：2019.09.09 E.Okuda@Compass
+    ''' <p>改訂情報:</p>
+    ''' </para></remarks>
+    Public Property PropDtReducedRate() As DataTable
+        Get
+            Return ppDtReducedRate
+        End Get
+        Set(value As DataTable)
+            ppDtReducedRate = value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' プロパティセット【軽減税率取得フラグ】
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>ppDtReducedRate</returns>
+    ''' <remarks><para>作成情報：2019.09.10 E.Okuda@Compass
+    ''' <p>改訂情報:</p>
+    ''' </para></remarks>
+    Public Property PropGetReducedRateFlg() As Boolean
+        Get
+            Return ppGetReducedRateFlg
+        End Get
+        Set(value As Boolean)
+            ppGetReducedRateFlg = value
+        End Set
+    End Property
+
+    Public Property PropCmdPeriodBtn() As Button
+        Get
+            Return ppCmdPeriodBtn
+        End Get
+        Set(ByVal value As Button)
+            ppCmdPeriodBtn = value
+        End Set
+    End Property
+
+    ' 2019/09/09 軽減税率対応 変更 End E.Okuda@Compass
 
 
 End Class

@@ -83,6 +83,15 @@ Module CommonDeclareEXTZ
     Public Const SpreadSeikyuIndex_Studio_Button As Integer = 12            '確認・編集ボタン
 
     '日別売上一覧
+
+    ' --- 2019/08/27 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
+    'CSV出力時確認メッセージ
+    Public Const Z0103_C0001 As String = "ファイル出力を行います。よろしいですか？"
+    '処理完了時メッセージ
+    Public Const Z0103_I0001 As String = "{0}が完了しました。"
+
+    ' --- 2019/08/27 日別売上一覧機能追加対応 End E.Okuda@Compass ---
+
     '＜スプレッドの列Index＞
     '---シアター日別売上
     Public Const SpreadDayUriageIndex_Theatre_YoyakuNo As Integer = 0           '予約番号

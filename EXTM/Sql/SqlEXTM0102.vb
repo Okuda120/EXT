@@ -620,7 +620,7 @@ Public Class SqlEXTM0102
                            "  AND  STS = '0' "
     ' 2015.12.25 ADD END↑ h.hagiwara
 
-    ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
+    ' 2019/09/09 軽減税率対応 変更 Start E.Okuda@Compass
     ' 消費税期間チェック用SQL
     Private strSelectTaxPeriod = "SELECT " & vbCrLf &
                                  "  COUNT(*) as cnt " & vbCrLf &
@@ -629,9 +629,17 @@ Public Class SqlEXTM0102
                                  "WHERE " & vbCrLf &
                                  "  taxs_dt < :period_end and " & vbCrLf &
                                  "  taxe_dt > :period_start "
+    ' 軽減税率取得SQL
+    Private strSelectReducedRate = "SELECT " & vbCrLf &
+                                 "  reduced_rate " & vbCrLf &
+                                 "FROM " & vbCrLf &
+                                 "  tax_mst " & vbCrLf &
+                                 "WHERE " & vbCrLf &
+                                 "  taxs_dt < :period_end and " & vbCrLf &
+                                 "  taxe_dt > :period_start "
 
 
-    ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
+    ' 2019/09/09 軽減税率対応 変更 End E.Okuda@Compass
 
     ''' <summary>
     ''' 初期表示用SQL作成
@@ -1374,7 +1382,15 @@ Public Class SqlEXTM0102
                 Adapter.Parameters("notaxFlg").Value = "0"
             End If
 
-            Adapter.Parameters("zeiritsu").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value      '税率
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value Is DBNull.Value Then
+                Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
+            Else
+                If String.IsNullOrEmpty(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) Then
+                    Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
+                Else
+                    Adapter.Parameters("zeiritsu").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value      '税率
+                End If
+            End If
 
             ' 2016.04.28 UPD START↓ h.hagiwara レスポンス改善
             'Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 12).Value   '並び順
@@ -1573,7 +1589,15 @@ Public Class SqlEXTM0102
                 Adapter.Parameters("notaxFlg").Value = "0"
             End If
 
-            Adapter.Parameters("zeiritsu").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value      '税率
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value Is DBNull.Value Then
+                Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
+            Else
+                If String.IsNullOrEmpty(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) Then
+                    Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
+                Else
+                    Adapter.Parameters("zeiritsu").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value      '税率
+                End If
+            End If
 
             ' 2016.04.28 UPD START↓ h.hagiwara レスポンス改善
             'Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 12).Value      '並び順
@@ -2195,7 +2219,8 @@ Public Class SqlEXTM0102
     ''' </summary> 
     ''' <returns>boolean エラーコード  true 正常終了  false	異常終了 </returns>
     ''' <remarks>画面の値を、付帯設備マスタに登録する。
-    ''' <para>作成情報：2015.12.25 h.hagiwara  
+    ''' <para>作成情報：2015.12.25 h.hagiwara
+    ''' <p>改訂情報 : 2019.09.10 E.Okuda@Compass 軽減税率対応</p>
     ''' </para></remarks>
     Public Function InsertRiyoryoInf(ByRef Adapter As NpgsqlCommand, ByRef Tsx As NpgsqlTransaction,
                                 ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102)
@@ -2227,6 +2252,10 @@ Public Class SqlEXTM0102
             Adapter.Parameters.Add(New NpgsqlParameter("bunruiNm", NpgsqlTypes.NpgsqlDbType.Varchar))       '分類名
             Adapter.Parameters.Add(New NpgsqlParameter("shukeiGrp", NpgsqlTypes.NpgsqlDbType.Varchar))      '集計グループ
             Adapter.Parameters.Add(New NpgsqlParameter("notaxFlg", NpgsqlTypes.NpgsqlDbType.Varchar))       '税
+            ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
+            Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       ' 税率
+            ' --- 2019/09/10 軽減税率対応 Endi E.Okuda@Compass ---
+
             Adapter.Parameters.Add(New NpgsqlParameter("sort", NpgsqlTypes.NpgsqlDbType.Integer))           '並び順
             Adapter.Parameters.Add(New NpgsqlParameter("kamokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))       '科目コード
             Adapter.Parameters.Add(New NpgsqlParameter("saimokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))      '細目コード
@@ -2257,6 +2286,9 @@ Public Class SqlEXTM0102
             Adapter.Parameters("bunruiNm").Value = "【使用不可】シアター利用料用" '分類名
             Adapter.Parameters("shukeiGrp").Value = "000000" '集計グループ
             Adapter.Parameters("notaxFlg").Value = "0"
+            ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
+            Adapter.Parameters("zeiritsu").Value = DBNull.Value      ' 税率
+            ' --- 2019/09/10 軽減税率対応 Endi E.Okuda@Compass ---
             Adapter.Parameters("sort").Value = 99   '並び順
             Adapter.Parameters("kamokuCd").Value = dataEXTM0102.PropDtCopyKamokuMst.Rows(0).Item(0)       '科目コード
             Adapter.Parameters("saimokuCd").Value = dataEXTM0102.PropDtCopyKamokuMst.Rows(0).Item(1)      '細目コード
@@ -2290,6 +2322,47 @@ Public Class SqlEXTM0102
         End Try
 
     End Function
+
+
+    Public Function CmbReducedRateSet(ByRef Adapter As NpgsqlDataAdapter, ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102) As Boolean
+        '開始ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+        Dim strSQL As String
+        '日付の設定
+        Dim dtFrom As String = dataEXTM0102.PropYearFrom.Text + "/" + dataEXTM0102.PropMonthFrom.Text + "/01"
+        Dim dtToSub As DateTime = dataEXTM0102.PropYearTo.Text + "/" + dataEXTM0102.PropMonthTo.Text
+        '期間ＴＯは、入力された値の月＋１、日付-1の値で最終日を設定できる
+        Dim dtTo As String = dtToSub.AddMonths(1).AddDays(-1).ToString("yyyy/MM/dd")
+
+        Try
+            ' 消費税マスタより軽減税率取得SQL
+            strSQL = strSelectReducedRate
+
+            'データアダプタに、SQLを設定
+            Adapter.SelectCommand = New NpgsqlCommand(strSQL, Cn)
+
+            'バインド変数セット
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("period_end", NpgsqlTypes.NpgsqlDbType.Varchar))  '指定期間終了日
+            Adapter.SelectCommand.Parameters("period_end").Value = dtTo
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("period_start", NpgsqlTypes.NpgsqlDbType.Varchar))  '指定期間開始日
+            Adapter.SelectCommand.Parameters("period_start").Value = dtFrom
+
+            '終了ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+            '正常終了
+            Return True
+        Catch ex As Exception
+            '例外発生
+            CommonLogic.WriteLog(Common.LogLevel.ERROR_Lv, ex.Message, ex, Adapter.SelectCommand)
+            puErrMsg = EXTM0102_E0000 & ex.Message
+            Return False
+        End Try
+    End Function
+
+
+
 
     Public Function SetSelectTaxMst(ByRef Adapter As NpgsqlDataAdapter, ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102) As Boolean
         '開始ログ出力

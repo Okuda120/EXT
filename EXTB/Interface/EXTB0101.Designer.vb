@@ -76,10 +76,9 @@ Partial Class EXTB0101
         '
         'btnSearch
         '
-        Me.btnSearch.Location = New System.Drawing.Point(331, 30)
-        Me.btnSearch.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnSearch.Location = New System.Drawing.Point(248, 24)
         Me.btnSearch.Name = "btnSearch"
-        Me.btnSearch.Size = New System.Drawing.Size(165, 36)
+        Me.btnSearch.Size = New System.Drawing.Size(124, 29)
         Me.btnSearch.TabIndex = 4
         Me.btnSearch.Text = "表示"
         Me.btnSearch.UseVisualStyleBackColor = True
@@ -87,11 +86,10 @@ Partial Class EXTB0101
         'txtYear
         '
         Me.txtYear.Font = New System.Drawing.Font("MS UI Gothic", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtYear.Location = New System.Drawing.Point(33, 31)
-        Me.txtYear.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtYear.Location = New System.Drawing.Point(25, 25)
         Me.txtYear.MaxLength = 4
         Me.txtYear.Name = "txtYear"
-        Me.txtYear.Size = New System.Drawing.Size(124, 34)
+        Me.txtYear.Size = New System.Drawing.Size(94, 28)
         Me.txtYear.TabIndex = 0
         Me.txtYear.Text = "2015"
         Me.txtYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -101,21 +99,19 @@ Partial Class EXTB0101
         Me.lblYear.AutoSize = True
         Me.lblYear.BackColor = System.Drawing.Color.Transparent
         Me.lblYear.Font = New System.Drawing.Font("MS UI Gothic", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.lblYear.Location = New System.Drawing.Point(167, 38)
-        Me.lblYear.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblYear.Location = New System.Drawing.Point(125, 30)
         Me.lblYear.Name = "lblYear"
-        Me.lblYear.Size = New System.Drawing.Size(35, 24)
+        Me.lblYear.Size = New System.Drawing.Size(29, 19)
         Me.lblYear.TabIndex = 1
         Me.lblYear.Text = "年"
         '
         'txtMonth
         '
         Me.txtMonth.Font = New System.Drawing.Font("MS UI Gothic", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtMonth.Location = New System.Drawing.Point(213, 31)
-        Me.txtMonth.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtMonth.Location = New System.Drawing.Point(160, 25)
         Me.txtMonth.MaxLength = 2
         Me.txtMonth.Name = "txtMonth"
-        Me.txtMonth.Size = New System.Drawing.Size(61, 34)
+        Me.txtMonth.Size = New System.Drawing.Size(47, 28)
         Me.txtMonth.TabIndex = 2
         Me.txtMonth.Text = "5"
         Me.txtMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -125,10 +121,9 @@ Partial Class EXTB0101
         Me.lblMonth.AutoSize = True
         Me.lblMonth.BackColor = System.Drawing.Color.Transparent
         Me.lblMonth.Font = New System.Drawing.Font("MS UI Gothic", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.lblMonth.Location = New System.Drawing.Point(284, 38)
-        Me.lblMonth.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblMonth.Location = New System.Drawing.Point(213, 30)
         Me.lblMonth.Name = "lblMonth"
-        Me.lblMonth.Size = New System.Drawing.Size(35, 24)
+        Me.lblMonth.Size = New System.Drawing.Size(29, 19)
         Me.lblMonth.TabIndex = 3
         Me.lblMonth.Text = "月"
         '
@@ -138,10 +133,9 @@ Partial Class EXTB0101
         Me.lblKariYoyakuMikakunin.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblKariYoyakuMikakunin.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblKariYoyakuMikakunin.Font = New System.Drawing.Font("MS UI Gothic", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.lblKariYoyakuMikakunin.Location = New System.Drawing.Point(784, 31)
-        Me.lblKariYoyakuMikakunin.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblKariYoyakuMikakunin.Location = New System.Drawing.Point(588, 25)
         Me.lblKariYoyakuMikakunin.Name = "lblKariYoyakuMikakunin"
-        Me.lblKariYoyakuMikakunin.Size = New System.Drawing.Size(236, 38)
+        Me.lblKariYoyakuMikakunin.Size = New System.Drawing.Size(177, 30)
         Me.lblKariYoyakuMikakunin.TabIndex = 6
         Me.lblKariYoyakuMikakunin.Text = "仮予約"
         Me.lblKariYoyakuMikakunin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -152,10 +146,9 @@ Partial Class EXTB0101
         Me.lblKariyoyaku.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblKariyoyaku.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblKariyoyaku.Font = New System.Drawing.Font("MS UI Gothic", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.lblKariyoyaku.Location = New System.Drawing.Point(1028, 31)
-        Me.lblKariyoyaku.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblKariyoyaku.Location = New System.Drawing.Point(771, 25)
         Me.lblKariyoyaku.Name = "lblKariyoyaku"
-        Me.lblKariyoyaku.Size = New System.Drawing.Size(236, 38)
+        Me.lblKariyoyaku.Size = New System.Drawing.Size(177, 30)
         Me.lblKariyoyaku.TabIndex = 7
         Me.lblKariyoyaku.Text = "決定"
         Me.lblKariyoyaku.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -166,10 +159,9 @@ Partial Class EXTB0101
         Me.lblSeisikiYoyaku.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblSeisikiYoyaku.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblSeisikiYoyaku.Font = New System.Drawing.Font("MS UI Gothic", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.lblSeisikiYoyaku.Location = New System.Drawing.Point(1272, 31)
-        Me.lblSeisikiYoyaku.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblSeisikiYoyaku.Location = New System.Drawing.Point(954, 25)
         Me.lblSeisikiYoyaku.Name = "lblSeisikiYoyaku"
-        Me.lblSeisikiYoyaku.Size = New System.Drawing.Size(236, 38)
+        Me.lblSeisikiYoyaku.Size = New System.Drawing.Size(177, 30)
         Me.lblSeisikiYoyaku.TabIndex = 8
         Me.lblSeisikiYoyaku.Text = "申請受諾済"
         Me.lblSeisikiYoyaku.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -180,10 +172,9 @@ Partial Class EXTB0101
         Me.lblSeisikiYoyakuKanryo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblSeisikiYoyakuKanryo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblSeisikiYoyakuKanryo.Font = New System.Drawing.Font("MS UI Gothic", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.lblSeisikiYoyakuKanryo.Location = New System.Drawing.Point(1516, 31)
-        Me.lblSeisikiYoyakuKanryo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblSeisikiYoyakuKanryo.Location = New System.Drawing.Point(1137, 25)
         Me.lblSeisikiYoyakuKanryo.Name = "lblSeisikiYoyakuKanryo"
-        Me.lblSeisikiYoyakuKanryo.Size = New System.Drawing.Size(236, 38)
+        Me.lblSeisikiYoyakuKanryo.Size = New System.Drawing.Size(177, 30)
         Me.lblSeisikiYoyakuKanryo.TabIndex = 9
         Me.lblSeisikiYoyakuKanryo.Text = "精算完了"
         Me.lblSeisikiYoyakuKanryo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -194,10 +185,9 @@ Partial Class EXTB0101
         Me.lblKyukanbi.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblKyukanbi.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblKyukanbi.Font = New System.Drawing.Font("MS UI Gothic", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.lblKyukanbi.Location = New System.Drawing.Point(1760, 31)
-        Me.lblKyukanbi.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblKyukanbi.Location = New System.Drawing.Point(1320, 25)
         Me.lblKyukanbi.Name = "lblKyukanbi"
-        Me.lblKyukanbi.Size = New System.Drawing.Size(167, 38)
+        Me.lblKyukanbi.Size = New System.Drawing.Size(125, 30)
         Me.lblKyukanbi.TabIndex = 10
         Me.lblKyukanbi.Text = "休館日"
         Me.lblKyukanbi.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -208,80 +198,72 @@ Partial Class EXTB0101
         Me.lblMaintenance.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblMaintenance.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblMaintenance.Font = New System.Drawing.Font("MS UI Gothic", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.lblMaintenance.Location = New System.Drawing.Point(1935, 31)
-        Me.lblMaintenance.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblMaintenance.Location = New System.Drawing.Point(1451, 25)
         Me.lblMaintenance.Name = "lblMaintenance"
-        Me.lblMaintenance.Size = New System.Drawing.Size(167, 38)
+        Me.lblMaintenance.Size = New System.Drawing.Size(125, 30)
         Me.lblMaintenance.TabIndex = 11
         Me.lblMaintenance.Text = "メンテナンス"
         Me.lblMaintenance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'btnRegistKariYoyaku
         '
-        Me.btnRegistKariYoyaku.Location = New System.Drawing.Point(35, 1195)
-        Me.btnRegistKariYoyaku.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnRegistKariYoyaku.Location = New System.Drawing.Point(26, 956)
         Me.btnRegistKariYoyaku.Name = "btnRegistKariYoyaku"
-        Me.btnRegistKariYoyaku.Size = New System.Drawing.Size(228, 36)
+        Me.btnRegistKariYoyaku.Size = New System.Drawing.Size(171, 29)
         Me.btnRegistKariYoyaku.TabIndex = 16
         Me.btnRegistKariYoyaku.Text = "選択日を仮予約登録"
         Me.btnRegistKariYoyaku.UseVisualStyleBackColor = True
         '
         'btnRegistCancelWait
         '
-        Me.btnRegistCancelWait.Location = New System.Drawing.Point(271, 1195)
-        Me.btnRegistCancelWait.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnRegistCancelWait.Location = New System.Drawing.Point(203, 956)
         Me.btnRegistCancelWait.Name = "btnRegistCancelWait"
-        Me.btnRegistCancelWait.Size = New System.Drawing.Size(228, 36)
+        Me.btnRegistCancelWait.Size = New System.Drawing.Size(171, 29)
         Me.btnRegistCancelWait.TabIndex = 17
         Me.btnRegistCancelWait.Text = "選択日をｷｬﾝｾﾙ待ち登録"
         Me.btnRegistCancelWait.UseVisualStyleBackColor = True
         '
         'btnChangeMaintebi
         '
-        Me.btnChangeMaintebi.Location = New System.Drawing.Point(1432, 1195)
-        Me.btnChangeMaintebi.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnChangeMaintebi.Location = New System.Drawing.Point(1074, 956)
         Me.btnChangeMaintebi.Name = "btnChangeMaintebi"
-        Me.btnChangeMaintebi.Size = New System.Drawing.Size(228, 36)
+        Me.btnChangeMaintebi.Size = New System.Drawing.Size(171, 29)
         Me.btnChangeMaintebi.TabIndex = 21
         Me.btnChangeMaintebi.Text = "選択日をメンテ日とする"
         Me.btnChangeMaintebi.UseVisualStyleBackColor = True
         '
         'btnChangeEigyobi
         '
-        Me.btnChangeEigyobi.Location = New System.Drawing.Point(1668, 1195)
-        Me.btnChangeEigyobi.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnChangeEigyobi.Location = New System.Drawing.Point(1251, 956)
         Me.btnChangeEigyobi.Name = "btnChangeEigyobi"
-        Me.btnChangeEigyobi.Size = New System.Drawing.Size(228, 36)
+        Me.btnChangeEigyobi.Size = New System.Drawing.Size(171, 29)
         Me.btnChangeEigyobi.TabIndex = 22
         Me.btnChangeEigyobi.Text = "選択日を営業日とする"
         Me.btnChangeEigyobi.UseVisualStyleBackColor = True
         '
         'btnToMenu
         '
-        Me.btnToMenu.Location = New System.Drawing.Point(2213, 1195)
-        Me.btnToMenu.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnToMenu.Location = New System.Drawing.Point(1660, 956)
         Me.btnToMenu.Name = "btnToMenu"
-        Me.btnToMenu.Size = New System.Drawing.Size(228, 36)
+        Me.btnToMenu.Size = New System.Drawing.Size(171, 29)
         Me.btnToMenu.TabIndex = 25
         Me.btnToMenu.Text = "メニューへ"
         Me.btnToMenu.UseVisualStyleBackColor = True
         '
         'btnSearchPrevMonth
         '
-        Me.btnSearchPrevMonth.Location = New System.Drawing.Point(33, 94)
-        Me.btnSearchPrevMonth.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnSearchPrevMonth.Location = New System.Drawing.Point(25, 75)
         Me.btnSearchPrevMonth.Name = "btnSearchPrevMonth"
-        Me.btnSearchPrevMonth.Size = New System.Drawing.Size(228, 36)
+        Me.btnSearchPrevMonth.Size = New System.Drawing.Size(171, 29)
         Me.btnSearchPrevMonth.TabIndex = 12
         Me.btnSearchPrevMonth.Text = "前月を表示"
         Me.btnSearchPrevMonth.UseVisualStyleBackColor = True
         '
         'btnSearchNextMonth
         '
-        Me.btnSearchNextMonth.Location = New System.Drawing.Point(1380, 94)
-        Me.btnSearchNextMonth.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnSearchNextMonth.Location = New System.Drawing.Point(1035, 75)
         Me.btnSearchNextMonth.Name = "btnSearchNextMonth"
-        Me.btnSearchNextMonth.Size = New System.Drawing.Size(228, 36)
+        Me.btnSearchNextMonth.Size = New System.Drawing.Size(171, 29)
         Me.btnSearchNextMonth.TabIndex = 13
         Me.btnSearchNextMonth.Text = "次月を表示"
         Me.btnSearchNextMonth.UseVisualStyleBackColor = True
@@ -291,11 +273,9 @@ Partial Class EXTB0101
         Me.grpCancelWait.BackColor = System.Drawing.Color.Transparent
         Me.grpCancelWait.Controls.Add(Me.vwCancelWait)
         Me.grpCancelWait.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.grpCancelWait.Location = New System.Drawing.Point(1916, 96)
-        Me.grpCancelWait.Margin = New System.Windows.Forms.Padding(4)
+        Me.grpCancelWait.Location = New System.Drawing.Point(1437, 77)
         Me.grpCancelWait.Name = "grpCancelWait"
-        Me.grpCancelWait.Padding = New System.Windows.Forms.Padding(4)
-        Me.grpCancelWait.Size = New System.Drawing.Size(616, 562)
+        Me.grpCancelWait.Size = New System.Drawing.Size(462, 450)
         Me.grpCancelWait.TabIndex = 23
         Me.grpCancelWait.TabStop = False
         Me.grpCancelWait.Text = "キャンセル待ち一覧"
@@ -304,11 +284,10 @@ Partial Class EXTB0101
         '
         Me.vwCancelWait.AccessibleDescription = "vwCancelWait, Sheet1, Row 0, Column 0, 製品発表会"
         Me.vwCancelWait.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never
-        Me.vwCancelWait.Location = New System.Drawing.Point(24, 46)
-        Me.vwCancelWait.Margin = New System.Windows.Forms.Padding(4)
+        Me.vwCancelWait.Location = New System.Drawing.Point(18, 37)
         Me.vwCancelWait.Name = "vwCancelWait"
         Me.vwCancelWait.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwCancelWait_Sheet1})
-        Me.vwCancelWait.Size = New System.Drawing.Size(581, 478)
+        Me.vwCancelWait.Size = New System.Drawing.Size(437, 383)
         Me.vwCancelWait.TabIndex = 0
         Me.vwCancelWait.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never
         '
@@ -412,11 +391,9 @@ Partial Class EXTB0101
         Me.grpCancelDone.BackColor = System.Drawing.Color.Transparent
         Me.grpCancelDone.Controls.Add(Me.vwCancelDone)
         Me.grpCancelDone.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.grpCancelDone.Location = New System.Drawing.Point(1916, 664)
-        Me.grpCancelDone.Margin = New System.Windows.Forms.Padding(4)
+        Me.grpCancelDone.Location = New System.Drawing.Point(1437, 531)
         Me.grpCancelDone.Name = "grpCancelDone"
-        Me.grpCancelDone.Padding = New System.Windows.Forms.Padding(4)
-        Me.grpCancelDone.Size = New System.Drawing.Size(616, 361)
+        Me.grpCancelDone.Size = New System.Drawing.Size(462, 289)
         Me.grpCancelDone.TabIndex = 24
         Me.grpCancelDone.TabStop = False
         Me.grpCancelDone.Text = "キャンセル済み一覧"
@@ -425,11 +402,10 @@ Partial Class EXTB0101
         '
         Me.vwCancelDone.AccessibleDescription = "vwCancelDone, Sheet1, Row 0, Column 0, 新製品発表会"
         Me.vwCancelDone.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never
-        Me.vwCancelDone.Location = New System.Drawing.Point(24, 46)
-        Me.vwCancelDone.Margin = New System.Windows.Forms.Padding(4)
+        Me.vwCancelDone.Location = New System.Drawing.Point(18, 37)
         Me.vwCancelDone.Name = "vwCancelDone"
         Me.vwCancelDone.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwCancelDone_Sheet1})
-        Me.vwCancelDone.Size = New System.Drawing.Size(581, 278)
+        Me.vwCancelDone.Size = New System.Drawing.Size(437, 223)
         Me.vwCancelDone.TabIndex = 0
         Me.vwCancelDone.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never
         '
@@ -492,10 +468,9 @@ Partial Class EXTB0101
         'btnUserList
         '
         Me.btnUserList.BackColor = System.Drawing.Color.Yellow
-        Me.btnUserList.Location = New System.Drawing.Point(504, 29)
-        Me.btnUserList.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnUserList.Location = New System.Drawing.Point(378, 23)
         Me.btnUserList.Name = "btnUserList"
-        Me.btnUserList.Size = New System.Drawing.Size(232, 38)
+        Me.btnUserList.Size = New System.Drawing.Size(174, 30)
         Me.btnUserList.TabIndex = 5
         Me.btnUserList.Text = "利用者要注意一覧を見る"
         Me.btnUserList.UseVisualStyleBackColor = False
@@ -647,11 +622,10 @@ Partial Class EXTB0101
         '
         Me.vwCalandarFirst.AccessibleDescription = "FpSpread1, Sheet1, Row 0, Column 0, "
         Me.vwCalandarFirst.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never
-        Me.vwCalandarFirst.Location = New System.Drawing.Point(33, 142)
-        Me.vwCalandarFirst.Margin = New System.Windows.Forms.Padding(4)
+        Me.vwCalandarFirst.Location = New System.Drawing.Point(25, 114)
         Me.vwCalandarFirst.Name = "vwCalandarFirst"
         Me.vwCalandarFirst.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwCalandarFirst_Sheet1})
-        Me.vwCalandarFirst.Size = New System.Drawing.Size(1752, 510)
+        Me.vwCalandarFirst.Size = New System.Drawing.Size(1315, 409)
         Me.vwCalandarFirst.TabIndex = 14
         Me.vwCalandarFirst.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never
         '
@@ -659,11 +633,10 @@ Partial Class EXTB0101
         '
         Me.vwCalendarSecond.AccessibleDescription = "FpSpread2, Sheet1, Row 0, Column 0, "
         Me.vwCalendarSecond.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never
-        Me.vwCalendarSecond.Location = New System.Drawing.Point(33, 666)
-        Me.vwCalendarSecond.Margin = New System.Windows.Forms.Padding(4)
+        Me.vwCalendarSecond.Location = New System.Drawing.Point(25, 533)
         Me.vwCalendarSecond.Name = "vwCalendarSecond"
         Me.vwCalendarSecond.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwCalendarSecond_Sheet1})
-        Me.vwCalendarSecond.Size = New System.Drawing.Size(1860, 510)
+        Me.vwCalendarSecond.Size = New System.Drawing.Size(1396, 409)
         Me.vwCalendarSecond.TabIndex = 15
         Me.vwCalendarSecond.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never
         '
@@ -816,43 +789,39 @@ Partial Class EXTB0101
         '
         'btnChangeKyukanbi
         '
-        Me.btnChangeKyukanbi.Location = New System.Drawing.Point(1196, 1195)
-        Me.btnChangeKyukanbi.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnChangeKyukanbi.Location = New System.Drawing.Point(897, 956)
         Me.btnChangeKyukanbi.Name = "btnChangeKyukanbi"
-        Me.btnChangeKyukanbi.Size = New System.Drawing.Size(228, 36)
+        Me.btnChangeKyukanbi.Size = New System.Drawing.Size(171, 29)
         Me.btnChangeKyukanbi.TabIndex = 20
         Me.btnChangeKyukanbi.Text = "選択日を休館日とする"
         Me.btnChangeKyukanbi.UseVisualStyleBackColor = True
         '
         'btnChangeHoliday
         '
-        Me.btnChangeHoliday.Location = New System.Drawing.Point(647, 1195)
-        Me.btnChangeHoliday.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnChangeHoliday.Location = New System.Drawing.Point(485, 956)
         Me.btnChangeHoliday.Name = "btnChangeHoliday"
-        Me.btnChangeHoliday.Size = New System.Drawing.Size(228, 36)
+        Me.btnChangeHoliday.Size = New System.Drawing.Size(171, 29)
         Me.btnChangeHoliday.TabIndex = 18
         Me.btnChangeHoliday.Text = "選択日を祝日（休日）とする"
         Me.btnChangeHoliday.UseVisualStyleBackColor = True
         '
         'btnChangeWeekday
         '
-        Me.btnChangeWeekday.Location = New System.Drawing.Point(881, 1195)
-        Me.btnChangeWeekday.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnChangeWeekday.Location = New System.Drawing.Point(661, 956)
         Me.btnChangeWeekday.Name = "btnChangeWeekday"
-        Me.btnChangeWeekday.Size = New System.Drawing.Size(228, 36)
+        Me.btnChangeWeekday.Size = New System.Drawing.Size(171, 29)
         Me.btnChangeWeekday.TabIndex = 19
         Me.btnChangeWeekday.Text = "選択日を平日とする"
         Me.btnChangeWeekday.UseVisualStyleBackColor = True
         '
         'EXTB0101
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTB.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(2548, 1284)
+        Me.ClientSize = New System.Drawing.Size(1703, 1014)
         Me.Controls.Add(Me.btnChangeWeekday)
         Me.Controls.Add(Me.btnChangeHoliday)
         Me.Controls.Add(Me.btnChangeKyukanbi)
@@ -881,7 +850,6 @@ Partial Class EXTB0101
         Me.Controls.Add(Me.txtYear)
         Me.DoubleBuffered = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "EXTB0101"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "ちゃり～ん。　予約カレンダー（シアター）"
