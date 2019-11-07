@@ -1414,9 +1414,11 @@ Public Class LogicEXTC0103
                             ' 集計税額表示
                             If vwOutputSheet.Cells("I8").Value = vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value Then
                                 ' 利用料の税率と一致する時、利用料を加算して計算する。
-                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku"))) * row("zeiritsu") / 100
+                                '                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
                             Else
-                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku"))) * row("zeiritsu") / 100
+                                '                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
                             End If
 
                             intRowCnt = intRowCnt + 1
@@ -1620,6 +1622,9 @@ Public Class LogicEXTC0103
                     vwOutputSheet.Cells("G8").Value = .Rows(0).Item(16) '調整額
                     If .Rows(0).Item(13) IsNot DBNull.Value Then
                         vwOutputSheet.Cells("I8").Value = .Rows(0).Item(13) / 100 ' 税率
+                    Else
+                        vwOutputSheet.Cells("I8").Value =
+                        dataEXTC0103.PropDtPeriodTaxReducedRate.Rows(0).Item("tax_ritu") / 100
                     End If
                     vwOutputSheet.Cells("J8").Formula = String.Format(INCIDENT_TAX_AMOUNT, 8) ' 税額
 
