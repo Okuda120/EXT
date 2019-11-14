@@ -394,7 +394,7 @@ Partial Class EXTZ0103
         Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Cells.Get(0, 5).Value = "利用" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "形状"
         Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Cells.Get(0, 6).Value = "催事分類"
         Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Cells.Get(0, 7).Value = "利用料(A)"
-        Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Cells.Get(0, 8).Value = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "使用料(B)"
+        Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Cells.Get(0, 8).Value = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "利用料(B)"
         Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Cells.Get(0, 9).Value = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "調整額(C)"
         Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Cells.Get(0, 10).Value = "基本売上合計" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(D)=(A+B+C)"
         Me.vwDayUriageTheatre_Sheet1.ColumnHeader.Cells.Get(0, 11).Value = "001" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "ﾄﾞﾘﾝｸ現金(E)"
@@ -454,7 +454,7 @@ Partial Class EXTZ0103
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(7).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(7).Width = 71.0!
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(8).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right
-        Me.vwDayUriageTheatre_Sheet1.Columns.Get(8).Label = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "使用料(B)"
+        Me.vwDayUriageTheatre_Sheet1.Columns.Get(8).Label = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "利用料(B)"
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(8).Locked = True
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(8).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwDayUriageTheatre_Sheet1.Columns.Get(8).Width = 71.0!
@@ -687,7 +687,7 @@ Partial Class EXTZ0103
         Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 4).Value = "貸出" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "種別" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 5).Value = "スタジオ"
         Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 6).Value = "利用料(A)"
-        Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 7).Value = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "使用料(B)"
+        Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 7).Value = "付帯設備利用料(B)"
         Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 8).Value = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "調整額(C)"
         Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 9).Value = "基本売上合計" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(D)=(A+B+C)"
         Me.vwDayUriageStudio_Sheet1.ColumnHeader.Cells.Get(0, 10).Value = "001" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "ﾄﾞﾘﾝｸ現金(E)"
@@ -742,7 +742,7 @@ Partial Class EXTZ0103
         Me.vwDayUriageStudio_Sheet1.Columns.Get(6).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwDayUriageStudio_Sheet1.Columns.Get(6).Width = 68.0!
         Me.vwDayUriageStudio_Sheet1.Columns.Get(7).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right
-        Me.vwDayUriageStudio_Sheet1.Columns.Get(7).Label = "付帯設備" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "使用料(B)"
+        Me.vwDayUriageStudio_Sheet1.Columns.Get(7).Label = "付帯設備利用料(B)"
         Me.vwDayUriageStudio_Sheet1.Columns.Get(7).Locked = True
         Me.vwDayUriageStudio_Sheet1.Columns.Get(7).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwDayUriageStudio_Sheet1.Columns.Get(7).Width = 71.0!

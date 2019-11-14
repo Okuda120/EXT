@@ -1366,67 +1366,132 @@ Public Class LogicEXTC0103
                     Next
 
                 End With
-                If dataEXTC0103.PropBlnGeneralFlg Then
 
-                    Dim dtbTaxRateAmount As New DataTable
-                    Dim intRowCnt As Integer = 0
-                    dtbTaxRateAmount.Columns.Add("zeiritsu", GetType(Integer))
-                    For Each drow As DataRow In dataEXTC0103.PropDtPeriodTaxReducedRate.Rows
-                        dtbTaxRateAmount.Rows.Add()
-                        dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("TAX_RITU")
-                        intRowCnt = intRowCnt + 1
-                        ' 軽減税率はNullでない時、行追加する。
-                        If Not drow("REDUCED_RATE") Is DBNull.Value Then
-                            dtbTaxRateAmount.Rows.Add()
-                            dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("REDUCED_RATE")
-                            intRowCnt = intRowCnt + 1
-                        End If
-                    Next
+                ' --- 2019/11/12 軽減税率　内税のみバグ対応 Start E.Okuda@Compass ---
+                'If dataEXTC0103.PropBlnGeneralFlg Then
 
-                    ' 重複除去
-                    Dim dtvTaxRateAmount As New DataView(dtbTaxRateAmount)
-                    dtvTaxRateAmount.Sort = "zeiritsu DESC"
-                    Dim dtbResTaxRate As DataTable = dtvTaxRateAmount.ToTable(True, "zeiritsu")
-                    dtbResTaxRate.Columns.Add("sumKingaku")
-                    dtbResTaxRate.Columns.Add("sumChosei")
-                    dtbResTaxRate.Columns.Add("sumRiyokin")
+                '    Dim dtbTaxRateAmount As New DataTable
+                '    Dim intRowCnt As Integer = 0
+                '    dtbTaxRateAmount.Columns.Add("zeiritsu", GetType(Integer))
+                '    For Each drow As DataRow In dataEXTC0103.PropDtPeriodTaxReducedRate.Rows
+                '        dtbTaxRateAmount.Rows.Add()
+                '        dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("TAX_RITU")
+                '        intRowCnt = intRowCnt + 1
+                '        ' 軽減税率はNullでない時、行追加する。
+                '        If Not drow("REDUCED_RATE") Is DBNull.Value Then
+                '            dtbTaxRateAmount.Rows.Add()
+                '            dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("REDUCED_RATE")
+                '            intRowCnt = intRowCnt + 1
+                '        End If
+                '    Next
+
+                '    ' 重複除去
+                '    Dim dtvTaxRateAmount As New DataView(dtbTaxRateAmount)
+                '    dtvTaxRateAmount.Sort = "zeiritsu DESC"
+                '    Dim dtbResTaxRate As DataTable = dtvTaxRateAmount.ToTable(True, "zeiritsu")
+                '    dtbResTaxRate.Columns.Add("sumKingaku")
+                '    dtbResTaxRate.Columns.Add("sumChosei")
+                '    dtbResTaxRate.Columns.Add("sumRiyokin")
 
 
 
-                    If dataEXTC0103.PropBlnGeneralFlg Then
+                '    If dataEXTC0103.PropBlnGeneralFlg Then
 
-                        intRowCnt = 0
-                        For Each row As DataRow In dtbResTaxRate.Rows
-                            ' 付帯金集計
-                            row("sumKingaku") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(sum1)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
-                            If row("sumKingaku") Is DBNull.Value Then
-                                row("sumKingaku") = "0"
-                            End If
+                '        intRowCnt = 0
+                '        For Each row As DataRow In dtbResTaxRate.Rows
+                '            ' 付帯金集計
+                '            row("sumKingaku") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(sum1)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                '            If row("sumKingaku") Is DBNull.Value Then
+                '                row("sumKingaku") = "0"
+                '            End If
 
-                            ' 調整額集計
-                            row("sumChosei") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(sum2)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
-                            If row("sumChosei") Is DBNull.Value Then
-                                row("sumChosei") = "0"
-                            End If
+                '            ' 調整額集計
+                '            row("sumChosei") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(sum2)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                '            If row("sumChosei") Is DBNull.Value Then
+                '                row("sumChosei") = "0"
+                '            End If
 
-                            ' 集計税率設定
-                            vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value = CInt(row("zeiritsu")) / 100
-                            ' 集計税額表示
-                            If vwOutputSheet.Cells("I8").Value = vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value Then
-                                ' 利用料の税率と一致する時、利用料を加算して計算する。
-                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku"))) * row("zeiritsu") / 100
-                                '                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
-                            Else
-                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku"))) * row("zeiritsu") / 100
-                                '                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
-                            End If
+                '            ' 集計税率設定
+                '            vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value = CInt(row("zeiritsu")) / 100
+                '            ' 集計税額表示
+                '            If vwOutputSheet.Cells("I8").Value = vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value Then
+                '                ' 利用料の税率と一致する時、利用料を加算して計算する。
+                '                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku"))) * row("zeiritsu") / 100
+                '                '                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                '            Else
+                '                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku"))) * row("zeiritsu") / 100
+                '                '                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                '            End If
 
-                            intRowCnt = intRowCnt + 1
-                        Next
-                    End If
-                End If
+                '            intRowCnt = intRowCnt + 1
+                '        Next
+                '    End If
+                'End If
+                ' --- 2019/11/12 軽減税率　内税のみバグ対応 End E.Okuda@Compass ---
 
             End If
+
+            ' --- 2019/11/12 軽減税率　内税のみバグ対応 Start E.Okuda@Compass ---
+            If dataEXTC0103.PropBlnGeneralFlg Then
+
+                Dim dtbTaxRateAmount As New DataTable
+                Dim intRowCnt As Integer = 0
+                dtbTaxRateAmount.Columns.Add("zeiritsu", GetType(Integer))
+                For Each drow As DataRow In dataEXTC0103.PropDtPeriodTaxReducedRate.Rows
+                    dtbTaxRateAmount.Rows.Add()
+                    dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("TAX_RITU")
+                    intRowCnt = intRowCnt + 1
+                    ' 軽減税率はNullでない時、行追加する。
+                    If Not drow("REDUCED_RATE") Is DBNull.Value Then
+                        dtbTaxRateAmount.Rows.Add()
+                        dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("REDUCED_RATE")
+                        intRowCnt = intRowCnt + 1
+                    End If
+                Next
+
+                ' 重複除去
+                Dim dtvTaxRateAmount As New DataView(dtbTaxRateAmount)
+                dtvTaxRateAmount.Sort = "zeiritsu DESC"
+                Dim dtbResTaxRate As DataTable = dtvTaxRateAmount.ToTable(True, "zeiritsu")
+                dtbResTaxRate.Columns.Add("sumKingaku")
+                dtbResTaxRate.Columns.Add("sumChosei")
+                dtbResTaxRate.Columns.Add("sumRiyokin")
+
+
+
+                If dataEXTC0103.PropBlnGeneralFlg Then
+
+                    intRowCnt = 0
+                    For Each row As DataRow In dtbResTaxRate.Rows
+                        ' 付帯金集計
+                        row("sumKingaku") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(sum1)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                        If row("sumKingaku") Is DBNull.Value Then
+                            row("sumKingaku") = "0"
+                        End If
+
+                        ' 調整額集計
+                        row("sumChosei") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(sum2)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                        If row("sumChosei") Is DBNull.Value Then
+                            row("sumChosei") = "0"
+                        End If
+
+                        ' 集計税率設定
+                        vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value = CInt(row("zeiritsu")) / 100
+                        ' 集計税額表示
+                        If vwOutputSheet.Cells("I8").Value = vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value Then
+                            ' 利用料の税率と一致する時、利用料を加算して計算する。
+                            vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku"))) * row("zeiritsu") / 100
+                            '                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                        Else
+                            vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku"))) * row("zeiritsu") / 100
+                            '                                vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                        End If
+
+                        intRowCnt = intRowCnt + 1
+                    Next
+                End If
+            End If
+            ' --- 2019/11/12 軽減税率　内税のみバグ対応 End E.Okuda@Compass ---
 
             'If dataEXTC0103.PropDtUseDetails_Output IsNot Nothing And _
             '    dataEXTC0103.PropDtUseDetails_Output.Rows.Count > 0 Then
@@ -1712,69 +1777,132 @@ Public Class LogicEXTC0103
 
                 End With
 
-                ' --- 2019/08/05 軽減税率対応 Start E.Okuda@Compass ---
-                ' 軽減税率対応で消費税行追加対応
-                Dim dtbTaxRateAmount As New DataTable
-                Dim intRowCnt As Integer = 0
-                dtbTaxRateAmount.Columns.Add("zeiritsu", GetType(Integer))
-                For Each drow As DataRow In dataEXTC0103.PropDtPeriodTaxReducedRate.Rows
-                    dtbTaxRateAmount.Rows.Add()
-                    dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("TAX_RITU")
-                    intRowCnt = intRowCnt + 1
-                    ' 軽減税率はNullでない時、行追加する。
-                    If Not drow("REDUCED_RATE") Is DBNull.Value Then
-                        dtbTaxRateAmount.Rows.Add()
-                        dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("REDUCED_RATE")
-                        intRowCnt = intRowCnt + 1
-                    End If
-                Next
+                ' --- 2019/11/12 軽減税率　内税のみバグ対応 Start E.Okuda@Compass ---
+                '' --- 2019/08/05 軽減税率対応 Start E.Okuda@Compass ---
+                '' 軽減税率対応で消費税行追加対応
+                'Dim dtbTaxRateAmount As New DataTable
+                'Dim intRowCnt As Integer = 0
+                'dtbTaxRateAmount.Columns.Add("zeiritsu", GetType(Integer))
+                'For Each drow As DataRow In dataEXTC0103.PropDtPeriodTaxReducedRate.Rows
+                '    dtbTaxRateAmount.Rows.Add()
+                '    dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("TAX_RITU")
+                '    intRowCnt = intRowCnt + 1
+                '    ' 軽減税率はNullでない時、行追加する。
+                '    If Not drow("REDUCED_RATE") Is DBNull.Value Then
+                '        dtbTaxRateAmount.Rows.Add()
+                '        dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("REDUCED_RATE")
+                '        intRowCnt = intRowCnt + 1
+                '    End If
+                'Next
 
-                ' 重複除去
-                Dim dtvTaxRateAmount As New DataView(dtbTaxRateAmount)
-                dtvTaxRateAmount.Sort = "zeiritsu DESC"
-                Dim dtbResTaxRate As DataTable = dtvTaxRateAmount.ToTable(True, "zeiritsu")
-                dtbResTaxRate.Columns.Add("sumKingaku")
-                dtbResTaxRate.Columns.Add("sumChosei")
-                dtbResTaxRate.Columns.Add("sumRiyokin")
+                '' 重複除去
+                'Dim dtvTaxRateAmount As New DataView(dtbTaxRateAmount)
+                'dtvTaxRateAmount.Sort = "zeiritsu DESC"
+                'Dim dtbResTaxRate As DataTable = dtvTaxRateAmount.ToTable(True, "zeiritsu")
+                'dtbResTaxRate.Columns.Add("sumKingaku")
+                'dtbResTaxRate.Columns.Add("sumChosei")
+                'dtbResTaxRate.Columns.Add("sumRiyokin")
 
 
 
-                If dataEXTC0103.PropBlnGeneralFlg Then
+                'If dataEXTC0103.PropBlnGeneralFlg Then
 
-                    intRowCnt = 0
-                    For Each row As DataRow In dtbResTaxRate.Rows
-                        ' 付帯金集計
-                        row("sumKingaku") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(futai_kin)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
-                        If row("sumKingaku") Is DBNull.Value Then
-                            row("sumKingaku") = "0"
-                        End If
+                '    intRowCnt = 0
+                '    For Each row As DataRow In dtbResTaxRate.Rows
+                '        ' 付帯金集計
+                '        row("sumKingaku") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(futai_kin)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                '        If row("sumKingaku") Is DBNull.Value Then
+                '            row("sumKingaku") = "0"
+                '        End If
 
-                        ' 調整額集計
-                        row("sumChosei") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(futai_chosei)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
-                        If row("sumChosei") Is DBNull.Value Then
-                            row("sumChosei") = "0"
-                        End If
+                '        ' 調整額集計
+                '        row("sumChosei") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(futai_chosei)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                '        If row("sumChosei") Is DBNull.Value Then
+                '            row("sumChosei") = "0"
+                '        End If
 
-                        ' 集計税率設定
-                        vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value = CInt(row("zeiritsu")) / 100
-                        ' 集計税額表示
-                        If vwOutputSheet.Cells("I8").Value = vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value Then
-                            ' 利用料の税率と一致する時、利用料を加算して計算する。
-                            vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
-                        Else
-                            vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
-                        End If
+                '        ' 集計税率設定
+                '        vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value = CInt(row("zeiritsu")) / 100
+                '        ' 集計税額表示
+                '        If vwOutputSheet.Cells("I8").Value = vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value Then
+                '            ' 利用料の税率と一致する時、利用料を加算して計算する。
+                '            vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                '        Else
+                '            vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                '        End If
 
-                        intRowCnt = intRowCnt + 1
-                    Next
-                End If
+                '        intRowCnt = intRowCnt + 1
+                '    Next
+                'End If
                 'If dataEXTC0103.PropBlnGeneralFlg Then
                 '    vwOutputSheet.Cells("E48").Value = dataEXTC0103.PropIntTax / 100 '消費税
                 'End If
 
                 ' --- 2019/08/05 軽減税率対応 End E.Okuda@Compass ---
+                ' --- 2019/11/12 軽減税率　内税のみバグ対応 End E.Okuda@Compass ---
             End If
             ' 2016.02.02 UPD END↑ h.hggiwara 内税のみの場合に利用料が出力されない不具合対応
+
+            ' --- 2019/11/12 軽減税率　内税のみバグ対応 Start E.Okuda@Compass ---
+            ' --- 2019/08/05 軽減税率対応 Start E.Okuda@Compass ---
+            ' 軽減税率対応で消費税行追加対応
+            Dim dtbTaxRateAmount As New DataTable
+            Dim intRowCnt As Integer = 0
+            dtbTaxRateAmount.Columns.Add("zeiritsu", GetType(Integer))
+            For Each drow As DataRow In dataEXTC0103.PropDtPeriodTaxReducedRate.Rows
+                dtbTaxRateAmount.Rows.Add()
+                dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("TAX_RITU")
+                intRowCnt = intRowCnt + 1
+                ' 軽減税率はNullでない時、行追加する。
+                If Not drow("REDUCED_RATE") Is DBNull.Value Then
+                    dtbTaxRateAmount.Rows.Add()
+                    dtbTaxRateAmount(intRowCnt).Item("zeiritsu") = drow("REDUCED_RATE")
+                    intRowCnt = intRowCnt + 1
+                End If
+            Next
+
+            ' 重複除去
+            Dim dtvTaxRateAmount As New DataView(dtbTaxRateAmount)
+            dtvTaxRateAmount.Sort = "zeiritsu DESC"
+            Dim dtbResTaxRate As DataTable = dtvTaxRateAmount.ToTable(True, "zeiritsu")
+            dtbResTaxRate.Columns.Add("sumKingaku")
+            dtbResTaxRate.Columns.Add("sumChosei")
+            dtbResTaxRate.Columns.Add("sumRiyokin")
+
+
+
+            If dataEXTC0103.PropBlnGeneralFlg Then
+
+                intRowCnt = 0
+                For Each row As DataRow In dtbResTaxRate.Rows
+                    ' 付帯金集計
+                    row("sumKingaku") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(futai_kin)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                    If row("sumKingaku") Is DBNull.Value Then
+                        row("sumKingaku") = "0"
+                    End If
+
+                    ' 調整額集計
+                    row("sumChosei") = dataEXTC0103.PropDtUseDetails_Output.Compute("SUM(futai_chosei)", "zeiritsu = '" + row("zeiritsu").ToString + "'")
+                    If row("sumChosei") Is DBNull.Value Then
+                        row("sumChosei") = "0"
+                    End If
+
+                    ' 集計税率設定
+                    vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value = CInt(row("zeiritsu")) / 100
+                    ' 集計税額表示
+                    If vwOutputSheet.Cells("I8").Value = vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value Then
+                        ' 利用料の税率と一致する時、利用料を加算して計算する。
+                        vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(vwOutputSheet.Cells("H8").Value) + CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                    Else
+                        vwOutputSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                    End If
+
+                    intRowCnt = intRowCnt + 1
+                Next
+            End If
+
+            ' --- 2019/11/12 軽減税率　内税のみバグ対応 End E.Okuda@Compass ---
+
 
             If dataEXTC0103.PropDtUseDetailsNoTax_Output IsNot Nothing And _
                 dataEXTC0103.PropDtUseDetailsNoTax_Output.Rows.Count > 0 Then

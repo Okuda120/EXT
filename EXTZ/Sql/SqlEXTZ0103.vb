@@ -413,6 +413,7 @@ Public Class SqlEXTZ0103
     ' 2016.02.15 UPD END↑ h.hagiwara レジごとに金額集計を行い連結するよう対応
 
     ' --- 2019/08/15 日別売上集計対応 Start E.Okuda@Compass ---
+    ' 2019/11/07 FUTAI_KIN → FUTAI_SHOKEIに変更
     Private strSelectDayUriageTheatreSQL As String =
                 "    SELECT" & vbCrLf &
                 "        t1.YOYAKU_NO," & vbCrLf &
@@ -442,7 +443,7 @@ Public Class SqlEXTZ0103
                 "        WHEN '6' THEN 'その他'" & vbCrLf &
                 "    END SAIJI_BUNRUI," & vbCrLf &
                 "    COALESCE(t2.RIYO_KIN,'0') AS RIYO_KIN," & vbCrLf &
-                "    COALESCE(t3.FUTAI_KIN,'0') AS FUTAI_KIN," & vbCrLf &
+                "    COALESCE(t3.FUTAI_SHOKEI,'0') AS FUTAI_SHOKEI," & vbCrLf &
                 "    COALESCE(t3.FUTAI_CHOSEI,'0') AS FUTAI_CHOSEI," & vbCrLf &
                 "    COALESCE(t4a.DEPOSIT_AMOUNT,'0') AS DRINK_GENKIN," & vbCrLf &
                 "    COALESCE(t4b.DEPOSIT_AMOUNT,'0') AS ONE_DRINK," & vbCrLf &
@@ -465,7 +466,7 @@ Public Class SqlEXTZ0103
                 "            SELECT" & vbCrLf &
                 "                YOYAKU_NO," & vbCrLf &
                 "                YOYAKU_DT," & vbCrLf &
-                "                SUM(FUTAI_KIN) AS FUTAI_KIN," & vbCrLf &
+                "                SUM(FUTAI_SHOKEI) AS FUTAI_SHOKEI," & vbCrLf &
                 "                SUM(FUTAI_CHOSEI) AS FUTAI_CHOSEI" & vbCrLf &
                 "            FROM" & vbCrLf &
                 "                FRIYO_MEISAI_TBL" & vbCrLf &
@@ -1150,243 +1151,245 @@ Public Class SqlEXTZ0103
     '"        AND t2.YOYAKU_DT = t5c.DEPOSIT_DT" & vbCrLf & _
     '"    WHERE " & vbCrLf &
     '"        t2.SHISETU_KBN = '2'" & vbCrLf
-    Private strSelectDayUriageStudioSQL As String = _
-                "SELECT" & vbCrLf & _
-                "    t1.YOYAKU_NO," & vbCrLf & _
-                "    t2.YOYAKU_DT," & vbCrLf & _
-                "    t1.SHUTSUEN_NM," & vbCrLf & _
-                "    t1.RIYO_NM," & vbCrLf & _
-                "    CASE t1.KASHI_KIND" & vbCrLf & _
-                "        WHEN '0' THEN '未定'" & vbCrLf & _
-                "        WHEN '1' THEN '一般貸出'" & vbCrLf & _
-                "        WHEN '2' THEN '社内利用'" & vbCrLf & _
-                "    END KASHI_KIND," & vbCrLf & _
-                "    CASE t1.STUDIO_KBN" & vbCrLf & _
-                "        WHEN '1' THEN '201st'" & vbCrLf & _
-                "        WHEN '2' THEN '202st'" & vbCrLf & _
-                "        WHEN '3' THEN 'house lock'" & vbCrLf & _
-                "    END STUDIO_KBN," & vbCrLf & _
-                "    COALESCE(t2.RIYO_KIN,'0') AS RIYO_KIN," & vbCrLf & _
-                "    COALESCE(t3.FUTAI_KIN,'0') AS FUTAI_KIN," & vbCrLf & _
-                "    COALESCE(t3.FUTAI_CHOSEI,'0') AS FUTAI_CHOSEI," & vbCrLf & _
-                "    COALESCE(t4a.DEPOSIT_AMOUNT,'0') AS DRINK_GENKIN," & vbCrLf & _
-                "    COALESCE(t4b.DEPOSIT_AMOUNT,'0') AS ONE_DRINK," & vbCrLf & _
-                "    COALESCE(t4c.DEPOSIT_AMOUNT,'0') AS COIN_LOCKER," & vbCrLf & _
-                "    COALESCE(t4d.DEPOSIT_AMOUNT,'0') AS ZATSU_SHUNYU," & vbCrLf & _
-                "    COALESCE(t4e.DEPOSIT_AMOUNT,'0') AS AKI1," & vbCrLf & _
-                "    COALESCE(t4f.DEPOSIT_AMOUNT,'0') AS AKI2," & vbCrLf & _
-                "    COALESCE(t4g.DEPOSIT_AMOUNT,'0') AS AKI3," & vbCrLf & _
-                "    COALESCE(t4h.DEPOSIT_AMOUNT,'0') AS AKI4," & vbCrLf & _
-                "    COALESCE(t5a.DEPOSIT_AMOUNT,'0') AS SUICA_GENKIN," & vbCrLf & _
-                "    COALESCE(t5b.DEPOSIT_AMOUNT,'0') AS SUICA_COIN_LOCKER," & vbCrLf & _
-                "    COALESCE(t5c.DEPOSIT_AMOUNT,'0') AS SONOTA" & vbCrLf & _
-                "FROM" & vbCrLf & _
-                "    YOYAKU_TBL t1" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        YDT_TBL t2" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t2.YOYAKU_NO" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "       (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                YOYAKU_DT," & vbCrLf & _
-                "                SUM(FUTAI_KIN) AS FUTAI_KIN," & vbCrLf & _
-                "                SUM(FUTAI_CHOSEI) AS FUTAI_CHOSEI" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                FRIYO_MEISAI_TBL" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                YOYAKU_DT" & vbCrLf & _
-                "        ) t3" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t3.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t3.YOYAKU_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '1'" & vbCrLf & _
-                "            AND REGISTER_CD= '001'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t4a" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t4a.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t4a.DEPOSIT_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '1'" & vbCrLf & _
-                "            AND REGISTER_CD= '002'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t4b" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t4b.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t4b.DEPOSIT_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '1'" & vbCrLf & _
-                "            AND REGISTER_CD= '003'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t4c" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t4c.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t4c.DEPOSIT_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '1'" & vbCrLf & _
-                "            AND REGISTER_CD= '004'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t4d" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t4d.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t4d.DEPOSIT_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '1'" & vbCrLf & _
-                "            AND REGISTER_CD= '006'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t4e" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t4e.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t4e.DEPOSIT_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '1'" & vbCrLf & _
-                "            AND REGISTER_CD= '007'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t4f" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t4f.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t4f.DEPOSIT_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '1'" & vbCrLf & _
-                "            AND REGISTER_CD= '008'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t4g" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t4g.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t4g.DEPOSIT_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '1'" & vbCrLf & _
-                "            AND REGISTER_CD= '009'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t4h" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t4h.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t4h.DEPOSIT_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '2'" & vbCrLf & _
-                "            AND REGISTER_CD= '900'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t5a" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t5a.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t5a.DEPOSIT_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '2'" & vbCrLf & _
-                "            AND REGISTER_CD= '901'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t5b" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t5b.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t5b.DEPOSIT_DT" & vbCrLf & _
-                "    LEFT JOIN" & vbCrLf & _
-                "        (" & vbCrLf & _
-                "            SELECT" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT," & vbCrLf & _
-                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf & _
-                "            FROM" & vbCrLf & _
-                "                ALSOK_DEPOSIT_TBL" & vbCrLf & _
-                "            WHERE" & vbCrLf & _
-                "                DEPOSIT_KBN = '2'" & vbCrLf & _
-                "            AND REGISTER_CD BETWEEN '902' AND '950'" & vbCrLf & _
-                "            GROUP BY" & vbCrLf & _
-                "                YOYAKU_NO," & vbCrLf & _
-                "                DEPOSIT_DT" & vbCrLf & _
-                "        ) t5c" & vbCrLf & _
-                "    ON  t1.YOYAKU_NO = t5c.YOYAKU_NO" & vbCrLf & _
-                "        AND t2.YOYAKU_DT = t5c.DEPOSIT_DT" & vbCrLf & _
+
+    ' 2019/11/07 FUTAI_KIN → FUTAI_SHOKEIに変更
+    Private strSelectDayUriageStudioSQL As String =
+                "SELECT" & vbCrLf &
+                "    t1.YOYAKU_NO," & vbCrLf &
+                "    t2.YOYAKU_DT," & vbCrLf &
+                "    t1.SHUTSUEN_NM," & vbCrLf &
+                "    t1.RIYO_NM," & vbCrLf &
+                "    CASE t1.KASHI_KIND" & vbCrLf &
+                "        WHEN '0' THEN '未定'" & vbCrLf &
+                "        WHEN '1' THEN '一般貸出'" & vbCrLf &
+                "        WHEN '2' THEN '社内利用'" & vbCrLf &
+                "    END KASHI_KIND," & vbCrLf &
+                "    CASE t1.STUDIO_KBN" & vbCrLf &
+                "        WHEN '1' THEN '201st'" & vbCrLf &
+                "        WHEN '2' THEN '202st'" & vbCrLf &
+                "        WHEN '3' THEN 'house lock'" & vbCrLf &
+                "    END STUDIO_KBN," & vbCrLf &
+                "    COALESCE(t2.RIYO_KIN,'0') AS RIYO_KIN," & vbCrLf &
+                "    COALESCE(t3.FUTAI_SHOKEI,'0') AS FUTAI_SHOKEI," & vbCrLf &
+                "    COALESCE(t3.FUTAI_CHOSEI,'0') AS FUTAI_CHOSEI," & vbCrLf &
+                "    COALESCE(t4a.DEPOSIT_AMOUNT,'0') AS DRINK_GENKIN," & vbCrLf &
+                "    COALESCE(t4b.DEPOSIT_AMOUNT,'0') AS ONE_DRINK," & vbCrLf &
+                "    COALESCE(t4c.DEPOSIT_AMOUNT,'0') AS COIN_LOCKER," & vbCrLf &
+                "    COALESCE(t4d.DEPOSIT_AMOUNT,'0') AS ZATSU_SHUNYU," & vbCrLf &
+                "    COALESCE(t4e.DEPOSIT_AMOUNT,'0') AS AKI1," & vbCrLf &
+                "    COALESCE(t4f.DEPOSIT_AMOUNT,'0') AS AKI2," & vbCrLf &
+                "    COALESCE(t4g.DEPOSIT_AMOUNT,'0') AS AKI3," & vbCrLf &
+                "    COALESCE(t4h.DEPOSIT_AMOUNT,'0') AS AKI4," & vbCrLf &
+                "    COALESCE(t5a.DEPOSIT_AMOUNT,'0') AS SUICA_GENKIN," & vbCrLf &
+                "    COALESCE(t5b.DEPOSIT_AMOUNT,'0') AS SUICA_COIN_LOCKER," & vbCrLf &
+                "    COALESCE(t5c.DEPOSIT_AMOUNT,'0') AS SONOTA" & vbCrLf &
+                "FROM" & vbCrLf &
+                "    YOYAKU_TBL t1" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        YDT_TBL t2" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t2.YOYAKU_NO" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "       (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                YOYAKU_DT," & vbCrLf &
+                "                SUM(FUTAI_SHOKEI) AS FUTAI_SHOKEI," & vbCrLf &
+                "                SUM(FUTAI_CHOSEI) AS FUTAI_CHOSEI" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                FRIYO_MEISAI_TBL" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                YOYAKU_DT" & vbCrLf &
+                "        ) t3" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t3.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t3.YOYAKU_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '1'" & vbCrLf &
+                "            AND REGISTER_CD= '001'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t4a" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t4a.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t4a.DEPOSIT_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '1'" & vbCrLf &
+                "            AND REGISTER_CD= '002'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t4b" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t4b.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t4b.DEPOSIT_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '1'" & vbCrLf &
+                "            AND REGISTER_CD= '003'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t4c" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t4c.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t4c.DEPOSIT_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '1'" & vbCrLf &
+                "            AND REGISTER_CD= '004'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t4d" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t4d.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t4d.DEPOSIT_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '1'" & vbCrLf &
+                "            AND REGISTER_CD= '006'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t4e" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t4e.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t4e.DEPOSIT_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '1'" & vbCrLf &
+                "            AND REGISTER_CD= '007'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t4f" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t4f.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t4f.DEPOSIT_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '1'" & vbCrLf &
+                "            AND REGISTER_CD= '008'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t4g" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t4g.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t4g.DEPOSIT_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '1'" & vbCrLf &
+                "            AND REGISTER_CD= '009'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t4h" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t4h.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t4h.DEPOSIT_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '2'" & vbCrLf &
+                "            AND REGISTER_CD= '900'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t5a" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t5a.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t5a.DEPOSIT_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '2'" & vbCrLf &
+                "            AND REGISTER_CD= '901'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t5b" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t5b.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t5b.DEPOSIT_DT" & vbCrLf &
+                "    LEFT JOIN" & vbCrLf &
+                "        (" & vbCrLf &
+                "            SELECT" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT," & vbCrLf &
+                "                SUM(DEPOSIT_AMOUNT) AS DEPOSIT_AMOUNT" & vbCrLf &
+                "            FROM" & vbCrLf &
+                "                ALSOK_DEPOSIT_TBL" & vbCrLf &
+                "            WHERE" & vbCrLf &
+                "                DEPOSIT_KBN = '2'" & vbCrLf &
+                "            AND REGISTER_CD BETWEEN '902' AND '950'" & vbCrLf &
+                "            GROUP BY" & vbCrLf &
+                "                YOYAKU_NO," & vbCrLf &
+                "                DEPOSIT_DT" & vbCrLf &
+                "        ) t5c" & vbCrLf &
+                "    ON  t1.YOYAKU_NO = t5c.YOYAKU_NO" & vbCrLf &
+                "        AND t2.YOYAKU_DT = t5c.DEPOSIT_DT" & vbCrLf &
                 "    WHERE " & vbCrLf &
                 "        t2.SHISETU_KBN = '2'" & vbCrLf
     ' 2016.02.15 UPD END↑ h.hagiwara レジごとに金額集計を行い連結するよう対応
@@ -1493,7 +1496,7 @@ Public Class SqlEXTZ0103
 
                 ' 利用料／付帯設備利用料ゼロ除外チェックが入っている場合
                 If .PropBlnExcludeZero Then
-                    strSQL &= "AND (RIYO_KIN <> 0 OR FUTAI_KIN <> 0)" & vbCrLf
+                    strSQL &= "AND (RIYO_KIN <> 0 OR FUTAI_SHOKEI <> 0)" & vbCrLf
                 End If
 
                 'ORDER BY句追加
