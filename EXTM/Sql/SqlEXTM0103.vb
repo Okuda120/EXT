@@ -10,19 +10,59 @@ Imports Common
 ''' </para></remarks>
 Public Class SqlEXTM0103
 
-    ' --- 2019/08/13 軽減税率対応 Start E.Okuda@Compass ---
-    Private Const COL_SHEET_TAXS_DT As Integer = 0              ' 開始日
-    Private Const COL_SHEET_TAXE_DT As Integer = 1              ' 終了日
-    Private Const COL_SHEET_TAX_RITU As Integer = 2             ' 消費税率
-    Private Const COL_SHEET_REDUCED_RATE As Integer = 3         ' 軽減税率
-    Private Const COL_SHEET_SEQ As Integer = 4                  ' SEQ
-    Private Const COL_SHEET_UPDATE_KBN As Integer = 5           ' 更新区分
-    Private Const COL_SHEET_BEFORE_TAXS_DTN As Integer = 6      ' 修正前開始日
-    Private Const COL_SHEET_BEFORE_TAXE_DT As Integer = 7       ' 修正前終了日
-    Private Const COL_SHEET_BEFORE_TAX_RITU As Integer = 8      ' 修正前消費税率
-    Private Const COL_SHEET_BEFORE_REDUCED_RATE As Integer = 9  ' 修正前軽減税率
+    ' --- 2020/03/05 軽減税率対応 Start E.Okuda@Compass ---
+    Private Const COL_NAME_SEQ As String = "SEQ"
+    Private Const COL_NAME_UPDT_KBN As String = "更新区分"
+    Private Const COL_NAME_LATEST_TAXS_DT As String = "修正前開始日"
+    Private Const COL_NAME_LATEST_TAXE_DT As String = "修正前終了日"
+    Private Const COL_NAME_TAXS_DT As String = "開始日"
+    Private Const COL_NAME_TAXE_DT As String = "終了日"
 
-    ' --- 2019/08/13 軽減税率対応 End E.Okuda@Compass ---
+    Private Const COL_SHEET_SEQ As Integer = 0                      ' SEQ
+    Private Const COL_SHEET_UPDATE_KBN As Integer = 1               ' 更新区分
+    Private Const COL_SHEET_BEFORE_TAXS_DT As Integer = 2           ' 修正前開始日
+    Private Const COL_SHEET_BEFORE_TAXE_DT As Integer = 3           ' 修正前終了日
+    Private Const COL_SHEET_TAXS_DT As Integer = 4                  ' 開始日
+    Private Const COL_SHEET_TAXE_DT As Integer = 5                  ' 終了日
+    Private Const COL_SHEET_TAX_RITU As Integer = 6                 ' 課売税率
+    Private Const COL_SHEET_BEFORE_TAX_RITU As Integer = 7          ' 修正前課売税率
+    Private Const COL_SHEET_REDUCED_RATE As Integer = 8             ' 課売軽減税率
+    Private Const COL_SHEET_BEFORE_REDUCED_RATE As Integer = 9      ' 修正前課売軽減税率
+    Private Const COL_SHEET_UNTAXED_RATE As Integer = 10            ' 対象外税率
+    Private Const COL_SHEET_BEFORE_UNTAXED_RATE As Integer = 11     ' 修正前対象外税率
+    Private Const COL_SHEET_TAX_FREE As Integer = 12                ' 非課税税率
+    Private Const COL_SHEET_BEFORE_TAX_FREE As Integer = 13         ' 修正前非課税税率
+    Private Const COL_SHEET_TAX_EXEMPTION As Integer = 14           ' 免税税率
+    Private Const COL_SHEET_BEFORE_TAX_EXEMPTION As Integer = 15    ' 修正前免税税率
+    Private Const COL_SHEET_TAX_OLD1 As Integer = 16                ' 旧課税税率1
+    Private Const COL_SHEET_BEFORE_TAX_OLD1 As Integer = 17         ' 修正前旧課税税率1
+    Private Const COL_SHEET_TAX_OLD2 As Integer = 18                ' 旧課税税率2
+    Private Const COL_SHEET_BEFORE_TAX_OLD2 As Integer = 19         ' 修正前旧課税税率2
+    Private Const COL_SHEET_TAX_SPARE1 As Integer = 20              ' 予備税率1
+    Private Const COL_SHEET_BEFORE_TAX_SPARE1 As Integer = 21       ' 修正前予備税率1
+    Private Const COL_SHEET_TAX_SPARE2 As Integer = 22              ' 予備税率2
+    Private Const COL_SHEET_BEFORE_TAX_SPARE2 As Integer = 23       ' 修正前予備税率2
+    Private Const COL_SHEET_TAX_SPARE3 As Integer = 24              ' 予備税率3
+    Private Const COL_SHEET_BEFORE_TAX_SPARE3 As Integer = 25       ' 修正前予備税率3
+    Private Const COL_SHEET_TAX_SPARE4 As Integer = 26              ' 予備税率4
+    Private Const COL_SHEET_BEFORE_TAX_SPARE4 As Integer = 27       ' 修正前予備税率4
+    Private Const COL_SHEET_TAX_SPARE5 As Integer = 28              ' 予備税率5
+    Private Const COL_SHEET_BEFORE_TAX_SPARE5 As Integer = 29       ' 修正前予備税率5
+
+    '' --- 2019/08/13 軽減税率対応 Start E.Okuda@Compass ---
+    'Private Const COL_SHEET_TAXS_DT As Integer = 0              ' 開始日
+    'Private Const COL_SHEET_TAXE_DT As Integer = 1              ' 終了日
+    'Private Const COL_SHEET_TAX_RITU As Integer = 2             ' 消費税率
+    'Private Const COL_SHEET_REDUCED_RATE As Integer = 3         ' 軽減税率
+    'Private Const COL_SHEET_SEQ As Integer = 4                  ' SEQ
+    'Private Const COL_SHEET_UPDATE_KBN As Integer = 5           ' 更新区分
+    'Private Const COL_SHEET_BEFORE_TAXS_DTN As Integer = 6      ' 修正前開始日
+    'Private Const COL_SHEET_BEFORE_TAXE_DT As Integer = 7       ' 修正前終了日
+    'Private Const COL_SHEET_BEFORE_TAX_RITU As Integer = 8      ' 修正前消費税率
+    'Private Const COL_SHEET_BEFORE_REDUCED_RATE As Integer = 9  ' 修正前軽減税率
+
+    '' --- 2019/08/13 軽減税率対応 End E.Okuda@Compass ---
+    ' --- 2020/03/05 軽減税率対応 End E.Okuda@Compass ---
 
     'SQL文宣言
 
@@ -39,20 +79,55 @@ Public Class SqlEXTM0103
     '                                         ",TAX_RITU " & vbCrLf &
     '                                         " FROM TAX_MST " & vbCrLf &
     '                                         " ORDER BY SEQ "
+    ' --- 2020/03/04 税区分追加対応 Start E.Okuda@Compass ---
+    'Public strSelectTaxmstSearch As String = " SELECT " & vbCrLf &
+    '                                         " TAXS_DT " & vbCrLf &
+    '                                         ",TAXE_DT " & vbCrLf &
+    '                                         ",TAX_RITU " & vbCrLf &
+    '                                         ",REDUCED_RATE " & vbCrLf &
+    '                                         ",SEQ " & vbCrLf &
+    '                                         ",'1' " & vbCrLf &
+    '                                         ",TAXS_DT " & vbCrLf &
+    '                                         ",TAXE_DT " & vbCrLf &
+    '                                         ",TAX_RITU " & vbCrLf &
+    '                                         ",REDUCED_RATE " & vbCrLf &
+    '                                         " FROM TAX_MST " & vbCrLf &
+    '                                         " ORDER BY SEQ "
+    ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
     Public strSelectTaxmstSearch As String = " SELECT " & vbCrLf &
-                                             " TAXS_DT " & vbCrLf &
-                                             ",TAXE_DT " & vbCrLf &
-                                             ",TAX_RITU " & vbCrLf &
-                                             ",REDUCED_RATE " & vbCrLf &
-                                             ",SEQ " & vbCrLf &
-                                             ",'1' " & vbCrLf &
+                                             " SEQ " & vbCrLf &
+                                             ",'1' as UPDT_KBN" & vbCrLf &
+                                             ",TAXS_DT as LATEST_TAXS_DT " & vbCrLf &
+                                             ",TAXE_DT as LATEST_TAXE_DT " & vbCrLf &
                                              ",TAXS_DT " & vbCrLf &
                                              ",TAXE_DT " & vbCrLf &
                                              ",TAX_RITU " & vbCrLf &
+                                             ",TAX_RITU as LATEST_TAX_RITU " & vbCrLf &
                                              ",REDUCED_RATE " & vbCrLf &
+                                             ",REDUCED_RATE as LATEST_REDUCED_RATE " & vbCrLf &
+                                             ",UNTAXED_RATE " & vbCrLf &
+                                             ",UNTAXED_RATE as LATEST_UNTAXED_RATE " & vbCrLf &
+                                             ",TAX_FREE " & vbCrLf &
+                                             ",TAX_FREE as LATEST_TAX_FREE " & vbCrLf &
+                                             ",TAX_EXEMPTION " & vbCrLf &
+                                             ",TAX_EXEMPTION as LATEST_TAX_EXEMPTION " & vbCrLf &
+                                             ",TAX_OLD1 " & vbCrLf &
+                                             ",TAX_OLD1 as LATEST_TAX_OLD1 " & vbCrLf &
+                                             ",TAX_OLD2 " & vbCrLf &
+                                             ",TAX_OLD2 as LATEST_TAX_OLD2 " & vbCrLf &
+                                             ",TAX_SPARE1 " & vbCrLf &
+                                             ",TAX_SPARE1 as LATEST_TAX_SPARE1 " & vbCrLf &
+                                             ",TAX_SPARE2 " & vbCrLf &
+                                             ",TAX_SPARE2 as LATEST_TAX_SPARE2 " & vbCrLf &
+                                             ",TAX_SPARE3 " & vbCrLf &
+                                             ",TAX_SPARE3 as LATEST_TAX_SPARE3 " & vbCrLf &
+                                             ",TAX_SPARE4 " & vbCrLf &
+                                             ",TAX_SPARE4 as LATEST_TAX_SPARE4 " & vbCrLf &
+                                             ",TAX_SPARE5 " & vbCrLf &
+                                             ",TAX_SPARE5 as LATEST_TAX_SPARE5 " & vbCrLf &
                                              " FROM TAX_MST " & vbCrLf &
                                              " ORDER BY SEQ "
-    ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
+    ' --- 2020/03/04 税区分追加対応 Start E.Okuda@Compass ---
 
     '<sqlid:EX20I001>消費税の登録（INSERT）SQL
     ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
@@ -93,12 +168,23 @@ Public Class SqlEXTM0103
     '                                        " , :setAddUserCd " & vbCrLf &
     '                                        " , :setUpDt " & vbCrLf &
     '                                        " , :setUpUserCd ); "
+    ' --- 2020/03/04 税区分追加対応 Start E.Okuda@Compass ---
     Private strInsertTaxmstSql As String = " INSERT INTO TAX_MST" & vbCrLf &
                                             " (SEQ, " & vbCrLf &
                                             " TAXS_DT, " & vbCrLf &
                                             " TAXE_DT, " & vbCrLf &
                                             " TAX_RITU, " & vbCrLf &
                                             " REDUCED_RATE, " & vbCrLf &
+                                            " UNTAXED_RATE, " & vbCrLf &
+                                            " TAX_FREE, " & vbCrLf &
+                                            " TAX_EXEMPTION, " & vbCrLf &
+                                            " TAX_OLD1, " & vbCrLf &
+                                            " TAX_OLD2, " & vbCrLf &
+                                            " TAX_SPARE1, " & vbCrLf &
+                                            " TAX_SPARE2, " & vbCrLf &
+                                            " TAX_SPARE3, " & vbCrLf &
+                                            " TAX_SPARE4, " & vbCrLf &
+                                            " TAX_SPARE5, " & vbCrLf &
                                             " ADD_DT, " & vbCrLf &
                                             " ADD_USER_CD, " & vbCrLf &
                                             " UP_DT, " & vbCrLf &
@@ -109,23 +195,73 @@ Public Class SqlEXTM0103
                                             " , :setTaxeDt " & vbCrLf &
                                             " , :setTaxRitu " & vbCrLf &
                                             " , :setReducedRate " & vbCrLf &
+                                            " , :setUntaxedRate " & vbCrLf &
+                                            " , :setTaxFree " & vbCrLf &
+                                            " , :setTaxExemption " & vbCrLf &
+                                            " , :setTaxOld1 " & vbCrLf &
+                                            " , :setTaxOld2 " & vbCrLf &
+                                            " , :setTaxSpare1 " & vbCrLf &
+                                            " , :setTaxSpare2 " & vbCrLf &
+                                            " , :setTaxSpare3 " & vbCrLf &
+                                            " , :setTaxSpare4 " & vbCrLf &
+                                            " , :setTaxSpare5 " & vbCrLf &
                                             " , :setAddDt " & vbCrLf &
                                             " , :setAddUserCd " & vbCrLf &
                                             " , :setUpDt " & vbCrLf &
                                             " , :setUpUserCd ); "
+    'Private strInsertTaxmstSql As String = " INSERT INTO TAX_MST" & vbCrLf &
+    '                                        " (SEQ, " & vbCrLf &
+    '                                        " TAXS_DT, " & vbCrLf &
+    '                                        " TAXE_DT, " & vbCrLf &
+    '                                        " TAX_RITU, " & vbCrLf &
+    '                                        " REDUCED_RATE, " & vbCrLf &
+    '                                        " ADD_DT, " & vbCrLf &
+    '                                        " ADD_USER_CD, " & vbCrLf &
+    '                                        " UP_DT, " & vbCrLf &
+    '                                        " UP_USER_CD) " & vbCrLf &
+    '                                        " VALUES " & vbCrLf &
+    '                                        " (( SELECT COALESCE(MAX(SEQ),0) + 1 FROM TAX_MST ) " & vbCrLf &
+    '                                        " , :setTaxsDt " & vbCrLf &
+    '                                        " , :setTaxeDt " & vbCrLf &
+    '                                        " , :setTaxRitu " & vbCrLf &
+    '                                        " , :setReducedRate " & vbCrLf &
+    '                                        " , :setAddDt " & vbCrLf &
+    '                                        " , :setAddUserCd " & vbCrLf &
+    '                                        " , :setUpDt " & vbCrLf &
+    '                                        " , :setUpUserCd ); "
     ' 2015.10.09 UPDATE END↑ h.hagiwara 
+    ' --- 2020/03/04 税区分追加対応 End E.Okuda@Compass ---
     ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
 
     '<sqlid:EX20U001>消費税マスタの更新（UPDATE）SQL
-    ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+    ' --- 2020/03/04 税区分追加対応 Start E.Okuda@Compass ---
     Private strUpdateTaxmstSql As String = " UPDATE TAX_MST SET " & vbCrLf &
                                             " TAXS_DT        = :UpdateTaxsDt " & vbCrLf &
                                             ",TAXE_DT        = :UpdateTaxeDt " & vbCrLf &
                                             ",TAX_RITU       = :UpdateTaxRitu " & vbCrLf &
                                             ",REDUCED_RATE   = :UpdateReducedRate " & vbCrLf &
+                                            ",UNTAXED_RATE   = :UpdateUntaxedRate " & vbCrLf &
+                                            ",TAX_FREE       = :UpdateTaxFree " & vbCrLf &
+                                            ",TAX_EXEMPTION  = :UpdateTaxExemption " & vbCrLf &
+                                            ",TAX_OLD1       = :UpdateTaxOld1 " & vbCrLf &
+                                            ",TAX_OLD2       = :UpdateTaxOld2 " & vbCrLf &
+                                            ",TAX_SPARE1     = :UpdateTaxSpare1 " & vbCrLf &
+                                            ",TAX_SPARE2     = :UpdateTaxSpare2 " & vbCrLf &
+                                            ",TAX_SPARE3     = :UpdateTaxSpare3 " & vbCrLf &
+                                            ",TAX_SPARE4     = :UpdateTaxSpare4 " & vbCrLf &
+                                            ",TAX_SPARE5     = :UpdateTaxSpare5 " & vbCrLf &
                                             ",UP_DT          = :UpdateUpDt " & vbCrLf &
                                             ",UP_USER_CD     = :UpdateUpUserCd " & vbCrLf &
                                             " WHERE SEQ      = :SEQ "
+    ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+    'Private strUpdateTaxmstSql As String = " UPDATE TAX_MST SET " & vbCrLf &
+    '                                        " TAXS_DT        = :UpdateTaxsDt " & vbCrLf &
+    '                                        ",TAXE_DT        = :UpdateTaxeDt " & vbCrLf &
+    '                                        ",TAX_RITU       = :UpdateTaxRitu " & vbCrLf &
+    '                                        ",REDUCED_RATE   = :UpdateReducedRate " & vbCrLf &
+    '                                        ",UP_DT          = :UpdateUpDt " & vbCrLf &
+    '                                        ",UP_USER_CD     = :UpdateUpUserCd " & vbCrLf &
+    '                                        " WHERE SEQ      = :SEQ "
 
     'Private strUpdateTaxmstSql As String = " UPDATE TAX_MST SET " & vbCrLf & _
     '                                        " TAXS_DT        = :UpdateTaxsDt " & vbCrLf & _
@@ -135,6 +271,7 @@ Public Class SqlEXTM0103
     '                                        ",UP_USER_CD     = :UpdateUpUserCd " & vbCrLf & _
     '                                        " WHERE SEQ      = :SEQ "
     ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+    ' --- 2020/03/04 税区分追加対応 End E.Okuda@Compass ---
 
     ' 2015.12.08 ADD START↓ h.hagiwara 
     Private strDeleteTaxmstSql As String = " DELETE FROM TAX_MST " & vbCrLf & _
@@ -222,6 +359,20 @@ Public Class SqlEXTM0103
                 ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
                 .Add(New NpgsqlParameter("setReducedRate", NpgsqlTypes.NpgsqlDbType.Integer))             ' 軽減税率
                 ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
+
+                ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+                .Add(New NpgsqlParameter("setUntaxedRate", NpgsqlTypes.NpgsqlDbType.Integer))               ' 対象外
+                .Add(New NpgsqlParameter("setTaxFree", NpgsqlTypes.NpgsqlDbType.Integer))                   ' 非課税
+                .Add(New NpgsqlParameter("setTaxExemption", NpgsqlTypes.NpgsqlDbType.Integer))              ' 免税
+                .Add(New NpgsqlParameter("setTaxOld1", NpgsqlTypes.NpgsqlDbType.Integer))                   ' 旧課税1
+                .Add(New NpgsqlParameter("setTaxOld2", NpgsqlTypes.NpgsqlDbType.Integer))                   ' 旧課税2
+                .Add(New NpgsqlParameter("setTaxSpare1", NpgsqlTypes.NpgsqlDbType.Integer))                 ' 予備1
+                .Add(New NpgsqlParameter("setTaxSpare2", NpgsqlTypes.NpgsqlDbType.Integer))                 ' 予備2
+                .Add(New NpgsqlParameter("setTaxSpare3", NpgsqlTypes.NpgsqlDbType.Integer))                 ' 予備3
+                .Add(New NpgsqlParameter("setTaxSpare4", NpgsqlTypes.NpgsqlDbType.Integer))                 ' 予備4
+                .Add(New NpgsqlParameter("setTaxSpare5", NpgsqlTypes.NpgsqlDbType.Integer))                 ' 予備5
+                ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+
                 .Add(New NpgsqlParameter("setAddDt", NpgsqlTypes.NpgsqlDbType.Timestamp))                '登録年月日
                 .Add(New NpgsqlParameter("setAddUserCd", NpgsqlTypes.NpgsqlDbType.Varchar))              '登録ユーザーCD
                 .Add(New NpgsqlParameter("setUpDt", NpgsqlTypes.NpgsqlDbType.Timestamp))                 '更新年月日
@@ -250,6 +401,78 @@ Public Class SqlEXTM0103
                 'End If
                 '.Parameters("setTaxRitu").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, 2).Text     '終了日更新年月日
                 ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
+
+                ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+                ' 対象外
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_UNTAXED_RATE).Text) Then
+                    .Parameters("setUntaxedRate").Value = DBNull.Value
+                Else
+                    .Parameters("setUntaxedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_UNTAXED_RATE).Text
+                End If
+
+                ' 非課税
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_FREE).Text) Then
+                    .Parameters("setTaxFree").Value = DBNull.Value
+                Else
+                    .Parameters("setTaxFree").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_FREE).Text
+                End If
+
+                ' 免税
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_EXEMPTION).Text) Then
+                    .Parameters("setTaxExemption").Value = DBNull.Value
+                Else
+                    .Parameters("setTaxExemption").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_EXEMPTION).Text
+                End If
+
+                ' 旧課税1
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD1).Text) Then
+                    .Parameters("setTaxOld1").Value = DBNull.Value
+                Else
+                    .Parameters("setTaxOld1").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD1).Text
+                End If
+
+                ' 旧課税2
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD2).Text) Then
+                    .Parameters("setTaxOld2").Value = DBNull.Value
+                Else
+                    .Parameters("setTaxOld2").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD2).Text
+                End If
+
+                ' 予備税率1
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE1).Text) Then
+                    .Parameters("setTaxSpare1").Value = DBNull.Value
+                Else
+                    .Parameters("setTaxSpare1").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE1).Text
+                End If
+
+                ' 予備税率2
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE2).Text) Then
+                    .Parameters("setTaxSpare2").Value = DBNull.Value
+                Else
+                    .Parameters("setTaxSpare2").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE2).Text
+                End If
+
+                ' 予備税率3
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE3).Text) Then
+                    .Parameters("setTaxSpare3").Value = DBNull.Value
+                Else
+                    .Parameters("setTaxSpare3").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE3).Text
+                End If
+
+                ' 予備税率4
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE4).Text) Then
+                    .Parameters("setTaxSpare4").Value = DBNull.Value
+                Else
+                    .Parameters("setTaxSpare4").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE4).Text
+                End If
+
+                ' 予備税率5
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE5).Text) Then
+                    .Parameters("setTaxSpare5").Value = DBNull.Value
+                Else
+                    .Parameters("setTaxSpare5").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE5).Text
+                End If
+                ' --- 2020/03/06 税区分追加対応 End E.Okuda@Compass ---
 
                 .Parameters("setAddDt").Value = Now                                                      'メールアドレス
                 '.Parameters("setAddUserCd").Value = setAdd_User_CD                                       '画面.ユーザーCD
@@ -315,6 +538,21 @@ Public Class SqlEXTM0103
                 ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
                 .Add(New NpgsqlParameter("UpdateReducedRate", NpgsqlTypes.NpgsqlDbType.Integer))             ' 軽減税率
                 ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
+
+                ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+                .Add(New NpgsqlParameter("UpdateUntaxedRate", NpgsqlTypes.NpgsqlDbType.Integer))            ' 対象外
+                .Add(New NpgsqlParameter("UpdateTaxFree", NpgsqlTypes.NpgsqlDbType.Integer))                ' 非課税
+                .Add(New NpgsqlParameter("UpdateTaxExemption", NpgsqlTypes.NpgsqlDbType.Integer))           ' 免税
+                .Add(New NpgsqlParameter("UpdateTaxOld1", NpgsqlTypes.NpgsqlDbType.Integer))                ' 旧課税1
+                .Add(New NpgsqlParameter("UpdateTaxOld2", NpgsqlTypes.NpgsqlDbType.Integer))                ' 旧課税2
+                .Add(New NpgsqlParameter("UpdateTaxSpare1", NpgsqlTypes.NpgsqlDbType.Integer))              ' 予備1
+                .Add(New NpgsqlParameter("UpdateTaxSpare2", NpgsqlTypes.NpgsqlDbType.Integer))              ' 予備2
+                .Add(New NpgsqlParameter("UpdateTaxSpare3", NpgsqlTypes.NpgsqlDbType.Integer))              ' 予備3
+                .Add(New NpgsqlParameter("UpdateTaxSpare4", NpgsqlTypes.NpgsqlDbType.Integer))              ' 予備4
+                .Add(New NpgsqlParameter("UpdateTaxSpare5", NpgsqlTypes.NpgsqlDbType.Integer))              ' 予備5
+                ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+
+
                 .Add(New NpgsqlParameter("UpdateUpDt", NpgsqlTypes.NpgsqlDbType.Timestamp))                 '更新年月日
                 .Add(New NpgsqlParameter("UpdateUpUserCd", NpgsqlTypes.NpgsqlDbType.Varchar))               '更新ユーザーCD
                 .Add(New NpgsqlParameter("SEQ", NpgsqlTypes.NpgsqlDbType.Integer))                          '画面.SEQ番号
@@ -335,6 +573,79 @@ Public Class SqlEXTM0103
                     .Parameters("UpdateReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_REDUCED_RATE).Text  ' 軽減税率
                 End If
                 ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
+
+                ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+                ' 対象外
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_UNTAXED_RATE).Text) Then
+                    .Parameters("UpdateUntaxedRate").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateUntaxedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_UNTAXED_RATE).Text
+                End If
+
+                ' 非課税
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_FREE).Text) Then
+                    .Parameters("UpdateTaxFree").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxFree").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_FREE).Text
+                End If
+
+                ' 免税
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_EXEMPTION).Text) Then
+                    .Parameters("UpdateTaxExemption").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxExemption").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_EXEMPTION).Text
+                End If
+
+                ' 旧課税1
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD1).Text) Then
+                    .Parameters("UpdateTaxOld1").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxOld1").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD1).Text
+                End If
+
+                ' 旧課税2
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD2).Text) Then
+                    .Parameters("UpdateTaxOld2").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxOld2").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD2).Text
+                End If
+
+                ' 予備税率1
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE1).Text) Then
+                    .Parameters("UpdateTaxSpare1").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxSpare1").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE1).Text
+                End If
+
+                ' 予備税率2
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE2).Text) Then
+                    .Parameters("UpdateTaxSpare2").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxSpare2").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE2).Text
+                End If
+
+                ' 予備税率3
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE3).Text) Then
+                    .Parameters("UpdateTaxSpare3").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxSpare3").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE3).Text
+                End If
+
+                ' 予備税率4
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE4).Text) Then
+                    .Parameters("UpdateTaxSpare4").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxSpare4").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE4).Text
+                End If
+
+                ' 予備税率5
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE5).Text) Then
+                    .Parameters("UpdateTaxSpare5").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxSpare5").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE5).Text
+                End If
+                ' --- 2020/03/06 税区分追加対応 End E.Okuda@Compass ---
+
                 .Parameters("UpdateUpDt").Value = Now                                                        '更新年月日
                 .Parameters("UpdateUpUserCd").Value = setUp_User_CD                                          '更新ユーザーCD
                 .Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j - 1, COL_SHEET_SEQ).Text            '画面.SEQ番号
@@ -394,6 +705,20 @@ Public Class SqlEXTM0103
                 ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
                 .Add(New NpgsqlParameter("UpdateReducedRate", NpgsqlTypes.NpgsqlDbType.Integer))             ' 軽減税率
                 ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
+
+                ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+                .Add(New NpgsqlParameter("UpdateUntaxedRate", NpgsqlTypes.NpgsqlDbType.Integer))            ' 対象外
+                .Add(New NpgsqlParameter("UpdateTaxFree", NpgsqlTypes.NpgsqlDbType.Integer))                ' 非課税
+                .Add(New NpgsqlParameter("UpdateTaxExemption", NpgsqlTypes.NpgsqlDbType.Integer))           ' 免税
+                .Add(New NpgsqlParameter("UpdateTaxOld1", NpgsqlTypes.NpgsqlDbType.Integer))                ' 旧課税1
+                .Add(New NpgsqlParameter("UpdateTaxOld2", NpgsqlTypes.NpgsqlDbType.Integer))                ' 旧課税2
+                .Add(New NpgsqlParameter("UpdateTaxSpare1", NpgsqlTypes.NpgsqlDbType.Integer))              ' 予備1
+                .Add(New NpgsqlParameter("UpdateTaxSpare2", NpgsqlTypes.NpgsqlDbType.Integer))              ' 予備2
+                .Add(New NpgsqlParameter("UpdateTaxSpare3", NpgsqlTypes.NpgsqlDbType.Integer))              ' 予備3
+                .Add(New NpgsqlParameter("UpdateTaxSpare4", NpgsqlTypes.NpgsqlDbType.Integer))              ' 予備4
+                .Add(New NpgsqlParameter("UpdateTaxSpare5", NpgsqlTypes.NpgsqlDbType.Integer))              ' 予備5
+                ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+
                 .Add(New NpgsqlParameter("UpdateUpDt", NpgsqlTypes.NpgsqlDbType.Timestamp))                 '更新年月日
                 .Add(New NpgsqlParameter("UpdateUpUserCd", NpgsqlTypes.NpgsqlDbType.Varchar))               '更新ユーザーCD
                 .Add(New NpgsqlParameter("SEQ", NpgsqlTypes.NpgsqlDbType.Integer))                          '画面.SEQ番号
@@ -429,9 +754,81 @@ Public Class SqlEXTM0103
                     .Parameters("UpdateReducedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_REDUCED_RATE).Text     ' 軽減税率
                 End If
 
+                ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+                ' 対象外
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_UNTAXED_RATE).Text) Then
+                    .Parameters("UpdateUntaxedRate").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateUntaxedRate").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_UNTAXED_RATE).Text
+                End If
+
+                ' 非課税
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_FREE).Text) Then
+                    .Parameters("UpdateTaxFree").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxFree").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_FREE).Text
+                End If
+
+                ' 免税
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_EXEMPTION).Text) Then
+                    .Parameters("UpdateTaxExemption").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxExemption").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_EXEMPTION).Text
+                End If
+
+                ' 旧課税1
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD1).Text) Then
+                    .Parameters("UpdateTaxOld1").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxOld1").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD1).Text
+                End If
+
+                ' 旧課税2
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD2).Text) Then
+                    .Parameters("UpdateTaxOld2").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxOld2").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_OLD2).Text
+                End If
+
+                ' 予備税率1
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE1).Text) Then
+                    .Parameters("UpdateTaxSpare1").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxSpare1").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE1).Text
+                End If
+
+                ' 予備税率2
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE2).Text) Then
+                    .Parameters("UpdateTaxSpare2").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxSpare2").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE2).Text
+                End If
+
+                ' 予備税率3
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE3).Text) Then
+                    .Parameters("UpdateTaxSpare3").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxSpare3").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE3).Text
+                End If
+
+                ' 予備税率4
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE4).Text) Then
+                    .Parameters("UpdateTaxSpare4").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxSpare4").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE4).Text
+                End If
+
+                ' 予備税率5
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE5).Text) Then
+                    .Parameters("UpdateTaxSpare5").Value = DBNull.Value
+                Else
+                    .Parameters("UpdateTaxSpare5").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE5).Text
+                End If
+                ' --- 2020/03/06 税区分追加対応 End E.Okuda@Compass ---
+
                 .Parameters("UpdateUpDt").Value = Now                                                       '更新年月日
-                    '.Parameters("UpdateUpUserCd").Value = setUp_User_CD                                        '更新ユーザーCD
-                    .Parameters("UpdateUpUserCd").Value = CommonEXT.PropComStrUserId                            '更新ユーザーCD
+                '.Parameters("UpdateUpUserCd").Value = setUp_User_CD                                        '更新ユーザーCD
+                .Parameters("UpdateUpUserCd").Value = CommonEXT.PropComStrUserId                            '更新ユーザーCD
                 .Parameters("SEQ").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_SEQ).Text               '画面.SEQ番号
                 ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
             End With
