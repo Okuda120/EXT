@@ -382,13 +382,19 @@ Public Class LogicEXTM0103
         ' 設定ファイルから項目名称を取得する。
         arySpreadTitle = Split(ConfigurationManager.AppSettings("TaXMstItemNm"), ",")
         For intRow As Integer = 0 To 9
-            Dim noData As Integer = 0    '一行あたりの空欄数・初期化
+            Dim noData As Integer = 0       ' 一行あたりの空欄数・初期化
+            Dim visibleCol As Integer = 0   ' 表示列数
             For intColumn As Integer = 0 To dataEXTM0103.PropVwList.Sheets(0).Columns.Count - 1
-                If dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, intColumn).Value = Nothing Then
-                    noData += 1          '一行あたりの空欄数をカウントアップ
+                If dataEXTM0103.PropVwList.Sheets(0).Columns(intColumn).Visible = True Then
+                    visibleCol += 1
+
+                    If dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, intColumn).Value = Nothing Then
+                        noData += 1          ' 表示列が空欄の場合、カウントアップ
+                    End If
                 End If
+
             Next
-            If noData = dataEXTM0103.PropVwList.Sheets(0).Columns.Count Then           '一行あたりの空欄数が項目数の場合＝空行
+            If noData = visibleCol Then           '一行あたりの空欄数が表示列数の場合＝空行
                 Exit For
             End If
 
@@ -691,9 +697,15 @@ Public Class LogicEXTM0103
         For intRow As Integer = 0 To dataEXTM0103.PropVwList.Sheets(0).RowCount - 1                    ' 2015.12.08 UPD h.hagiwara
             Dim noData As Integer = 0    '一行あたりの空欄数・初期化
             ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+            Dim visibleCol As Integer = 0   ' 表示列数
+
             For intColumn As Integer = 0 To dataEXTM0103.PropVwList.Sheets(0).ColumnCount - 1
-                If dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, intColumn).Value = Nothing Then
-                    noData += 1          '一行あたりの空欄数をカウントアップ
+                If dataEXTM0103.PropVwList.Sheets(0).Columns(intColumn).Visible = True Then
+                    visibleCol += 1
+
+                    If dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, intColumn).Value = Nothing Then
+                        noData += 1          ' 表示列が空欄の場合、カウントアップ
+                    End If
                 End If
             Next
             'For intColumn As Integer = 0 To 2
@@ -701,7 +713,7 @@ Public Class LogicEXTM0103
             '        noData += 1          '一行あたりの空欄数をカウントアップ
             '    End If
             'Next
-            If noData = dataEXTM0103.PropVwList.Sheets(0).Columns.Count Then           '一行あたりの空欄数が項目数の場合＝空行
+            If noData = visibleCol Then           '一行あたりの空欄数が表示列数の場合＝空行
                 If dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, COL_SHEET_UPDATE_KBN).Value = 1 Then
                     dataEXTM0103.PropVwList.Sheets(0).Cells(intRow, COL_SHEET_UPDATE_KBN).Value = 2
                 Else

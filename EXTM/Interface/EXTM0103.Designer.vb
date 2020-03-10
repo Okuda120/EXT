@@ -54,13 +54,13 @@ Partial Class EXTM0103
         'ppVwList
         '
         Me.ppVwList.AccessibleDescription = "ppVwList, Sheet1, Row 0, Column 0, 2000/04/01 0:00:00"
-        Me.ppVwList.Location = New System.Drawing.Point(35, 34)
+        Me.ppVwList.Location = New System.Drawing.Point(26, 22)
         Me.ppVwList.Margin = New System.Windows.Forms.Padding(4)
         Me.ppVwList.Name = "ppVwList"
         Me.ppVwList.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.ppVwList_Sheet1})
         Me.ppVwList.Size = New System.Drawing.Size(770, 338)
         Me.ppVwList.TabIndex = 115
-        Me.ppVwList.SetViewportLeftColumn(0, 0, 1)
+        Me.ppVwList.SetViewportLeftColumn(0, 0, 2)
         '
         'ppVwList_Sheet1
         '
@@ -108,39 +108,39 @@ Partial Class EXTM0103
         Me.ppVwList_Sheet1.ColumnHeader.Rows.Get(0).Height = 32.0!
         Me.ppVwList_Sheet1.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.ppVwList_Sheet1.Columns.Get(0).Label = "開始日"
-        Me.ppVwList_Sheet1.Columns.Get(0).Width = 146.0!
+        Me.ppVwList_Sheet1.Columns.Get(0).Width = 55.0!
         Me.ppVwList_Sheet1.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.ppVwList_Sheet1.Columns.Get(1).Label = "終了日"
-        Me.ppVwList_Sheet1.Columns.Get(1).Width = 142.0!
+        Me.ppVwList_Sheet1.Columns.Get(1).Width = 59.0!
         Me.ppVwList_Sheet1.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.ppVwList_Sheet1.Columns.Get(2).Label = "消費税率(%)"
-        Me.ppVwList_Sheet1.Columns.Get(2).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(2).Width = 82.0!
         Me.ppVwList_Sheet1.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
         Me.ppVwList_Sheet1.Columns.Get(3).Label = "軽減税率(%)"
-        Me.ppVwList_Sheet1.Columns.Get(3).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(3).Width = 82.0!
         Me.ppVwList_Sheet1.Columns.Get(4).Label = "SEQ"
-        Me.ppVwList_Sheet1.Columns.Get(4).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(4).Width = 82.0!
         Me.ppVwList_Sheet1.Columns.Get(5).Label = "更新区分"
-        Me.ppVwList_Sheet1.Columns.Get(5).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(5).Width = 82.0!
         Me.ppVwList_Sheet1.Columns.Get(6).Label = "（修正前）開始日"
-        Me.ppVwList_Sheet1.Columns.Get(6).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(6).Width = 68.0!
         Me.ppVwList_Sheet1.Columns.Get(7).Label = "（修正前）終了日"
-        Me.ppVwList_Sheet1.Columns.Get(7).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(7).Width = 68.0!
         Me.ppVwList_Sheet1.Columns.Get(8).Label = "（修正前）消費税率（%）"
-        Me.ppVwList_Sheet1.Columns.Get(8).Width = 77.0!
-        Me.ppVwList_Sheet1.Columns.Get(9).Width = 77.0!
-        Me.ppVwList_Sheet1.Columns.Get(10).Width = 77.0!
-        Me.ppVwList_Sheet1.Columns.Get(11).Width = 77.0!
-        Me.ppVwList_Sheet1.Columns.Get(12).Width = 77.0!
-        Me.ppVwList_Sheet1.Columns.Get(13).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(8).Width = 68.0!
+        Me.ppVwList_Sheet1.Columns.Get(9).Width = 68.0!
+        Me.ppVwList_Sheet1.Columns.Get(10).Width = 68.0!
+        Me.ppVwList_Sheet1.Columns.Get(11).Width = 68.0!
+        Me.ppVwList_Sheet1.Columns.Get(12).Width = 68.0!
+        Me.ppVwList_Sheet1.Columns.Get(13).Width = 68.0!
         Me.ppVwList_Sheet1.Columns.Get(14).Label = "SEQ"
-        Me.ppVwList_Sheet1.Columns.Get(14).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(14).Width = 68.0!
         Me.ppVwList_Sheet1.Columns.Get(15).Label = "更新区分"
-        Me.ppVwList_Sheet1.Columns.Get(15).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(15).Width = 68.0!
         Me.ppVwList_Sheet1.Columns.Get(16).Label = "(修正前)開始日"
-        Me.ppVwList_Sheet1.Columns.Get(16).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(16).Width = 68.0!
         Me.ppVwList_Sheet1.Columns.Get(17).Label = "(修正前)終了日"
-        Me.ppVwList_Sheet1.Columns.Get(17).Width = 77.0!
+        Me.ppVwList_Sheet1.Columns.Get(17).Width = 68.0!
         Me.ppVwList_Sheet1.RowHeader.Columns.Default.Resizable = False
         Me.ppVwList_Sheet1.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1
         '
@@ -151,7 +151,7 @@ Partial Class EXTM0103
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTM.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(831, 494)
+        Me.ClientSize = New System.Drawing.Size(831, 456)
         Me.Controls.Add(Me.ppVwList)
         Me.Controls.Add(Me.BtnBack)
         Me.Controls.Add(Me.BtnReg)

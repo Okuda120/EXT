@@ -611,38 +611,38 @@ Public Class SqlEXTM0103
                 End If
 
                 ' 予備税率1
-                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE1).Text) Then
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE1).Text) Then
                     .Parameters("UpdateTaxSpare1").Value = DBNull.Value
                 Else
-                    .Parameters("UpdateTaxSpare1").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE1).Text
+                    .Parameters("UpdateTaxSpare1").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE1).Text
                 End If
 
                 ' 予備税率2
-                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE2).Text) Then
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE2).Text) Then
                     .Parameters("UpdateTaxSpare2").Value = DBNull.Value
                 Else
-                    .Parameters("UpdateTaxSpare2").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE2).Text
+                    .Parameters("UpdateTaxSpare2").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE2).Text
                 End If
 
                 ' 予備税率3
-                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE3).Text) Then
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE3).Text) Then
                     .Parameters("UpdateTaxSpare3").Value = DBNull.Value
                 Else
-                    .Parameters("UpdateTaxSpare3").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE3).Text
+                    .Parameters("UpdateTaxSpare3").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE3).Text
                 End If
 
                 ' 予備税率4
-                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE4).Text) Then
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE4).Text) Then
                     .Parameters("UpdateTaxSpare4").Value = DBNull.Value
                 Else
-                    .Parameters("UpdateTaxSpare4").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE4).Text
+                    .Parameters("UpdateTaxSpare4").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE4).Text
                 End If
 
                 ' 予備税率5
-                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE5).Text) Then
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE5).Text) Then
                     .Parameters("UpdateTaxSpare5").Value = DBNull.Value
                 Else
-                    .Parameters("UpdateTaxSpare5").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE5).Text
+                    .Parameters("UpdateTaxSpare5").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE5).Text
                 End If
                 ' --- 2020/03/06 税区分追加対応 End E.Okuda@Compass ---
 
@@ -791,38 +791,38 @@ Public Class SqlEXTM0103
                 End If
 
                 ' 予備税率1
-                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE1).Text) Then
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE1).Text) Then
                     .Parameters("UpdateTaxSpare1").Value = DBNull.Value
                 Else
-                    .Parameters("UpdateTaxSpare1").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE1).Text
+                    .Parameters("UpdateTaxSpare1").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE1).Text
                 End If
 
                 ' 予備税率2
-                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE2).Text) Then
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE2).Text) Then
                     .Parameters("UpdateTaxSpare2").Value = DBNull.Value
                 Else
-                    .Parameters("UpdateTaxSpare2").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE2).Text
+                    .Parameters("UpdateTaxSpare2").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE2).Text
                 End If
 
                 ' 予備税率3
-                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE3).Text) Then
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE3).Text) Then
                     .Parameters("UpdateTaxSpare3").Value = DBNull.Value
                 Else
-                    .Parameters("UpdateTaxSpare3").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE3).Text
+                    .Parameters("UpdateTaxSpare3").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE3).Text
                 End If
 
                 ' 予備税率4
-                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE4).Text) Then
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE4).Text) Then
                     .Parameters("UpdateTaxSpare4").Value = DBNull.Value
                 Else
-                    .Parameters("UpdateTaxSpare4").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE4).Text
+                    .Parameters("UpdateTaxSpare4").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE4).Text
                 End If
 
                 ' 予備税率5
-                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE5).Text) Then
+                If String.IsNullOrEmpty(dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE5).Text) Then
                     .Parameters("UpdateTaxSpare5").Value = DBNull.Value
                 Else
-                    .Parameters("UpdateTaxSpare5").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_BEFORE_TAX_SPARE5).Text
+                    .Parameters("UpdateTaxSpare5").Value = dataEXTM0103.PropVwList.Sheets(0).Cells(j, COL_SHEET_TAX_SPARE5).Text
                 End If
                 ' --- 2020/03/06 税区分追加対応 End E.Okuda@Compass ---
 
