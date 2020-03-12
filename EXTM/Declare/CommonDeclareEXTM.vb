@@ -164,6 +164,7 @@
 
     ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
     Public Const M0103_E2041 As String = "{0}行目のデータは前の行と同じデータです。"
+    Public Const M0103_E2042 As String = "{0}は半角数字またはハイフンのみで入力してください。"
     ' --- 2020/03/06 税区分追加対応 End E.Okuda@Compass ---
 
     Public Const M0103_C0011 As String = "入力した内容で{0}の登録を行います。よろしいですか？"

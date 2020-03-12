@@ -3,6 +3,7 @@ Imports Common.CommonLogic
 Imports Npgsql
 Imports FarPoint.Win.Spread.CellType
 Imports System.Text.RegularExpressions
+Imports System.Configuration
 
 Public Class LogicEXTM0102
 
@@ -34,30 +35,54 @@ Public Class LogicEXTM0102
     Private Const M0102_BUNRUI_COL_BUNRUICD As Integer = 0
     Private Const M0102_BUNRUI_COL_BUNRUINM As Integer = 1
     Private Const M0102_BUNRUI_COL_SYUKEIKY As Integer = 2
+
+    ' --- 2020/03/04 税区分追加対応 Start E.Okuda@Compass ---
     Private Const M0102_BUNRUI_COL_TAXKBN As Integer = 3
+    Private Const M0102_BUNRUI_COL_TAXKBN2 As Integer = 4
+    Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 5
+    Private Const M0102_BUNRUI_COL_KANJYO As Integer = 6
+    Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 7
+    Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 8
+    Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 9
+    Private Const M0102_BUNRUI_COL_SORT As Integer = 10
+    Private Const M0102_BUNRUI_COL_DEFFLG As Integer = 11
+    Private Const M0102_BUNRUI_COL_FRIYOFLG As Integer = 12
 
-    ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
 
-    Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 4
-    Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
-    Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
-    Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
-    Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 8
-    Private Const M0102_BUNRUI_COL_SORT As Integer = 9
-    Private Const M0102_BUNRUI_COL_DEFFLG As Integer = 10
-    Private Const M0102_BUNRUI_COL_FRIYOFLG As Integer = 11
-    'Private Const M0102_BUNRUI_COL_KANJYO As Integer = 4
-    'Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 5
-    'Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 6
-    'Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 7
-    'Private Const M0102_BUNRUI_COL_SORT As Integer = 8
-    'Private Const M0102_BUNRUI_COL_DEFFLG As Integer = 9
-    'Private Const M0102_BUNRUI_COL_FRIYOFLG As Integer = 10
+    '' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+
+    'Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 4
+    'Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
+    'Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
+    'Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
+    'Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 8
+    'Private Const M0102_BUNRUI_COL_SORT As Integer = 9
+    'Private Const M0102_BUNRUI_COL_DEFFLG As Integer = 10
+    'Private Const M0102_BUNRUI_COL_FRIYOFLG As Integer = 11
+    ''Private Const M0102_BUNRUI_COL_KANJYO As Integer = 4
+    ''Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 5
+    ''Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 6
+    ''Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 7
+    ''Private Const M0102_BUNRUI_COL_SORT As Integer = 8
+    ''Private Const M0102_BUNRUI_COL_DEFFLG As Integer = 9
+    ''Private Const M0102_BUNRUI_COL_FRIYOFLG As Integer = 10
+
+    ' --- 2020/03/04 税区分追加対応 End E.Okuda@Compass ---
+
     Private Const MSG_TAX_NOT_SELECT As String = "税率が選択できません。"
 
-    Dim cmbReducedRate As New FarPoint.Win.Spread.CellType.ComboBoxCellType()        '勘定科目
+    Dim cmbReducedRate As New FarPoint.Win.Spread.CellType.ComboBoxCellType()        '　税率
 
     ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
+
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    Dim cmbTaxKbn As New FarPoint.Win.Spread.CellType.ComboBoxCellType()            '　税区分
+
+    Private Const STR_HYPHEN As String = "-"                        ' ハイフン
+    Private Const MSG_TAX_KBN_NOT_SELECT As String = "税区分が選択できません。"
+
+
+    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
 
     ' 付帯分類Spread列位置       ' 2016.04.28 ADD h.hagiwara 
 
@@ -341,21 +366,32 @@ Public Class LogicEXTM0102
 
                     If CheckInputPeriod(dataEXTM0102) = False Then
                         ' 消費税マスタコンボロックメッセージ表示するか
-                        MsgBox(puErrMsg & MSG_TAX_NOT_SELECT)
+                        MsgBox(puErrMsg & MSG_TAX_KBN_NOT_SELECT)
                         dataEXTM0102.PropCmdPeriodBtn.Enabled = True
                     Else
-                        If CmbReducedRateSet(dataEXTM0102) = False Then
-                            MsgBox(puErrMsg & MSG_TAX_NOT_SELECT)
-                            dataEXTM0102.PropCmdPeriodBtn.Enabled = True
+                        ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+                        If CmbTaxKbnSet(dataEXTM0102) = False Then
+                            MsgBox(puErrMsg & MSG_TAX_KBN_NOT_SELECT)
                         Else
-                            ' コンボボックス生成
-                            CmbReducedRateCreate(dataEXTM0102)
+                            ' 税区分コンボボックス生成
+                            CmbTaxKbnCreate(dataEXTM0102)
 
-                            ' 軽減税率取得フラグON
-                            dataEXTM0102.PropGetReducedRateFlg = True
-
-                            dataEXTM0102.PropCmdPeriodBtn.Enabled = False
                         End If
+
+
+                        'If CmbReducedRateSet(dataEXTM0102) = False Then
+                        '    MsgBox(puErrMsg & MSG_TAX_NOT_SELECT)
+                        '    dataEXTM0102.PropCmdPeriodBtn.Enabled = True
+                        'Else
+                        '    ' コンボボックス生成
+                        '    CmbReducedRateCreate(dataEXTM0102)
+
+                        '    ' 軽減税率取得フラグON
+                        '    dataEXTM0102.PropGetReducedRateFlg = True
+
+                        '    dataEXTM0102.PropCmdPeriodBtn.Enabled = False
+                        'End If
+                        ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
                     End If
                 End If
                 ' --- 2019/09/10 軽減税率対応 End E.Okuda@Compass ---
@@ -377,19 +413,31 @@ Public Class LogicEXTM0102
                         dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value = True
                     End If
 
-                    ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
+                    ' --- 2020/03/05 税区分追加対応 Start E.Okuda@Compass ---
+                    ' 税区分
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN2).CellType = cmbTaxKbn
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN2).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(22)
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN2).Locked = False
+
+
+
+                    ' 税率(コンボボックス→テキスト)
                     dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21)
                     dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
-                    If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
-                        If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
-                            If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
-                                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
-                            End If
-                        End If
-                    End If
-                    'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Text = Convert.ToString(dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21))
-                    ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
+                    '' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
+                    'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
+                    'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21)
+                    'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+                    'If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
+                    '    If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
+                    '        If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
+                    '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+                    '        End If
+                    '    End If
+                    'End If
+                    ''dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Text = Convert.ToString(dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21))
+                    '' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
+                    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
 
                     '勘定科目
                     CmbKamokuCdCreate(dataEXTM0102)                                                                                                           ' セレクトボックスの中身を作成  2016.02.12 ADD h.hagiwara
@@ -404,7 +452,7 @@ Public Class LogicEXTM0102
                         dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).Locked = False
                     End If
 
-                    dataEXTM0102.PropStrSelKAnjo = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11)                                 ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応
+                    dataEXTM0102.PropStrSelKanjo = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11)                                 ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応
                     '細目コンボボックスを作成
                     'If CmbSaimokuSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11)) = True Then                   ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
 
@@ -1972,16 +2020,22 @@ Public Class LogicEXTM0102
         'シート上コンボボックス設定
         For i = cnt To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1
 
-            ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
-            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
-            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+            ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN2).CellType = cmbTaxKbn
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN2).Locked = False
 
-            If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) Is DBNull.Value Then
-                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
-            Else
-                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
-            End If
-            ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
+            '' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
+            'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
+            'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+
+            'If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) Is DBNull.Value Then
+            '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+            'Else
+            '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+            'End If
+            '' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
+
+            ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
 
 
             'i4とi8はここで全てコンボボックスとして宣言
@@ -4241,6 +4295,135 @@ Public Class LogicEXTM0102
     End Sub
 
     ' --- 2019/09/09 軽減税率対応 End E.Okuda@Compass ---
+
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+
+
+
+    ''' <summary>
+    ''' 税区分対応税率取得
+    ''' </summary>
+    ''' <param name="dataEXTM0102"></param>
+    ''' <returns></returns>
+    Public Function CmbTaxKbnSet(ByRef dataEXTM0102 As DataEXTM0102) As Boolean
+        '開始ログ出力()
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+        '変数宣言   
+        Dim Cn1 As New NpgsqlConnection(DbString)    ' コネクション
+        Dim Adapter As New NpgsqlDataAdapter         ' アダプタ
+        Dim Table As New DataTable()                 ' テーブル
+
+        Try
+            'コネクションを開く
+            Cn1.Open()
+
+            ' 消費税マスタから軽減税率取得
+            If sqlEXTM0102.CmbTaxKbnSet(Adapter, Cn1, dataEXTM0102) = False Then
+                Return False
+            End If
+
+            'データを取得
+            Adapter.Fill(Table)
+
+            If Table.Rows.Count = 1 Then
+                dataEXTM0102.PropDtTaxKbn = Table
+            Else
+                puErrMsg = String.Format(EXTM0102_E2034)
+                Return False
+            End If
+
+            '終了ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+            Return True
+        Catch ex As Exception
+            '例外発生
+            CommonLogic.WriteLog(Common.LogLevel.ERROR_Lv, ex.Message, ex, Nothing)
+            puErrMsg = EXTM0102_E0000 & ex.Message
+            Return False
+        Finally
+            Cn1.Close()
+            Cn1.Dispose()
+            Adapter.Dispose()
+        End Try
+
+    End Function
+
+    ''' <summary>
+    ''' 税区分コンボボックス生成
+    ''' </summary>
+    ''' <param name="dataEXTM0102"></param>
+    ''' <para>作成情報：2020/03/11 E.Okuda@Compass</para>
+    Public Sub CmbTaxKbnCreate(ByRef dataEXTM0102 As DataEXTM0102)
+        ' 開始ログ出力()
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+        Dim cmbTaxKbn As New FarPoint.Win.Spread.CellType.ComboBoxCellType()        ' 税区分詳細
+
+        cmbTaxKbn.Items = New String() {""}
+        cmbTaxKbn.ItemData = New String() {Nothing}
+
+        Dim aryNm As ArrayList = New ArrayList()
+        Dim aryData As ArrayList = New ArrayList()
+        Dim i As Integer, j As Integer
+
+        ' 設定ファイルから税区分名称を取得
+        Dim arySpreadTitle As Array
+        arySpreadTitle = Split(ConfigurationManager.AppSettings("TaXMstItemNm"), ",")
+
+
+
+        aryNm.AddRange(cmbTaxKbn.Items)
+        aryData.AddRange(cmbTaxKbn.ItemData)
+
+        For i = 0 To dataEXTM0102.PropDtTaxKbn.Rows.Count - 1
+            For j = 0 To dataEXTM0102.PropDtTaxKbn.Columns.Count - 1
+                If dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j) IsNot DBNull.Value Then
+
+                    If dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j) > -1 Then
+                        aryNm.Add(arySpreadTitle(j))
+                        aryData.Add(dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j).ToString)
+                    End If
+                Else
+                    aryNm.Add(arySpreadTitle(j))
+                    aryData.Add(dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j).ToString)
+
+                End If
+            Next
+        Next
+
+
+        cmbTaxKbn.Items = CType(aryNm.ToArray(GetType(String)), String())
+        cmbTaxKbn.ItemData = CType(aryData.ToArray(GetType(String)), String())
+
+        'セルから取得／設定する値はItemDataとする
+        cmbTaxKbn.EditorValue = FarPoint.Win.Spread.CellType.EditorValue.ItemData
+
+
+        '終了ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+    End Sub
+
+    Public Sub ChangeCmbTaxKbn(ByRef row As Integer, dataEXTM0102 As DataEXTM0102)
+
+        '開始ログ出力()
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_TAXKBN2)
+
+        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+
+
+        '終了ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+    End Sub
+
+
+    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
+
 
 
 End Class

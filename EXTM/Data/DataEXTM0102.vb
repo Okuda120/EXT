@@ -74,6 +74,11 @@ Public Class DataEXTM0102
     Private ppCmdPeriodBtn As Button            ' 設定ボタン
     ' 2019/09/09 軽減税率対応 変更 End E.Okuda@Compass
 
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    Private ppDtTaxKbn As DataTable         ' 税区分コンボボックス用 
+    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
+
+
     'シート
     Private ppVwGroupingSheet As FpSpread   '分類表
     Private ppVwFutaiSheet As FpSpread      '付帯設備表
@@ -918,6 +923,27 @@ Public Class DataEXTM0102
     End Property
 
     ' 2019/09/09 軽減税率対応 変更 End E.Okuda@Compass
+
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    ''' <summary>
+    ''' プロパティセット【税区分取得】
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>ppDtTaxKbn</returns>
+    ''' <remarks><para>作成情報：2020.03.11 E.Okuda@Compass
+    ''' <p>改訂情報:</p>
+    ''' </para></remarks>
+    Public Property PropDtTaxKbn() As DataTable
+        Get
+            Return ppDtTaxKbn
+        End Get
+        Set(value As DataTable)
+            ppDtTaxKbn = value
+        End Set
+    End Property
+
+    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
+
 
 
 End Class

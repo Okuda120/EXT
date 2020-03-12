@@ -10,12 +10,19 @@ Public Class EXTM0102
     Private logicEXTM0102 As New LogicEXTM0102
     Private commonLogicEXT As New CommonLogicEXT    '共通ロジッククラス
 
-    ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
-    Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 4
-    Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
-    Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
-    Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
-    Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 8
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    Private Const M0102_BUNRUI_COL_TAXKBN2 As Integer = 4
+    Private Const M0102_BUNRUI_COL_KANJYO As Integer = 6
+    Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 7
+    Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 8
+    Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 9
+    '' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+    'Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 4
+    'Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
+    'Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
+    'Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
+    'Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 8
+    ' --- 2020/03/11 税区分追加対応 End  E.Okuda@Compass ---
 
 
     Private Const M0102_MSG_INFO_001 As String = "期間を設定して下さい。"
@@ -671,6 +678,13 @@ Public Class EXTM0102
         '    logicEXTM0102.ChangeCmbKariuchiwakeCd(e.Row, dataEXTM0102)
         'End If
         ' 2016.04.28 DEL END↑ h.hagiwara レスポンス改善
+
+        ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+        If e.Column = M0102_BUNRUI_COL_TAXKBN2 Then
+            logicEXTM0102.ChangeCmbTaxKbn(e.Row, dataEXTM0102)
+        End If
+        ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
+
 
     End Sub
 

@@ -83,6 +83,36 @@ Public Class SqlEXTM0102
     '     "t1.sts                                                ステータス" +
     ' " FROM " +
     '         "fbunrui_mst t1 "
+
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    'Private strSelectAllBunrui =
+    '"SELECT " +
+    '     "t1.kikan_from ||" +
+    '     "t1.kikan_to                                           対象期間," +
+    '     "SUBSTRING(t1.kikan_from, 1, 4)                        From_Year," +
+    '     "SUBSTRING(t1.kikan_from, 6, 2)                        From_Month," +
+    '     "SUBSTRING(t1.kikan_to, 1, 4)                          To_Year," +
+    '     "SUBSTRING(t1.kikan_to, 6, 2)                          To_Month," +
+    '     "t1.shisetu_kbn                                        施設区分, " +
+    '     "t1.bunrui_cd                                          分類CD," +
+    '     "t1.bunrui_nm                                          分類名," +
+    '     "t1.shukei_grp                                         集計グループ," +
+    '     "t1.notax_flg                                          税無フラグ," +
+    '     "t1.sort                                               並び順," +
+    '     "t1.kamoku_cd                                          勘定科目CD," +
+    '     "t1.saimoku_cd                                         細目CD," +
+    '     "t1.uchi_cd                                            内訳CD," +
+    '     "t1.shosai_cd                                          詳細CD," +
+    '     "t1.karikamoku_cd                                      借方勘定科目CD," +
+    '     "t1.kari_saimoku_cd                                    借方細目CD," +
+    '     "t1.kari_uchi_cd                                       借方内訳CD," +
+    '     "t1.kari_shosai_cd                                     借方詳細CD," +
+    '     "t1.sts                                                ステータス," +
+    '     "t1.RIYORYO_FLG                                        付帯利用料フラグ," +
+    '     "t1.zeiritsu                                           税率" +                  ' --- 2019/05/31 軽減税率対応 E.Okuda@Compass ---
+    ' " FROM " +
+    '         "fbunrui_mst t1 "
+    '' 2015.11.30 UPD END↑ h.hagiwara 
     Private strSelectAllBunrui =
     "SELECT " +
          "t1.kikan_from ||" +
@@ -107,10 +137,11 @@ Public Class SqlEXTM0102
          "t1.kari_shosai_cd                                     借方詳細CD," +
          "t1.sts                                                ステータス," +
          "t1.RIYORYO_FLG                                        付帯利用料フラグ," +
-         "t1.zeiritsu                                           税率" +                  ' --- 2019/05/31 軽減税率対応 E.Okuda@Compass ---
+         "t1.zeiritsu                                           税率," +
+         "t1.tax_kbn                                            税区分" +
      " FROM " +
              "fbunrui_mst t1 "
-    ' 2015.11.30 UPD END↑ h.hagiwara 
+    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
 
     '付帯設備の取得ＳＱＬ
     Private strSelectFutai As String =
@@ -640,6 +671,30 @@ Public Class SqlEXTM0102
 
 
     ' 2019/09/09 軽減税率対応 変更 End E.Okuda@Compass
+
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    ' 税区分対応税率取得SQL
+    Private strSelectTaxKbn = "SELECT " & vbCrLf &
+                              "  tax_ritu, " & vbCrLf &
+                              "  reduced_rate, " & vbCrLf &
+                              "  untaxed_rate, " & vbCrLf &
+                              "  tax_free, " & vbCrLf &
+                              "  tax_exemption, " & vbCrLf &
+                              "  tax_old1, " & vbCrLf &
+                              "  tax_old2, " & vbCrLf &
+                              "  tax_spare1, " & vbCrLf &
+                              "  tax_spare2, " & vbCrLf &
+                              "  tax_spare3, " & vbCrLf &
+                              "  tax_spare4, " & vbCrLf &
+                              "  tax_spare5 " & vbCrLf &
+                              "FROM " & vbCrLf &
+                              "  tax_mst " & vbCrLf &
+                              "WHERE " & vbCrLf &
+                              "  taxs_dt < :period_end and " & vbCrLf &
+                              "  taxe_dt > :period_start "
+
+    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
+
 
     ''' <summary>
     ''' 初期表示用SQL作成
@@ -2403,5 +2458,53 @@ Public Class SqlEXTM0102
 
     End Function
 
+
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+
+    ''' <summary>
+    ''' 税区分対応税率取得SQL作成
+    ''' </summary>
+    ''' <param name="Adapter"></param>
+    ''' <param name="Cn"></param>
+    ''' <param name="dataEXTM0102"></param>
+    ''' <returns></returns>
+    Public Function CmbTaxKbnSet(ByRef Adapter As NpgsqlDataAdapter, ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102) As Boolean
+        '開始ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+        Dim strSQL As String
+        '日付の設定
+        Dim dtFrom As String = dataEXTM0102.PropYearFrom.Text + "/" + dataEXTM0102.PropMonthFrom.Text + "/01"
+        Dim dtToSub As DateTime = dataEXTM0102.PropYearTo.Text + "/" + dataEXTM0102.PropMonthTo.Text
+        '期間ＴＯは、入力された値の月＋１、日付-1の値で最終日を設定できる
+        Dim dtTo As String = dtToSub.AddMonths(1).AddDays(-1).ToString("yyyy/MM/dd")
+
+        Try
+            ' 消費税マスタより税区分および税率取得SQL
+            strSQL = strSelectTaxKbn
+
+            'データアダプタに、SQLを設定
+            Adapter.SelectCommand = New NpgsqlCommand(strSQL, Cn)
+
+            'バインド変数セット
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("period_end", NpgsqlTypes.NpgsqlDbType.Varchar))  '指定期間終了日
+            Adapter.SelectCommand.Parameters("period_end").Value = dtTo
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("period_start", NpgsqlTypes.NpgsqlDbType.Varchar))  '指定期間開始日
+            Adapter.SelectCommand.Parameters("period_start").Value = dtFrom
+
+            '終了ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+            '正常終了
+            Return True
+        Catch ex As Exception
+            '例外発生
+            CommonLogic.WriteLog(Common.LogLevel.ERROR_Lv, ex.Message, ex, Adapter.SelectCommand)
+            puErrMsg = EXTM0102_E0000 & ex.Message
+            Return False
+        End Try
+    End Function
+
+    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
 
 End Class

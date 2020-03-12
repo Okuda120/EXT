@@ -26,7 +26,7 @@ Public Class LogicEXTM0103
 
     ' --- 2019/08/09 軽減税率対応 End E.Okuda@Compass ---
 
-    ' --- 2020/03/05 軽減税率対応 Start E.Okuda@Compass ---
+    ' --- 2020/03/05 税区分追加対応 Start E.Okuda@Compass ---
     Private Const COL_NAME_SEQ As String = "SEQ"
     Private Const COL_NAME_UPDT_KBN As String = "更新区分"
     Private Const COL_NAME_LATEST_TAXS_DT As String = "修正前開始日"
@@ -64,7 +64,11 @@ Public Class LogicEXTM0103
     Private Const COL_SHEET_BEFORE_TAX_SPARE4 As Integer = 27       ' 修正前予備税率4
     Private Const COL_SHEET_TAX_SPARE5 As Integer = 28              ' 予備税率5
     Private Const COL_SHEET_BEFORE_TAX_SPARE5 As Integer = 29       ' 修正前予備税率5
-    ' --- 2020/03/05 軽減税率対応 End E.Okuda@Compass ---
+
+    Private Const STR_HYPHEN As String = "-"                        ' ハイフン
+    Private Const STR_MINUS1 As String = "-1"
+
+    ' --- 2020/03/05 税区分追加対応 End E.Okuda@Compass ---
 
 
     ''' <summary>
@@ -610,13 +614,28 @@ Public Class LogicEXTM0103
                                 'エラーを返す
                                 Return False
                             End If
-                            '半角数字
-                            If CommonValidation.IsHalfNmb(.Text) = False Then
+                            '半角数字およびハイフンチェック
+                            If Regex.IsMatch(.Text, "^[0-9-]*$") = False Then
                                 'エラーメッセージ設定
-                                puErrMsg = String.Format(M0103_E0003, arySpreadTitle(loopCnt))
+                                puErrMsg = String.Format(M0103_E2042, arySpreadTitle(loopCnt))
                                 'エラーを返す
                                 Return False
                             End If
+                            ' "-(ハイフン)"が含まれている場合、ハイフンのみであるかをチェック
+                            If InStr(.Text, STR_HYPHEN) > 0 Then
+                                If .Text.Length > STR_HYPHEN.Length Then
+                                    'エラーメッセージ設定
+                                    puErrMsg = String.Format(M0103_E2042, arySpreadTitle(loopCnt))
+                                    'エラーを返す
+                                    Return False
+
+                                End If
+
+                                ' ハイフンのみの場合、DBの項目が数値型なので、「-1」に置き換える
+                                .Text = STR_MINUS1
+
+                            End If
+
                         End With
 
                     Next
@@ -626,8 +645,8 @@ Public Class LogicEXTM0103
                         Dim bolDiffFlg As Boolean = False
 
                         For loopCnt = 0 To arySpreadTitle.Length - 1
-                            If dataEXTM0103.PropVwList.Sheets(0).Cells(i, loopCnt * 2 + COL_SHEET_TAX_RITU).Value <>
-                                dataEXTM0103.PropVwList.Sheets(0).Cells(i - 1, loopCnt * 2 + COL_SHEET_TAX_RITU).Value Then
+                            If CStr(dataEXTM0103.PropVwList.Sheets(0).Cells(i, loopCnt * 2 + COL_SHEET_TAX_RITU).Value) <>
+                                CStr(dataEXTM0103.PropVwList.Sheets(0).Cells(i - 1, loopCnt * 2 + COL_SHEET_TAX_RITU).Value) Then
 
                                 bolDiffFlg = True
                             End If

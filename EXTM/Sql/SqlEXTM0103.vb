@@ -103,28 +103,28 @@ Public Class SqlEXTM0103
                                              ",TAXE_DT " & vbCrLf &
                                              ",TAX_RITU " & vbCrLf &
                                              ",TAX_RITU as LATEST_TAX_RITU " & vbCrLf &
-                                             ",REDUCED_RATE " & vbCrLf &
-                                             ",REDUCED_RATE as LATEST_REDUCED_RATE " & vbCrLf &
-                                             ",UNTAXED_RATE " & vbCrLf &
-                                             ",UNTAXED_RATE as LATEST_UNTAXED_RATE " & vbCrLf &
-                                             ",TAX_FREE " & vbCrLf &
-                                             ",TAX_FREE as LATEST_TAX_FREE " & vbCrLf &
-                                             ",TAX_EXEMPTION " & vbCrLf &
-                                             ",TAX_EXEMPTION as LATEST_TAX_EXEMPTION " & vbCrLf &
-                                             ",TAX_OLD1 " & vbCrLf &
-                                             ",TAX_OLD1 as LATEST_TAX_OLD1 " & vbCrLf &
-                                             ",TAX_OLD2 " & vbCrLf &
-                                             ",TAX_OLD2 as LATEST_TAX_OLD2 " & vbCrLf &
-                                             ",TAX_SPARE1 " & vbCrLf &
-                                             ",TAX_SPARE1 as LATEST_TAX_SPARE1 " & vbCrLf &
-                                             ",TAX_SPARE2 " & vbCrLf &
-                                             ",TAX_SPARE2 as LATEST_TAX_SPARE2 " & vbCrLf &
-                                             ",TAX_SPARE3 " & vbCrLf &
-                                             ",TAX_SPARE3 as LATEST_TAX_SPARE3 " & vbCrLf &
-                                             ",TAX_SPARE4 " & vbCrLf &
-                                             ",TAX_SPARE4 as LATEST_TAX_SPARE4 " & vbCrLf &
-                                             ",TAX_SPARE5 " & vbCrLf &
-                                             ",TAX_SPARE5 as LATEST_TAX_SPARE5 " & vbCrLf &
+                                             ",CASE WHEN REDUCED_RATE < 0 THEN '-' ELSE to_char(REDUCED_RATE, '999') END as REDUCED_RATE " & vbCrLf &
+                                             ",CASE WHEN REDUCED_RATE < 0 THEN '-' ELSE to_char(REDUCED_RATE, '999') END as LATEST_REDUCED_RATE " & vbCrLf &
+                                             ",CASE WHEN UNTAXED_RATE < 0 THEN '-' ELSE to_char(UNTAXED_RATE, '999') END as UNTAXED_RATE " & vbCrLf &
+                                             ",CASE WHEN UNTAXED_RATE < 0 THEN '-' ELSE to_char(UNTAXED_RATE, '999') END as LATEST_UNTAXED_RATE " & vbCrLf &
+                                             ",CASE WHEN TAX_FREE < 0 THEN '-' ELSE to_char(TAX_FREE, '999') END as TAX_FREE " & vbCrLf &
+                                             ",CASE WHEN TAX_FREE < 0 THEN '-' ELSE to_char(TAX_FREE, '999') END as LATEST_TAX_FREE " & vbCrLf &
+                                             ",CASE WHEN TAX_EXEMPTION < 0 THEN '-' ELSE to_char(TAX_EXEMPTION, '999') END as TAX_EXEMPTION " & vbCrLf &
+                                             ",CASE WHEN TAX_EXEMPTION < 0 THEN '-' ELSE to_char(TAX_EXEMPTION, '999') END as LATEST_TAX_EXEMPTION " & vbCrLf &
+                                             ",CASE WHEN TAX_OLD1 < 0 THEN '-' ELSE to_char(TAX_OLD1, '999') END as TAX_OLD1 " & vbCrLf &
+                                             ",CASE WHEN TAX_OLD1 < 0 THEN '-' ELSE to_char(TAX_OLD1, '999') END as LATEST_TAX_OLD1 " & vbCrLf &
+                                             ",CASE WHEN TAX_OLD2 < 0 THEN '-' ELSE to_char(TAX_OLD2, '999') END as TAX_OLD2 " & vbCrLf &
+                                             ",CASE WHEN TAX_OLD2 < 0 THEN '-' ELSE to_char(TAX_OLD2, '999') END as LATEST_TAX_OLD2 " & vbCrLf &
+                                             ",CASE WHEN TAX_SPARE1 < 0 THEN '-' ELSE to_char(TAX_SPARE1, '999') END as TAX_SPARE1 " & vbCrLf &
+                                             ",CASE WHEN TAX_SPARE1 < 0 THEN '-' ELSE to_char(TAX_SPARE1, '999') END as LATEST_TAX_SPARE1 " & vbCrLf &
+                                             ",CASE WHEN TAX_SPARE2 < 0 THEN '-' ELSE to_char(TAX_SPARE2, '999') END as TAX_SPARE2 " & vbCrLf &
+                                             ",CASE WHEN TAX_SPARE2 < 0 THEN '-' ELSE to_char(TAX_SPARE2, '999') END as LATEST_TAX_SPARE2 " & vbCrLf &
+                                             ",CASE WHEN TAX_SPARE3 < 0 THEN '-' ELSE to_char(TAX_SPARE3, '999') END as TAX_SPARE3 " & vbCrLf &
+                                             ",CASE WHEN TAX_SPARE3 < 0 THEN '-' ELSE to_char(TAX_SPARE3, '999') END as LATEST_TAX_SPARE3 " & vbCrLf &
+                                             ",CASE WHEN TAX_SPARE4 < 0 THEN '-' ELSE to_char(TAX_SPARE4, '999') END as TAX_SPARE4 " & vbCrLf &
+                                             ",CASE WHEN TAX_SPARE4 < 0 THEN '-' ELSE to_char(TAX_SPARE4, '999') END as LATEST_TAX_SPARE4 " & vbCrLf &
+                                             ",CASE WHEN TAX_SPARE5 < 0 THEN '-' ELSE to_char(TAX_SPARE5, '999') END as TAX_SPARE5 " & vbCrLf &
+                                             ",CASE WHEN TAX_SPARE5 < 0 THEN '-' ELSE to_char(TAX_SPARE5, '999') END as LATEST_TAX_SPARE5 " & vbCrLf &
                                              " FROM TAX_MST " & vbCrLf &
                                              " ORDER BY SEQ "
     ' --- 2020/03/04 税区分追加対応 Start E.Okuda@Compass ---
@@ -271,6 +271,7 @@ Public Class SqlEXTM0103
     '                                        ",UP_USER_CD     = :UpdateUpUserCd " & vbCrLf & _
     '                                        " WHERE SEQ      = :SEQ "
     ' --- 2019/08/09 軽減税率対応 Start E.Okuda@Compass ---
+
     ' --- 2020/03/04 税区分追加対応 End E.Okuda@Compass ---
 
     ' 2015.12.08 ADD START↓ h.hagiwara 
