@@ -737,4 +737,22 @@ Public Class EXTM0102
 
     End Sub
 
+    ''' <summary>
+    '''  
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub vwGroupingSheet_ComboSelChange(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.EditorNotifyEventArgs) Handles vwGroupingSheet.ComboSelChange
+        If e.Column = M0102_BUNRUI_COL_TAXKBN2 Then
+            ' 税区分に対応する税率を設定する。
+            logicEXTM0102.ChangeCmbTaxKbn(e.Row, dataEXTM0102)
+
+        End If
+
+    End Sub
+
+
+
+
+
 End Class

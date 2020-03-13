@@ -600,20 +600,25 @@ Public Class LogicEXTM0102
             For j = 1 To 5
                 dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Rows.Add(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount, 1)
 
-                ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
-                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
+                ' --- 2020/03/13 税区分追加対応 Start E.Okuda@Compass ---
+                ' 税率列セルのコンボボックス型解除
 
-                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+                '' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
+                'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
 
-                If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
-                    If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
-                        If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
-                            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
-                        End If
-                    End If
-                End If
+                'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
 
-                ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
+                'If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
+                '    If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
+                '        If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
+                '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+                '        End If
+                '    End If
+                'End If
+
+                '' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
+
+                ' --- 2020/03/13 税区分追加対応 End E.Okuda@Compass ---
 
                 CmbKamokuCdCreate(dataEXTM0102)
                 dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1, M0102_BUNRUI_COL_KANJYO).CellType = cmbKamoku
@@ -4358,7 +4363,7 @@ Public Class LogicEXTM0102
         ' 開始ログ出力()
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
 
-        Dim cmbTaxKbn As New FarPoint.Win.Spread.CellType.ComboBoxCellType()        ' 税区分詳細
+        '        Dim cmbTaxKbn As New FarPoint.Win.Spread.CellType.ComboBoxCellType()        ' 税区分詳細
 
         cmbTaxKbn.Items = New String() {""}
         cmbTaxKbn.ItemData = New String() {Nothing}
@@ -4392,13 +4397,11 @@ Public Class LogicEXTM0102
             Next
         Next
 
-
         cmbTaxKbn.Items = CType(aryNm.ToArray(GetType(String)), String())
         cmbTaxKbn.ItemData = CType(aryData.ToArray(GetType(String)), String())
 
         'セルから取得／設定する値はItemDataとする
-        cmbTaxKbn.EditorValue = FarPoint.Win.Spread.CellType.EditorValue.ItemData
-
+        cmbTaxKbn.EditorValue = FarPoint.Win.Spread.CellType.EditorValue.Index
 
         '終了ログ出力
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
@@ -4407,11 +4410,22 @@ Public Class LogicEXTM0102
 
     Public Sub ChangeCmbTaxKbn(ByRef row As Integer, dataEXTM0102 As DataEXTM0102)
 
+
+
         '開始ログ出力()
         CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
 
         dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
-        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_TAXKBN2)
+
+
+        'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Value =
+
+        If dataEXTM0102.PropDtTaxKbn.Rows(0).Item(CInt(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_TAXKBN2).Value) - 1) Is Nothing Then
+
+        End If
+
+
+
 
         dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
 
