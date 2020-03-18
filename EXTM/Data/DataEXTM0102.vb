@@ -74,9 +74,10 @@ Public Class DataEXTM0102
     Private ppCmdPeriodBtn As Button            ' 設定ボタン
     ' 2019/09/09 軽減税率対応 変更 End E.Okuda@Compass
 
-    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
     Private ppDtTaxKbn As DataTable         ' 税区分コンボボックス用 
-    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
+    Private ppGetTaxKbnFlg As Boolean       ' 税区分取得フラグ          ' 軽減税率取得フラグ不使用の為
+    ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
 
 
     'シート
@@ -924,7 +925,7 @@ Public Class DataEXTM0102
 
     ' 2019/09/09 軽減税率対応 変更 End E.Okuda@Compass
 
-    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
     ''' <summary>
     ''' プロパティセット【税区分取得】
     ''' </summary>
@@ -942,7 +943,25 @@ Public Class DataEXTM0102
         End Set
     End Property
 
-    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
+    ''' <summary>
+    ''' プロパティセット【税区分取得フラグ】
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>ppGetTaxKbnFlg</returns>
+    ''' <remarks><para>作成情報：2020.03.17 E.Okuda@Compass
+    ''' <p>改訂情報:</p>
+    ''' </para></remarks>
+    Public Property PropGetTaxKbnFlg() As Boolean
+        Get
+            Return ppGetTaxKbnFlg
+        End Get
+        Set(value As Boolean)
+            ppGetTaxKbnFlg = value
+        End Set
+    End Property
+
+
+    ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
 
 
 

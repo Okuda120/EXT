@@ -37,8 +37,8 @@ Public Class LogicEXTM0102
     Private Const M0102_BUNRUI_COL_SYUKEIKY As Integer = 2
 
     ' --- 2020/03/04 税区分追加対応 Start E.Okuda@Compass ---
-    Private Const M0102_BUNRUI_COL_TAXKBN As Integer = 3
-    Private Const M0102_BUNRUI_COL_TAXKBN2 As Integer = 4
+    Private Const M0102_BUNRUI_COL_TAXINOUT As Integer = 3
+    Private Const M0102_BUNRUI_COL_TAXKBN As Integer = 4
     Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 5
     Private Const M0102_BUNRUI_COL_KANJYO As Integer = 6
     Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 7
@@ -80,6 +80,9 @@ Public Class LogicEXTM0102
 
     Private Const STR_HYPHEN As String = "-"                        ' ハイフン
     Private Const MSG_TAX_KBN_NOT_SELECT As String = "税区分が選択できません。"
+
+    Private Const CNT_TAX_KBN_ITEM As Integer = 12
+
 
 
     ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
@@ -357,8 +360,12 @@ Public Class LogicEXTM0102
                 '分類表の表示行数を、sql取得行数＋５に設定
                 'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount = dataEXTM0102.PropDtFbunruiMst.Rows.Count + 5
 
-                ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
-                If dataEXTM0102.PropGetReducedRateFlg = False Then
+                ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+                If dataEXTM0102.PropGetTaxKbnFlg = False Then
+                    '' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
+                    'If dataEXTM0102.PropGetReducedRateFlg = False Then
+                    ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
+
                     ' データテーブルクリア
                     If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
                         dataEXTM0102.PropDtReducedRate.Clear()
@@ -398,206 +405,204 @@ Public Class LogicEXTM0102
 
                 '発行したSQLより、各初期値を代入
                 For i = 0 To dataEXTM0102.PropDtFbunruiMst.Rows.Count - 1
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Rows.Add(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount, 1)
-                    '分類コードを非活性にする。
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUICD).Locked = True
-                    '分類コード
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUICD).Text = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(6)
-                    '分類名
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUINM).Text = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(7)
-                    '集計
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYUKEIKY).Text = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(8)
-                    '税
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).CellType = chkBoxTax
-                    If dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(9) = 1 Then
-                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value = True
-                    End If
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Rows.Add(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount, 1)
+                        '分類コードを非活性にする。
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUICD).Locked = True
+                        '分類コード
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUICD).Text = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(6)
+                        '分類名
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUINM).Text = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(7)
+                        '集計
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYUKEIKY).Text = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(8)
+                        '税
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXINOUT).CellType = chkBoxTax
+                        If dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(9) = 1 Then
+                            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXINOUT).Value = True
+                        End If
 
-                    ' --- 2020/03/05 税区分追加対応 Start E.Okuda@Compass ---
-                    ' 税区分
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN2).CellType = cmbTaxKbn
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN2).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(22)
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN2).Locked = False
+                        ' --- 2020/03/05 税区分追加対応 Start E.Okuda@Compass ---
+                        ' 税区分
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).CellType = cmbTaxKbn
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(22)
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Locked = False
 
+                        ' 税率(コンボボックス→テキスト)
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21)
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+                        '' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
+                        'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
+                        'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21)
+                        'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+                        'If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
+                        '    If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
+                        '        If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
+                        '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+                        '        End If
+                        '    End If
+                        'End If
+                        ''dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Text = Convert.ToString(dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21))
+                        '' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
+                        ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
 
+                        '勘定科目
+                        CmbKamokuCdCreate(dataEXTM0102)                                                                                                           ' セレクトボックスの中身を作成  2016.02.12 ADD h.hagiwara
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).CellType = cmbKamoku                                       ' 2016.02.12 ADD h.hagiwara
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11)
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).Locked = False                                             ' 2016.02.12 ADD h.hagiwara 稼働後№19対応
 
-                    ' 税率(コンボボックス→テキスト)
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21)
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
-                    '' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
-                    'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
-                    'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21)
-                    'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
-                    'If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
-                    '    If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
-                    '        If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
-                    '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
-                    '        End If
-                    '    End If
-                    'End If
-                    ''dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Text = Convert.ToString(dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(21))
-                    '' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass --- 
-                    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
+                        '勘定科目がある行の借方科目の前まで活性化
+                        If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).Value <> Nothing Then
+                            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).Locked = False
+                            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).Locked = False
+                            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).Locked = False
+                        End If
 
-                    '勘定科目
-                    CmbKamokuCdCreate(dataEXTM0102)                                                                                                           ' セレクトボックスの中身を作成  2016.02.12 ADD h.hagiwara
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).CellType = cmbKamoku                                       ' 2016.02.12 ADD h.hagiwara
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11)
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).Locked = False                                             ' 2016.02.12 ADD h.hagiwara 稼働後№19対応
+                        dataEXTM0102.PropStrSelKanjo = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11)                                 ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応
+                        '細目コンボボックスを作成
+                        'If CmbSaimokuSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11)) = True Then                   ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
 
-                    '勘定科目がある行の借方科目の前まで活性化
-                    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_KANJYO).Value <> Nothing Then
-                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).Locked = False
-                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).Locked = False
-                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).Locked = False
-                    End If
+                        '宣言
+                        Dim cmbSaimoku As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
 
-                    dataEXTM0102.PropStrSelKanjo = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11)                                 ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応
-                    '細目コンボボックスを作成
-                    'If CmbSaimokuSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11)) = True Then                   ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
+                        'セレクトボックスの中身を作成
+                        CmbSaimokuCreate(dataEXTM0102, cmbSaimoku)
 
-                    '宣言
-                    Dim cmbSaimoku As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
-
-                    'セレクトボックスの中身を作成
-                    CmbSaimokuCreate(dataEXTM0102, cmbSaimoku)
-
-                    '細目の項目をセット
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).CellType = cmbSaimoku
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(12)
-                    'End If                                                                                                     ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
+                        '細目の項目をセット
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).CellType = cmbSaimoku
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SAIMOKU).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(12)
+                        'End If                                                                                                     ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
 
 
-                    dataEXTM0102.PropStrSelSaimoku = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(12)                             ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応
-                    '内訳をセット
-                    'If CmbUchiwakeSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11), _                          ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
-                    '                  dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(12)) = True Then                              ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応                                   
-                    'セルタイプと、コンボボックスの設定
-                    Dim cmbUchi As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
+                        dataEXTM0102.PropStrSelSaimoku = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(12)                             ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応
+                        '内訳をセット
+                        'If CmbUchiwakeSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11), _                          ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
+                        '                  dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(12)) = True Then                              ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応                                   
+                        'セルタイプと、コンボボックスの設定
+                        Dim cmbUchi As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
 
-                    CmbUchiCreate(dataEXTM0102, cmbUchi)
+                        CmbUchiCreate(dataEXTM0102, cmbUchi)
 
-                    '値をセット
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).CellType = cmbUchi
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(13)
-                    'End If                                                                                                    ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
+                        '値をセット
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).CellType = cmbUchi
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_UCHIWAKE).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(13)
+                        'End If                                                                                                    ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
 
-                    dataEXTM0102.PropStrSelUchiwake = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(13)                           ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応
-                    '詳細
-                    'If CmbShosaiSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11), _                           ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応 
-                    '      dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(12), _                                                   ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
-                    '      dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(13)) = True Then                                         ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
+                        dataEXTM0102.PropStrSelUchiwake = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(13)                           ' 2016.06.24 ADD h.hagiwara コンボリスト設定方法変更対応
+                        '詳細
+                        'If CmbShosaiSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(11), _                           ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応 
+                        '      dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(12), _                                                   ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
+                        '      dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(13)) = True Then                                         ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
 
-                    'セルタイプと、コンボボックスの設定
-                    Dim cmbShosai As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
+                        'セルタイプと、コンボボックスの設定
+                        Dim cmbShosai As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
 
-                    'コンボボックスの中身を作成
-                    CmbSyosaiCreate(dataEXTM0102, cmbShosai)
+                        'コンボボックスの中身を作成
+                        CmbSyosaiCreate(dataEXTM0102, cmbShosai)
 
-                    '値をセット
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).CellType = cmbShosai
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(14)
-                    'End If                                                                                                  ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
+                        '値をセット
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).CellType = cmbShosai
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYOSAI).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(14)
+                        'End If                                                                                                  ' 2016.06.24 DEL h.hagiwara コンボリスト設定方法変更対応
 
-                    ' 2016.04.28 DEL START↓ h.hagiwara レスポンス改善
-                    '' 2016.02.12 ADD START↓ h.hagiwara
-                    'CmbKarikamokuCreate(dataEXTM0102)
-                    'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).CellType = cmbKarikamoku
-                    '' 2016.02.12 ADD END↑ h.hagiwara
+                        ' 2016.04.28 DEL START↓ h.hagiwara レスポンス改善
+                        '' 2016.02.12 ADD START↓ h.hagiwara
+                        'CmbKarikamokuCreate(dataEXTM0102)
+                        'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).CellType = cmbKarikamoku
+                        '' 2016.02.12 ADD END↑ h.hagiwara
 
-                    ''取得データが空では無ければ実行
-                    'If dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15).ToString IsNot "" Then
-                    '    '借方科目コード
-                    '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15)
-                    'End If
+                        ''取得データが空では無ければ実行
+                        'If dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15).ToString IsNot "" Then
+                        '    '借方科目コード
+                        '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15)
+                        'End If
 
-                    ''借方科目コードがあれば、細目を活性化
-                    'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value IsNot Nothing Then
-                    '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Locked = False
-                    'End If
+                        ''借方科目コードがあれば、細目を活性化
+                        'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 8).Value IsNot Nothing Then
+                        '    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Locked = False
+                        'End If
 
-                    ''借方科目コードがnothingならば行わない
-                    'If dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15).ToString IsNot "" Then
-                    '    '借方細目
-                    '    If CmbKariSaimokuSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15)) = True Then
+                        ''借方科目コードがnothingならば行わない
+                        'If dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15).ToString IsNot "" Then
+                        '    '借方細目
+                        '    If CmbKariSaimokuSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15)) = True Then
 
-                    '        'セルタイプと、コンボボックスの設定
-                    '        Dim cmbKarisaimoku As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
+                        '        'セルタイプと、コンボボックスの設定
+                        '        Dim cmbKarisaimoku As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
 
-                    '        CmbKarisaimokuCreate(dataEXTM0102, cmbKarisaimoku)
+                        '        CmbKarisaimokuCreate(dataEXTM0102, cmbKarisaimoku)
 
-                    '        '値をセット
-                    '        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).CellType = cmbKarisaimoku
-                    '        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(16)
-                    '    End If
-                    '    '借方細目があれば内訳活性化
-                    '    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value IsNot Nothing Then
-                    '        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Locked = False
-                    '    End If
+                        '        '値をセット
+                        '        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).CellType = cmbKarisaimoku
+                        '        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(16)
+                        '    End If
+                        '    '借方細目があれば内訳活性化
+                        '    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value IsNot Nothing Then
+                        '        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Locked = False
+                        '    End If
 
-                    '    '借方細目コードがあれば実行
-                    '    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value IsNot Nothing Then
-                    '        '借方内訳
-                    '        If CmbKariUchiSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15), _
-                    '                          dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(16)) = True Then
-                    '            'セルタイプと、コンボボックスの設定
-                    '            Dim cmbKariuchi As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
+                        '    '借方細目コードがあれば実行
+                        '    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 9).Value IsNot Nothing Then
+                        '        '借方内訳
+                        '        If CmbKariUchiSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15), _
+                        '                          dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(16)) = True Then
+                        '            'セルタイプと、コンボボックスの設定
+                        '            Dim cmbKariuchi As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
 
-                    '            CmbKariuchiCreate(dataEXTM0102, cmbKariuchi)
+                        '            CmbKariuchiCreate(dataEXTM0102, cmbKariuchi)
 
-                    '            '値をセット
-                    '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).CellType = cmbKariuchi
-                    '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(17)
-                    '        End If
-                    '        '借方内訳があれば詳細を活性化
-                    '        If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value IsNot Nothing Then
-                    '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 11).Locked = False
-                    '        End If
-                    '    End If
+                        '            '値をセット
+                        '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).CellType = cmbKariuchi
+                        '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(17)
+                        '        End If
+                        '        '借方内訳があれば詳細を活性化
+                        '        If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value IsNot Nothing Then
+                        '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 11).Locked = False
+                        '        End If
+                        '    End If
 
-                    '    '借方内訳があれば実行
-                    '    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value IsNot Nothing Then
-                    '        '借方詳細
-                    '        If CmbKariShosaiSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15), _
-                    '                          dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(16), _
-                    '                          dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(17)) = True Then
-                    '            'セルタイプと、コンボボックスの設定
-                    '            Dim cmbKarisyosai As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
+                        '    '借方内訳があれば実行
+                        '    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 10).Value IsNot Nothing Then
+                        '        '借方詳細
+                        '        If CmbKariShosaiSet(dataEXTM0102, dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(15), _
+                        '                          dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(16), _
+                        '                          dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(17)) = True Then
+                        '            'セルタイプと、コンボボックスの設定
+                        '            Dim cmbKarisyosai As New FarPoint.Win.Spread.CellType.ComboBoxCellType()
 
-                    '            'コンボボックスの中身を作成
-                    '            CmbKarishosaiCreate(dataEXTM0102, cmbKarisyosai)
-                    '            '値をセット
-                    '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 11).CellType = cmbKarisyosai
-                    '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 11).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(18)
-                    '        End If
-                    '    End If
-                    'End If
-                    ' 2016.04.28 DEL END↑ h.hagiwara レスポンス改善
+                        '            'コンボボックスの中身を作成
+                        '            CmbKarishosaiCreate(dataEXTM0102, cmbKarisyosai)
+                        '            '値をセット
+                        '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 11).CellType = cmbKarisyosai
+                        '            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 11).Value = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(18)
+                        '        End If
+                        '    End If
+                        'End If
+                        ' 2016.04.28 DEL END↑ h.hagiwara レスポンス改善
 
-                    '並び順
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SORT).Text = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(10)
+                        '並び順
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SORT).Text = dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(10)
 
-                    '無効フラグ
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_DEFFLG).CellType = chkBoxSts
-                    If dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(19) = 1 Then
-                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_DEFFLG).Value = True
-                    Else
-                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_DEFFLG).Value = False
-                    End If
-                    ' 2015.11.30 ADD STATR↓ h.hagiwara
-                    '付帯利用料フラグ
-                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_FRIYOFLG).CellType = chkBoxSts
-                    If dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(20) = 1 Then
-                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_FRIYOFLG).Value = True
-                    Else
-                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_FRIYOFLG).Value = False
-                    End If
-                    ' 2015.11.30 ADD END↑ h.hagiwara
-                Next
-            End If
+                        '無効フラグ
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_DEFFLG).CellType = chkBoxSts
+                        If dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(19) = 1 Then
+                            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_DEFFLG).Value = True
+                        Else
+                            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_DEFFLG).Value = False
+                        End If
+                        ' 2015.11.30 ADD STATR↓ h.hagiwara
+                        '付帯利用料フラグ
+                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_FRIYOFLG).CellType = chkBoxSts
+                        If dataEXTM0102.PropDtFbunruiMst.Rows(i).Item(20) = 1 Then
+                            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_FRIYOFLG).Value = True
+                        Else
+                            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_FRIYOFLG).Value = False
+                        End If
+                        ' 2015.11.30 ADD END↑ h.hagiwara
+                    Next
+                End If
 
-            ' 2016.02.12 ADD START↓ h.hagiwara
-            For j = 1 To 5
+                ' 2016.02.12 ADD START↓ h.hagiwara
+                For j = 1 To 5
                 dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Rows.Add(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount, 1)
 
                 ' --- 2020/03/13 税区分追加対応 Start E.Okuda@Compass ---
@@ -2026,8 +2031,8 @@ Public Class LogicEXTM0102
         For i = cnt To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1
 
             ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
-            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN2).CellType = cmbTaxKbn
-            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN2).Locked = False
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).CellType = cmbTaxKbn
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Locked = False
 
             '' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass --- 
             'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
@@ -3124,27 +3129,35 @@ Public Class LogicEXTM0102
             '    Return False
             'End If
 
-            ' 半角数字チェックを行う。
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value IsNot DBNull.Value Then
-                If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value <> Nothing Then
-                    If ChkZenkaku(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) = False Then
-                        puErrMsg = String.Format(EXTM0102_E0003, "税率")
-                        Return False
-                    End If
-                    '税率は半角数字のみ
-                    If Not IsNumeric(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) Then
-                        puErrMsg = String.Format(EXTM0102_E0003, "税率")
-                        Return False
-                    End If
-
-                    ' 桁数チェック
-                    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Text.Length > 2 Then
-                        puErrMsg = String.Format(EXTM0102_E0010, "税率", "2")
-                        Return False
-                    End If
-                End If
+            ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value Is DBNull.Value Then
+                puErrMsg = String.Format(EXTM0102_E0002, "税区分")
+                Return False
             End If
+
+            ' 税区分追加対応で、税区分選択で自動設定されるのでチェックをコメントアウト
+            ' 半角数字チェックを行う。
+            'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value IsNot DBNull.Value Then
+            '    If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value <> Nothing Then
+            '        If ChkZenkaku(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) = False Then
+            '            puErrMsg = String.Format(EXTM0102_E0003, "税率")
+            '            Return False
+            '        End If
+            '        '税率は半角数字のみ
+            '        If Not IsNumeric(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) Then
+            '            puErrMsg = String.Format(EXTM0102_E0003, "税率")
+            '            Return False
+            '        End If
+
+            '        ' 桁数チェック
+            '        If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Text.Length > 2 Then
+            '            puErrMsg = String.Format(EXTM0102_E0010, "税率", "2")
+            '            Return False
+            '        End If
+            '    End If
+            'End If
             ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---  
+            ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
 
             '勘定科目コード
             'For j = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.ColumnCount - 1
@@ -4276,32 +4289,34 @@ Public Class LogicEXTM0102
 
     End Function
 
-    Public Sub SetCmbReducedRateColumn(dataEXTM0102 As DataEXTM0102)
-        '開始ログ出力()
-        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
 
-        For i = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1
-            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
+    ' 税区分追加対応で税率は自動設定になったので、コメント化
+    'Public Sub SetCmbReducedRateColumn(dataEXTM0102 As DataEXTM0102)
+    '    '開始ログ出力()
+    '    CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
 
-            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
+    '    For i = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1
+    '        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).CellType = cmbReducedRate
 
-            If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
-                If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
-                    If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
-                        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
-                    End If
-                End If
-            End If
-        Next
+    '        dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = True
 
-        '終了ログ出力
-        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+    '        If dataEXTM0102.PropDtReducedRate IsNot Nothing Then
+    '            If dataEXTM0102.PropDtReducedRate.Rows.Count > 0 Then
+    '                If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
+    '                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+    '                End If
+    '            End If
+    '        End If
+    '    Next
 
-    End Sub
+    '    '終了ログ出力
+    '    CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+    'End Sub
 
     ' --- 2019/09/09 軽減税率対応 End E.Okuda@Compass ---
 
-    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
 
 
 
@@ -4330,11 +4345,13 @@ Public Class LogicEXTM0102
             'データを取得
             Adapter.Fill(Table)
 
-            If Table.Rows.Count = 1 Then
-                dataEXTM0102.PropDtTaxKbn = Table
-            Else
+            dataEXTM0102.PropDtTaxKbn = Table
+
+            If Table.Rows.Count > CNT_TAX_KBN_ITEM Or Table.Rows.Count = 0 Then
                 puErrMsg = String.Format(EXTM0102_E2034)
                 Return False
+            Else
+                dataEXTM0102.PropDtTaxKbn = Table
             End If
 
             '終了ログ出力
@@ -4382,19 +4399,23 @@ Public Class LogicEXTM0102
         aryData.AddRange(cmbTaxKbn.ItemData)
 
         For i = 0 To dataEXTM0102.PropDtTaxKbn.Rows.Count - 1
-            For j = 0 To dataEXTM0102.PropDtTaxKbn.Columns.Count - 1
-                If dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j) IsNot DBNull.Value Then
+            If InStr(dataEXTM0102.PropDtTaxKbn.Rows(i).Item(1).ToString, STR_HYPHEN) = 0 Then
+                aryNm.Add(arySpreadTitle(i))
+                aryData.Add(dataEXTM0102.PropDtTaxKbn.Rows(i).Item(0).ToString)
+            End If
 
-                    If dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j) > -1 Then
-                        aryNm.Add(arySpreadTitle(j))
-                        aryData.Add(dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j).ToString)
-                    End If
-                Else
-                    aryNm.Add(arySpreadTitle(j))
-                    aryData.Add(dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j).ToString)
+            'For j = 0 To dataEXTM0102.PropDtTaxKbn.Columns.Count - 1
+            '    If dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j) IsNot DBNull.Value Then
 
-                End If
-            Next
+            '        If dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j) > -1 Then
+            '            aryData.Add(dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j).ToString)
+            '        End If
+            '    Else
+            '        aryNm.Add(arySpreadTitle(j))
+            '        aryData.Add(dataEXTM0102.PropDtTaxKbn.Rows(i).Item(j).ToString)
+
+            '    End If
+            'Next
         Next
 
         cmbTaxKbn.Items = CType(aryNm.ToArray(GetType(String)), String())
@@ -4418,12 +4439,18 @@ Public Class LogicEXTM0102
         dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
 
 
-        'dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Value =
+        '        If dataEXTM0102.PropDtTaxKbn.Rows(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_TAXKBN).Value - 1).Item(1) Is DBNull.Value Or
+        If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_TAXKBN).Value = 0 Then
+            ' 選択した税区分がNullまたは税区分未選択の時、税率にNothingを設定
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Value = Nothing
+        Else
+            If dataEXTM0102.PropDtTaxKbn.Rows(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_TAXKBN).Value - 1).Item(1) > 0 Then
 
-        If dataEXTM0102.PropDtTaxKbn.Rows(0).Item(CInt(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_TAXKBN2).Value) - 1) Is Nothing Then
-
+                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Value = dataEXTM0102.PropDtTaxKbn.Rows(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_TAXKBN).Value - 1).Item(1)
+            Else
+                dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(row, M0102_BUNRUI_COL_ZEIRITSU).Value = Nothing
+            End If
         End If
-
 
 
 
@@ -4435,6 +4462,30 @@ Public Class LogicEXTM0102
 
     End Sub
 
+
+    Public Sub SetCmbTaxKbnColumn(dataEXTM0102 As DataEXTM0102)
+        '開始ログ出力()
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+        For i = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1
+            ' 税区分列にコンボボックスセット
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).CellType = cmbTaxKbn
+
+            dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Locked = True
+
+            If dataEXTM0102.PropDtTaxKbn IsNot Nothing Then
+                If dataEXTM0102.PropDtTaxKbn.Rows.Count > 0 Then
+                    '                If dataEXTM0102.PropDtReducedRate.Rows(0).Item(0) IsNot DBNull.Value Then
+                    '                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Locked = False
+                    '                End If
+                End If
+            End If
+        Next
+
+        '終了ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+    End Sub
 
     ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
 
