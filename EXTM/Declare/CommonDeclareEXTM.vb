@@ -161,6 +161,12 @@
     Public Const M0103_E2032 As String = "入力された期間は設定済みのため登録できません。"
     Public Const M0103_E2039 As String = "{0}を変更してください。"
     Public Const M0103_E2040 As String = "最終行の{0}は空白のみ可能です。"
+
+    ' --- 2020/03/06 税区分追加対応 Start E.Okuda@Compass ---
+    Public Const M0103_E2041 As String = "{0}行目のデータは前の行と同じデータです。"
+    Public Const M0103_E2042 As String = "{0}は半角数字またはハイフンのみで入力してください。"
+    ' --- 2020/03/06 税区分追加対応 End E.Okuda@Compass ---
+
     Public Const M0103_C0011 As String = "入力した内容で{0}の登録を行います。よろしいですか？"
     Public Const M0103_I0002 As String = "{0}が完了しました。"
 

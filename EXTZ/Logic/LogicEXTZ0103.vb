@@ -14,12 +14,12 @@ Public Class LogicEXTZ0103
     ' --- 2019/08/23 日別売上一覧機能追加対応 Start E.Okuda@Compass ---
     Private Const STR_DELIMITER As String = "/"
     Private Const CSV_HEADER_THEATER As String = "予約番号,利用日,催事名,貸出種別,利用形状,催事分類," &
-                                                 "利用料(A),付帯設備使用料(B),付帯設備調整額(C),基本売上合計(D)=(A+B+C)," &
+                                                 "利用料(A),付帯設備利用料(B),付帯設備調整額(C),基本売上合計(D)=(A+B+C)," &
                                                  "001ドリンク現金(E),002ワンドリンク(F),003コインロッカー(G),004雑収入(H)," &
                                                  "006空き(I),007空き(J),008空き(K),009空き(L),900SUICA現金(M),901SUICAコインロッカー(N)," &
                                                  "902-950その他(O),現金合計(P)=(E～O),総売上合計(Q)=(D+P)"
     Private Const CSV_HEADER_STUDIO As String = "予約番号,利用日,催事名,貸出種別,利用形状,催事分類," &
-                                                 "利用料(A),付帯設備使用料(B),付帯設備調整額(C),基本売上合計(D)=(A+B+C)," &
+                                                 "利用料(A),付帯設備利用料(B),付帯設備調整額(C),基本売上合計(D)=(A+B+C)," &
                                                  "001ドリンク現金(E),002ワンドリンク(F),003コインロッカー(G),004雑収入(H)," &
                                                  "006空き(I),007空き(J),008空き(K),009空き(L),900SUICA現金(M),901SUICAコインロッカー(N)," &
                                                  "902-950その他(O),現金合計(P)=(E～O),総売上合計(Q)=(D+P)"
@@ -141,7 +141,7 @@ Public Class LogicEXTZ0103
                         strTempRiyoType = .PropDtDayUriage.Rows(0)("RIYO_TYPE").ToString()
                         strTempSaijiBunrui = .PropDtDayUriage.Rows(0)("SAIJI_BUNRUI").ToString()
                         lngTempRiyoKin = .PropDtDayUriage.Rows(0)("RIYO_KIN")
-                        lngTempFutaiKin = .PropDtDayUriage.Rows(0)("FUTAI_KIN")
+                        lngTempFutaiKin = .PropDtDayUriage.Rows(0)("FUTAI_SHOKEI")
                         lngTempFutaiChosei = .PropDtDayUriage.Rows(0)("FUTAI_CHOSEI")
                         lngTempDrinkGenkin = .PropDtDayUriage.Rows(0)("DRINK_GENKIN")
                         lngTempOneDrink = .PropDtDayUriage.Rows(0)("ONE_DRINK")
@@ -245,7 +245,7 @@ Public Class LogicEXTZ0103
                                 strTempRiyoType = .PropDtDayUriage.Rows(intDataRow)("RIYO_TYPE").ToString()
                                 strTempSaijiBunrui = .PropDtDayUriage.Rows(intDataRow)("SAIJI_BUNRUI").ToString()
                                 lngTempRiyoKin = .PropDtDayUriage.Rows(intDataRow)("RIYO_KIN")
-                                lngTempFutaiKin = .PropDtDayUriage.Rows(intDataRow)("FUTAI_KIN")
+                                lngTempFutaiKin = .PropDtDayUriage.Rows(intDataRow)("FUTAI_SHOKEI")
                                 lngTempFutaiChosei = .PropDtDayUriage.Rows(intDataRow)("FUTAI_CHOSEI")
                                 lngTempDrinkGenkin = .PropDtDayUriage.Rows(intDataRow)("DRINK_GENKIN")
                                 lngTempOneDrink = .PropDtDayUriage.Rows(intDataRow)("ONE_DRINK")
@@ -290,7 +290,7 @@ Public Class LogicEXTZ0103
                                 ' 利用料
                                 lngTempRiyoKin += .PropDtDayUriage.Rows(intDataRow)("RIYO_KIN")
                                 ' 付帯設備使用料
-                                lngTempFutaiKin += .PropDtDayUriage.Rows(intDataRow)("FUTAI_KIN")
+                                lngTempFutaiKin += .PropDtDayUriage.Rows(intDataRow)("FUTAI_SHOKEI")
                                 ' 付帯設備調整額
                                 lngTempFutaiChosei += .PropDtDayUriage.Rows(intDataRow)("FUTAI_CHOSEI")
                                 ' ドリンク現金
@@ -531,7 +531,7 @@ Public Class LogicEXTZ0103
                         strTempKashiKind = .PropDtDayUriage.Rows(0)("KASHI_KIND").ToString()
                         strTempStudioKbn = .PropDtDayUriage.Rows(0)("STUDIO_KBN").ToString()
                         lngTempRiyoKin = .PropDtDayUriage.Rows(0)("RIYO_KIN")
-                        lngTempFutaiKin = .PropDtDayUriage.Rows(0)("FUTAI_KIN")
+                        lngTempFutaiKin = .PropDtDayUriage.Rows(0)("FUTAI_SHOKEI")
                         lngTempFutaiChosei = .PropDtDayUriage.Rows(0)("FUTAI_CHOSEI")
                         lngTempDrinkGenkin = .PropDtDayUriage.Rows(0)("DRINK_GENKIN")
                         lngTempOneDrink = .PropDtDayUriage.Rows(0)("ONE_DRINK")
@@ -628,7 +628,7 @@ Public Class LogicEXTZ0103
                                 strTempKashiKind = .PropDtDayUriage.Rows(intDataRow)("KASHI_KIND").ToString()
                                 strTempStudioKbn = .PropDtDayUriage.Rows(intDataRow)("STUDIO_KBN").ToString()
                                 lngTempRiyoKin = .PropDtDayUriage.Rows(intDataRow)("RIYO_KIN")
-                                lngTempFutaiKin = .PropDtDayUriage.Rows(intDataRow)("FUTAI_KIN")
+                                lngTempFutaiKin = .PropDtDayUriage.Rows(intDataRow)("FUTAI_SHOKEI")
                                 lngTempFutaiChosei = .PropDtDayUriage.Rows(intDataRow)("FUTAI_CHOSEI")
                                 lngTempDrinkGenkin = .PropDtDayUriage.Rows(intDataRow)("DRINK_GENKIN")
                                 lngTempOneDrink = .PropDtDayUriage.Rows(intDataRow)("ONE_DRINK")
@@ -669,7 +669,7 @@ Public Class LogicEXTZ0103
                                 ' 利用料
                                 lngTempRiyoKin += .PropDtDayUriage.Rows(intDataRow)("RIYO_KIN")
                                 ' 付帯設備使用料
-                                lngTempFutaiKin += .PropDtDayUriage.Rows(intDataRow)("FUTAI_KIN")
+                                lngTempFutaiKin += .PropDtDayUriage.Rows(intDataRow)("FUTAI_SHOKEI")
                                 ' 付帯設備調整額
                                 lngTempFutaiChosei += .PropDtDayUriage.Rows(intDataRow)("FUTAI_CHOSEI")
                                 ' ドリンク現金
@@ -1093,7 +1093,7 @@ Public Class LogicEXTZ0103
                         '改行する
                         swCsvFile.Write(vbCrLf)
 
-                        With dataEXTZ0103.PropvwDayUriageTheatre.Sheets(0)
+                        With dataEXTZ0103.PropvwDayUriageStudio.Sheets(0)
                             For intRowIdx = 0 To .RowCount - 1
                                 For intColIdx = 0 To .ColumnCount - 1
                                     If intColIdx <> COL_IDX_RIYOSYA Then

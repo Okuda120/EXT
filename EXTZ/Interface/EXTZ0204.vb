@@ -1,4 +1,5 @@
-﻿Imports Common
+﻿Imports System.Configuration
+Imports Common
 Imports CommonEXT
 Imports FarPoint.Win.Spread
 
@@ -20,22 +21,43 @@ Public Class EXTZ0204
     Private Const COL_FUTAI_UCHI_NM As Integer = 4
     Private Const COL_FUTAI_SHOSAI_NM As Integer = 5
     Private Const COL_FUTAI_KEIJO_KIN As Integer = 6
-    Private Const COL_FUTAI_TAX_KBN As Integer = 7
-    Private Const COL_FUTAI_ZEIRITSU As Integer = 8
-    Private Const COL_FUTAI_TAX_KIN As Integer = 9
-    Private Const COL_FUTAI_SEIKYU_TITLE1 As Integer = 10
-    Private Const COL_FUTAI_SEIKYU_TITLE2 As Integer = 11
-    Private Const COL_FUTAI_EVENT_NM As Integer = 12
-    Private Const COL_FUTAI_CONTENT_UCHI_NM As Integer = 13
-    Private Const COL_FUTAI_BTN_COPY As Integer = 14
-    Private Const COL_FUTAI_BTN_REFER As Integer = 15
-    Private Const COL_FUTAI_KAMOKU_CD As Integer = 16
-    Private Const COL_FUTAI_SAIMOKU_CD As Integer = 17
-    Private Const COL_FUTAI_UCHI_CD As Integer = 18
-    Private Const COL_FUTAI_SHOSAI_CD As Integer = 19
-    Private Const COL_FUTAI_CONTENT_CD As Integer = 20
-    Private Const COL_FUTAI_CONTENT_UCHI_CD As Integer = 21
-    Private Const COL_FUTAI_RIYO_NM As Integer = 22
+
+    ' --- 2020/03/26 税区分追加対応 Start E.Okuda@Compass ---
+    Private Const COL_FUTAI_TAX_INOUT As Integer = 7
+    Private Const COL_FUTAI_TAX_KBN As Integer = 8
+    Private Const COL_FUTAI_ZEIRITSU As Integer = 9
+    Private Const COL_FUTAI_TAX_KIN As Integer = 10
+    Private Const COL_FUTAI_SEIKYU_TITLE1 As Integer = 11
+    Private Const COL_FUTAI_SEIKYU_TITLE2 As Integer = 12
+    Private Const COL_FUTAI_EVENT_NM As Integer = 13
+    Private Const COL_FUTAI_CONTENT_UCHI_NM As Integer = 14
+    Private Const COL_FUTAI_BTN_COPY As Integer = 15
+    Private Const COL_FUTAI_BTN_REFER As Integer = 16
+    Private Const COL_FUTAI_KAMOKU_CD As Integer = 17
+    Private Const COL_FUTAI_SAIMOKU_CD As Integer = 18
+    Private Const COL_FUTAI_UCHI_CD As Integer = 19
+    Private Const COL_FUTAI_SHOSAI_CD As Integer = 20
+    Private Const COL_FUTAI_CONTENT_CD As Integer = 21
+    Private Const COL_FUTAI_CONTENT_UCHI_CD As Integer = 22
+    Private Const COL_FUTAI_RIYO_NM As Integer = 23
+
+    'Private Const COL_FUTAI_TAX_KBN As Integer = 7
+    'Private Const COL_FUTAI_ZEIRITSU As Integer = 8
+    'Private Const COL_FUTAI_TAX_KIN As Integer = 9
+    'Private Const COL_FUTAI_SEIKYU_TITLE1 As Integer = 10
+    'Private Const COL_FUTAI_SEIKYU_TITLE2 As Integer = 11
+    'Private Const COL_FUTAI_EVENT_NM As Integer = 12
+    'Private Const COL_FUTAI_CONTENT_UCHI_NM As Integer = 13
+    'Private Const COL_FUTAI_BTN_COPY As Integer = 14
+    'Private Const COL_FUTAI_BTN_REFER As Integer = 15
+    'Private Const COL_FUTAI_KAMOKU_CD As Integer = 16
+    'Private Const COL_FUTAI_SAIMOKU_CD As Integer = 17
+    'Private Const COL_FUTAI_UCHI_CD As Integer = 18
+    'Private Const COL_FUTAI_SHOSAI_CD As Integer = 19
+    'Private Const COL_FUTAI_CONTENT_CD As Integer = 20
+    'Private Const COL_FUTAI_CONTENT_UCHI_CD As Integer = 21
+    'Private Const COL_FUTAI_RIYO_NM As Integer = 22
+    ' --- 2020/03/26 税区分追加対応 End E.Okuda@Compass ---
 
     ' 税区分
     Private Const DISP_UCHIZEI As String = "内税"
@@ -182,7 +204,15 @@ Public Class EXTZ0204
             Dim shtFutai As FarPoint.Win.Spread.SheetView = Me.fbFutai.ActiveSheet
             ' --- 2019/06/17 軽減税率対応 Start E.Okuda@Compass ---
             ' 列番号定数化＆「税率」、「税区分」列追加
-            shtFutai.ColumnCount = 23
+
+            ' --- 2020/03/26 税区分追加対応 Start E.Okuda@Compass ---
+            shtFutai.ColumnCount = 24
+            'shtFutai.ColumnCount = 23
+
+            ' 設定ファイルから税区分名称を取得
+            Dim arySpreadTitle As Array
+            arySpreadTitle = Split(ConfigurationManager.AppSettings("TaxMstItemNm"), ",")
+            ' --- 2020/03/26 税区分追加対応 End E.Okuda@Compass ---
 
             ' 列非表示設定
             Dim intLoopCnt As Integer
@@ -198,8 +228,11 @@ Public Class EXTZ0204
             shtFutai.Columns(COL_FUTAI_UCHI_NM).Locked = True
             shtFutai.Columns(COL_FUTAI_SHOSAI_NM).Locked = True
             shtFutai.Columns(COL_FUTAI_ZEIRITSU).Locked = True
+            ' --- 2020/03/26 税区分追加対応 Start E.Okuda@Compass ---
             'shtFutai.Columns(COL_FUTAI_TAX_KIN).Locked = True
+            shtFutai.Columns(COL_FUTAI_TAX_INOUT).Locked = True
             shtFutai.Columns(COL_FUTAI_TAX_KBN).Locked = True
+            ' --- 2020/03/26 税区分追加対応 End  E.Okuda@Compass ---
             shtFutai.Columns(COL_FUTAI_EVENT_NM).Locked = True
             shtFutai.Columns(COL_FUTAI_CONTENT_UCHI_NM).Locked = True
 
@@ -252,14 +285,20 @@ Public Class EXTZ0204
                     shtFutai.Cells(i, COL_FUTAI_SHOSAI_NM).Value = commonLogicEXT.DbNullToNothing(row, "shosai_nm")
                     shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "keijo_kin"))            ' 2015.12.21 UPD h.hagiwara
                     If commonLogicEXT.DbNullToNothing(row, "notax_flg") = VAL_UCHIZEI Then
-                        shtFutai.Cells(i, COL_FUTAI_TAX_KBN).Value = DISP_UCHIZEI
+                        shtFutai.Cells(i, COL_FUTAI_TAX_INOUT).Value = DISP_UCHIZEI
                     ElseIf commonLogicEXT.DbNullToNothing(row, "notax_flg") = VAL_SOTOZEI Then
-                        shtFutai.Cells(i, COL_FUTAI_TAX_KBN).Value = DISP_SOTOZEI
+                        shtFutai.Cells(i, COL_FUTAI_TAX_INOUT).Value = DISP_SOTOZEI
                     End If
-                    If Long.TryParse(commonLogicEXT.DbNullToNothing(row, "zeiritsu"), 0) = True Then
-                        shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "zeiritsu"))
+                    If Long.TryParse(commonLogicEXT.DbNullToNothing(row, "tax_rate"), 0) = True Then
+                        shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value = Long.Parse(commonLogicEXT.DbNullToNothing(row, "tax_rate"))
                     Else
                     End If
+
+                    ' --- 2020/03/26 税区分追加対応 Start E.Okuda@Compass ---
+                    If Not IsNothing(commonLogicEXT.DbNullToNothing(row, "tax_kbn")) Then
+                        shtFutai.Cells(i, COL_FUTAI_TAX_KBN).Value = arySpreadTitle(CInt(commonLogicEXT.DbNullToNothing(row, "tax_kbn")) - 1)
+                    End If
+                    ' --- 2020/03/26 税区分追加対応 End E.Okuda@Compass ---
 
                     ' --- 2019/07/23 軽減税率対応 Start E.Okuda@Compass ---
                     If commonLogicEXT.DbNullToNothing(row, "notax_flg") = VAL_UCHIZEI Then
@@ -531,9 +570,14 @@ Public Class EXTZ0204
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub txtFutairyo_Change(ByVal sender As Object, ByVal e As ChangeEventArgs) Handles fbFutai.Change
-        If e.Column = 6 Or e.Column = 7 Then
+        ' --- 2020/03/26 税区分追加対応 Start E.Okuda@Compass ---
+        If e.Column = COL_FUTAI_KEIJO_KIN Or e.Column = COL_FUTAI_TAX_KIN Then
             calcSagaku()
         End If
+        'If e.Column = 6 Or e.Column = 7 Then
+        '    calcSagaku()
+        'End If
+        ' --- 2020/03/26 税区分追加対応 End E.Okuda@Compass ---
     End Sub
 
     ''' <summary>
@@ -561,10 +605,16 @@ Public Class EXTZ0204
             ' --- 2019/06/24 軽減税率対応 Start E.Okuda@Compass ---
             ' 列番号定数化
             riyoKei = riyoKei + shtFutai.Cells(i, COL_FUTAI_KEIJO_KIN).Value
-            If shtFutai.Cells(i, COL_FUTAI_TAX_KBN).Value = DISP_SOTOZEI Then
+            ' --- 2020/03/26 税区分追加対応 Start E.Okuda@Compass ---
+            If shtFutai.Cells(i, COL_FUTAI_TAX_INOUT).Value = DISP_SOTOZEI Then
                 ' 外税の場合のみ、合計額に加算する
                 riyoTaxKei = riyoTaxKei + shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value
             End If
+            'If shtFutai.Cells(i, COL_FUTAI_TAX_INOUT).Value = DISP_SOTOZEI Then
+            '    ' 外税の場合のみ、合計額に加算する
+            '    riyoTaxKei = riyoTaxKei + shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value
+            'End If
+            ' --- 2020/03/26 税区分追加対応 End E.Okuda@Compass ---
             'riyoKei = riyoKei + shtFutai.Cells(i, 6).Value
             'riyoTaxKei = riyoTaxKei + shtFutai.Cells(i, 7).Value
             ' --- 2019/06/24 軽減税率対応 End E.Okuda@Compass ---
@@ -636,7 +686,7 @@ Public Class EXTZ0204
             If String.IsNullOrEmpty(shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value) Then
             Else
                 ' --- 2019/07/23 軽減税率対応 Start E.Okuda@Compass ---
-                If shtFutai.Cells(i, COL_FUTAI_TAX_KBN).Value = DISP_SOTOZEI Then
+                If shtFutai.Cells(i, COL_FUTAI_TAX_INOUT).Value = DISP_SOTOZEI Then
                     bigTaxkin += CLng(shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value)
                 End If
                 ' --- 2019/07/23 軽減税率対応 End E.Okuda@Compass ---
@@ -712,15 +762,47 @@ Public Class EXTZ0204
         Loop
         '付帯設備の処理
         i = 0
+
+        ' --- 2020/03/27 税区分追加対応 Start E.Okuda@Compass ---
+        Dim TblFutai As DataTable = dataEXTZ0204.PropDtExasFutai
+        Dim row As DataRow
+        Dim inTaxkin As Long
+        ' --- 2020/03/27 税区分追加対応 Start E.Okuda@Compass ---
+
         Do While i < shtFutai.RowCount
-            If String.IsNullOrEmpty(shtFutai.Cells(i, 18).Value) Then
+            row = TblFutai.Rows(i)
+
+            ' --- 2020/03/27 税区分追加対応 Start E.Okuda@Compass ---
+            If String.IsNullOrEmpty(shtFutai.Cells(i, COL_FUTAI_CONTENT_CD).Value) Then
                 MsgBox(String.Format(CommonDeclareEXT.E0001, "プロジェクト"), MsgBoxStyle.Exclamation, "エラー")
                 Return False
             End If
-            If String.IsNullOrEmpty(shtFutai.Cells(i, 19).Value) Then
+            If String.IsNullOrEmpty(shtFutai.Cells(i, COL_FUTAI_CONTENT_UCHI_CD).Value) Then
                 MsgBox(String.Format(CommonDeclareEXT.E0001, "プロジェクト内訳"), MsgBoxStyle.Exclamation, "エラー")
                 Return False
             End If
+
+            ' 内税でセルの値と計算された値が異なる場合に警告メッセージを表示する。
+            If commonLogicEXT.DbNullToNothing(row, "notax_flg") = VAL_UCHIZEI Then
+                inTaxkin = Long.Parse(Math.Round(
+                            commonLogicEXT.DbNullToNothing(row, "keijo_kin") / (1.0 + shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100) *
+                            shtFutai.Cells(i, COL_FUTAI_ZEIRITSU).Value / 100, MidpointRounding.AwayFromZero))
+                If inTaxkin <> shtFutai.Cells(i, COL_FUTAI_TAX_KIN).Value Then
+                    If MsgBox(String.Format(CommonDeclareEXT.C0017, "内訳の消費税額"), MsgBoxStyle.Question + MsgBoxStyle.YesNo, "確認") = vbNo Then
+                        Return False
+                    End If
+                End If
+            End If
+
+            'If String.IsNullOrEmpty(shtFutai.Cells(i, 18).Value) Then
+            '    MsgBox(String.Format(CommonDeclareEXT.E0001, "プロジェクト"), MsgBoxStyle.Exclamation, "エラー")
+            '    Return False
+            'End If
+            'If String.IsNullOrEmpty(shtFutai.Cells(i, 19).Value) Then
+            '    MsgBox(String.Format(CommonDeclareEXT.E0001, "プロジェクト内訳"), MsgBoxStyle.Exclamation, "エラー")
+            '    Return False
+            'End If
+            ' --- 2020/03/27 税区分追加対応 End E.Okuda@Compass ---
             i = i + 1
         Loop
         If Me.lblSagakuKin.Text <> 0 Then

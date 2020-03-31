@@ -307,6 +307,10 @@ Public Module CommonDeclareEXT
     Public Const C0015 As String = "請求が複数選択されています。よろしいですか？"     '2016.01.15 ADD y.morooka グループ請求対応　チェックボックス複数チェック判定
     Public Const C0016 As String = "{0}に差額があります。このまま入力完了してもよろしいでしょうか。"                       ' 2016.01.27 ADD h.hagiwara 
 
+    ' --- 2020/03/26 税区分追加対応 Start E.Okuda@Compass ---
+    Public Const C0017 As String = "{0}が計算結果と異なります。このまま入力完了してもよろしいでしょうか。"
+    ' --- 2020/03/26 税区分追加対応 End E.Okuda@Compass ---
+
     '種別:Info
     Public Const I0001 As String = "別途、EXASでの取消操作が必要です。"
     Public Const I0002 As String = "{0}が完了しました。"

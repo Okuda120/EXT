@@ -2008,7 +2008,7 @@ Public Class LogicEXTB0103
                             .PropVwPrintSheet.ActiveSheet.Cells(RNG_SUM_RIYO_DT).Value = 1  '延べ利用日数
                         End If
                         .PropVwPrintSheet.ActiveSheet.Cells(RNG_KINGAKU).Value = .PropDtUseDetails_Output.Rows(0)(COL_DTABLE_USEDETAIL_KINGAKU)  '金額
-                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_CHOSEI).Value = .PropDtUseDetails_Output.Rows(0)(COL_DTABLE_USEDETAIL_SUM_FUTAIKIN) '調整額
+                        .PropVwPrintSheet.ActiveSheet.Cells(RNG_CHOSEI).Value = .PropDtUseDetails_Output.Rows(0)(COL_DTABLE_USEDETAIL_CHOSEI) '調整額
                     End If
                 End If
 
@@ -2064,9 +2064,10 @@ Public Class LogicEXTB0103
                         ' 集計税率設定
                         .PropVwPrintSheet.ActiveSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_RATE).Value = CInt(row("zeiritsu")) / 100
                         ' 集計税額表示
-                        .PropVwPrintSheet.ActiveSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = (CLng(row("sumKingaku")) + CLng(row("sumChosei"))) * row("zeiritsu") / 100
+                        .PropVwPrintSheet.ActiveSheet.Cells(ROW_TAX_START + intRowCnt, COL_TAX_AMOUNT).Value = CLng(row("sumKingaku")) * row("zeiritsu") / 100
 
                         intRowCnt = intRowCnt + 1
+
                     Next
                 End If
 

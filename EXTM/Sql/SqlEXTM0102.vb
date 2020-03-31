@@ -8,16 +8,32 @@ Public Class SqlEXTM0102
     Private Const M0102_BUNRUI_COL_BUNRUICD As Integer = 0
     Private Const M0102_BUNRUI_COL_BUNRUINM As Integer = 1
     Private Const M0102_BUNRUI_COL_SYUKEIKY As Integer = 2
-    Private Const M0102_BUNRUI_COL_TAXKBN As Integer = 3
-    Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 4
-    Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
-    Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
-    Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
-    Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 8
-    Private Const M0102_BUNRUI_COL_SORT As Integer = 9
-    Private Const M0102_BUNRUI_COL_DEFFLG As Integer = 10
-    Private Const M0102_BUNRUI_COL_FRIYOFLG As Integer = 11
+
+    ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+    Private Const M0102_BUNRUI_COL_INOUT As Integer = 3
+    Private Const M0102_BUNRUI_COL_TAXKBN As Integer = 4
+    Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 5
+    Private Const M0102_BUNRUI_COL_KANJYO As Integer = 6
+    Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 7
+    Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 8
+    Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 9
+    Private Const M0102_BUNRUI_COL_SORT As Integer = 10
+    Private Const M0102_BUNRUI_COL_DEFFLG As Integer = 11
+    Private Const M0102_BUNRUI_COL_FRIYOFLG As Integer = 12
+
+    'Private Const M0102_BUNRUI_COL_TAXKBN As Integer = 3
+    'Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 4
+    'Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
+    'Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
+    'Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
+    'Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 8
+    'Private Const M0102_BUNRUI_COL_SORT As Integer = 9
+    'Private Const M0102_BUNRUI_COL_DEFFLG As Integer = 10
+    'Private Const M0102_BUNRUI_COL_FRIYOFLG As Integer = 11
     ' 2019/05/27 軽減税率対応 変更 End E.Okuda@Compass
+
+    Private Const M0102_TAX_KBN_KAURI As String = "1"
+    ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
 
     Private dataEXTM0102 As DataEXTM0102
 
@@ -83,34 +99,84 @@ Public Class SqlEXTM0102
     '     "t1.sts                                                ステータス" +
     ' " FROM " +
     '         "fbunrui_mst t1 "
+
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    'Private strSelectAllBunrui =
+    '"SELECT " +
+    '     "t1.kikan_from ||" +
+    '     "t1.kikan_to                                           対象期間," +
+    '     "SUBSTRING(t1.kikan_from, 1, 4)                        From_Year," +
+    '     "SUBSTRING(t1.kikan_from, 6, 2)                        From_Month," +
+    '     "SUBSTRING(t1.kikan_to, 1, 4)                          To_Year," +
+    '     "SUBSTRING(t1.kikan_to, 6, 2)                          To_Month," +
+    '     "t1.shisetu_kbn                                        施設区分, " +
+    '     "t1.bunrui_cd                                          分類CD," +
+    '     "t1.bunrui_nm                                          分類名," +
+    '     "t1.shukei_grp                                         集計グループ," +
+    '     "t1.notax_flg                                          税無フラグ," +
+    '     "t1.sort                                               並び順," +
+    '     "t1.kamoku_cd                                          勘定科目CD," +
+    '     "t1.saimoku_cd                                         細目CD," +
+    '     "t1.uchi_cd                                            内訳CD," +
+    '     "t1.shosai_cd                                          詳細CD," +
+    '     "t1.karikamoku_cd                                      借方勘定科目CD," +
+    '     "t1.kari_saimoku_cd                                    借方細目CD," +
+    '     "t1.kari_uchi_cd                                       借方内訳CD," +
+    '     "t1.kari_shosai_cd                                     借方詳細CD," +
+    '     "t1.sts                                                ステータス," +
+    '     "t1.RIYORYO_FLG                                        付帯利用料フラグ," +
+    '     "t1.zeiritsu                                           税率" +                  ' --- 2019/05/31 軽減税率対応 E.Okuda@Compass ---
+    ' " FROM " +
+    '         "fbunrui_mst t1 "
+    '' 2015.11.30 UPD END↑ h.hagiwara 
     Private strSelectAllBunrui =
-    "SELECT " +
-         "t1.kikan_from ||" +
-         "t1.kikan_to                                           対象期間," +
-         "SUBSTRING(t1.kikan_from, 1, 4)                        From_Year," +
-         "SUBSTRING(t1.kikan_from, 6, 2)                        From_Month," +
-         "SUBSTRING(t1.kikan_to, 1, 4)                          To_Year," +
-         "SUBSTRING(t1.kikan_to, 6, 2)                          To_Month," +
-         "t1.shisetu_kbn                                        施設区分, " +
-         "t1.bunrui_cd                                          分類CD," +
-         "t1.bunrui_nm                                          分類名," +
-         "t1.shukei_grp                                         集計グループ," +
-         "t1.notax_flg                                          税無フラグ," +
-         "t1.sort                                               並び順," +
-         "t1.kamoku_cd                                          勘定科目CD," +
-         "t1.saimoku_cd                                         細目CD," +
-         "t1.uchi_cd                                            内訳CD," +
-         "t1.shosai_cd                                          詳細CD," +
-         "t1.karikamoku_cd                                      借方勘定科目CD," +
-         "t1.kari_saimoku_cd                                    借方細目CD," +
-         "t1.kari_uchi_cd                                       借方内訳CD," +
-         "t1.kari_shosai_cd                                     借方詳細CD," +
-         "t1.sts                                                ステータス," +
-         "t1.RIYORYO_FLG                                        付帯利用料フラグ," +
-         "t1.zeiritsu                                           税率" +                  ' --- 2019/05/31 軽減税率対応 E.Okuda@Compass ---
-     " FROM " +
-             "fbunrui_mst t1 "
-    ' 2015.11.30 UPD END↑ h.hagiwara 
+    "SELECT " & vbCrLf &
+    "  t1.kikan_from || t1.kikan_to, " & vbCrLf &                ' 対象期間
+    "  SUBSTRING(t1.kikan_from, 1, 4) as From_Year," & vbCrLf &  ' 開始年
+    "  SUBSTRING(t1.kikan_from, 6, 2) as From_Month," & vbCrLf & ' 開始月
+    "  SUBSTRING(t1.kikan_to, 1, 4)   as To_Year," & vbCrLf &    ' 終了年    
+    "  SUBSTRING(t1.kikan_to, 6, 2)   as To_Month," & vbCrLf &   ' 終了月
+    "  t1.shisetu_kbn," & vbCrLf &                               ' 施設区分
+    "  t1.bunrui_cd, " & vbCrLf &                                ' 分類CD
+    "  t1.bunrui_nm, " & vbCrLf &                                ' 分類名
+    "  t1.shukei_grp, " & vbCrLf &                               ' 集計グループ
+    "  t1.notax_flg, " & vbCrLf &                                ' 税無フラグ
+    "  t1.sort, " & vbCrLf &                                     ' 並び順
+    "  t1.kamoku_cd, " & vbCrLf &                                ' 勘定科目CD
+    "  t1.saimoku_cd, " & vbCrLf &                               ' 細目CD
+    "  t1.uchi_cd, " & vbCrLf &                                  ' 内訳CD
+    "  t1.shosai_cd, " & vbCrLf &                                ' 詳細CD
+    "  t1.karikamoku_cd, " & vbCrLf &                            ' 借方勘定科目CD
+    "  t1.kari_saimoku_cd, " & vbCrLf &                          ' 借方細目CD
+    "  t1.kari_uchi_cd, " & vbCrLf &                             ' 借方内訳CD
+    "  t1.kari_shosai_cd, " & vbCrLf &                           ' 借方詳細CD
+    "  t1.sts, " & vbCrLf &                                      ' ステータス
+    "  t1.RIYORYO_FLG, " & vbCrLf &                              ' 付帯利用料フラグ
+    "  t2.tax_rate, " & vbCrLf &                                ' 税率
+    "  t1.tax_kbn " & vbCrLf &                                  ' 税区分
+    "FROM " & vbCrLf &
+    "  fbunrui_mst t1 " & vbCrLf &
+    "  LEFT OUTER JOIN (" & vbCrLf &
+    "    SELECT " & vbCrLf &
+    "      tax_kbn, " & vbCrLf &
+    "      CASE " & vbCrLf &
+    "        WHEN tax_kbn = 1 THEN tax_ritu " & vbCrLf &
+    "        WHEN tax_kbn = 2 THEN reduced_rate " & vbCrLf &
+    "	     WHEN tax_kbn = 3 THEN untaxed_rate " & vbCrLf &
+    "	     WHEN tax_kbn = 4 THEN tax_free " & vbCrLf &
+    "        WHEN tax_kbn = 5 THEN tax_exemption " & vbCrLf &
+    "	     WHEN tax_kbn = 6 THEN tax_old1 " & vbCrLf &
+    "        WHEN tax_kbn = 7 THEN tax_old2 " & vbCrLf &
+    "        WHEN tax_kbn = 8 THEN tax_spare1 " & vbCrLf &
+    "        WHEN tax_kbn = 9 THEN tax_spare2 " & vbCrLf &
+    "        WHEN tax_kbn = 10 THEN tax_spare3 " & vbCrLf &
+    "	     WHEN tax_kbn = 11 THEN tax_spare4 " & vbCrLf &
+    "        WHEN tax_kbn = 12 THEN tax_spare5 " & vbCrLf &
+    "      END as tax_rate " & vbCrLf &
+    "    FROM " & vbCrLf &
+    "      tax_mst " & vbCrLf &
+    "      CROSS JOIN generate_series(1,12) As s(tax_kbn) "
+    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
 
     '付帯設備の取得ＳＱＬ
     Private strSelectFutai As String =
@@ -417,7 +483,8 @@ Public Class SqlEXTM0102
     '                                        "  :upUserCd)"
     '' 2015.11.30 UPD END↑ h.hagiwara
 
-    ' 「税率」追加
+    ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+
     Private strInsertBunrui As String =
                                             "INSERT INTO " +
                                             " fbunrui_mst" +
@@ -428,7 +495,7 @@ Public Class SqlEXTM0102
                                             "  bunrui_nm," +
                                             "  shukei_grp," +
                                             "  notax_flg," +
-                                            "  zeiritsu," +
+                                            "  tax_kbn," +
                                             "  sort," +
                                             "  kamoku_cd," +
                                             "  saimoku_cd," +
@@ -452,7 +519,7 @@ Public Class SqlEXTM0102
                                             "  :bunruiNm," +
                                             "  :shukeiGrp," +
                                             "  :notaxFlg," +
-                                            "  :zeiritsu," +
+                                            "  :taxKbn," +
                                             "  :sort," +
                                             "  :kamokuCd," +
                                             "  :saimokuCd," +
@@ -468,7 +535,61 @@ Public Class SqlEXTM0102
                                             "  :addUserCd," +
                                             "  :upDate," +
                                             "  :upUserCd)"
+
+    '' 「税率」追加
+    'Private strInsertBunrui As String =
+    '                                        "INSERT INTO " +
+    '                                        " fbunrui_mst" +
+    '                                        "( kikan_from," +
+    '                                        "  kikan_to," +
+    '                                        "  shisetu_kbn," +
+    '                                        "  bunrui_cd," +
+    '                                        "  bunrui_nm," +
+    '                                        "  shukei_grp," +
+    '                                        "  notax_flg," +
+    '                                        "  zeiritsu," +
+    '                                        "  sort," +
+    '                                        "  kamoku_cd," +
+    '                                        "  saimoku_cd," +
+    '                                        "  uchi_cd," +
+    '                                        "  shosai_cd," +
+    '                                        "  karikamoku_cd," +
+    '                                        "  kari_saimoku_cd," +
+    '                                        "  kari_uchi_cd," +
+    '                                        "  kari_shosai_cd," +
+    '                                        "  sts," +
+    '                                        "  RIYORYO_FLG," +
+    '                                        "  add_dt," +
+    '                                        "  add_user_cd," +
+    '                                        "  up_dt," +
+    '                                        "  up_user_cd" +
+    '                                        " )VALUES( " +
+    '                                        "  :kikanFrom," +
+    '                                        "  :kikanTo," +
+    '                                        "  :shisetuKbn," +
+    '                                        "  :bunruiCd," +
+    '                                        "  :bunruiNm," +
+    '                                        "  :shukeiGrp," +
+    '                                        "  :notaxFlg," +
+    '                                        "  :zeiritsu," +
+    '                                        "  :sort," +
+    '                                        "  :kamokuCd," +
+    '                                        "  :saimokuCd," +
+    '                                        "  :uchiCd," +
+    '                                        "  :shosaiCd," +
+    '                                        "  :karikamokuCd," +
+    '                                        "  :karisaimokuCd," +
+    '                                        "  :kariuchiCd," +
+    '                                        "  :karishosaiCd," +
+    '                                        "  :sts," +
+    '                                        "  :RIYORYO_FLG," +
+    '                                        "  :addDate," +
+    '                                        "  :addUserCd," +
+    '                                        "  :upDate," +
+    '                                        "  :upUserCd)"
     ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
+    ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
+
 
     ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
     ' 2015.11.30 UPD START↓ h.hagiwara
@@ -518,7 +639,7 @@ Public Class SqlEXTM0102
     '                                       "  up_user_cd = :upUserCd "
     ' 2015.11.30 UPD END↑ h.hagiwara
 
-    ' 「税率」追加
+    ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
     Private strUpdateBunrui As String =
                                            "UPDATE " +
                                            " fbunrui_mst " +
@@ -528,7 +649,7 @@ Public Class SqlEXTM0102
                                            "  bunrui_nm = :bunruiNm," +
                                            "  shukei_grp = :shukeiGrp," +
                                            "  notax_flg = :notaxFlg," +
-                                           "  zeiritsu = :zeiritsu," +
+                                           "  tax_kbn = :taxKbn," +
                                            "  sort = :sort," +
                                            "  kamoku_cd = :kamokuCd," +
                                            "  saimoku_cd = :saimokuCd," +
@@ -542,7 +663,32 @@ Public Class SqlEXTM0102
                                            "  RIYORYO_FLG = :RIYORYO_FLG," +
                                            "  up_dt = :upDate," +
                                            "  up_user_cd = :upUserCd "
+    '' 「税率」追加
+    'Private strUpdateBunrui As String =
+    '                                       "UPDATE " +
+    '                                       " fbunrui_mst " +
+    '                                       " SET " +
+    '                                       "  kikan_from = :kikanFrom," +
+    '                                       "  kikan_to   = :kikanTo," +
+    '                                       "  bunrui_nm = :bunruiNm," +
+    '                                       "  shukei_grp = :shukeiGrp," +
+    '                                       "  notax_flg = :notaxFlg," +
+    '                                       "  zeiritsu = :zeiritsu," +
+    '                                       "  sort = :sort," +
+    '                                       "  kamoku_cd = :kamokuCd," +
+    '                                       "  saimoku_cd = :saimokuCd," +
+    '                                       "  uchi_cd = :uchiCd," +
+    '                                       "  shosai_cd = :shosaiCd," +
+    '                                       "  karikamoku_cd = :karikamokuCd," +
+    '                                       "  kari_saimoku_cd = :karisaimokuCd," +
+    '                                       "  kari_uchi_cd = :kariuchiCd," +
+    '                                       "  kari_shosai_cd = :karishosaiCd," +
+    '                                       "  sts = :sts," +
+    '                                       "  RIYORYO_FLG = :RIYORYO_FLG," +
+    '                                       "  up_dt = :upDate," +
+    '                                       "  up_user_cd = :upUserCd "
     ' 2019/05/31 軽減税率対応 変更 End E.Okuda@Compass
+    ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
 
     '付帯設備登録sql
     Private strInsertFutai As String =
@@ -641,6 +787,34 @@ Public Class SqlEXTM0102
 
     ' 2019/09/09 軽減税率対応 変更 End E.Okuda@Compass
 
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    ' 税区分対応税率取得SQL
+    Private strSelectTaxKbn = "SELECT " & vbCrLf &
+                              "  tax_kbn, " & vbCrLf &
+                              "  case " & vbCrLf &
+                              "    when tax_kbn = 1 then tax_ritu " & vbCrLf &
+                              "    when tax_kbn = 2 then reduced_rate " & vbCrLf &
+                              "    when tax_kbn = 3 then untaxed_rate " & vbCrLf &
+                              "    when tax_kbn = 4 then tax_free " & vbCrLf &
+                              "    when tax_kbn = 5 then tax_exemption " & vbCrLf &
+                              "    when tax_kbn = 6 then tax_old1 " & vbCrLf &
+                              "    when tax_kbn = 7 then tax_old2 " & vbCrLf &
+                              "    when tax_kbn = 8 then tax_spare1 " & vbCrLf &
+                              "    when tax_kbn = 9 then tax_spare2 " & vbCrLf &
+                              "    when tax_kbn = 10 then tax_spare3 " & vbCrLf &
+                              "    when tax_kbn = 11 then tax_spare4 " & vbCrLf &
+                              "    when tax_kbn = 12 then tax_spare5 " & vbCrLf &
+                              "  end as tax_rate " & vbCrLf &
+                              "FROM " & vbCrLf &
+                              "  tax_mst " & vbCrLf &
+                              "  CROSS JOIN generate_series(1,12) as s(tax_kbn) " & vbCrLf &
+                              "WHERE " & vbCrLf &
+                              "  taxs_dt < :period_end and " & vbCrLf &
+                              "  taxe_dt > :period_start "
+
+    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
+
+
     ''' <summary>
     ''' 初期表示用SQL作成
     ''' <param name="Adapter">[IN/OUT]NpgSqlDataAdapterクラス</param>
@@ -666,6 +840,22 @@ Public Class SqlEXTM0102
 
             'SQL文(SELECT)
             strSQL = strSelectAllBunrui
+
+            ' --- 2020/03/23 税区分追加対応 Start E.Okuda@Compass ---
+            ' 副問い合わせのwhere句から追加
+            Dim strWhere2 As String
+
+            '初期表示なら現在の日付を、そうでないなら対象期間を設定
+            If dataEXTM0102.PropInitFlg = False Then
+                strWhere2 = " WHERE '" + dtDate + "' BETWEEN taxs_dt AND taxe_dt) t2 ON t1.tax_kbn = t2.tax_kbn"
+            Else
+                strWhere2 = " WHERE taxs_dt <= :item2 AND taxe_dt >= :item3) t2 ON t1.tax_kbn = t2.tax_kbn"
+            End If
+
+            strSQL &= strWhere2 & vbCrLf
+
+            ' --- 2020/03/23 税区分追加対応 End E.Okuda@Compass ---
+
             'Where句作成
             '施設区分によって条件変更
             If dataEXTM0102.PropTheaterBtn.Checked = True Then
@@ -689,6 +879,12 @@ Public Class SqlEXTM0102
             Adapter.SelectCommand = New NpgsqlCommand(strSQL, Cn)
 
             'バインド変数をセット
+            ' --- 2020/03/23 税区分追加対応 Start E.Okuda@Compass ---
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("item2", NpgsqlTypes.NpgsqlDbType.Varchar)) '対象期間
+            Adapter.SelectCommand.Parameters("item2").Value = Left(dataEXTM0102.PropFinishedFromTo.SelectedValue, 10)      '対象期間
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("item3", NpgsqlTypes.NpgsqlDbType.Varchar)) '対象期間
+            Adapter.SelectCommand.Parameters("item3").Value = Right(dataEXTM0102.PropFinishedFromTo.SelectedValue, 10)      '対象期間
+            ' --- 2020/03/23 税区分追加対応 End E.Okuda@Compass ---
             Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("item", NpgsqlTypes.NpgsqlDbType.Varchar)) '対象期間
             Adapter.SelectCommand.Parameters("item").Value = dataEXTM0102.PropFinishedFromTo.SelectedValue      '対象期間
             '終了ログ出力
@@ -1339,10 +1535,13 @@ Public Class SqlEXTM0102
             Adapter.Parameters.Add(New NpgsqlParameter("bunruiNm", NpgsqlTypes.NpgsqlDbType.Varchar))       '分類名
             Adapter.Parameters.Add(New NpgsqlParameter("shukeiGrp", NpgsqlTypes.NpgsqlDbType.Varchar))      '集計グループ
             Adapter.Parameters.Add(New NpgsqlParameter("notaxFlg", NpgsqlTypes.NpgsqlDbType.Varchar))       '税
-            ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
-            ' 「税率」追加
-            Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       '税率
-            ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
+            ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+            Adapter.Parameters.Add(New NpgsqlParameter("taxKbn", NpgsqlTypes.NpgsqlDbType.Integer))         '税区分
+            '' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+            '' 「税率」追加
+            'Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       '税率
+            '' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
+            ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
             Adapter.Parameters.Add(New NpgsqlParameter("sort", NpgsqlTypes.NpgsqlDbType.Integer))           '並び順
             Adapter.Parameters.Add(New NpgsqlParameter("kamokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))       '科目コード
             Adapter.Parameters.Add(New NpgsqlParameter("saimokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))      '細目コード
@@ -1376,21 +1575,35 @@ Public Class SqlEXTM0102
             Adapter.Parameters("bunruiNm").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUINM).Value '分類名
             Adapter.Parameters("shukeiGrp").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYUKEIKY).Value '集計グループ
             '税フラグがチェックされていれば1、されていなければ0を設定
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value = True Then
+
+            ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_INOUT).Value = True Then
                 Adapter.Parameters("notaxFlg").Value = "1"
             Else
                 Adapter.Parameters("notaxFlg").Value = "0"
             End If
+            'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value = True Then
+            'Adapter.Parameters("notaxFlg").Value = "1"
+            'Else
+            '    Adapter.Parameters("notaxFlg").Value = "0"
+            'End If
 
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value Is DBNull.Value Then
-                Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
-            Else
-                If String.IsNullOrEmpty(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) Then
-                    Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
-                Else
-                    Adapter.Parameters("zeiritsu").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value      '税率
-                End If
-            End If
+            ' 税区分設定
+            Adapter.Parameters("taxKbn").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value
+
+            'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value Is DBNull.Value Then
+            '    Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
+            'Else
+            '    If String.IsNullOrEmpty(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) Then
+            '        Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
+            '    Else
+            '        Adapter.Parameters("zeiritsu").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value      '税率
+            '    End If
+            'End If
+
+            ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
+
 
             ' 2016.04.28 UPD START↓ h.hagiwara レスポンス改善
             'Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 12).Value   '並び順
@@ -1544,10 +1757,16 @@ Public Class SqlEXTM0102
             Adapter.Parameters.Add(New NpgsqlParameter("bunruiNm", NpgsqlTypes.NpgsqlDbType.Varchar))   '分類名
             Adapter.Parameters.Add(New NpgsqlParameter("shukeiGrp", NpgsqlTypes.NpgsqlDbType.Varchar))  '集計グループ
             Adapter.Parameters.Add(New NpgsqlParameter("notaxFlg", NpgsqlTypes.NpgsqlDbType.Varchar))   '税
-            ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
-            ' 「税率」追加
-            Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       '税率
-            ' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
+
+            ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+            ' 「税区分」追加
+            Adapter.Parameters.Add(New NpgsqlParameter("taxKbn", NpgsqlTypes.NpgsqlDbType.Integer))         '税区分
+            '' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+            '' 「税率」追加
+            'Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       '税率
+            '' --- 2019/05/27 軽減税率対応 End E.Okuda@Compass ---
+            ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
+
             Adapter.Parameters.Add(New NpgsqlParameter("sort", NpgsqlTypes.NpgsqlDbType.Integer))       '並び順
             Adapter.Parameters.Add(New NpgsqlParameter("kamokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))   '科目コード
             Adapter.Parameters.Add(New NpgsqlParameter("saimokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))  '細目コード
@@ -1563,7 +1782,6 @@ Public Class SqlEXTM0102
             Adapter.Parameters.Add(New NpgsqlParameter("upUserCd", NpgsqlTypes.NpgsqlDbType.Varchar))       '更新者
             Adapter.Parameters.Add(New NpgsqlParameter("kikanFromUp", NpgsqlTypes.NpgsqlDbType.Varchar))    '変更前期間from
             Adapter.Parameters.Add(New NpgsqlParameter("kikanToUp", NpgsqlTypes.NpgsqlDbType.Varchar))      '変更前期間to
-
 
             '値をセット
             '日付
@@ -1582,22 +1800,32 @@ Public Class SqlEXTM0102
             Adapter.Parameters("bunruiNm").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_BUNRUINM).Value '分類名
             Adapter.Parameters("shukeiGrp").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_SYUKEIKY).Value '集計グループ
 
+            ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+
             '税フラグがチェックされていれば1、されていなければ0を設定
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value = True Then
+            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_INOUT).Value = True Then
+                'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value = True Then
+                ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
                 Adapter.Parameters("notaxFlg").Value = "1"
             Else
                 Adapter.Parameters("notaxFlg").Value = "0"
             End If
 
-            If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value Is DBNull.Value Then
-                Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
-            Else
-                If String.IsNullOrEmpty(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) Then
-                    Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
-                Else
-                    Adapter.Parameters("zeiritsu").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value      '税率
-                End If
-            End If
+            ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+            ' 「税区分」追加
+            ' 税区分設定
+            Adapter.Parameters("taxKbn").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Value
+
+            'If dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value Is DBNull.Value Then
+            '    Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
+            'Else
+            '    If String.IsNullOrEmpty(dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value) Then
+            '        Adapter.Parameters("zeiritsu").Value = DBNull.Value      '税率
+            '    Else
+            '        Adapter.Parameters("zeiritsu").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_ZEIRITSU).Value      '税率
+            '    End If
+            'End If
+            ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
 
             ' 2016.04.28 UPD START↓ h.hagiwara レスポンス改善
             'Adapter.Parameters("sort").Value = dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, 12).Value      '並び順
@@ -2252,9 +2480,14 @@ Public Class SqlEXTM0102
             Adapter.Parameters.Add(New NpgsqlParameter("bunruiNm", NpgsqlTypes.NpgsqlDbType.Varchar))       '分類名
             Adapter.Parameters.Add(New NpgsqlParameter("shukeiGrp", NpgsqlTypes.NpgsqlDbType.Varchar))      '集計グループ
             Adapter.Parameters.Add(New NpgsqlParameter("notaxFlg", NpgsqlTypes.NpgsqlDbType.Varchar))       '税
-            ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
-            Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       ' 税率
-            ' --- 2019/09/10 軽減税率対応 Endi E.Okuda@Compass ---
+
+            ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+            Adapter.Parameters.Add(New NpgsqlParameter("taxKbn", NpgsqlTypes.NpgsqlDbType.Varchar))       ' 税区分
+
+            '' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
+            'Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       ' 税率
+            '' --- 2019/09/10 軽減税率対応 Endi E.Okuda@Compass ---
+            ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
 
             Adapter.Parameters.Add(New NpgsqlParameter("sort", NpgsqlTypes.NpgsqlDbType.Integer))           '並び順
             Adapter.Parameters.Add(New NpgsqlParameter("kamokuCd", NpgsqlTypes.NpgsqlDbType.Varchar))       '科目コード
@@ -2286,9 +2519,12 @@ Public Class SqlEXTM0102
             Adapter.Parameters("bunruiNm").Value = "【使用不可】シアター利用料用" '分類名
             Adapter.Parameters("shukeiGrp").Value = "000000" '集計グループ
             Adapter.Parameters("notaxFlg").Value = "0"
-            ' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
-            Adapter.Parameters("zeiritsu").Value = DBNull.Value      ' 税率
-            ' --- 2019/09/10 軽減税率対応 Endi E.Okuda@Compass ---
+            ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+            Adapter.Parameters("taxKbn").Value = M0102_TAX_KBN_KAURI      ' 税区分(「課売」固定）
+            '' --- 2019/09/10 軽減税率対応 Start E.Okuda@Compass ---
+            'Adapter.Parameters("zeiritsu").Value = DBNull.Value      ' 税率
+            '' --- 2019/09/10 軽減税率対応 Endi E.Okuda@Compass ---
+            ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
             Adapter.Parameters("sort").Value = 99   '並び順
             Adapter.Parameters("kamokuCd").Value = dataEXTM0102.PropDtCopyKamokuMst.Rows(0).Item(0)       '科目コード
             Adapter.Parameters("saimokuCd").Value = dataEXTM0102.PropDtCopyKamokuMst.Rows(0).Item(1)      '細目コード
@@ -2403,5 +2639,53 @@ Public Class SqlEXTM0102
 
     End Function
 
+
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+
+    ''' <summary>
+    ''' 税区分対応税率取得SQL作成
+    ''' </summary>
+    ''' <param name="Adapter"></param>
+    ''' <param name="Cn"></param>
+    ''' <param name="dataEXTM0102"></param>
+    ''' <returns></returns>
+    Public Function CmbTaxKbnSet(ByRef Adapter As NpgsqlDataAdapter, ByVal Cn As NpgsqlConnection, ByVal dataEXTM0102 As DataEXTM0102) As Boolean
+        '開始ログ出力
+        CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "START", Nothing, Nothing)
+
+        Dim strSQL As String
+        '日付の設定
+        Dim dtFrom As String = dataEXTM0102.PropYearFrom.Text + "/" + dataEXTM0102.PropMonthFrom.Text + "/01"
+        Dim dtToSub As DateTime = dataEXTM0102.PropYearTo.Text + "/" + dataEXTM0102.PropMonthTo.Text
+        '期間ＴＯは、入力された値の月＋１、日付-1の値で最終日を設定できる
+        Dim dtTo As String = dtToSub.AddMonths(1).AddDays(-1).ToString("yyyy/MM/dd")
+
+        Try
+            ' 消費税マスタより税区分および税率取得SQL
+            strSQL = strSelectTaxKbn
+
+            'データアダプタに、SQLを設定
+            Adapter.SelectCommand = New NpgsqlCommand(strSQL, Cn)
+
+            'バインド変数セット
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("period_end", NpgsqlTypes.NpgsqlDbType.Varchar))  '指定期間終了日
+            Adapter.SelectCommand.Parameters("period_end").Value = dtTo
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("period_start", NpgsqlTypes.NpgsqlDbType.Varchar))  '指定期間開始日
+            Adapter.SelectCommand.Parameters("period_start").Value = dtFrom
+
+            '終了ログ出力
+            CommonLogic.WriteLog(Common.LogLevel.TRACE_Lv, "END", Nothing, Nothing)
+
+            '正常終了
+            Return True
+        Catch ex As Exception
+            '例外発生
+            CommonLogic.WriteLog(Common.LogLevel.ERROR_Lv, ex.Message, ex, Adapter.SelectCommand)
+            puErrMsg = EXTM0102_E0000 & ex.Message
+            Return False
+        End Try
+    End Function
+
+    ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
 
 End Class

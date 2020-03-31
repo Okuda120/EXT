@@ -27,6 +27,7 @@ Partial Class EXTM0102
         Dim TextCellType3 As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType()
         Dim CheckBoxCellType1 As FarPoint.Win.Spread.CellType.CheckBoxCellType = New FarPoint.Win.Spread.CellType.CheckBoxCellType()
         Dim ComboBoxCellType1 As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType()
+        Dim NumberCellType1 As FarPoint.Win.Spread.CellType.NumberCellType = New FarPoint.Win.Spread.CellType.NumberCellType()
         Dim ComboBoxCellType2 As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType()
         Dim ComboBoxCellType3 As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType()
         Dim ComboBoxCellType4 As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType()
@@ -36,7 +37,7 @@ Partial Class EXTM0102
         Dim CheckBoxCellType3 As FarPoint.Win.Spread.CellType.CheckBoxCellType = New FarPoint.Win.Spread.CellType.CheckBoxCellType()
         Dim TextCellType5 As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType()
         Dim TextCellType6 As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType()
-        Dim NumberCellType1 As FarPoint.Win.Spread.CellType.NumberCellType = New FarPoint.Win.Spread.CellType.NumberCellType()
+        Dim NumberCellType2 As FarPoint.Win.Spread.CellType.NumberCellType = New FarPoint.Win.Spread.CellType.NumberCellType()
         Dim CheckBoxCellType4 As FarPoint.Win.Spread.CellType.CheckBoxCellType = New FarPoint.Win.Spread.CellType.CheckBoxCellType()
         Dim TextCellType7 As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType()
         Dim CheckBoxCellType5 As FarPoint.Win.Spread.CellType.CheckBoxCellType = New FarPoint.Win.Spread.CellType.CheckBoxCellType()
@@ -79,18 +80,20 @@ Partial Class EXTM0102
         '
         'btnBack
         '
-        Me.btnBack.Location = New System.Drawing.Point(309, 902)
+        Me.btnBack.Location = New System.Drawing.Point(412, 1128)
+        Me.btnBack.Margin = New System.Windows.Forms.Padding(4)
         Me.btnBack.Name = "btnBack"
-        Me.btnBack.Size = New System.Drawing.Size(114, 29)
+        Me.btnBack.Size = New System.Drawing.Size(152, 36)
         Me.btnBack.TabIndex = 114
         Me.btnBack.Text = "戻る"
         Me.btnBack.UseVisualStyleBackColor = True
         '
         'btnEntry
         '
-        Me.btnEntry.Location = New System.Drawing.Point(793, 902)
+        Me.btnEntry.Location = New System.Drawing.Point(1057, 1128)
+        Me.btnEntry.Margin = New System.Windows.Forms.Padding(4)
         Me.btnEntry.Name = "btnEntry"
-        Me.btnEntry.Size = New System.Drawing.Size(114, 29)
+        Me.btnEntry.Size = New System.Drawing.Size(152, 36)
         Me.btnEntry.TabIndex = 113
         Me.btnEntry.Text = "登録"
         Me.btnEntry.UseVisualStyleBackColor = True
@@ -102,26 +105,30 @@ Partial Class EXTM0102
         Me.GroupBox1.Controls.Add(Me.rdoBtnFinished)
         Me.GroupBox1.Controls.Add(Me.rdoBtnNew)
         Me.GroupBox1.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(36, 25)
+        Me.GroupBox1.Location = New System.Drawing.Point(48, 31)
+        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(893, 51)
+        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
+        Me.GroupBox1.Size = New System.Drawing.Size(1191, 64)
         Me.GroupBox1.TabIndex = 115
         Me.GroupBox1.TabStop = False
         '
         'cmbBoxFnishedFromTo
         '
         Me.cmbBoxFnishedFromTo.FormattingEnabled = True
-        Me.cmbBoxFnishedFromTo.Location = New System.Drawing.Point(370, 16)
+        Me.cmbBoxFnishedFromTo.Location = New System.Drawing.Point(493, 20)
+        Me.cmbBoxFnishedFromTo.Margin = New System.Windows.Forms.Padding(4)
         Me.cmbBoxFnishedFromTo.Name = "cmbBoxFnishedFromTo"
-        Me.cmbBoxFnishedFromTo.Size = New System.Drawing.Size(333, 21)
+        Me.cmbBoxFnishedFromTo.Size = New System.Drawing.Size(443, 24)
         Me.cmbBoxFnishedFromTo.TabIndex = 33
         '
         'rdoBtnFinished
         '
         Me.rdoBtnFinished.AutoSize = True
-        Me.rdoBtnFinished.Location = New System.Drawing.Point(194, 17)
+        Me.rdoBtnFinished.Location = New System.Drawing.Point(259, 21)
+        Me.rdoBtnFinished.Margin = New System.Windows.Forms.Padding(4)
         Me.rdoBtnFinished.Name = "rdoBtnFinished"
-        Me.rdoBtnFinished.Size = New System.Drawing.Size(170, 17)
+        Me.rdoBtnFinished.Size = New System.Drawing.Size(217, 21)
         Me.rdoBtnFinished.TabIndex = 32
         Me.rdoBtnFinished.Text = "設定済みの料金を編集する"
         Me.rdoBtnFinished.UseVisualStyleBackColor = True
@@ -129,9 +136,10 @@ Partial Class EXTM0102
         'rdoBtnNew
         '
         Me.rdoBtnNew.AutoSize = True
-        Me.rdoBtnNew.Location = New System.Drawing.Point(16, 17)
+        Me.rdoBtnNew.Location = New System.Drawing.Point(21, 21)
+        Me.rdoBtnNew.Margin = New System.Windows.Forms.Padding(4)
         Me.rdoBtnNew.Name = "rdoBtnNew"
-        Me.rdoBtnNew.Size = New System.Drawing.Size(144, 17)
+        Me.rdoBtnNew.Size = New System.Drawing.Size(184, 21)
         Me.rdoBtnNew.TabIndex = 31
         Me.rdoBtnNew.Text = "新規に料金を設定する"
         Me.rdoBtnNew.UseVisualStyleBackColor = True
@@ -141,9 +149,10 @@ Partial Class EXTM0102
         Me.Label34.AutoSize = True
         Me.Label34.BackColor = System.Drawing.Color.Transparent
         Me.Label34.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label34.Location = New System.Drawing.Point(33, 100)
+        Me.Label34.Location = New System.Drawing.Point(44, 125)
+        Me.Label34.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(55, 13)
+        Me.Label34.Size = New System.Drawing.Size(70, 17)
         Me.Label34.TabIndex = 116
         Me.Label34.Text = "期間　＊"
         '
@@ -153,9 +162,11 @@ Partial Class EXTM0102
         Me.GroupBox2.Controls.Add(Me.rdoBtnStudio)
         Me.GroupBox2.Controls.Add(Me.rdoBtnTheater)
         Me.GroupBox2.Font = New System.Drawing.Font("MS UI Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(36, 142)
+        Me.GroupBox2.Location = New System.Drawing.Point(48, 178)
+        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(236, 51)
+        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
+        Me.GroupBox2.Size = New System.Drawing.Size(315, 64)
         Me.GroupBox2.TabIndex = 122
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "施設"
@@ -163,9 +174,10 @@ Partial Class EXTM0102
         'rdoBtnStudio
         '
         Me.rdoBtnStudio.AutoSize = True
-        Me.rdoBtnStudio.Location = New System.Drawing.Point(107, 17)
+        Me.rdoBtnStudio.Location = New System.Drawing.Point(143, 21)
+        Me.rdoBtnStudio.Margin = New System.Windows.Forms.Padding(4)
         Me.rdoBtnStudio.Name = "rdoBtnStudio"
-        Me.rdoBtnStudio.Size = New System.Drawing.Size(65, 17)
+        Me.rdoBtnStudio.Size = New System.Drawing.Size(81, 21)
         Me.rdoBtnStudio.TabIndex = 32
         Me.rdoBtnStudio.Text = "スタジオ"
         Me.rdoBtnStudio.UseVisualStyleBackColor = True
@@ -173,18 +185,20 @@ Partial Class EXTM0102
         'rdoBtnTheater
         '
         Me.rdoBtnTheater.AutoSize = True
-        Me.rdoBtnTheater.Location = New System.Drawing.Point(16, 17)
+        Me.rdoBtnTheater.Location = New System.Drawing.Point(21, 21)
+        Me.rdoBtnTheater.Margin = New System.Windows.Forms.Padding(4)
         Me.rdoBtnTheater.Name = "rdoBtnTheater"
-        Me.rdoBtnTheater.Size = New System.Drawing.Size(66, 17)
+        Me.rdoBtnTheater.Size = New System.Drawing.Size(82, 21)
         Me.rdoBtnTheater.TabIndex = 31
         Me.rdoBtnTheater.Text = "シアター"
         Me.rdoBtnTheater.UseVisualStyleBackColor = True
         '
         'btnNewEntry
         '
-        Me.btnNewEntry.Location = New System.Drawing.Point(502, 902)
+        Me.btnNewEntry.Location = New System.Drawing.Point(669, 1128)
+        Me.btnNewEntry.Margin = New System.Windows.Forms.Padding(4)
         Me.btnNewEntry.Name = "btnNewEntry"
-        Me.btnNewEntry.Size = New System.Drawing.Size(197, 29)
+        Me.btnNewEntry.Size = New System.Drawing.Size(263, 36)
         Me.btnNewEntry.TabIndex = 123
         Me.btnNewEntry.Text = "登録内容を元に新規登録"
         Me.btnNewEntry.UseVisualStyleBackColor = True
@@ -194,9 +208,10 @@ Partial Class EXTM0102
         Me.Label2.AutoSize = True
         Me.Label2.BackColor = System.Drawing.Color.Transparent
         Me.Label2.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label2.Location = New System.Drawing.Point(34, 535)
+        Me.Label2.Location = New System.Drawing.Point(45, 669)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(73, 12)
+        Me.Label2.Size = New System.Drawing.Size(92, 15)
         Me.Label2.TabIndex = 138
         Me.Label2.Text = "付帯設備　＊"
         '
@@ -205,19 +220,21 @@ Partial Class EXTM0102
         Me.Label14.AutoSize = True
         Me.Label14.BackColor = System.Drawing.Color.Transparent
         Me.Label14.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label14.Location = New System.Drawing.Point(32, 211)
+        Me.Label14.Location = New System.Drawing.Point(43, 264)
+        Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(49, 12)
+        Me.Label14.Size = New System.Drawing.Size(62, 15)
         Me.Label14.TabIndex = 137
         Me.Label14.Text = "分類　＊"
         '
         'vwGroupingSheet
         '
         Me.vwGroupingSheet.AccessibleDescription = "vwGroupingSheet, Sheet1, Row 0, Column 0, "
-        Me.vwGroupingSheet.Location = New System.Drawing.Point(34, 236)
+        Me.vwGroupingSheet.Location = New System.Drawing.Point(45, 295)
+        Me.vwGroupingSheet.Margin = New System.Windows.Forms.Padding(4)
         Me.vwGroupingSheet.Name = "vwGroupingSheet"
         Me.vwGroupingSheet.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwGroupingSheet_Sheet1})
-        Me.vwGroupingSheet.Size = New System.Drawing.Size(1304, 252)
+        Me.vwGroupingSheet.Size = New System.Drawing.Size(1737, 314)
         Me.vwGroupingSheet.TabIndex = 139
         '
         'vwGroupingSheet_Sheet1
@@ -226,19 +243,20 @@ Partial Class EXTM0102
         Me.vwGroupingSheet_Sheet1.SheetName = "Sheet1"
         'Formulas and custom names must be loaded with R1C1 reference style
         Me.vwGroupingSheet_Sheet1.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
-        Me.vwGroupingSheet_Sheet1.ColumnCount = 12
+        Me.vwGroupingSheet_Sheet1.ColumnCount = 13
         Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 0).Value = "分類" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "コード"
         Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 1).Value = "分類名"
         Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 2).Value = "集計キー"
         Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 3).Value = "内税"
-        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 4).Value = "税率(%)"
-        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 5).Value = "勘定科目"
-        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 6).Value = "細目"
-        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 7).Value = "内訳"
-        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 8).Value = "詳細"
-        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 9).Value = "並び順"
-        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 10).Value = "無効"
-        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 11).Value = "付帯利用料" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "フラグ"
+        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 4).Value = "税区分"
+        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 5).Value = "税率"
+        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 6).Value = "勘定科目"
+        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 7).Value = "細目"
+        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 8).Value = "内訳"
+        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 9).Value = "詳細"
+        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 10).Value = "並び順"
+        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 11).Value = "無効"
+        Me.vwGroupingSheet_Sheet1.ColumnHeader.Cells.Get(0, 12).Value = "付帯利用料" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "フラグ"
         Me.vwGroupingSheet_Sheet1.ColumnHeader.Rows.Get(0).Height = 31.0!
         Me.vwGroupingSheet_Sheet1.Columns.Get(0).BackColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(210, Byte), Integer))
         TextCellType1.MaxLength = 2
@@ -267,50 +285,55 @@ Partial Class EXTM0102
         ComboBoxCellType1.AllowEditorVerticalAlign = True
         ComboBoxCellType1.ButtonAlign = FarPoint.Win.ButtonAlign.Right
         Me.vwGroupingSheet_Sheet1.Columns.Get(4).CellType = ComboBoxCellType1
-        Me.vwGroupingSheet_Sheet1.Columns.Get(4).Label = "税率(%)"
-        Me.vwGroupingSheet_Sheet1.Columns.Get(4).Width = 52.0!
+        Me.vwGroupingSheet_Sheet1.Columns.Get(4).Label = "税区分"
+        Me.vwGroupingSheet_Sheet1.Columns.Get(4).Width = 69.0!
+        NumberCellType1.DecimalPlaces = 0
+        Me.vwGroupingSheet_Sheet1.Columns.Get(5).CellType = NumberCellType1
+        Me.vwGroupingSheet_Sheet1.Columns.Get(5).Label = "税率"
+        Me.vwGroupingSheet_Sheet1.Columns.Get(5).Locked = True
+        Me.vwGroupingSheet_Sheet1.Columns.Get(5).VisualStyles = FarPoint.Win.VisualStyles.[Auto]
         ComboBoxCellType2.AllowEditorVerticalAlign = True
         ComboBoxCellType2.ButtonAlign = FarPoint.Win.ButtonAlign.Right
-        Me.vwGroupingSheet_Sheet1.Columns.Get(5).CellType = ComboBoxCellType2
-        Me.vwGroupingSheet_Sheet1.Columns.Get(5).Label = "勘定科目"
-        Me.vwGroupingSheet_Sheet1.Columns.Get(5).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
-        Me.vwGroupingSheet_Sheet1.Columns.Get(5).Width = 150.0!
-        ComboBoxCellType3.AllowEditorVerticalAlign = True
-        ComboBoxCellType3.ButtonAlign = FarPoint.Win.ButtonAlign.Right
-        Me.vwGroupingSheet_Sheet1.Columns.Get(6).CellType = ComboBoxCellType3
-        Me.vwGroupingSheet_Sheet1.Columns.Get(6).Label = "細目"
-        Me.vwGroupingSheet_Sheet1.Columns.Get(6).Locked = True
+        Me.vwGroupingSheet_Sheet1.Columns.Get(6).CellType = ComboBoxCellType2
+        Me.vwGroupingSheet_Sheet1.Columns.Get(6).Label = "勘定科目"
         Me.vwGroupingSheet_Sheet1.Columns.Get(6).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwGroupingSheet_Sheet1.Columns.Get(6).Width = 150.0!
-        ComboBoxCellType4.AllowEditorVerticalAlign = True
-        ComboBoxCellType4.ButtonAlign = FarPoint.Win.ButtonAlign.Right
-        Me.vwGroupingSheet_Sheet1.Columns.Get(7).CellType = ComboBoxCellType4
-        Me.vwGroupingSheet_Sheet1.Columns.Get(7).Label = "内訳"
+        ComboBoxCellType3.AllowEditorVerticalAlign = True
+        ComboBoxCellType3.ButtonAlign = FarPoint.Win.ButtonAlign.Right
+        Me.vwGroupingSheet_Sheet1.Columns.Get(7).CellType = ComboBoxCellType3
+        Me.vwGroupingSheet_Sheet1.Columns.Get(7).Label = "細目"
         Me.vwGroupingSheet_Sheet1.Columns.Get(7).Locked = True
         Me.vwGroupingSheet_Sheet1.Columns.Get(7).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwGroupingSheet_Sheet1.Columns.Get(7).Width = 150.0!
-        ComboBoxCellType5.AllowEditorVerticalAlign = True
-        ComboBoxCellType5.ButtonAlign = FarPoint.Win.ButtonAlign.Right
-        Me.vwGroupingSheet_Sheet1.Columns.Get(8).CellType = ComboBoxCellType5
-        Me.vwGroupingSheet_Sheet1.Columns.Get(8).Label = "詳細"
+        ComboBoxCellType4.AllowEditorVerticalAlign = True
+        ComboBoxCellType4.ButtonAlign = FarPoint.Win.ButtonAlign.Right
+        Me.vwGroupingSheet_Sheet1.Columns.Get(8).CellType = ComboBoxCellType4
+        Me.vwGroupingSheet_Sheet1.Columns.Get(8).Label = "内訳"
         Me.vwGroupingSheet_Sheet1.Columns.Get(8).Locked = True
         Me.vwGroupingSheet_Sheet1.Columns.Get(8).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
         Me.vwGroupingSheet_Sheet1.Columns.Get(8).Width = 150.0!
-        TextCellType4.MaxLength = 4
-        Me.vwGroupingSheet_Sheet1.Columns.Get(9).CellType = TextCellType4
-        Me.vwGroupingSheet_Sheet1.Columns.Get(9).Label = "並び順"
+        ComboBoxCellType5.AllowEditorVerticalAlign = True
+        ComboBoxCellType5.ButtonAlign = FarPoint.Win.ButtonAlign.Right
+        Me.vwGroupingSheet_Sheet1.Columns.Get(9).CellType = ComboBoxCellType5
+        Me.vwGroupingSheet_Sheet1.Columns.Get(9).Label = "詳細"
+        Me.vwGroupingSheet_Sheet1.Columns.Get(9).Locked = True
         Me.vwGroupingSheet_Sheet1.Columns.Get(9).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
-        Me.vwGroupingSheet_Sheet1.Columns.Get(9).Width = 50.0!
-        Me.vwGroupingSheet_Sheet1.Columns.Get(10).CellType = CheckBoxCellType2
-        Me.vwGroupingSheet_Sheet1.Columns.Get(10).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
-        Me.vwGroupingSheet_Sheet1.Columns.Get(10).Label = "無効"
+        Me.vwGroupingSheet_Sheet1.Columns.Get(9).Width = 150.0!
+        TextCellType4.MaxLength = 4
+        Me.vwGroupingSheet_Sheet1.Columns.Get(10).CellType = TextCellType4
+        Me.vwGroupingSheet_Sheet1.Columns.Get(10).Label = "並び順"
         Me.vwGroupingSheet_Sheet1.Columns.Get(10).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
-        Me.vwGroupingSheet_Sheet1.Columns.Get(10).Width = 40.0!
-        Me.vwGroupingSheet_Sheet1.Columns.Get(11).CellType = CheckBoxCellType3
+        Me.vwGroupingSheet_Sheet1.Columns.Get(10).Width = 50.0!
+        Me.vwGroupingSheet_Sheet1.Columns.Get(11).CellType = CheckBoxCellType2
         Me.vwGroupingSheet_Sheet1.Columns.Get(11).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
-        Me.vwGroupingSheet_Sheet1.Columns.Get(11).Label = "付帯利用料" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "フラグ"
+        Me.vwGroupingSheet_Sheet1.Columns.Get(11).Label = "無効"
         Me.vwGroupingSheet_Sheet1.Columns.Get(11).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
-        Me.vwGroupingSheet_Sheet1.Columns.Get(11).Width = 69.0!
+        Me.vwGroupingSheet_Sheet1.Columns.Get(11).Width = 40.0!
+        Me.vwGroupingSheet_Sheet1.Columns.Get(12).CellType = CheckBoxCellType3
+        Me.vwGroupingSheet_Sheet1.Columns.Get(12).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
+        Me.vwGroupingSheet_Sheet1.Columns.Get(12).Label = "付帯利用料" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "フラグ"
+        Me.vwGroupingSheet_Sheet1.Columns.Get(12).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center
+        Me.vwGroupingSheet_Sheet1.Columns.Get(12).Width = 69.0!
         Me.vwGroupingSheet_Sheet1.RestrictRows = True
         Me.vwGroupingSheet_Sheet1.RowHeader.Columns.Default.Resizable = False
         Me.vwGroupingSheet_Sheet1.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1
@@ -318,10 +341,11 @@ Partial Class EXTM0102
         'vwFutaiSheet
         '
         Me.vwFutaiSheet.AccessibleDescription = "vwFutaiSheet, Sheet1, Row 0, Column 0, "
-        Me.vwFutaiSheet.Location = New System.Drawing.Point(34, 559)
+        Me.vwFutaiSheet.Location = New System.Drawing.Point(45, 699)
+        Me.vwFutaiSheet.Margin = New System.Windows.Forms.Padding(4)
         Me.vwFutaiSheet.Name = "vwFutaiSheet"
         Me.vwFutaiSheet.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.vwFutaiSheet_Sheet1})
-        Me.vwFutaiSheet.Size = New System.Drawing.Size(698, 315)
+        Me.vwFutaiSheet.Size = New System.Drawing.Size(929, 393)
         Me.vwFutaiSheet.TabIndex = 140
         '
         'vwFutaiSheet_Sheet1
@@ -367,12 +391,12 @@ Partial Class EXTM0102
         Me.vwFutaiSheet_Sheet1.Columns.Get(1).CellType = TextCellType6
         Me.vwFutaiSheet_Sheet1.Columns.Get(1).Label = "設備名"
         Me.vwFutaiSheet_Sheet1.Columns.Get(1).Width = 287.0!
-        NumberCellType1.DecimalPlaces = 0
-        NumberCellType1.FixedPoint = False
-        NumberCellType1.MaximumValue = 99999999.0R
-        NumberCellType1.MinimumValue = 0R
-        NumberCellType1.ShowSeparator = True
-        Me.vwFutaiSheet_Sheet1.Columns.Get(2).CellType = NumberCellType1
+        NumberCellType2.DecimalPlaces = 0
+        NumberCellType2.FixedPoint = False
+        NumberCellType2.MaximumValue = 99999999.0R
+        NumberCellType2.MinimumValue = 0R
+        NumberCellType2.ShowSeparator = True
+        Me.vwFutaiSheet_Sheet1.Columns.Get(2).CellType = NumberCellType2
         Me.vwFutaiSheet_Sheet1.Columns.Get(2).Label = "単価"
         Me.vwFutaiSheet_Sheet1.Columns.Get(2).Width = 65.0!
         Me.vwFutaiSheet_Sheet1.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center
@@ -426,19 +450,21 @@ Partial Class EXTM0102
         Me.Label5.AutoSize = True
         Me.Label5.BackColor = System.Drawing.Color.Transparent
         Me.Label5.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label5.Location = New System.Drawing.Point(224, 99)
+        Me.Label5.Location = New System.Drawing.Point(299, 124)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(37, 12)
+        Me.Label5.Size = New System.Drawing.Size(47, 15)
         Me.Label5.TabIndex = 144
         Me.Label5.Text = "月　～"
         '
         'txtMonthFrom
         '
         Me.txtMonthFrom.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtMonthFrom.Location = New System.Drawing.Point(182, 96)
+        Me.txtMonthFrom.Location = New System.Drawing.Point(243, 120)
+        Me.txtMonthFrom.Margin = New System.Windows.Forms.Padding(4)
         Me.txtMonthFrom.MaxLength = 2
         Me.txtMonthFrom.Name = "txtMonthFrom"
-        Me.txtMonthFrom.Size = New System.Drawing.Size(36, 19)
+        Me.txtMonthFrom.Size = New System.Drawing.Size(47, 22)
         Me.txtMonthFrom.TabIndex = 143
         Me.txtMonthFrom.Text = "5"
         Me.txtMonthFrom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -448,19 +474,21 @@ Partial Class EXTM0102
         Me.Label11.AutoSize = True
         Me.Label11.BackColor = System.Drawing.Color.Transparent
         Me.Label11.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label11.Location = New System.Drawing.Point(159, 99)
+        Me.Label11.Location = New System.Drawing.Point(212, 124)
+        Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(17, 12)
+        Me.Label11.Size = New System.Drawing.Size(22, 15)
         Me.Label11.TabIndex = 142
         Me.Label11.Text = "年"
         '
         'txtYearFrom
         '
         Me.txtYearFrom.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtYearFrom.Location = New System.Drawing.Point(94, 96)
+        Me.txtYearFrom.Location = New System.Drawing.Point(125, 120)
+        Me.txtYearFrom.Margin = New System.Windows.Forms.Padding(4)
         Me.txtYearFrom.MaxLength = 4
         Me.txtYearFrom.Name = "txtYearFrom"
-        Me.txtYearFrom.Size = New System.Drawing.Size(59, 19)
+        Me.txtYearFrom.Size = New System.Drawing.Size(77, 22)
         Me.txtYearFrom.TabIndex = 141
         Me.txtYearFrom.Text = "2015"
         Me.txtYearFrom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -470,19 +498,21 @@ Partial Class EXTM0102
         Me.Label1.AutoSize = True
         Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label1.Location = New System.Drawing.Point(409, 99)
+        Me.Label1.Location = New System.Drawing.Point(545, 124)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(17, 12)
+        Me.Label1.Size = New System.Drawing.Size(22, 15)
         Me.Label1.TabIndex = 148
         Me.Label1.Text = "月"
         '
         'txtMonthTo
         '
         Me.txtMonthTo.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtMonthTo.Location = New System.Drawing.Point(367, 96)
+        Me.txtMonthTo.Location = New System.Drawing.Point(489, 120)
+        Me.txtMonthTo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtMonthTo.MaxLength = 2
         Me.txtMonthTo.Name = "txtMonthTo"
-        Me.txtMonthTo.Size = New System.Drawing.Size(36, 19)
+        Me.txtMonthTo.Size = New System.Drawing.Size(47, 22)
         Me.txtMonthTo.TabIndex = 147
         Me.txtMonthTo.Text = "5"
         Me.txtMonthTo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -492,41 +522,44 @@ Partial Class EXTM0102
         Me.Label3.AutoSize = True
         Me.Label3.BackColor = System.Drawing.Color.Transparent
         Me.Label3.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label3.Location = New System.Drawing.Point(344, 99)
+        Me.Label3.Location = New System.Drawing.Point(459, 124)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(17, 12)
+        Me.Label3.Size = New System.Drawing.Size(22, 15)
         Me.Label3.TabIndex = 146
         Me.Label3.Text = "年"
         '
         'txtYearTo
         '
         Me.txtYearTo.Font = New System.Drawing.Font("MS UI Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtYearTo.Location = New System.Drawing.Point(279, 96)
+        Me.txtYearTo.Location = New System.Drawing.Point(372, 120)
+        Me.txtYearTo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtYearTo.MaxLength = 4
         Me.txtYearTo.Name = "txtYearTo"
-        Me.txtYearTo.Size = New System.Drawing.Size(59, 19)
+        Me.txtYearTo.Size = New System.Drawing.Size(77, 22)
         Me.txtYearTo.TabIndex = 145
         Me.txtYearTo.Text = "2015"
         Me.txtYearTo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'btnPeriod
         '
-        Me.btnPeriod.Location = New System.Drawing.Point(432, 96)
+        Me.btnPeriod.Location = New System.Drawing.Point(576, 120)
+        Me.btnPeriod.Margin = New System.Windows.Forms.Padding(4)
         Me.btnPeriod.Name = "btnPeriod"
-        Me.btnPeriod.Size = New System.Drawing.Size(90, 19)
+        Me.btnPeriod.Size = New System.Drawing.Size(120, 24)
         Me.btnPeriod.TabIndex = 149
         Me.btnPeriod.Text = "設定"
         Me.btnPeriod.UseVisualStyleBackColor = True
         '
         'EXTM0102
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.Color.White
         Me.BackgroundImage = Global.EXTM.My.Resources.Resources.背景
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(1376, 948)
+        Me.ClientSize = New System.Drawing.Size(1835, 1185)
         Me.Controls.Add(Me.btnPeriod)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtMonthTo)
@@ -548,6 +581,7 @@ Partial Class EXTM0102
         Me.Controls.Add(Me.btnEntry)
         Me.DoubleBuffered = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "EXTM0102"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "ちゃり～ん。　付帯設備マスタメンテ"

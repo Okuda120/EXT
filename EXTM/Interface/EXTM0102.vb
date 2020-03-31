@@ -10,12 +10,19 @@ Public Class EXTM0102
     Private logicEXTM0102 As New LogicEXTM0102
     Private commonLogicEXT As New CommonLogicEXT    '共通ロジッククラス
 
-    ' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
-    Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 4
-    Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
-    Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
-    Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
-    Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 8
+    ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+    Private Const M0102_BUNRUI_COL_TAXKBN As Integer = 4
+    Private Const M0102_BUNRUI_COL_KANJYO As Integer = 6
+    Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 7
+    Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 8
+    Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 9
+    '' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
+    'Private Const M0102_BUNRUI_COL_ZEIRITSU As Integer = 4
+    'Private Const M0102_BUNRUI_COL_KANJYO As Integer = 5
+    'Private Const M0102_BUNRUI_COL_SAIMOKU As Integer = 6
+    'Private Const M0102_BUNRUI_COL_UCHIWAKE As Integer = 7
+    'Private Const M0102_BUNRUI_COL_SYOSAI As Integer = 8
+    ' --- 2020/03/11 税区分追加対応 End  E.Okuda@Compass ---
 
 
     Private Const M0102_MSG_INFO_001 As String = "期間を設定して下さい。"
@@ -147,8 +154,14 @@ Public Class EXTM0102
         '期間をクリアし、対象期間を活性化
         logicEXTM0102.PushNewEntryBtn(dataEXTM0102)
 
-        ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
-        dataEXTM0102.PropGetReducedRateFlg = False
+        ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+        dataEXTM0102.PropGetTaxKbnFlg = False
+
+        '' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+        'dataEXTM0102.PropGetReducedRateFlg = False
+
+        ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
+
         dataEXTM0102.PropCmdPeriodBtn.Enabled = True
         ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
 
@@ -388,11 +401,15 @@ Public Class EXTM0102
                 dataEXTM0102.PropFinishedFromTo.SelectedValue = txtFinishedFromTo
             End If
 
+            ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+            dataEXTM0102.PropGetTaxKbnFlg = False
 
-            ' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
-            ' 軽減税率取得フラグOFF
-            dataEXTM0102.PropGetReducedRateFlg = False
-            ' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
+            '' --- 2019/09/11 軽減税率対応 Start E.Okuda@Compass ---
+            '' 軽減税率取得フラグOFF
+            'dataEXTM0102.PropGetReducedRateFlg = False
+            '' --- 2019/09/11 軽減税率対応 End E.Okuda@Compass ---
+
+            ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
 
             '分類シート記述
             If logicEXTM0102.InitBunrui(dataEXTM0102) = False Then
@@ -672,6 +689,13 @@ Public Class EXTM0102
         'End If
         ' 2016.04.28 DEL END↑ h.hagiwara レスポンス改善
 
+        ' --- 2020/03/11 税区分追加対応 Start E.Okuda@Compass ---
+        If e.Column = M0102_BUNRUI_COL_TAXKBN Then
+            logicEXTM0102.ChangeCmbTaxKbn(e.Row, dataEXTM0102)
+        End If
+        ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
+
+
     End Sub
 
     ''' <summary>
@@ -696,29 +720,76 @@ Public Class EXTM0102
     ''' <p>改訂情報：</p>
     ''' </para></remarks>
     Private Sub btnPeriod_Click(sender As Object, e As EventArgs) Handles btnPeriod.Click
-        If dataEXTM0102.PropGetReducedRateFlg = False Then
+
+        ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+        If dataEXTM0102.PropGetTaxKbnFlg = False Then
+            '           If dataEXTM0102.PropGetReducedRateFlg = False Then
+            ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
+
             If logicEXTM0102.CheckInputPeriod(dataEXTM0102) = False Then
                 ' メッセージ表示するか
                 MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
+
+                ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+                ' 税区分列を選択不可状態にする。
+                Dim i As Integer
+
+                For i = 0 To dataEXTM0102.PropVwGroupingSheet.ActiveSheet.RowCount - 1
+                    dataEXTM0102.PropVwGroupingSheet.ActiveSheet.Cells(i, M0102_BUNRUI_COL_TAXKBN).Locked = False
+                Next
+
                 Exit Sub
+                ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
             Else
-                If logicEXTM0102.CmbReducedRateSet(dataEXTM0102) = False Then
+                ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
+                If logicEXTM0102.CmbTaxKbnSet(dataEXTM0102) = False Then
                     MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
                     Exit Sub
                 End If
 
-                ' 軽減税率取得フラグON
-                dataEXTM0102.PropGetReducedRateFlg = True
+                dataEXTM0102.PropGetTaxKbnFlg = True
 
-                ' コンボボックス生成
-                logicEXTM0102.CmbReducedRateCreate(dataEXTM0102)
+                logicEXTM0102.CmbTaxKbnCreate(dataEXTM0102)
 
-                '
-                logicEXTM0102.SetCmbReducedRateColumn(dataEXTM0102)
+                ' 税率表示
+                logicEXTM0102.SetZeiritsuColumn(dataEXTM0102)
+
+                'logicEXTM0102.set(dataEXTM0102)
+
+
+                'If logicEXTM0102.CmbReducedRateSet(dataEXTM0102) = False Then
+                '    MsgBox(CommonDeclare.puErrMsg, MsgBoxStyle.Exclamation, "エラー")
+                '    Exit Sub
+                'End If
+
+
+                '' 軽減税率取得フラグON
+                'dataEXTM0102.PropGetReducedRateFlg = True
+
+                '' コンボボックス生成
+                'logicEXTM0102.CmbReducedRateCreate(dataEXTM0102)
+
+                ''
+                'logicEXTM0102.SetCmbReducedRateColumn(dataEXTM0102)
+                ' --- 2020/03/17 税区分追加対応 End E.Okuda@Compass ---
 
                 dataEXTM0102.PropCmdPeriodBtn.Enabled = False
 
             End If
+        End If
+
+    End Sub
+
+    ''' <summary>
+    '''  
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub vwGroupingSheet_ComboSelChange(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.EditorNotifyEventArgs) Handles vwGroupingSheet.ComboSelChange
+        If e.Column = M0102_BUNRUI_COL_TAXKBN Then
+            ' 税区分に対応する税率を設定する。
+            logicEXTM0102.ChangeCmbTaxKbn(e.Row, dataEXTM0102)
+
         End If
 
     End Sub

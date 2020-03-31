@@ -3314,6 +3314,12 @@ Public Class EXTB0103
         Dim frm As New EXTZ0214                  ' 2016.01.20 ADD y.morooka グループ請求対応
         Dim isSetAitesaki As Boolean = True      ' 2016.01.25 ADD y.morooka グループ請求対応 相手先チェック
 
+        ' --- 2020/03/30 税区分追加対応 Start E.Okuda@Compass ---
+        Dim aryTaxKbnCD As Array
+        ' 設定ファイルから項目名称を取得する。
+        aryTaxKbnCD = Split(ConfigurationManager.AppSettings("TaxKbnCD"), ",")
+        ' --- 2020/03/30 税区分追加対応 End E.Okuda@Compass ---
+
         Do While sheet.RowCount > index
             If sheet.Cells(index, 0).Value = True Then
                 isChecked = True
