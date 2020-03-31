@@ -5,15 +5,15 @@ Imports Npgsql
 Public Class sqlEXTZ0209
 
     'SQL文(付帯分類)
-    ' 2019/06/11 軽減税率対応 変更 Start E.Okuda@Compass
-    ' 税率追加
+    ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
     Private strEX34S001 As String =
                            "SELECT " & vbCrLf &
                            "    m1.shisetu_kbn, " & vbCrLf &
                            "    m1.bunrui_cd, " & vbCrLf &
                            "    m1.bunrui_nm, " & vbCrLf &
                            "    m1.notax_flg, " & vbCrLf &
-                           "    m1.zeiritsu, " & vbCrLf &
+                           "    m1.tax_kbn, " & vbCrLf &
+                           "    m2.tax_rate, " & vbCrLf &
                            "    m1.kamoku_cd, " & vbCrLf &
                            "    m1.saimoku_cd, " & vbCrLf &
                            "    m1.uchi_cd, " & vbCrLf &
@@ -26,14 +26,67 @@ Public Class sqlEXTZ0209
                            "    m1.sort " & vbCrLf &
                            "FROM " & vbCrLf &
                            "    fbunrui_mst m1" & vbCrLf &
-                            "LEFT JOIN tax_mst m2 " & vbCrLf &
-                            "    ON :Riyobi BETWEEN m2.taxs_dt AND m2.taxe_dt " & vbCrLf &
+                           "LEFT JOIN (" & vbCrLf &
+                           "    SELECT " & vbCrLf &
+                           "        tax_kbn, " & vbCrLf &
+                           "        CASE " & vbCrLf &
+                           "            WHEN tax_kbn = 1 THEN tax_ritu " & vbCrLf &
+                           "            WHEN tax_kbn = 2 THEN reduced_rate " & vbCrLf &
+                           "	        WHEN tax_kbn = 3 THEN untaxed_rate " & vbCrLf &
+                           "	        WHEN tax_kbn = 4 THEN tax_free " & vbCrLf &
+                           "            WHEN tax_kbn = 5 THEN tax_exemption " & vbCrLf &
+                           "	        WHEN tax_kbn = 6 THEN tax_old1 " & vbCrLf &
+                           "            WHEN tax_kbn = 7 THEN tax_old2 " & vbCrLf &
+                           "            WHEN tax_kbn = 8 THEN tax_spare1 " & vbCrLf &
+                           "            WHEN tax_kbn = 9 THEN tax_spare2 " & vbCrLf &
+                           "            WHEN tax_kbn = 10 THEN tax_spare3 " & vbCrLf &
+                           "	        WHEN tax_kbn = 11 THEN tax_spare4 " & vbCrLf &
+                           "            WHEN tax_kbn = 12 THEN tax_spare5 " & vbCrLf &
+                           "        END as tax_rate " & vbCrLf &
+                           "    FROM " & vbCrLf &
+                           "        tax_mst " & vbCrLf &
+                           "        CROSS JOIN generate_series(1,12) As s(tax_kbn) " & vbCrLf &
+                           "    WHERE " & vbCrLf &
+                           "        :Riyobi BETWEEN taxs_dt AND taxe_dt" & vbCrLf &
+                           "    ) m2 " & vbCrLf &
+                           "    ON m1.tax_kbn = m2.tax_kbn " & vbCrLf &
                            "WHERE " & vbCrLf &
                            "    m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
                            "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
                            "AND m1.sts = '0' " & vbCrLf &
                            "ORDER BY " & vbCrLf &
                            "    m1.sort "
+
+    ' 2019/06/11 軽減税率対応 変更 Start E.Okuda@Compass
+    ' 税率追加
+    'Private strEX34S001 As String =
+    '                       "SELECT " & vbCrLf &
+    '                       "    m1.shisetu_kbn, " & vbCrLf &
+    '                       "    m1.bunrui_cd, " & vbCrLf &
+    '                       "    m1.bunrui_nm, " & vbCrLf &
+    '                       "    m1.notax_flg, " & vbCrLf &
+    '                       "    m1.zeiritsu, " & vbCrLf &
+    '                       "    m1.kamoku_cd, " & vbCrLf &
+    '                       "    m1.saimoku_cd, " & vbCrLf &
+    '                       "    m1.uchi_cd, " & vbCrLf &
+    '                       "    m1.shosai_cd, " & vbCrLf &
+    '                       "    m1.karikamoku_cd, " & vbCrLf &
+    '                       "    m1.kari_saimoku_cd, " & vbCrLf &
+    '                       "    m1.kari_uchi_cd, " & vbCrLf &
+    '                       "    m1.kari_shosai_cd, " & vbCrLf &
+    '                       "    m1.sts, " & vbCrLf &
+    '                       "    m1.sort " & vbCrLf &
+    '                       "FROM " & vbCrLf &
+    '                       "    fbunrui_mst m1" & vbCrLf &
+    '                        "LEFT JOIN tax_mst m2 " & vbCrLf &
+    '                        "    ON :Riyobi BETWEEN m2.taxs_dt AND m2.taxe_dt " & vbCrLf &
+    '                       "WHERE " & vbCrLf &
+    '                       "    m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+    '                       "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+    '                       "AND m1.sts = '0' " & vbCrLf &
+    '                       "ORDER BY " & vbCrLf &
+    '                       "    m1.sort "
+
     'Private strEX34S001 As String =
     '                       "SELECT " & vbCrLf &
     '                       "    shisetu_kbn, " & vbCrLf &
@@ -60,8 +113,9 @@ Public Class sqlEXTZ0209
     '                       "    sort "
     ' 2019/06/11 軽減税率対応 変更 Start E.Okuda@Compass
 
+    ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
 
-    ' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
+    ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
     Private strEX34S002 As String =
                             "SELECT " & vbCrLf &
                             "    m1.bunrui_cd as bunrui_cd, " & vbCrLf &
@@ -81,8 +135,8 @@ Public Class sqlEXTZ0209
                             "    m2.kari_uchi_cd, " & vbCrLf &
                             "    m2.kari_shosai_cd, " & vbCrLf &
                             "    m2.notax_flg, " & vbCrLf &
-                            "    (CASE WHEN m2.zeiritsu IS NULL THEN m4.tax_ritu ELSE m2.zeiritsu END) as zeiritsu, " & vbCrLf &
-                            "    m2.zeiritsu, " & vbCrLf &
+                            "    m2.tax_kbn, " & vbCrLf &
+                            "    m4.tax_rate, " & vbCrLf &
                             "    m3.kamoku_nm, " & vbCrLf &
                             "    m3.saimoku_nm, " & vbCrLf &
                             "    m3.uchi_nm, " & vbCrLf &
@@ -101,14 +155,88 @@ Public Class sqlEXTZ0209
                             "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf &
                             "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf &
                             "    AND m3.sts = '0' " & vbCrLf &
-                            "LEFT JOIN tax_mst m4 " & vbCrLf &
-                            "    ON :Riyobi BETWEEN m4.taxs_dt AND m4.taxe_dt " & vbCrLf &
+                            "LEFT JOIN ( " & vbCrLf &
+                            "    SELECT " & vbCrLf &
+                            "        tax_kbn, " & vbCrLf &
+                            "        CASE " & vbCrLf &
+                            "            WHEN tax_kbn = 1 THEN tax_ritu " & vbCrLf &
+                            "            WHEN tax_kbn = 2 THEN reduced_rate " & vbCrLf &
+                            "	         WHEN tax_kbn = 3 THEN untaxed_rate " & vbCrLf &
+                            "	         WHEN tax_kbn = 4 THEN tax_free " & vbCrLf &
+                            "            WHEN tax_kbn = 5 THEN tax_exemption " & vbCrLf &
+                            "	         WHEN tax_kbn = 6 THEN tax_old1 " & vbCrLf &
+                            "            WHEN tax_kbn = 7 THEN tax_old2 " & vbCrLf &
+                            "            WHEN tax_kbn = 8 THEN tax_spare1 " & vbCrLf &
+                            "            WHEN tax_kbn = 9 THEN tax_spare2 " & vbCrLf &
+                            "            WHEN tax_kbn = 10 THEN tax_spare3 " & vbCrLf &
+                            "	         WHEN tax_kbn = 11 THEN tax_spare4 " & vbCrLf &
+                            "            WHEN tax_kbn = 12 THEN tax_spare5 " & vbCrLf &
+                            "        END as tax_rate " & vbCrLf &
+                            "    FROM " & vbCrLf &
+                            "        tax_mst " & vbCrLf &
+                            "        CROSS JOIN generate_series(1,12) As s(tax_kbn) " & vbCrLf &
+                            "    WHERE " & vbCrLf &
+                            "        :Riyobi BETWEEN taxs_dt AND taxe_dt" & vbCrLf &
+                            "    ) m4 " & vbCrLf &
+                            "    ON m2.tax_kbn = m4.tax_kbn " & vbCrLf &
                             "WHERE " & vbCrLf &
                             "    m1.sts = '0' " & vbCrLf &
                             "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
                             "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
                             "ORDER BY " & vbCrLf &
                             "    m1.sort "
+
+    '' 2019/05/31 軽減税率対応 変更 Start E.Okuda@Compass
+    'Private strEX34S002 As String =
+    '                        "SELECT " & vbCrLf &
+    '                        "    m1.bunrui_cd as bunrui_cd, " & vbCrLf &
+    '                        "    m1.futai_cd, " & vbCrLf &
+    '                        "    m1.futai_nm, " & vbCrLf &
+    '                        "    m1.tanka as tanka, " & vbCrLf &
+    '                        "    m1.tani as tani, " & vbCrLf &
+    '                        "    m1.sort as sort, " & vbCrLf &
+    '                        "    m2.bunrui_nm as bunrui_nm, " & vbCrLf &
+    '                        "    m2.shukei_grp, " & vbCrLf &
+    '                        "    m2.kamoku_cd, " & vbCrLf &
+    '                        "    m2.saimoku_cd, " & vbCrLf &
+    '                        "    m2.uchi_cd, " & vbCrLf &
+    '                        "    m2.shosai_cd, " & vbCrLf &
+    '                        "    m2.karikamoku_cd, " & vbCrLf &
+    '                        "    m2.kari_saimoku_cd, " & vbCrLf &
+    '                        "    m2.kari_uchi_cd, " & vbCrLf &
+    '                        "    m2.kari_shosai_cd, " & vbCrLf &
+    '                        "    m2.notax_flg, " & vbCrLf &
+    '                        "    (CASE WHEN m2.zeiritsu IS NULL THEN m4.tax_ritu ELSE m2.zeiritsu END) as zeiritsu, " & vbCrLf &
+    '                        "    m2.zeiritsu, " & vbCrLf &
+    '                        "    m3.kamoku_nm, " & vbCrLf &
+    '                        "    m3.saimoku_nm, " & vbCrLf &
+    '                        "    m3.uchi_nm, " & vbCrLf &
+    '                        "    m3.shosai_nm " & vbCrLf &
+    '                        "    ,0 " & vbCrLf &
+    '                        "FROM " & vbCrLf &
+    '                        "    futai_mst m1 " & vbCrLf &
+    '                        "LEFT JOIN fbunrui_mst m2 " & vbCrLf &
+    '                        "    ON m1.bunrui_cd = m2.bunrui_cd " & vbCrLf &
+    '                        "    AND m2.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+    '                        "    AND :Riyobi BETWEEN m2.kikan_from AND m2.kikan_to " & vbCrLf &
+    '                        "    AND m2.sts = '0' " & vbCrLf &
+    '                        "LEFT JOIN kamoku_mst m3 " & vbCrLf &
+    '                        "    ON m2.kamoku_cd = m3.kamoku_cd " & vbCrLf &
+    '                        "    AND m2.saimoku_cd = m3.saimoku_cd " & vbCrLf &
+    '                        "    AND m2.uchi_cd = m3.uchi_cd " & vbCrLf &
+    '                        "    AND m2.shosai_cd = m3.shosai_cd " & vbCrLf &
+    '                        "    AND m3.sts = '0' " & vbCrLf &
+    '                        "LEFT JOIN tax_mst m4 " & vbCrLf &
+    '                        "    ON :Riyobi BETWEEN m4.taxs_dt AND m4.taxe_dt " & vbCrLf &
+    '                        "WHERE " & vbCrLf &
+    '                        "    m1.sts = '0' " & vbCrLf &
+    '                        "AND :Riyobi BETWEEN m1.kikan_from AND m1.kikan_to " & vbCrLf &
+    '                        "AND m1.shisetu_kbn = :ShisetuKbn " & vbCrLf &
+    '                        "ORDER BY " & vbCrLf &
+    '                        "    m1.sort "
+
+    ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
+
     'Private strEX34S002 As String =
     '                        "SELECT " & vbCrLf &
     '                        "    m1.bunrui_cd as bunrui_cd, " & vbCrLf &

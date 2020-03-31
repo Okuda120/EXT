@@ -153,9 +153,9 @@ Public Class LogicEXTM0103
 
             ' 設定ファイルで変更できるのは、項目の名称と表示/非表示設定のみ
             ' 設定ファイルから項目名称を取得する。
-            arySpreadTitle = Split(ConfigurationManager.AppSettings("TaXMstItemNm"), ",")
+            arySpreadTitle = Split(ConfigurationManager.AppSettings("TaxMstItemNm"), ",")
             ' 設定ファイルから項目列表示/非表示設定を取得する。
-            aryVisibleFlg = Split(ConfigurationManager.AppSettings("TaXMstItemVisible"), ",")
+            aryVisibleFlg = Split(ConfigurationManager.AppSettings("TaxMstItemVisible"), ",")
 
             ' Spreadsheetの表示行数を設定する。
             dataEXTM0103.PropVwList.Sheets(0).Columns.Count = (UBound(arySpreadTitle) + 1) * 2 + 6
@@ -384,7 +384,7 @@ Public Class LogicEXTM0103
         Dim arySpreadTitle As Array
 
         ' 設定ファイルから項目名称を取得する。
-        arySpreadTitle = Split(ConfigurationManager.AppSettings("TaXMstItemNm"), ",")
+        arySpreadTitle = Split(ConfigurationManager.AppSettings("TaxMstItemNm"), ",")
         For intRow As Integer = 0 To 9
             Dim noData As Integer = 0       ' 一行あたりの空欄数・初期化
             Dim visibleCol As Integer = 0   ' 表示列数

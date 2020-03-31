@@ -1,4 +1,5 @@
-﻿Imports Common
+﻿Imports System.Configuration
+Imports Common
 Imports CommonEXT
 Imports EXTZ
 Imports FarPoint.Win.Spread
@@ -21,20 +22,38 @@ Public Class EXTZ0209
     Private Const COL_FUTAI_BUNRUI_NM As Integer = 4
     Private Const COL_FUTAI_BUNRUI_CD As Integer = 5
     Private Const COL_FUTAI_NOTAX_FLG As Integer = 6
-    Private Const COL_FUTAI_ZEIRITSU As Integer = 7
-    Private Const COL_FUTAI_SHUKEI_GRP As Integer = 8
-    Private Const COL_FUTAI_KAMOKU_CD As Integer = 9
-    Private Const COL_FUTAI_SAIMOKU_CD As Integer = 10
-    Private Const COL_FUTAI_UCHI_CD As Integer = 11
-    Private Const COL_FUTAI_SHOSAI_CD As Integer = 12
-    Private Const COL_FUTAI_KARIKAMOKU_CD As Integer = 13
-    Private Const COL_FUTAI_KARI_SAIMOKU_CD As Integer = 14
-    Private Const COL_FUTAI_KARI_UCHI_CD As Integer = 15
-    Private Const COL_FUTAI_KARI_SHOSAI_CD As Integer = 16
-    Private Const COL_FUTAI_KAMOKU_NM As Integer = 17
-    Private Const COL_FUTAI_SAIMOKU_NM As Integer = 18
-    Private Const COL_FUTAI_UCHI_NM As Integer = 19
-    Private Const COL_FUTAI_SHOSAI_NM As Integer = 20
+    ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+    Private Const COL_FUTAI_TAX_KBN As Integer = 7
+    Private Const COL_FUTAI_ZEIRITSU As Integer = 8
+    Private Const COL_FUTAI_SHUKEI_GRP As Integer = 9
+    Private Const COL_FUTAI_KAMOKU_CD As Integer = 10
+    Private Const COL_FUTAI_SAIMOKU_CD As Integer = 11
+    Private Const COL_FUTAI_UCHI_CD As Integer = 12
+    Private Const COL_FUTAI_SHOSAI_CD As Integer = 13
+    Private Const COL_FUTAI_KARIKAMOKU_CD As Integer = 14
+    Private Const COL_FUTAI_KARI_SAIMOKU_CD As Integer = 15
+    Private Const COL_FUTAI_KARI_UCHI_CD As Integer = 16
+    Private Const COL_FUTAI_KARI_SHOSAI_CD As Integer = 17
+    Private Const COL_FUTAI_KAMOKU_NM As Integer = 18
+    Private Const COL_FUTAI_SAIMOKU_NM As Integer = 19
+    Private Const COL_FUTAI_UCHI_NM As Integer = 20
+    Private Const COL_FUTAI_SHOSAI_NM As Integer = 21
+
+    'Private Const COL_FUTAI_ZEIRITSU As Integer = 7
+    'Private Const COL_FUTAI_SHUKEI_GRP As Integer = 8
+    'Private Const COL_FUTAI_KAMOKU_CD As Integer = 9
+    'Private Const COL_FUTAI_SAIMOKU_CD As Integer = 10
+    'Private Const COL_FUTAI_UCHI_CD As Integer = 11
+    'Private Const COL_FUTAI_SHOSAI_CD As Integer = 12
+    'Private Const COL_FUTAI_KARIKAMOKU_CD As Integer = 13
+    'Private Const COL_FUTAI_KARI_SAIMOKU_CD As Integer = 14
+    'Private Const COL_FUTAI_KARI_UCHI_CD As Integer = 15
+    'Private Const COL_FUTAI_KARI_SHOSAI_CD As Integer = 16
+    'Private Const COL_FUTAI_KAMOKU_NM As Integer = 17
+    'Private Const COL_FUTAI_SAIMOKU_NM As Integer = 18
+    'Private Const COL_FUTAI_UCHI_NM As Integer = 19
+    'Private Const COL_FUTAI_SHOSAI_NM As Integer = 20
+    ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
 
     Private Const COL_FUTAI_SELECTED_FUTAI_BUNRUI_NM As Integer = 0
     Private Const COL_FUTAI_SELECTED_FUTAI_NM As Integer = 1
@@ -45,26 +64,51 @@ Public Class EXTZ0209
     Private Const COL_FUTAI_SELECTED_FUTAI_CHOSEI As Integer = 6
     Private Const COL_FUTAI_SELECTED_FUTAI_KIN As Integer = 7
     Private Const COL_FUTAI_SELECTED_NOTAX_FLG As Integer = 8
-    Private Const COL_FUTAI_SELECTED_ZEIRITSU As Integer = 9
-    Private Const COL_FUTAI_SELECTED_FUTAI_KIN_TAX As Integer = 10
-    Private Const COL_FUTAI_SELECTED_FUTAI_BIKO As Integer = 11
-    Private Const COL_FUTAI_SELECTED_FUTAI_BUNRUI_CD As Integer = 12
-    Private Const COL_FUTAI_SELECTED_FUTAI_CD As Integer = 13
-    Private Const COL_FUTAI_SELECTED_NOTAX_FLG_HIDDEN As Integer = 14
-    Private Const COL_FUTAI_SELECTED_SHUKEI_GRP As Integer = 15
-    Private Const COL_FUTAI_SELECTED_KAMOKU_CD As Integer = 16
-    Private Const COL_FUTAI_SELECTED_SAIMOKU_CD As Integer = 17
-    Private Const COL_FUTAI_SELECTED_UCHI_CD As Integer = 18
-    Private Const COL_FUTAI_SELECTED_SHOSAI_CD As Integer = 19
-    Private Const COL_FUTAI_SELECTED_KARIKAMOKU As Integer = 20
-    Private Const COL_FUTAI_SELECTED_KARI_SAIMOKU_CD As Integer = 21
-    Private Const COL_FUTAI_SELECTED_KARI_UCHI_CD As Integer = 22
-    Private Const COL_FUTAI_SELECTED_KARI_SHOSAI_CD As Integer = 23
-    Private Const COL_FUTAI_SELECTED_KAMOKU_NM As Integer = 24
-    Private Const COL_FUTAI_SELECTED_SAIMOKU_NM As Integer = 25
-    Private Const COL_FUTAI_SELECTED_UCHI_NM As Integer = 26
-    Private Const COL_FUTAI_SELECTED_SHOSAI_NM As Integer = 27
-    Private Const COL_FUTAI_SELECTED_DUMMY As Integer = 28
+
+    ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+    Private Const COL_FUTAI_SELECTED_TAX_KBN As Integer = 9
+    Private Const COL_FUTAI_SELECTED_ZEIRITSU As Integer = 10
+    Private Const COL_FUTAI_SELECTED_FUTAI_KIN_TAX As Integer = 11
+    Private Const COL_FUTAI_SELECTED_FUTAI_BIKO As Integer = 12
+    Private Const COL_FUTAI_SELECTED_FUTAI_BUNRUI_CD As Integer = 13
+    Private Const COL_FUTAI_SELECTED_FUTAI_CD As Integer = 14
+    Private Const COL_FUTAI_SELECTED_NOTAX_FLG_HIDDEN As Integer = 15
+    Private Const COL_FUTAI_SELECTED_SHUKEI_GRP As Integer = 16
+    Private Const COL_FUTAI_SELECTED_KAMOKU_CD As Integer = 17
+    Private Const COL_FUTAI_SELECTED_SAIMOKU_CD As Integer = 18
+    Private Const COL_FUTAI_SELECTED_UCHI_CD As Integer = 19
+    Private Const COL_FUTAI_SELECTED_SHOSAI_CD As Integer = 20
+    Private Const COL_FUTAI_SELECTED_KARIKAMOKU As Integer = 21
+    Private Const COL_FUTAI_SELECTED_KARI_SAIMOKU_CD As Integer = 22
+    Private Const COL_FUTAI_SELECTED_KARI_UCHI_CD As Integer = 23
+    Private Const COL_FUTAI_SELECTED_KARI_SHOSAI_CD As Integer = 24
+    Private Const COL_FUTAI_SELECTED_KAMOKU_NM As Integer = 25
+    Private Const COL_FUTAI_SELECTED_SAIMOKU_NM As Integer = 26
+    Private Const COL_FUTAI_SELECTED_UCHI_NM As Integer = 27
+    Private Const COL_FUTAI_SELECTED_SHOSAI_NM As Integer = 28
+    Private Const COL_FUTAI_SELECTED_DUMMY As Integer = 29
+
+    'Private Const COL_FUTAI_SELECTED_ZEIRITSU As Integer = 9
+    'Private Const COL_FUTAI_SELECTED_FUTAI_KIN_TAX As Integer = 10
+    'Private Const COL_FUTAI_SELECTED_FUTAI_BIKO As Integer = 11
+    'Private Const COL_FUTAI_SELECTED_FUTAI_BUNRUI_CD As Integer = 12
+    'Private Const COL_FUTAI_SELECTED_FUTAI_CD As Integer = 13
+    'Private Const COL_FUTAI_SELECTED_NOTAX_FLG_HIDDEN As Integer = 14
+    'Private Const COL_FUTAI_SELECTED_SHUKEI_GRP As Integer = 15
+    'Private Const COL_FUTAI_SELECTED_KAMOKU_CD As Integer = 16
+    'Private Const COL_FUTAI_SELECTED_SAIMOKU_CD As Integer = 17
+    'Private Const COL_FUTAI_SELECTED_UCHI_CD As Integer = 18
+    'Private Const COL_FUTAI_SELECTED_SHOSAI_CD As Integer = 19
+    'Private Const COL_FUTAI_SELECTED_KARIKAMOKU As Integer = 20
+    'Private Const COL_FUTAI_SELECTED_KARI_SAIMOKU_CD As Integer = 21
+    'Private Const COL_FUTAI_SELECTED_KARI_UCHI_CD As Integer = 22
+    'Private Const COL_FUTAI_SELECTED_KARI_SHOSAI_CD As Integer = 23
+    'Private Const COL_FUTAI_SELECTED_KAMOKU_NM As Integer = 24
+    'Private Const COL_FUTAI_SELECTED_SAIMOKU_NM As Integer = 25
+    'Private Const COL_FUTAI_SELECTED_UCHI_NM As Integer = 26
+    'Private Const COL_FUTAI_SELECTED_SHOSAI_NM As Integer = 27
+    'Private Const COL_FUTAI_SELECTED_DUMMY As Integer = 28
+    ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
 
     ' 税区分
     Private Const DISP_UCHIZEI As String = "内税"
@@ -136,7 +180,18 @@ Public Class EXTZ0209
 
         'sheet.ColumnCount = 25        ' 2015.11.13 ADD h.hagiwara
         'sheet.ColumnCount = 26        ' 2015.11.13 ADD h.hagiwara
-        sheet.ColumnCount = 29
+        ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+        'sheet.ColumnCount = 29
+        sheet.ColumnCount = 30
+
+        Dim idxTaxKbn As Integer
+
+        ' 設定ファイルから税区分名称を取得
+        Dim arySpreadTitle As Array
+        arySpreadTitle = Split(ConfigurationManager.AppSettings("TaxMstItemNm"), ",")
+
+        ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
+
 
         'カラム設定(コード列の非表示)
 
@@ -200,7 +255,15 @@ Public Class EXTZ0209
 
             ' sheet.Cells(index, COL_FUTAI_SELECTED_NOTAX_FLG).Value = row("notax_flg")
 
-            sheet.Cells(index, COL_FUTAI_SELECTED_ZEIRITSU).Value = row("zeiritsu")
+            ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+            sheet.Cells(index, COL_FUTAI_SELECTED_TAX_KBN).Locked = True
+            If Integer.TryParse(row("tax_kbn"), idxTaxKbn) Then
+                sheet.Cells(index, COL_FUTAI_SELECTED_TAX_KBN).Value = arySpreadTitle(idxTaxKbn - 1)
+            End If
+
+            sheet.Cells(index, COL_FUTAI_SELECTED_ZEIRITSU).Value = row("tax_rate")
+            'sheet.Cells(index, COL_FUTAI_SELECTED_ZEIRITSU).Value = row("zeiritsu")
+            ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
 
             ' 合計額(税込)
             If row("notax_flg") = VAL_SOTOZEI Then
@@ -275,9 +338,12 @@ Public Class EXTZ0209
         Dim sheet As FarPoint.Win.Spread.SheetView = Me.fbFutai.ActiveSheet
         sheet.RowCount = drFutai.Count
 
+        ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+        sheet.ColumnCount = 22
         ' --- 2019/06/11 軽減税率対応 Start E.Okuda@Compass ---
-        sheet.ColumnCount = 21
+        'sheet.ColumnCount = 21
         'sheet.ColumnCount = 20
+        ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
         'カラム設定(コード列の非表示)
         ' 2019/06/11 Loopに変更　E.Okuda@Compass
         Dim intLoopCnt As Integer
@@ -315,7 +381,10 @@ Public Class EXTZ0209
             sheet.Cells(index, COL_FUTAI_BUNRUI_NM).Value = row("bunrui_nm")
             sheet.Cells(index, COL_FUTAI_BUNRUI_CD).Value = row("bunrui_cd")
             sheet.Cells(index, COL_FUTAI_NOTAX_FLG).Value = row("notax_flg")
-            sheet.Cells(index, COL_FUTAI_ZEIRITSU).Value = row("zeiritsu")
+            ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+            sheet.Cells(index, COL_FUTAI_TAX_KBN).Value = row("tax_kbn")
+            ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
+            sheet.Cells(index, COL_FUTAI_ZEIRITSU).Value = row("tax_rate")
             sheet.Cells(index, COL_FUTAI_SHUKEI_GRP).Value = row("shukei_grp")
             sheet.Cells(index, COL_FUTAI_KAMOKU_CD).Value = row("kamoku_cd")
             sheet.Cells(index, COL_FUTAI_SAIMOKU_CD).Value = row("saimoku_cd")
@@ -380,6 +449,16 @@ Public Class EXTZ0209
         Dim lastRow As Integer = fbFutaiSelected.ActiveSheet.RowCount
         ' 2015.12.21 ADD START↓ h.hagiwara
         Dim numCellKeijyo As New FarPoint.Win.Spread.CellType.NumberCellType()
+
+        ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+        Dim idxTaxKbn As Integer
+
+        ' 設定ファイルから税区分名称を取得
+        Dim arySpreadTitle As Array
+        arySpreadTitle = Split(ConfigurationManager.AppSettings("TaxMstItemNm"), ",")
+
+        ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
+
         numCellKeijyo.MaximumValue = 99999999
         numCellKeijyo.ShowSeparator = True
         numCellKeijyo.DecimalPlaces = 0
@@ -417,6 +496,13 @@ Public Class EXTZ0209
         Else
             fbFutaiSelected.ActiveSheet.Cells(lastRow, COL_FUTAI_SELECTED_NOTAX_FLG).Value = DISP_UCHIZEI
         End If
+
+        ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+        If Integer.TryParse(fbFutai.ActiveSheet.Cells(activeRow, COL_FUTAI_TAX_KBN).Value, idxTaxKbn) Then
+            fbFutaiSelected.ActiveSheet.Cells(lastRow, COL_FUTAI_SELECTED_TAX_KBN).Value = arySpreadTitle(idxTaxKbn - 1)
+        End If
+        ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
+
         fbFutaiSelected.ActiveSheet.Cells(lastRow, COL_FUTAI_SELECTED_ZEIRITSU).Value = fbFutai.ActiveSheet.Cells(activeRow, COL_FUTAI_ZEIRITSU).Value
         If fbFutai.ActiveSheet.Cells(activeRow, COL_FUTAI_NOTAX_FLG).Value = VAL_SOTOZEI Then
             fbFutaiSelected.ActiveSheet.Cells(lastRow, COL_FUTAI_SELECTED_FUTAI_KIN_TAX).Value = Long.Parse(fbFutai.ActiveSheet.Cells(activeRow, COL_FUTAI_TANKA).Value) +
@@ -675,6 +761,13 @@ Public Class EXTZ0209
         Dim futaiTotalNm As String = ""
         Dim isFirst As Boolean = True
 
+        ' --- 2020/03/25 税区分追加対応 Start E.Okuda@Compass ---
+        Dim i As Integer
+        ' 設定ファイルから税区分名称を取得
+        Dim arySpreadTitle As Array
+        arySpreadTitle = Split(ConfigurationManager.AppSettings("TaxMstItemNm"), ",")
+        ' --- 2020/03/25 税区分追加対応 End E.Okuda@Compass ---
+
         ' 2015.12.01 ADD START↓ h.hagiwara チェック追加(重複チェックも含む)
         If logicEXTZ0209.InputCheck(dataEXTZ0209) = False Then
             'メッセージを出力 
@@ -695,8 +788,12 @@ Public Class EXTZ0209
         'Dim intTotalTaxkin As Integer                            ' 2015.12.21 UPD h.hagiwara
         Dim intTaxkin As Long                                     ' 2015.12.21 UPD h.hagiwara
         Dim intTotalTaxkin As Long                                ' 2015.12.21 UPD h.hagiwara
-        Dim dblTaxritu As Double
-        dblTaxritu = logicEXTZ0209.GetTax(dataEXTZ0209.PropStrRiyobi)
+
+        ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+        ' 不要の為、コメントアウト
+        'Dim dblTaxritu As Double
+        'dblTaxritu = logicEXTZ0209.GetTax(dataEXTZ0209.PropStrRiyobi)
+        ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
 
         'クリア
         table.Clear()
@@ -732,8 +829,20 @@ Public Class EXTZ0209
             newRow("saimoku_nm") = sheet.Cells(index, COL_FUTAI_SELECTED_SAIMOKU_NM).Value
             newRow("uchi_nm") = sheet.Cells(index, COL_FUTAI_SELECTED_UCHI_NM).Value
             newRow("shosai_nm") = sheet.Cells(index, COL_FUTAI_SELECTED_SHOSAI_NM).Value
+
+            ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+            For i = 0 To UBound(arySpreadTitle)
+                If arySpreadTitle(i) = sheet.Cells(index, COL_FUTAI_SELECTED_TAX_KBN).Value Then
+                    newRow("tax_kbn") = i + 1
+                End If
+            Next
+
+            '            newRow("tax_kbn") = sheet.Cells(index, COL_FUTAI_SELECTED_TAX_KBN).Value
+
             ' 税率
-            newRow("zeiritsu") = sheet.Cells(index, COL_FUTAI_SELECTED_ZEIRITSU).Value
+            newRow("tax_rate") = sheet.Cells(index, COL_FUTAI_SELECTED_ZEIRITSU).Value
+            '            newRow("zeiritsu") = sheet.Cells(index, COL_FUTAI_SELECTED_ZEIRITSU).Value
+            ' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
 
             ' 消費税額計算
             If sheet.Cells(index, COL_FUTAI_SELECTED_NOTAX_FLG_HIDDEN).Value = VAL_SOTOZEI Then

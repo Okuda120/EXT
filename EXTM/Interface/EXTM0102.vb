@@ -751,6 +751,9 @@ Public Class EXTM0102
 
                 logicEXTM0102.CmbTaxKbnCreate(dataEXTM0102)
 
+                ' 税率表示
+                logicEXTM0102.SetZeiritsuColumn(dataEXTM0102)
+
                 'logicEXTM0102.set(dataEXTM0102)
 
 
@@ -790,9 +793,5 @@ Public Class EXTM0102
         End If
 
     End Sub
-
-
-
-
 
 End Class

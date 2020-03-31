@@ -8,8 +8,12 @@ Public Class LogicEXTZ0209
     Private Const COL_FUTAI_SELECTED_FUTAI_SU As Integer = 3
     Private Const COL_FUTAI_SELECTED_FUTAI_CHOSEI As Integer = 6
     Private Const COL_FUTAI_SELECTED_FUTAI_KIN As Integer = 7
-    Private Const COL_FUTAI_SELECTED_FUTAI_BUNRUI_CD As Integer = 12
-    Private Const COL_FUTAI_SELECTED_FUTAI_CD As Integer = 13
+    ' --- 2020/03/24 税区分追加対応 Start E.Okuda@Compass ---
+    Private Const COL_FUTAI_SELECTED_FUTAI_BUNRUI_CD As Integer = 13
+    Private Const COL_FUTAI_SELECTED_FUTAI_CD As Integer = 14
+    'Private Const COL_FUTAI_SELECTED_FUTAI_BUNRUI_CD As Integer = 12
+    'Private Const COL_FUTAI_SELECTED_FUTAI_CD As Integer = 13
+    '' --- 2020/03/24 税区分追加対応 End E.Okuda@Compass ---
     ' --- 2019/06/13 軽減税率対応 End E.Okuda@Compass ---
 
     Private sqlEXTZ0209 As New sqlEXTZ0209          'sqlクラス

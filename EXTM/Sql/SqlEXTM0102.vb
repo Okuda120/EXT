@@ -152,13 +152,30 @@ Public Class SqlEXTM0102
     "  t1.kari_shosai_cd, " & vbCrLf &                           ' 借方詳細CD
     "  t1.sts, " & vbCrLf &                                      ' ステータス
     "  t1.RIYORYO_FLG, " & vbCrLf &                              ' 付帯利用料フラグ
-    "  t1.zeiritsu, " & vbCrLf &                                ' 税率
+    "  t2.tax_rate, " & vbCrLf &                                ' 税率
     "  t1.tax_kbn " & vbCrLf &                                  ' 税区分
-    " FROM " & vbCrLf &
-    "   fbunrui_mst t1 " & vbCrLf &
-    ""
-    '"   LEFT OUTER JOIN (" & vbCrLf &
-    '"     SELECT" & vbCrLf &
+    "FROM " & vbCrLf &
+    "  fbunrui_mst t1 " & vbCrLf &
+    "  LEFT OUTER JOIN (" & vbCrLf &
+    "    SELECT " & vbCrLf &
+    "      tax_kbn, " & vbCrLf &
+    "      CASE " & vbCrLf &
+    "        WHEN tax_kbn = 1 THEN tax_ritu " & vbCrLf &
+    "        WHEN tax_kbn = 2 THEN reduced_rate " & vbCrLf &
+    "	     WHEN tax_kbn = 3 THEN untaxed_rate " & vbCrLf &
+    "	     WHEN tax_kbn = 4 THEN tax_free " & vbCrLf &
+    "        WHEN tax_kbn = 5 THEN tax_exemption " & vbCrLf &
+    "	     WHEN tax_kbn = 6 THEN tax_old1 " & vbCrLf &
+    "        WHEN tax_kbn = 7 THEN tax_old2 " & vbCrLf &
+    "        WHEN tax_kbn = 8 THEN tax_spare1 " & vbCrLf &
+    "        WHEN tax_kbn = 9 THEN tax_spare2 " & vbCrLf &
+    "        WHEN tax_kbn = 10 THEN tax_spare3 " & vbCrLf &
+    "	     WHEN tax_kbn = 11 THEN tax_spare4 " & vbCrLf &
+    "        WHEN tax_kbn = 12 THEN tax_spare5 " & vbCrLf &
+    "      END as tax_rate " & vbCrLf &
+    "    FROM " & vbCrLf &
+    "      tax_mst " & vbCrLf &
+    "      CROSS JOIN generate_series(1,12) As s(tax_kbn) "
     ' --- 2020/03/11 税区分追加対応 End E.Okuda@Compass ---
 
     '付帯設備の取得ＳＱＬ
@@ -823,6 +840,22 @@ Public Class SqlEXTM0102
 
             'SQL文(SELECT)
             strSQL = strSelectAllBunrui
+
+            ' --- 2020/03/23 税区分追加対応 Start E.Okuda@Compass ---
+            ' 副問い合わせのwhere句から追加
+            Dim strWhere2 As String
+
+            '初期表示なら現在の日付を、そうでないなら対象期間を設定
+            If dataEXTM0102.PropInitFlg = False Then
+                strWhere2 = " WHERE '" + dtDate + "' BETWEEN taxs_dt AND taxe_dt) t2 ON t1.tax_kbn = t2.tax_kbn"
+            Else
+                strWhere2 = " WHERE taxs_dt <= :item2 AND taxe_dt >= :item3) t2 ON t1.tax_kbn = t2.tax_kbn"
+            End If
+
+            strSQL &= strWhere2 & vbCrLf
+
+            ' --- 2020/03/23 税区分追加対応 End E.Okuda@Compass ---
+
             'Where句作成
             '施設区分によって条件変更
             If dataEXTM0102.PropTheaterBtn.Checked = True Then
@@ -846,6 +879,12 @@ Public Class SqlEXTM0102
             Adapter.SelectCommand = New NpgsqlCommand(strSQL, Cn)
 
             'バインド変数をセット
+            ' --- 2020/03/23 税区分追加対応 Start E.Okuda@Compass ---
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("item2", NpgsqlTypes.NpgsqlDbType.Varchar)) '対象期間
+            Adapter.SelectCommand.Parameters("item2").Value = Left(dataEXTM0102.PropFinishedFromTo.SelectedValue, 10)      '対象期間
+            Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("item3", NpgsqlTypes.NpgsqlDbType.Varchar)) '対象期間
+            Adapter.SelectCommand.Parameters("item3").Value = Right(dataEXTM0102.PropFinishedFromTo.SelectedValue, 10)      '対象期間
+            ' --- 2020/03/23 税区分追加対応 End E.Okuda@Compass ---
             Adapter.SelectCommand.Parameters.Add(New NpgsqlParameter("item", NpgsqlTypes.NpgsqlDbType.Varchar)) '対象期間
             Adapter.SelectCommand.Parameters("item").Value = dataEXTM0102.PropFinishedFromTo.SelectedValue      '対象期間
             '終了ログ出力
@@ -1497,7 +1536,7 @@ Public Class SqlEXTM0102
             Adapter.Parameters.Add(New NpgsqlParameter("shukeiGrp", NpgsqlTypes.NpgsqlDbType.Varchar))      '集計グループ
             Adapter.Parameters.Add(New NpgsqlParameter("notaxFlg", NpgsqlTypes.NpgsqlDbType.Varchar))       '税
             ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
-            Adapter.Parameters.Add(New NpgsqlParameter("taxKbn", NpgsqlTypes.NpgsqlDbType.Varchar))         '税区分
+            Adapter.Parameters.Add(New NpgsqlParameter("taxKbn", NpgsqlTypes.NpgsqlDbType.Integer))         '税区分
             '' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
             '' 「税率」追加
             'Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       '税率
@@ -1721,7 +1760,7 @@ Public Class SqlEXTM0102
 
             ' --- 2020/03/17 税区分追加対応 Start E.Okuda@Compass ---
             ' 「税区分」追加
-            Adapter.Parameters.Add(New NpgsqlParameter("taxKbn", NpgsqlTypes.NpgsqlDbType.Varchar))         '税区分
+            Adapter.Parameters.Add(New NpgsqlParameter("taxKbn", NpgsqlTypes.NpgsqlDbType.Integer))         '税区分
             '' --- 2019/05/27 軽減税率対応 Start E.Okuda@Compass ---
             '' 「税率」追加
             'Adapter.Parameters.Add(New NpgsqlParameter("zeiritsu", NpgsqlTypes.NpgsqlDbType.Integer))       '税率

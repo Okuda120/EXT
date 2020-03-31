@@ -34,6 +34,9 @@ Public Class DataEXTC0103
     Private ppDtPeriodTaxReducedRate As DataTable       ' 消費税率&軽減税率取得
     ' --- 2019/08/02 軽減税率対応 End E.Okuda@Compass ---
 
+    ' --- 2020/03/30 税区分追加対応 Start E.Okuda@Compass ---
+    Private ppDtTaxKbn As DataTable                     ' 税区分、税率
+    ' --- 2020/03/30 税区分追加対応 Start E.Okuda@Compass ---
 
     ''' <summary>
     ''' プロパティセット【帳票：承認番号(予約番号)】
@@ -431,6 +434,25 @@ Public Class DataEXTC0103
         End Set
     End Property
     ' --- 2019/08/02 軽減税率対応 End E.Okuda@Compass ---
+
+    ' --- 2020/03/30 税区分追加対応 Start E.Okuda@Compass ---
+    ''' <summary>
+    ''' プロパティセット【税区分】
+    ''' </summary>
+    ''' <returns>ppDtTaxKbn</returns>
+    ''' <remarks><para>作成情報：2020.03.30 E.Okuda@Compass
+    ''' <p>改定情報：</p>
+    ''' </para></remarks>
+    Public Property PropTaxKbn() As DataTable
+        Get
+            Return ppDtTaxKbn
+        End Get
+        Set(ByVal value As DataTable)
+            ppDtTaxKbn = value
+        End Set
+    End Property
+
+    ' --- 2020/03/30 税区分追加対応 End E.Okuda@Compass ---
 
 
 End Class
